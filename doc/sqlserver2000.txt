@@ -1,0 +1,7 @@
+数据库初始配置的几个问题
+
+1 ， sqlserver2000安装之后要立即安装sp4的补丁，不然就不好装补丁。sp4补丁必须装，不然后面jdbc链接不成功
+
+2 ， 驱动jar验证问题。需要把驱动目录中得 sqljdbc_3.0\chs\auth\x86\sqljdbc_auth.dll 拷贝到 C:\WINDOWS\system32 否则jdbc还是链接不成功 
+
+3 , 在要在tomcat中驱动sqlserver ， sqljdbc_3.0\chs\auth\x86\sqljdbc_auth.dll 拷贝至tomcat\bin目录
