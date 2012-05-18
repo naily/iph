@@ -3,7 +3,7 @@ var ioc = {
     config : {
                 type : "org.nutz.ioc.impl.PropertiesProxy",
                 fields : {
-                        paths : ["db.properties"]
+                        paths : ["db.properties","sysconfig.properties"]
                 }
     },
     dao : {

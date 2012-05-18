@@ -8,19 +8,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    
-    <title>My JSP 'index.jsp' starting page</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	<!-- -->
+	<link rel="stylesheet" type="text/css" href="header.css">
+	
   </head>
   
   <body>
-    This is my JSP page. <br>
+    <div id="ht_header_div">
+    	<table width="80%" border="0">
+	  <tr>
+	    <td>&nbsp;登录</td>
+	    <td>&nbsp;系统设置</td>
+	    <td>&nbsp;数据管理</td>
+	    <td>&nbsp;用户管理</td>
+	    <td>&nbsp;访问权限管理</td>
+	    <td>&nbsp;管理日志</td>
+	    <td>&nbsp;系统服务</td>
+	    <td>&nbsp;新闻管理</td>
+	  </tr>
+	</table>
+
+    </div>
   </body>
 </html>

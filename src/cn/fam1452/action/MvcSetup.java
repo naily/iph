@@ -15,6 +15,7 @@ import org.nutz.mvc.NutConfig;
 import org.nutz.mvc.Setup;
 import org.nutz.resource.Scans;
 
+import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.IronoGram;
 
 public class MvcSetup implements Setup{
@@ -27,11 +28,11 @@ public class MvcSetup implements Setup{
     	Ioc ioc = config.getIoc();
     	
     	PropertiesProxy prop = ioc.get(PropertiesProxy.class, "config") ; 
-    	System.out.println(prop.get("db-url"));
+    	//System.out.println(prop.get("db-url"));
     	
     	NutDao dao = ioc.get(NutDao.class, "dao");
     	
-    	initAppTables(web , dao) ;
+    	//initAppTables(web , dao) ;
     	/*if(!dao.exists("T_IRONOGRAM")){
     		dao.create(IronoGram.class, false) ;
     	}*/
@@ -49,6 +50,15 @@ public class MvcSetup implements Setup{
                 m.setBirthday(new Timestamp(System.currentTimeMillis()));
                 dao.insert(m);
         }*/
+    	
+    	if(prop.getInt("isinit")  == 1){
+    		Administrator admin = new Administrator();
+    		admin.setLoginId("admin") ;
+    		admin.setPassword("123456") ;
+    		admin.setName("superadmin") ;
+    		admin.setSuper(true) ;
+    		dao.insert(admin) ;
+    	}
     }
 
     public void destroy(NutConfig config) {}
