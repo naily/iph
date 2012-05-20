@@ -1,6 +1,6 @@
-*.myeclipse
-*.settings
-*.project
-*.mymetadata
-*.classpath
-*/WebRoot/WEB-INF/classes/*.*
+/*.myeclipse
+/*.settings
+/*.project
+/*.mymetadata
+/*.classpath
+/WebRoot/WEB-INF/classes/*.*
