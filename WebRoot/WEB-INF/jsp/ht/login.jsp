@@ -18,13 +18,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery/jqueryAjaxBox.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
   </head>
   
   <body>
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="content">
-    	
+    	<table width="600" border="1">
+    	<tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;${msg['ht_login_username']} <input name="username" type="text"></td>
+      </tr>
+      <tr>
+        <td>&nbsp;${msg['ht_login_password']} <input name="mypassword" type="password" ></td>
+      </tr>
+      <tr>
+        <td>&nbsp;${msg['ht_login_code']} <input name="code" type="text" ><img src="" border=0/> </td>
+      </tr>
+      <tr>
+        <td>&nbsp; <input id="but-login" type="button" value="${msg['ht_login_submit']}"></td>
+      </tr>
+      
+    </table>
+
     </div>
   </body>
 </html>

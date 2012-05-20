@@ -1,11 +1,13 @@
 package cn.fam1452.action;
 
+import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.mvc.annotation.Encoding;
 import org.nutz.mvc.annotation.Fail;
 import org.nutz.mvc.annotation.IocBy;
 import org.nutz.mvc.annotation.Localization;
 import org.nutz.mvc.annotation.Modules;
 import org.nutz.mvc.annotation.SetupBy;
+import org.nutz.mvc.ioc.provider.ComboIocProvider;
 import org.nutz.mvc.ioc.provider.JsonIocProvider;
 
 /**
@@ -21,12 +23,17 @@ import org.nutz.mvc.ioc.provider.JsonIocProvider;
  * 
  */
 //@Modules({HelloWorld.class, PetModule.class})
+//@IocBy(type = JsonIocProvider.class, args = {"ioc"})
 @Modules(scanPackage = true)
 @Encoding(input="UTF-8",output="UTF-8")
-@IocBy(type = JsonIocProvider.class, args = {"ioc"})
+@IocBy(type = ComboIocProvider.class, args = {
+	"*org.nutz.ioc.loader.json.JsonLoader",
+	"ioc/ioc.js",
+	"*org.nutz.ioc.loader.annotation.AnnotationIocLoader", 
+    "cn.fam1452.service",
+    "cn.fam1452.action"})
 @SetupBy(MvcSetup.class)
-@Localization("i18n")
+@Localization("i18n" )
 @Fail("json")
 public class MainModule {
-	
 }

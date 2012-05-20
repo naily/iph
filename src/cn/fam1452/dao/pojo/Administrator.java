@@ -8,6 +8,7 @@ import org.nutz.dao.entity.annotation.Table;
 
 @Table("T_ADMINISTRATOR")
 public class Administrator {
+	private String code ; //登录验证码
 	
 	@Column
 	@Name(casesensitive=false)
@@ -56,6 +57,14 @@ public class Administrator {
 
 	public void setSuper(boolean isSuper) {
 		this.isSuper = isSuper;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	

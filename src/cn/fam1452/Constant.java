@@ -11,5 +11,11 @@ package cn.fam1452;
  */
 
 public class Constant {
-
+	
+	public static String HT_USER_SESSION = "ht_account" ;
+	
+	public static String QT_USER_SESSION = "qt_account" ;
+	
+	public static String INFO = "info" ;
+	public static String SUCCESS = "success" ;
 }

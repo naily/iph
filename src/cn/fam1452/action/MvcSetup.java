@@ -59,6 +59,7 @@ public class MvcSetup implements Setup{
     		admin.setSuper(true) ;
     		dao.insert(admin) ;
     	}
+    	
     }
 
     public void destroy(NutConfig config) {}
