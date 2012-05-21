@@ -30,9 +30,7 @@ public class MvcSetup implements Setup{
     	PropertiesProxy prop = ioc.get(PropertiesProxy.class, "config") ; 
     	//System.out.println(prop.get("db-url"));
     	
-    	NutDao dao = ioc.get(NutDao.class, "dao");
     	
-    	//initAppTables(web , dao) ;
     	/*if(!dao.exists("T_IRONOGRAM")){
     		dao.create(IronoGram.class, false) ;
     	}*/
@@ -52,6 +50,9 @@ public class MvcSetup implements Setup{
         }*/
     	
     	if(prop.getInt("isinit")  == 1){
+    		NutDao dao = ioc.get(NutDao.class, "dao");
+        	
+        	initAppTables(web , dao) ;
     		Administrator admin = new Administrator();
     		admin.setLoginId("admin") ;
     		admin.setPassword("123456") ;

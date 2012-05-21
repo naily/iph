@@ -48,7 +48,12 @@ public class UserMod  extends BaseMod{
 		Mvcs.setLocale(session , Mvcs.MSG) ;
 		return  ;
 	}
-	
+	/**
+	 * 登录验证码
+	 */
+	@At("/logincode")
+	@Ok("jsp:jsp.code")
+	public void loginCode(){}
 	/**
 	 * 用户登出 : http://localhost:8080/hellomvc/pet/logout.nut
 	 */

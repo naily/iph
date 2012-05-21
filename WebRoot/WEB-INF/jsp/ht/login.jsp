@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <td>&nbsp;${msg['ht_login_password']} <input name="mypassword" type="password" ></td>
       </tr>
       <tr>
-        <td>&nbsp;${msg['ht_login_code']} <input name="code" type="text" ><img src="" border=0/> </td>
+        <td>&nbsp;${msg['ht_login_code']} <input name="code" type="text" ><img src="/logincode.do" width="50" height="20" border="0" /> </td>
       </tr>
       <tr>
         <td>&nbsp; <input id="but-login" type="button" value="${msg['ht_login_submit']}"></td>
