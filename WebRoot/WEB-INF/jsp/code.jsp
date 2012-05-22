@@ -32,9 +32,12 @@ for (int i=0; i<3; i++){
     g.drawString(ranNum, 10 * i + 5, 16);
 }
 
-g.dispose();                                                //
+g.dispose();
 
 session.setAttribute(Constant.HT_LOGIN_CODE_SESSION, sbRan.toString());           //
 
 ImageIO.write(image, "PNG", response.getOutputStream());    //
+out.clear();
+out = pageContext.pushBody();
+
 %>
