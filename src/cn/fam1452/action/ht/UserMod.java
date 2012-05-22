@@ -70,7 +70,9 @@ public class UserMod  extends BaseMod{
 		//Map<String,String> map = (Map<String,String>)req.getAttribute ("msg") ;
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		if(StringUtil.checkNotNull(admin.getCode())){
+		
+		String code = (String)session.getAttribute(Constant.HT_LOGIN_CODE_SESSION) ;
+		if(StringUtil.checkNotNull(admin.getCode()) && admin.getCode().equals(code)){
 			
 			if(StringUtil.checkNotNull(admin.getLoginId()) &&
 					StringUtil.checkNotNull(admin.getPassword())){
