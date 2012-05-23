@@ -1,9 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,cn.fam1452.dao.pojo.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../jstl.jsp" flush="true" />
+<%@ include file="../jstl.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -28,30 +28,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="content">
     	<c:choose>
-    	<c:when test="${sessionScope.user.currentLogin}" ><!-- 已经登录 -->
-    		${sessionScope.admin.loginId}
-    	</c:when>
-    	<c:otherwise><!-- 未登录 -->
-    	
-	    	<table width="600" border="1">
-		    	<tr>
-		        <td>&nbsp;</td>
-		      </tr>
-		      <tr>
-		        <td>&nbsp;${msg['ht_login_username']} <input name="username" type="text"></td>
-		      </tr>
-		      <tr>
-		        <td>&nbsp;${msg['ht_login_password']} <input name="mypassword" type="password" ></td>
-		      </tr>
-		      <tr>
-		        <td>&nbsp;${msg['ht_login_code']} <input name="code" type="text" ><img src="logincode.do" width="50" height="20" border="0" /> </td>
-		      </tr>
-		      <tr>
-		        <td>&nbsp; <input id="but-login" type="button" value="${msg['ht_login_submit']}"></td>
-		      </tr>
-		      
-		    </table>
-    	</c:otherwise>
+	    	<c:when test="${sessionScope.ht_account.login}" ><!-- 已经登录 -->
+	    		${sessionScope.ht_account.name}<br/>
+	    		<a href="ht/logout.do">退出</a>
+	    	</c:when>
+	    	<c:otherwise><!-- 未登录 -->
+	    	
+		    	<table width="600" border="0">
+			    	<tr>
+			        <td>&nbsp;</td>
+			      </tr>
+			      <tr>
+			        <td>&nbsp;${msg['ht_login_username']} <input name="username" type="text"></td>
+			      </tr>
+			      <tr>
+			        <td>&nbsp;${msg['ht_login_password']} <input name="mypassword" type="password" ></td>
+			      </tr>
+			      <tr>
+			        <td>&nbsp;${msg['ht_login_code']} <input name="code" type="text" ><img src="logincode.do" width="50" height="20" border="0" /> </td>
+			      </tr>
+			      <tr>
+			        <td>&nbsp; <input id="but-login" type="button" value="${msg['ht_login_submit']}"></td>
+			      </tr>
+			    </table>
+	    	</c:otherwise>
     	</c:choose>
     </div>
   </body>

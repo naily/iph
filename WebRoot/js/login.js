@@ -23,11 +23,11 @@ $(document).ready(function(){
             params : {loginId:n , password:p ,code :c} ,
             callback :function(json){
                 if(json.success){
-                    
+                    location.reload() ;
                 }else{
                     
+	                alert(json.info) ;
                 }
-                alert(json.info) ;
             }
         }
         

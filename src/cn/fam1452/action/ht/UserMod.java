@@ -41,11 +41,12 @@ public class UserMod  extends BaseMod{
 		
 	}
 	
-	@At("/ht/lang")
-	@Ok("jsp:jsp.ht.login")
-    public void lang(HttpSession session, String lang){
-		Mvcs.setLocaleName(session, "en_US") ;
-		Mvcs.setLocale(session , Mvcs.MSG) ;
+	@At("/ht/lang/?")
+	@Ok("redirect:/ht/index.do") 
+    public void lang(String lang , HttpSession session ){
+		//log.info(lang) ;
+		Mvcs.setLocaleName(session, lang) ;
+		Mvcs.setLocale(session , lang) ;
 		return  ;
 	}
 	/**
@@ -57,15 +58,15 @@ public class UserMod  extends BaseMod{
 	/**
 	 * 用户登出 : http://localhost:8080/hellomvc/pet/logout.nut
 	 */
-	@At
+	@At("/ht/logout")
 	@Ok("redirect:/ht/index.do")
 	public void logout(HttpSession session) {
 		session.removeAttribute(Constant.HT_USER_SESSION);
 	}
 	
 	@At("/ht/login")
-	@POST
 	@Ok("json")
+	@POST
 	public JSONObject login(HttpSession session ,HttpServletRequest req, @Param("..")Administrator admin){
 		//Map<String,String> map = (Map<String,String>)req.getAttribute ("msg") ;
 		JSONObject json = new JSONObject();
@@ -82,6 +83,7 @@ public class UserMod  extends BaseMod{
 				} else{
 					if(db.getPassword().equals(admin.getPassword())){
 						json.put(Constant.SUCCESS, true) ;
+						db.setLogin(true) ;
 						session.setAttribute(Constant.HT_USER_SESSION, db) ;
 					}else{
 						json.put(Constant.INFO, this.getMsgByKey(req, "ht_login_passerror")) ;

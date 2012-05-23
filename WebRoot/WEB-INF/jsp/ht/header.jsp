@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <div id="ht_header_div">
-    	<div> <a href="ht/lang.do">中文</a> <a href="ht/lang.do">英文</a> </div>
+    	<div> <a href="ht/lang/zh_CN.do">中文</a> <a href="ht/lang/en_US.do">英文</a> </div>
     	<table width="80%" border="0">
 		  <tr>
 		    <td>&nbsp;${msg['ht_menu_login']}</td>

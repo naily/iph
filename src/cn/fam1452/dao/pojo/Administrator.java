@@ -9,6 +9,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_ADMINISTRATOR")
 public class Administrator {
 	private String code ; //登录验证码
+	private boolean isLogin ;
 	
 	@Column
 	@Name(casesensitive=false)
@@ -65,6 +66,14 @@ public class Administrator {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public boolean isLogin() {
+		return isLogin;
+	}
+
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
 	}
 	
 	
