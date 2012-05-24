@@ -18,8 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery/jqueryAjaxBox.js"></script>
+	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
   </head>
   
