@@ -16,10 +16,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	
 	-->
+	<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
 	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+	
+	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+	
 	<script type="text/javascript" src="js/login.js"></script>
   </head>
   

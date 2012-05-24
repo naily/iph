@@ -10,4 +10,5 @@ public class UserService extends Base{
 	public Administrator queryAdmin(String name){
 		return dao.fetch(Administrator.class, name) ;
 	}
+	
 }

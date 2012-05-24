@@ -1,4 +1,13 @@
 $(document).ready(function(){
+	function at(config){
+		$.omMessageBox.alert({
+                type: config.type ? config.type : 'alert',
+                title:'警告',
+                content: config.cont 
+            });
+
+	}
+	
     $('#but-login').bind('click' , function(){
         
         var n = $(':input[name="username"]').val() ;
@@ -6,15 +15,16 @@ $(document).ready(function(){
         var c = $(':input[name="code"]').val() ;
         
         if(!n){
-            alert('请输入用户名') ;
+            //alert('请输入用户名') ;
+        	at({cont:'请输入用户名'});
             return  ;
         }
         if(!p){
-            alert('请输入密码') ;
+            at({cont:'请输入密码'});
             return  ;
         }
         if(!c){
-            alert('请输入验证码') ;
+            at({cont:'请输入验证码'});
             return  ;
         }
         
@@ -25,8 +35,7 @@ $(document).ready(function(){
                 if(json.success){
                     location.reload() ;
                 }else{
-                    
-	                alert(json.info) ;
+	                at({cont:json.info , type : 'error'});
                 }
             }
         }

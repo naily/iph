@@ -12,12 +12,17 @@ import org.nutz.ioc.loader.annotation.Inject;
  *
  * @author <a href="mailto:zhagndingding@cyanway.com">Derek</a>
  * @version $Revision:1.0.0, $Date:May 20, 2012 10:37:00 AM $
+ * @param <T>
  */
 
-public abstract class Base {
+public abstract class Base<T> {
 
 	protected Logger log = Logger.getLogger(this.getClass()) ;  
 	
 	@Inject("refer:dao")
 	protected NutDao dao ;
+	
+	public T save(final T obj){
+		return dao.insert(obj) ;
+	}
 }
