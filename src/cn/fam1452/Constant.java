@@ -21,4 +21,7 @@ public class Constant {
 	
 	public static String INFO = "info" ;
 	public static String SUCCESS = "success" ;
+	
+	public static String TOTAL = "total" ;
+	public static String ROWS = "rows" ;
 }

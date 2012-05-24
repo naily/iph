@@ -15,14 +15,11 @@ import org.nutz.ioc.loader.annotation.Inject;
  * @param <T>
  */
 
-public abstract class Base<T> {
+public abstract class Base {
 
 	protected Logger log = Logger.getLogger(this.getClass()) ;  
 	
 	@Inject("refer:dao")
-	protected NutDao dao ;
+	public NutDao dao ;
 	
-	public T save(final T obj){
-		return dao.insert(obj) ;
-	}
 }

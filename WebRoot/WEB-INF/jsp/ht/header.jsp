@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<table width="80%" border="0">
 		  <tr>
 		    <td>&nbsp;${msg['ht_menu_login']}</td>
-		    <td>&nbsp;${msg['ht_menu_sysseting']}</td>
+		    <td>&nbsp;<a href='ht/admins.do'>${msg['ht_menu_sysseting']}</a></td>
 		    <td>&nbsp;${msg['ht_menu_datamgr']}</td>
 		    <td>&nbsp;${msg['ht_menu_usermgr']}</td>
 		    <td>&nbsp;${msg['ht_menu_protect']}</td>
