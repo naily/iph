@@ -14,9 +14,11 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 
 import cn.fam1452.Constant;
+import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.service.AdministratorService;
@@ -29,7 +31,7 @@ import cn.fam1452.utils.StringUtil;
  *
  */
 @IocBean
-public class AdministratorMod {
+public class AdministratorMod extends BaseMod{
 	
 	@Inject("refer:adminService")
 	private AdministratorService adminService ;
@@ -49,14 +51,14 @@ public class AdministratorMod {
 		cfg.setExcludes(new String[] { "code", "login","password" }); 
 		json.put(Constant.ROWS, JSONArray.fromObject(list, cfg)) ;
 		
-		System.out.println(json.toString());
 		return json ;
 		
 	}
 	
 	@At("/ht/adminsave")
 	@Ok("json")
-	public Map add(Administrator admin){
+	@POST
+	public Map add(@Param("..")Administrator admin){
 		Map map = new HashMap<String, String>() ;
 		map.put(Constant.SUCCESS, false) ;
 		

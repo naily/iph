@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+
+#pageleft{
+	width: 15%;
+	height:100%;
+	float:left;
+	border:0px solid red; 
+}
+
+#pageleft p{
+	margin-left: 50px;	
+}
+
+#content{
+	width: 80%;
+	float:left;
+	border:0px solid red; 
+	
+}
+
+.p_align{
+	text-align: center;
+}
+.font_red{
+	height: 10px;
+	color: red ;
+}

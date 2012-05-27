@@ -19,3 +19,13 @@ function notEmpty(s){
         return false ;
     }
 }
+
+
+function at(config){
+        $.omMessageBox.alert({
+                type: config.type ? config.type : 'alert',
+                title:'警告',
+                content: config.cont 
+            });
+
+    }
