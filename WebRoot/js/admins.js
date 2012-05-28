@@ -20,7 +20,14 @@ $(document).ready(function(){
      
      $( "#createadmin").omDialog({
             autoOpen: false,
+            resizable: false ,
             title:'新增管理员'
+     });
+     
+     $( "#modifPassword").omDialog({
+            autoOpen: false,
+            resizable: false ,
+            title:'修改密码'
      });
      
      $('#jsId').omCombo({
@@ -29,14 +36,46 @@ $(document).ready(function(){
                editable : false,
                emptyText : '选择角色'
      });
-      
     
+     
+	$('#del').click(function(){
+            	var dels = $('#list0').omGrid('getSelections' , true);
+            	if(dels.length < 1 ){
+            		at({cont:'请选择删除的记录！' , type : 'error'});
+            		return;
+            	}else{
+            		var delt = {
+            			url : 'ht/admindel.do',
+            			params : {loginId: dels[0].loginId}  ,
+            			callback : function(json){
+            				if(json.success){
+			                	$('#list0').omGrid('reload');
+			                }else{
+			                    at({cont: json.info , type : 'error'});
+			                }
+            			}
+            		}
+            		//提示
+            		$.omMessageBox.confirm({
+		                title:'确认删除',
+		                content:'删除用户,你确定要这样做吗?',
+		                onClose:function(value){
+		                    if(value){
+			            		ajaxpost(delt);
+		                    }
+		                }
+		            });
+
+            	}
+	});
+
 
 });
 
 function showModelessDialog(){
        $( "#createadmin").omDialog('open');
 }
+
 function checking(){
     var s = true ;
     //数据验证
@@ -58,20 +97,69 @@ function savedata(){
         $('#info').html('');
 	    var data = {
             url :'ht/adminsave.do' ,
-            params :{loginId:$('#dlmId').val() , password: $('#mmId').val(), name: $('#xmId').val(), issuper:$('#jsId').omCombo('value')},
+            params :{loginId:$('#dlmId').val() , password: $('#mmId').val(), name: $('#xmId').val(), isSuper:$('#jsId').omCombo('value')},
             callback : function(json){
                 if(json.success){
-                    location.reload() ;
+                    //location.reload() ;
+                	$('#list0').omGrid('reload');
+                	
+                	$('#dlmId').val('') ;
+                	$('#mmId').val('') ;
+                	$('#xmId').val('') ;
+                	$("#createadmin").omDialog('close');
+                	$('#info').html('');
                 }else{
                     //at({cont:json , type : 'error'});
                     $('#info').html(json.info);
-                    
                 }
+                
             }
         }
         
         ajaxpost(data);
     } 
     
+}
+
+var modifpass = {
+	open : function(){
+		$( "#modifPassword").omDialog('open');
+	},
+	submit :function(){
+		var op = $('#oldpass').val();
+		var np = $('#newpass').val();
+		var np2 = $('#newpass2').val();
+		
+		if(isEmpty(op)){
+			$('#info_modif').html($('#oldpass').attr('empt'));
+			return  ;
+		}
+		if(isEmpty(np)){
+			$('#info_modif').html($('#newpass').attr('empt'));
+			return  ;
+		}
+		if(isEmpty(np2)){
+			$('#info_modif').html($('#newpass2').attr('empt'));
+			return  ;
+		}
+		
+		var dta = {
+			url:'ht/adminmodifpass.do' ,
+			params :{password : np} ,
+			callback : function(json){
+				if(json.success){
+                	$('#oldpass').val('') ;
+                	$('#newpass').val('') ;
+                	$('#newpass2').val('') ;
+                	$("#modifPassword").omDialog('close');
+                	$('#info_modif').html('');
+                }else{
+                    $('#info_modif').html(json.info);
+                }
+			}
+		}
+		
+		ajaxpost(dta) ;
+	}
 }
 

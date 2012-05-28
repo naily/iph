@@ -10,7 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <base href="<%=basePath%>">
     <title>系统设置</title>
 	<!--
-	
 	-->
 	<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
 	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
@@ -23,25 +22,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <jsp:include page="header.jsp" flush="true" />
+    
     <div id="pageleft">
     	<!-- 左侧菜单 -->
     	<p>管理员列表</p>
-    	<p><a href="javascript:;">修改密码</a></p>
+    	<p><a href="javascript:modifpass.open();">修改密码</a></p>
     </div>
-    <div id="content">
+    <div id="center_right">
     	<!-- 右侧内容 -->
     	<div>
     		<button onclick="showModelessDialog();">增加</button>
     		<div id="createadmin">
     			<p>登录名:<input id="dlmId" empt="登录名不能为空"/></p>
-    			<p>密码 :&nbsp;&nbsp;<input id="mmId" type="password" empt="密码不能为空"/> </p>
-    			<p>姓名 :&nbsp;&nbsp;<input id="xmId" /></p>
-    			<p>角色 :&nbsp;&nbsp;<input id="jsId" /> </p>
+    			<p> 密码 :&nbsp;&nbsp;<input id="mmId" type="password" empt="密码不能为空"/> </p>
+    			<p> 姓名 :&nbsp;&nbsp;<input id="xmId" empt="姓名不能为空"/></p>
+    			<p> 角色 :&nbsp;&nbsp;<input id="jsId" /> </p>
     			<p id="info" class="font_red"></p>
     			<p class="p_align"><button onclick="savedata();">保存</button></p>
     			
     		</div>
-    		<button onclick=" ;">删除</button>
+    		<div id="modifPassword">
+    			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   原密码 : <input id="oldpass" type="password" empt="密码不能为空"/></p>
+    			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   新密码 : <input id="newpass" type="password" empt="新密码不能为空"/> </p>
+    			<p>新密码确认 : <input id="newpass2" type="password" empt="确认新密码"/></p>
+    			<p id="info_modif" class="font_red"></p>
+    			<p class="p_align"><button onclick="modifpass.submit() ;">修改</button></p>
+    			
+    		</div>
+    		<button id="del" >删除</button>
     	</div>
     	<table id="list0"></table>
     </div>

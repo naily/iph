@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -63,8 +65,12 @@ public class AdministratorMod extends BaseMod{
 		map.put(Constant.SUCCESS, false) ;
 		
 		if(StringUtil.checkNotNull(admin.getLoginId()) && StringUtil.checkNotNull(admin.getPassword())){
-			adminService.dao.insert(admin) ;
-			map.put(Constant.SUCCESS, true) ;
+			if(adminService.dao.fetch(admin) == null){
+				adminService.dao.insert(admin) ;
+				map.put(Constant.SUCCESS, true) ;
+			}else{
+				map.put(Constant.INFO, "该登录名已经存在") ;
+			}
 		}else{
 			map.put(Constant.INFO, "参数错误") ;
 		}
@@ -72,11 +78,45 @@ public class AdministratorMod extends BaseMod{
 		return map ;
 	}
 	
-	public void modifPassword(){
+	
+	@At("/ht/adminmodifpass")
+	@Ok("json")
+	@POST
+	public JSONObject modifPassword(@Param("..")Administrator admin , HttpSession session){
+		JSONObject j = new JSONObject () ;
+		j.put(Constant.SUCCESS, false) ;
 		
+		Administrator user = (Administrator)session.getAttribute(Constant.HT_USER_SESSION) ;
+		
+		if(null != user && 
+				StringUtil.checkNotNull(user.getLoginId()) && 
+				StringUtil.checkNotNull(admin.getPassword())){
+			
+			user.setPassword(admin.getPassword()) ;
+			adminService.dao.update(user, "password") ;
+			
+			j.put(Constant.SUCCESS, true) ;
+		}else{
+			j.put(Constant.INFO, "请登录") ;
+		}
+		
+		return j ;
 	}
 	
-	public void delete(){
+	@At("/ht/admindel")
+	@Ok("json")
+	@POST
+	public JSONObject delete(@Param("..")Administrator admin){
+		JSONObject j = new JSONObject () ;
+		j.put(Constant.SUCCESS, false) ;
 		
+		if(null != admin && StringUtil.checkNotNull(admin.getLoginId())){
+			adminService.dao.delete(admin) ;
+			j.put(Constant.SUCCESS, true) ;
+		}else{
+			j.put(Constant.INFO, "参数错误") ;
+		}
+		
+		return j ;
 	}
 }

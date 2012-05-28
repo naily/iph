@@ -19,6 +19,14 @@ function notEmpty(s){
         return false ;
     }
 }
+//为空则返回true
+function isEmpty(s){
+    if(s){
+        return false ;
+    }else{
+        return true ;
+    }
+}
 
 
 function at(config){

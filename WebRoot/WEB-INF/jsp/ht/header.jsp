@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <jsp:include page="../jstl.jsp" flush="true" />
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML >
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -12,15 +12,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="cache-control" content="no-cache">
 	<!-- -->
 	<link rel="stylesheet" type="text/css" href="header.css">
-	
+	<link href="images/1.css" type="text/css" rel="stylesheet" />
   </head>
   
   <body>
-    <div id="ht_header_div">
-    	<div> <a href="ht/lang/zh_CN.do">中文</a> <a href="ht/lang/en_US.do">英文</a> </div>
-    	<table width="80%" border="0">
+  <div id="top2">
+	<div class="top_right2"></div>
+	<!--top右侧结束-->
+	<div class="top_language"><a href="ht/lang/zh_CN.do" class="a1">中文</a>   <a href="ht/lang/en_US.do" class="a1">English</a> </div>
+  </div><!--top结束-->
+  <div class="menu">
+	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
+	<div class="menutext"><a href='ht/admins.do' class="a3">${msg['ht_menu_sysseting']}</a></div>
+	<div class="menutext"><a href="#" class="a3">数据管理</a></div>
+	<div class="menutext"><a href="#" class="a3">用户管理</a></div>
+	<div class="menutext1"><a href="#" class="a3">访问权限管理</a></div>
+	<div class="menutext"><a href="#" class="a3">管理日志</a></div>
+	<div class="menutext"><a href="#" class="a3">服务系统</a></div>
+	<div class="menutext"><a href="#" class="a3">新闻管理</a></div>
+  </div>
+  
+    <!-- 
+    <table width="80%" border="0">
 		  <tr>
-		    <td>&nbsp;${msg['ht_menu_login']}</td>
+		    <td>&nbsp;</td>
 		    <td>&nbsp;<a href='ht/admins.do'>${msg['ht_menu_sysseting']}</a></td>
 		    <td>&nbsp;${msg['ht_menu_datamgr']}</td>
 		    <td>&nbsp;${msg['ht_menu_usermgr']}</td>
@@ -30,7 +45,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <td>&nbsp;${msg['ht_menu_newsmgr']}</td>
 		  </tr>
 		</table>
-
-    </div>
+     -->
   </body>
 </html>
