@@ -3,7 +3,14 @@
  */
 package cn.fam1452.action.ht;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
@@ -21,6 +28,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.RandomImage;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -72,7 +80,7 @@ public class UserMod  extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		String code = (String)session.getAttribute(Constant.HT_LOGIN_CODE_SESSION) ;
+		String code = (String)session.getAttribute(Constant.LOGIN_VALIDATE_STRING) ;
 		if(StringUtil.checkNotNull(admin.getCode()) && admin.getCode().equals(code)){
 			
 			if(StringUtil.checkNotNull(admin.getLoginId()) &&
@@ -97,5 +105,19 @@ public class UserMod  extends BaseMod{
 		
 		
 		return json;
+	}
+	
+	public void imageCode(HttpServletRequest req , HttpServletResponse response)throws ServletException, IOException{
+		//生成100px*22px的包含6个字符的验证码
+    	HttpSession session = req.getSession();
+        RandomImage validateImage = new RandomImage(6, 100, 22);
+        OutputStream bos = response.getOutputStream();
+        response.setHeader("cache-control", "no-store");
+        ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
+        ImageIO.write(validateImage.getValidateImage(), "JPEG", ios);
+        session.setAttribute(Constant.LOGIN_VALIDATE_STRING,validateImage.getValidateString());
+        
+        ios.close();
+        bos.close();
 	}
 }

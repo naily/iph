@@ -14,7 +14,7 @@ public class Constant {
 	
 	public static String HT_USER_SESSION = "ht_account" ;
 	
-	public static String HT_LOGIN_CODE_SESSION = "ht_login_code" ;
+	public static final String LOGIN_VALIDATE_STRING="LOGIN_VALIDATE_STRING" ;
 	
 	
 	public static String QT_USER_SESSION = "qt_account" ;
