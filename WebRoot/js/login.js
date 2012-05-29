@@ -36,3 +36,7 @@ $(document).ready(function(){
     });
     
 });
+
+function reloadimage(){
+	$('#vailcode').attr('src' , 'ht/logincode.do?'+new Date().getTime());
+}

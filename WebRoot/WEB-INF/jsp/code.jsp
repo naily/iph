@@ -35,7 +35,7 @@ javax.imageio.*" %>
 	}
 	g.dispose();
 	
-	session.setAttribute(Constant.HT_LOGIN_CODE_SESSION, sbRan.toString());           //
+	session.setAttribute(Constant.LOGIN_VALIDATE_STRING, sbRan.toString());           //
 	
 	ImageIO.write(image, "PNG", response.getOutputStream());    //
 	out.clear();

@@ -47,8 +47,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <tr>
 				    <td height="40" align="center">${msg['ht_login_code']}：</td>
 				    <td width="95"><input type="text" name="code" class="boxinput4" /></td>
-				    <td width="84"> <div class="y_img"><img src="logincode.do" width="50" height="20" border="0" /></div></td>
-				    <td width="119" align="center"><a href="#" class="a4">看不清 换一张</a></td>
+				    <td width="84"> <div class="y_img"><img src="ht/logincode.do" width="100" height="22" border="0" id="vailcode"/></div></td>
+				    <td width="119" align="center"><a href="javascript:;" onclick="reloadimage();" class="a4">看不清 换一张</a></td>
 				  </tr>
 				  <tr>
 				    <td height="60" colspan="4" align="center"><a href="javascript:;" id="but-login">

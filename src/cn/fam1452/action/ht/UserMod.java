@@ -57,11 +57,7 @@ public class UserMod  extends BaseMod{
 		Mvcs.setLocale(session , lang) ;
 		return  ;
 	}
-	/**
-	 * 登录验证码
-	 */
-	@At("/logincode")
-	@Ok("jsp:jsp.code")
+	
 	public void loginCode(){}
 	/**
 	 * 用户登出 : http://localhost:8080/hellomvc/pet/logout.nut
@@ -107,10 +103,16 @@ public class UserMod  extends BaseMod{
 		return json;
 	}
 	
+	/**
+	 * 登录验证码
+	 */
+	@At("/ht/logincode")
+	@Ok("void")
 	public void imageCode(HttpServletRequest req , HttpServletResponse response)throws ServletException, IOException{
 		//生成100px*22px的包含6个字符的验证码
     	HttpSession session = req.getSession();
-        RandomImage validateImage = new RandomImage(6, 100, 22);
+        RandomImage validateImage = new RandomImage(5, 100, 22);
+        
         OutputStream bos = response.getOutputStream();
         response.setHeader("cache-control", "no-store");
         ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
