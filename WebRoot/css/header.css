@@ -10,3 +10,29 @@
 	padding-left: 20px;
 	display: none;
 }
+
+/*子菜单*/
+.menu_body {
+	display:none;
+	background-color:white;
+	border:1px solid #DDDDDD;
+	text-align:left;
+	font-size: 12px;
+	position:absolute;
+	margin-left:10px;
+	width:70px;
+  	z-index: 9999;
+}
+.menu_body a 
+{
+	padding:5px 0px;
+	display:block;
+	color:#535353;
+	text-align:center;
+	background-color:#eee;		
+	text-decoration:none;
+}
+ .menu_body a:hover {
+	color:#7fb2f4;
+	background-color:#dfdfdf;	
+}

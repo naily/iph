@@ -12,8 +12,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="cache-control" content="no-cache">
 	<!-- -->
 	<link href="images/1.css" type="text/css" rel="stylesheet" />
-	
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $("#dataManagerA").click(function() {
+		
+		        $(this).parent().find(".menu_body").slideDown('fast').show();
+		
+		        $(this).parent().hover(function() {}, 
+			        function(){
+			            $(this).parent().find(".menu_body").slideUp('slow');
+			    	});
+		     });
+		});
+	</script>
   </head>
   
   <body>
@@ -25,12 +37,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="menu">
 	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
 	<div class="menutext"><a href='ht/admins.do' class="a3">${msg['ht_menu_sysseting']}</a></div>
-	<div class="menutext"><a href="#" class="a3">数据管理</a></div>
-	<div class="menutext"><a href="#" class="a3">用户管理</a></div>
-	<div class="menutext1"><a href="#" class="a3">访问权限管理</a></div>
-	<div class="menutext"><a href="#" class="a3">管理日志</a></div>
-	<div class="menutext"><a href="#" class="a3">服务系统</a></div>
-	<div class="menutext"><a href="#" class="a3">新闻管理</a></div>
+	<div class="menutext"><a href="javascript:;" class="a3" id="dataManagerA">数据管理</a>
+		<div class="menu_body">
+	      <a href="#" title="我关注的好友动态消息">我的关注</a>
+	      <a href="#" title="我加入的群组最新话题">我的群组</a>
+	      <a href="#" title="我的个人简历">我的简历</a>
+	    </div></div>
+	<div class="menutext"><a href="javascript:;" class="a3">用户管理</a></div>
+	<div class="menutext1"><a href="javascript:;" class="a3">访问权限管理</a></div>
+	<div class="menutext"><a href="javascript:;" class="a3">管理日志</a></div>
+	<div class="menutext"><a href="javascript:;" class="a3">服务系统</a></div>
+	<div class="menutext"><a href="javascript:;" class="a3">新闻管理</a></div>
   </div>
   
     <!-- 

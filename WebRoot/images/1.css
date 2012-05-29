@@ -143,6 +143,6 @@ float:right;
 .loginbox_bor2{ border:#bfd0e1 3px solid; background:#ffffff; font-size:14px; width:480px; }
 
 .menu{ width:903px; height:40px; background:url(d16.jpg) repeat-x; text-align:center; padding-left:100px; }
-.menutext{ width:97px; height:30px; padding-top:10px; background:url(d17.jpg) no-repeat;  font-size:16px; font-weight:bold; float:left; }
+.menutext{ width:97px;  padding-top:10px; background:url(d17.jpg) no-repeat;  font-size:16px; font-weight:bold; float:left; }
 .menutext1{ width:129px; height:30px; padding-top:10px; background:url(d18.jpg) no-repeat;  font-size:16px; font-weight:bold; float:left; }
 .select1{ width:220px; height:26px; border:1px #cccccc solid; }
