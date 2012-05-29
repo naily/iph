@@ -8,15 +8,18 @@ $(document).ready(function(){
         
         if(!n){
             //alert('请输入用户名') ;
-        	at({cont:'请输入用户名'});
+        	//at({cont:'请输入用户名'});
+        	$('#errorMessages').html('请输入用户名').show();
             return  ;
         }
         if(!p){
-            at({cont:'请输入密码'});
+            //at({cont:'请输入密码'});
+            $('#errorMessages').html('请输入密码').show();
             return  ;
         }
         if(!c){
-            at({cont:'请输入验证码'});
+            //at({cont:'请输入验证码'});
+            $('#errorMessages').html('请输入验证码').show();
             return  ;
         }
         
@@ -27,7 +30,15 @@ $(document).ready(function(){
                 if(json.success){
                     location.reload() ;
                 }else{
-	                at({cont:json.info , type : 'error'});
+	                //at({cont:json.info , type : 'error'});
+                	$('#errorMessages').html(json.info).show();
+	                
+	                $.omMessageTip.show({
+		                type:'error',
+		                title:'提醒',
+		                timeout : 2000 ,
+		                content:json.info
+		            });
                 }
             }
         }

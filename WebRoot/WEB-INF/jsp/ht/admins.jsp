@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<p> 密码 :&nbsp;&nbsp;<input id="mmId" type="password" empt="密码不能为空"/> </p>
     			<p> 姓名 :&nbsp;&nbsp;<input id="xmId" empt="姓名不能为空"/></p>
     			<p> 角色 :&nbsp;&nbsp;<input id="jsId" /> </p>
-    			<p id="info" class="font_red"></p>
+    			<p><div id="info" class="errorMessages">&nbsp;</div></p>
     			<p class="p_align"><button onclick="savedata();">保存</button></p>
     			
     		</div>
@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   原密码 : <input id="oldpass" type="password" empt="密码不能为空"/></p>
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   新密码 : <input id="newpass" type="password" empt="新密码不能为空"/> </p>
     			<p>新密码确认 : <input id="newpass2" type="password" empt="确认新密码"/></p>
-    			<p id="info_modif" class="font_red"></p>
+    			<p><div id="info_modif" class="errorMessages">&nbsp;</div></p>
     			<p class="p_align"><button onclick="modifpass.submit() ;">修改</button></p>
     			
     		</div>

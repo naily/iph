@@ -96,6 +96,7 @@ public class AdministratorMod extends BaseMod{
 			adminService.dao.update(user, "password") ;
 			
 			j.put(Constant.SUCCESS, true) ;
+			j.put(Constant.INFO, "密码修改成功") ;
 		}else{
 			j.put(Constant.INFO, "请登录") ;
 		}

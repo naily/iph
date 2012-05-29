@@ -11,8 +11,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<!-- -->
-	<link rel="stylesheet" type="text/css" href="header.css">
 	<link href="images/1.css" type="text/css" rel="stylesheet" />
+	
+	<link rel="stylesheet" type="text/css" href="css/header.css" />
   </head>
   
   <body>

@@ -77,7 +77,7 @@ public class UserMod  extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		
 		String code = (String)session.getAttribute(Constant.LOGIN_VALIDATE_STRING) ;
-		if(StringUtil.checkNotNull(admin.getCode()) && admin.getCode().equals(code)){
+		if(StringUtil.checkNotNull(admin.getCode()) && admin.getCode().equalsIgnoreCase(code)){
 			
 			if(StringUtil.checkNotNull(admin.getLoginId()) &&
 					StringUtil.checkNotNull(admin.getPassword())){

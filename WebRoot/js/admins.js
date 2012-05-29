@@ -84,7 +84,7 @@ function checking(){
         if(!o.val() && i <4){
             var e = o.attr('empt');
             if(e){
-                $('#info').html(e);
+                $('#info').html(e).show();
             }
             s = false ;
             return  s;
@@ -110,7 +110,7 @@ function savedata(){
                 	$('#info').html('');
                 }else{
                     //at({cont:json , type : 'error'});
-                    $('#info').html(json.info);
+                    $('#info').html(json.info).show();
                 }
                 
             }
@@ -131,15 +131,15 @@ var modifpass = {
 		var np2 = $('#newpass2').val();
 		
 		if(isEmpty(op)){
-			$('#info_modif').html($('#oldpass').attr('empt'));
+			$('#info_modif').html($('#oldpass').attr('empt')).show();
 			return  ;
 		}
 		if(isEmpty(np)){
-			$('#info_modif').html($('#newpass').attr('empt'));
+			$('#info_modif').html($('#newpass').attr('empt')).show();
 			return  ;
 		}
 		if(isEmpty(np2)){
-			$('#info_modif').html($('#newpass2').attr('empt'));
+			$('#info_modif').html($('#newpass2').attr('empt')).show();
 			return  ;
 		}
 		
@@ -153,8 +153,22 @@ var modifpass = {
                 	$('#newpass2').val('') ;
                 	$("#modifPassword").omDialog('close');
                 	$('#info_modif').html('');
+                	
+                	$.omMessageTip.show({
+		                type:'success',
+		                title:'提醒',
+		                timeout : 3000 ,
+		                content:json.info
+		            });
                 }else{
-                    $('#info_modif').html(json.info);
+                    $('#info_modif').html(json.info).show();
+                    
+                    $.omMessageTip.show({
+		                type:'error',
+		                title:'提醒',
+		                timeout : 3000 ,
+		                content:json.info
+		            });
                 }
 			}
 		}

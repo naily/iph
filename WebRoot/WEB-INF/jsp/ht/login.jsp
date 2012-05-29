@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	
 	<script type="text/javascript" src="js/login.js"></script>
+	
   </head>
   
   <body>
@@ -51,10 +52,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td width="119" align="center"><a href="javascript:;" onclick="reloadimage();" class="a4">看不清 换一张</a></td>
 				  </tr>
 				  <tr>
+				    <td colspan="4" height="30"><div id="errorMessages" class="errorMessages"></div>
+				    </td>
+				  </tr>
+				  <tr>
 				    <td height="60" colspan="4" align="center"><a href="javascript:;" id="but-login">
 				    <img src="images/d15.jpg" width="67" height="28" border="0" /></a>
 				    </td>
-				    </tr>
+				  </tr>
 				</table>
 				</div>
 	    	</c:otherwise>
