@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
 	<script type="text/javascript">
 		$(document).ready(function(){
-		    $("#dataManagerA").click(function() {
+		    $("#M1,#M2").click(function() {
 		
 		        $(this).parent().find(".menu_body").slideDown('fast').show();
 		
@@ -37,13 +37,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="menu">
 	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
 	<div class="menutext"><a href='ht/admins.do' class="a3">${msg['ht_menu_sysseting']}</a></div>
-	<div class="menutext"><a href="javascript:;" class="a3" id="dataManagerA">数据管理</a>
+	<div class="menutext"><a href="javascript:;" class="a3" id="M1">数据管理</a>
 		<div class="menu_body">
-	      <a href="#" title="我关注的好友动态消息">我的关注</a>
-	      <a href="#" title="我加入的群组最新话题">我的群组</a>
-	      <a href="#" title="我的个人简历">我的简历</a>
+	      <a href="#" title="电离层频高图录入与管理维护">电离层频高图管理</a>
+	      <a href="#" title="电离层参数录入与管理维护">电离层参数管理</a>
+	      <a href="#" title="区域电离层特性图管理维护">区域电离层特性图</a> 
+	      <a href="#" title="元数据录入与管理维护">元数据管理</a>
 	    </div></div>
-	<div class="menutext"><a href="javascript:;" class="a3">用户管理</a></div>
+	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>
+		<div class="menu_body">
+	      <a href="#" title="用户管理与统计">用户管理</a>
+	      <a href="#" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
+	    </div>
+	</div>
 	<div class="menutext1"><a href="javascript:;" class="a3">访问权限管理</a></div>
 	<div class="menutext"><a href="javascript:;" class="a3">管理日志</a></div>
 	<div class="menutext"><a href="javascript:;" class="a3">服务系统</a></div>
