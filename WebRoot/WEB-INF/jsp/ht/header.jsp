@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
 	<script type="text/javascript">
 		$(document).ready(function(){
-		    $("#M1,#M2").click(function() {
+		    $("#M1,#M2,#M0").click(function() {
 		
 		        $(this).parent().find(".menu_body").slideDown('fast').show();
 		
@@ -36,7 +36,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div><!--top结束-->
   <div class="menu">
 	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
-	<div class="menutext"><a href='ht/admins.do' class="a3">${msg['ht_menu_sysseting']}</a></div>
+	<div class="menutext"><a href='javascript:;' class="a3" id="M0">${msg['ht_menu_sysseting']}</a>
+		<div class="menu_body">
+	      <a href="ht/admins.do" title="管理员">管理员信息</a>
+	      <a href="ht/stationload.do" title="观测站管理">观测站</a>
+	    </div>
+	</div>
 	<div class="menutext"><a href="javascript:;" class="a3" id="M1">数据管理</a>
 		<div class="menu_body">
 	      <a href="ht/pgt.do" title="电离层频高图录入与管理维护">电离层频高图管理</a>

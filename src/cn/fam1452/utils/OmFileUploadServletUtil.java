@@ -1,4 +1,4 @@
-package cn.fam1452.action;
+package cn.fam1452.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -21,21 +21,21 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.math.RandomUtils;
 
-public class OmFileUploadServlet  {
+public class OmFileUploadServletUtil  {
 	private static final long serialVersionUID = 1L;
 
 	// 上传文件的保存路径，相对于应用的根目录
-	private static final String UPLOAD_PIC_PATH = "/demos/form/fileupload/files/";
+	private static final String UPLOAD_PIC_PATH = "/data/pgt_file/";
 
 	byte[] imgBufTemp = new byte[102401];
 
 	private ServletContext servletContext;
 
-	public void init(ServletConfig config) throws ServletException {
+	/*public void init(ServletConfig config) throws ServletException {
 		this.servletContext = config.getServletContext();
-	}
+	}*/
 
-	protected void doPost(HttpServletRequest request,
+	/*protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// 获取客户端回调函数名
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,7 +47,7 @@ public class OmFileUploadServlet  {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
-	}
+	}*/
 
 	/**
 	 * 生成保存上传文件的磁盘路径
@@ -70,8 +70,7 @@ public class OmFileUploadServlet  {
 		return "files/" + fileName;
 	}
 
-	private void defaultProcessFileUpload(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	public void defaultProcessFileUpload(HttpServletRequest request ) throws IOException {
 		ServletFileUpload upload = new ServletFileUpload();
 		upload.setHeaderEncoding("UTF-8");
 		InputStream stream = null;
@@ -85,15 +84,18 @@ public class OmFileUploadServlet  {
 					FileItemStream item = iter.next();
 					stream = item.openStream();
 					if (!item.isFormField()) {
-						String prefix = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "-" +RandomUtils.nextInt();
+						//String prefix = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "-" +RandomUtils.nextInt();
 						// 得到文件的扩展名(无扩展名时将得到全名)
-						String ext = item.getName().substring(item.getName().lastIndexOf(".") + 1);
-						String fileName = prefix + "." + ext;
+						//String ext = item.getName().substring(item.getName().lastIndexOf(".") + 1);
+						//String fileName = prefix + "." + ext;
+						
+						String fileName = item.getName() ;
 						String savePath = getSavePath(fileName);
 						if (i > 0) {
 							fileUrl += ",";
 						}
 						fileUrl += getFileUrl(fileName);
+						
 						bos = new BufferedOutputStream(new FileOutputStream(
 								new File(savePath)));
 						int length;
@@ -103,27 +105,7 @@ public class OmFileUploadServlet  {
 						i++;
 					}
 				}
-				StringBuilder json = new StringBuilder();
-				json.append("{");
-				json.append("'");
-				json.append("fileUrl");
-				json.append("':'");
-				json.append(fileUrl.toString());
-				json.append("'");
-				Enumeration<String> pNames = request.getParameterNames();
-				String pName;
-				while (pNames.hasMoreElements()) {
-					json.append(",");
-					pName = (String) pNames.nextElement();
-					json.append("'");
-					json.append(pName);
-					json.append("':'");
-					json.append(request.getParameter(pName));
-					json.append("'");
-				}
-				json.append("}");
 				
-				response.getWriter().write(json.toString());
 			}
 		} catch (FileUploadException e) {
 			e.printStackTrace();
@@ -141,6 +123,14 @@ public class OmFileUploadServlet  {
 				}
 			}
 		}
+	}
+
+	public ServletContext getServletContext() {
+		return servletContext;
+	}
+
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
 	}
 
 }
