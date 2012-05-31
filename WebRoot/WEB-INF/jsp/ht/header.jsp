@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="menutext"><a href='ht/admins.do' class="a3">${msg['ht_menu_sysseting']}</a></div>
 	<div class="menutext"><a href="javascript:;" class="a3" id="M1">数据管理</a>
 		<div class="menu_body">
-	      <a href="#" title="电离层频高图录入与管理维护">电离层频高图管理</a>
+	      <a href="ht/pgt.do" title="电离层频高图录入与管理维护">电离层频高图管理</a>
 	      <a href="#" title="电离层参数录入与管理维护">电离层参数管理</a>
 	      <a href="#" title="区域电离层特性图管理维护">区域电离层特性图</a> 
 	      <a href="#" title="元数据录入与管理维护">元数据管理</a>

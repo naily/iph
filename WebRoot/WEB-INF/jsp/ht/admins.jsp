@@ -53,5 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</div>
     	<table id="list0"></table>
     </div>
+    
+    <jsp:include page="footer.jsp" flush="true" />
   </body>
 </html>
