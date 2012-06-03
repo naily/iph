@@ -26,3 +26,12 @@
 	height: 10px;
 	color: red ;
 }
+.p_input_wid220{
+	width:220px;
+	text-align: right;
+	border: 0px red solid;
+}
+.p_input_wid400{
+	width:390px;
+	text-align: right;
+}

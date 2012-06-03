@@ -1,5 +1,6 @@
 $(document).ready(function(){
-
+    
+    /*
     $('#list0').omGrid({
         title : '管理员列表' ,
          //height : 250,
@@ -18,10 +19,29 @@ $(document).ready(function(){
          dataSource : 'ht/adminlist.do' //后台取数的URL
      });
      
-     
-
-
+     */
+    
+    save.init();
+    
+    
 });
 
-
+var save ={
+    init:function(){
+        $( "#createblock").omDialog({
+            autoOpen: false,
+            resizable: false ,
+            width : 440 ,
+            title:'添加观测站' 
+         });
+         
+        $("#createbut").click(this.open) ;
+    },
+    open:function(){
+        $( "#createblock").omDialog('open');
+    } ,
+    save :function(){
+        alert(1);
+    }
+} 
 
