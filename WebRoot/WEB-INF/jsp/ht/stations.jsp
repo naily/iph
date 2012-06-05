@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <jsp:include page="header.jsp" flush="true" />
     <div id="createblock">
-    	<p class="p_input_wid400">名称:<input id="mcId" /><em>*</em> 位置:<input id="wzId" /></p>
+    	<p class="p_input_wid400">名称:<input id="mcId" /> 位置:<input id="wzId" /></p>
     	<p class="p_input_wid400">单位:<input id="dwmcId" />  经度:<input id="jdId" /></p>
     	<p class="p_input_wid400">通讯地址:<input id="txdzId" /> 纬度:<input id="wdId" /></p>
     	<p class="p_input_wid400">联系电话:<input id="lxdhId" /> 时区:<input id="sqId" /></p>
@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<p class="p_input_wid400">介绍:<textarea id="jsId" rows="3" cols="48"></textarea> </p>
     	<p><div id="info" class="errorMessages">&nbsp;</div></p>
     	<p class="p_align"><button onclick="save.save();">保存</button>
-    	<button onclick=" ">清空</button></p>
+    	<button onclick="save.clear(); ">清空</button></p>
     </div>
     <div id="center" class="loginbox1">
     	<button id="createbut">添加</button>

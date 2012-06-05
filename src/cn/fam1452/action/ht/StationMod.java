@@ -51,8 +51,12 @@ public class StationMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		
-		baseService.dao.insert(obj) ;
+		obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
+		if(null != baseService.dao.insert(obj) ){
+			json.put(Constant.SUCCESS, true) ;
+		}else{
+			json.put(Constant.INFO, "保存失败") ;
+		}
 		
 		return json ;
 	}
@@ -70,10 +74,9 @@ public class StationMod extends BaseMod{
 	
 	@At("/ht/stationlist")
 	@Ok("json")
-	@POST
 	public JSONObject list(@Param("..")Pages page){
 		JSONObject json = new JSONObject();
-		json.put(Constant.SUCCESS, false) ;
+		json.put(Constant.SUCCESS, true) ;
 		List<Station>  list = baseService.dao.query(Station.class, Cnd.orderBy().desc("id"), page.getNutzPager()) ;
 		
 		json.put(Constant.TOTAL, baseService.dao.count(Station.class)) ;
