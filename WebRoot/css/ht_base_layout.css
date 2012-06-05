@@ -18,6 +18,11 @@
 	border:0px solid red; 
 	
 }
+#center{
+	border:0px solid red; 
+	overflow: hidden;
+	
+}
 
 .p_align{
 	text-align: center;

@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('#list0').omGrid({
         title : '观测站列表' ,
          //height : 250,
-         //width : 600,
+         width : '99.8%',
          limit : 5, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID', name:'id' ,   width:100},
@@ -30,14 +30,16 @@ var save ={
          });
          
         $("#createbut").click(this.open) ;
+        $("#updatebut").click(this.modif) ;
     },
     open:function(){
+        save.clear();
         $( "#createblock").omDialog('open');
     } ,
     save :function(){
     	if(this.check()){
     		
-	        alert(1);
+	        
     	}
     },
     check : function(){
@@ -84,18 +86,18 @@ var save ={
     		return false ;
     	}
     	
-    	var data = {
+        var data = {
             url :'ht/stationsave.do' ,
             params :{name:mc.val() , location: wz.val(), longitude: jd.val(), 
             latitude:wd.val() , timeZone:sq.val(), introduction:js.val(), administrator:dw.val(), 
             address:txdz.val() , zipCode:yb.val(), phone:lxdh.val(), email:em.val(), homepage:zy.val()
-            , picPath:'' },
+            , picPath:'' ,action :'save'},
             
             callback : function(json){
                 if(json.success){
-                	$('#list0').omGrid('reload');
-                	
-					save.clear();                	
+                    $('#list0').omGrid('reload');
+                    
+                    save.clear();                   
                 }else{
                     $('#info').html(json.info).show();
                 }
@@ -104,6 +106,7 @@ var save ={
         }
         
         ajaxpost(data);
+    	//return true ;
     } ,
     clear : function(){
     	$('#mcId').val('') ; //
@@ -121,6 +124,57 @@ var save ={
     	
     	$('#info').html('');
     	$("#createblock").omDialog('close');
+    },
+    modif :function(){
+        var data = $('#list0').omGrid('getSelections' , true);
+                if(data.length < 1 ){
+                    at({cont:'请选择一条记录！' , type : 'error'});
+                    return;
+                }else{
+                    var getitem = {
+                        url : 'ht/getstation.do',
+                        params : {id: data[0].id}  ,
+                        callback : function(json){
+                            if(json.success){
+                                //$('#list0').omGrid('reload');
+                                //alert(json.data.name ) ;
+                                save.modifOpen(json.data);
+                            }else{
+                                at({cont: json.info , type : 'error'});
+                            }
+                        }
+                    }
+                    ajaxpost(getitem);
+                    //提示
+                    /*
+                    $.omMessageBox.confirm({
+                        title:'确认删除',
+                        content:'删除用户,你确定要这样做吗?',
+                        onClose:function(value){
+                            if(value){
+                                //ajaxpost(delt);
+                            }
+                        }
+                    });
+                    
+                    */
+                }
+    },
+    modifOpen :function(data){
+        
+        $( "#createblock").omDialog('open');
+        $('#mcId').val(data.name) ; //
+        $('#dwmcId').val(data.administrator) ;
+        $('#txdzId').val(data.address) ;
+        $('#lxdhId').val(data.phone) ;
+        $('#emId').val(data.email) ;
+        $('#ybId').val(data.zipCode) ;
+        $('#jsId').val(data.introduction) ;
+        $('#wzId').val(data.location) ;//
+        $('#jdId').val(data.longitude) ;//
+        $('#wdId').val(data.latitude) ;//
+        $('#sqId').val(data.timeZone) ;//
+        $('#zyId').val(data.homepage) ;
     }
 } 
 

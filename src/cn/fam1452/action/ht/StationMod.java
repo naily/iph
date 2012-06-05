@@ -47,7 +47,9 @@ public class StationMod extends BaseMod{
 	@At("/ht/stationsave")
 	@Ok("json")
 	@POST
-	public JSONObject save(@Param("..")Station obj){
+	public JSONObject save(@Param("..")Station obj , String action){
+		log.info(action) ;
+		
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
@@ -96,6 +98,24 @@ public class StationMod extends BaseMod{
 		
 		if(null != obj && StringUtil.checkNotNull(obj.getId())){
 			baseService.dao.delete(obj) ;
+		}else{
+			json.put(Constant.INFO, "参数错误") ;
+		}
+		
+		return json ;
+	}
+	
+	@At("/ht/getstation")
+	@Ok("json")
+	@POST
+	public JSONObject get(@Param("..")Station obj){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		if(null != obj && StringUtil.checkNotNull(obj.getId())){
+			Station st = baseService.dao.fetch(obj) ;
+			json.put("data", JSONObject.fromObject(st)) ;
+			json.put(Constant.SUCCESS, true) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
 		}
