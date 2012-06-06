@@ -31,12 +31,48 @@ var save ={
          
         $("#createbut").click(this.open) ;
         $("#updatebut").click(this.modif) ;
+        
+        //$("#savebut").click(this.savedata);
+        
+        $('#del').click(function(){
+                var dels = $('#list0').omGrid('getSelections' , true);
+                if(dels.length < 1 ){
+                    at({cont:'请选择删除的记录！' , type : 'error'});
+                    return;
+                }else{
+                    var delt = {
+                        url : 'ht/stationdel.do',
+                        params : {id: dels[0].id}  ,
+                        callback : function(json){
+                            if(json.success){
+                                $('#list0').omGrid('reload');
+                            }else{
+                                at({cont: json.info , type : 'error'});
+                            }
+                        }
+                    }
+                    //提示
+                    $.omMessageBox.confirm({
+                        title:'确认删除',
+                        content:'删除观测站,你确定要删除吗?',
+                        onClose:function(value){
+                            if(value){
+                                ajaxpost(delt);
+                            }
+                        }
+                    });
+
+                }
+        });
     },
     open:function(){
         save.clear();
+        
+        this.action = 'save' ;
         $( "#createblock").omDialog('open');
     } ,
-    save :function(){
+    action : 'save',
+    savedata :function(){
     	if(this.check()){
     		
 	        
@@ -91,13 +127,14 @@ var save ={
             params :{name:mc.val() , location: wz.val(), longitude: jd.val(), 
             latitude:wd.val() , timeZone:sq.val(), introduction:js.val(), administrator:dw.val(), 
             address:txdz.val() , zipCode:yb.val(), phone:lxdh.val(), email:em.val(), homepage:zy.val()
-            , picPath:'' ,action :'save'},
+            , picPath:'' ,action :this.action},
             
             callback : function(json){
                 if(json.success){
                     $('#list0').omGrid('reload');
                     
-                    save.clear();                   
+                    save.clear();
+                    $("#createblock").omDialog('close');
                 }else{
                     $('#info').html(json.info).show();
                 }
@@ -123,7 +160,7 @@ var save ={
     	$('#zyId').val('') ;
     	
     	$('#info').html('');
-    	$("#createblock").omDialog('close');
+    	//$("#createblock").omDialog('close');
     },
     modif :function(){
         var data = $('#list0').omGrid('getSelections' , true);
@@ -163,6 +200,9 @@ var save ={
     modifOpen :function(data){
         
         $( "#createblock").omDialog('open');
+        this.clear();
+        this.action = data.id ;
+        
         $('#mcId').val(data.name) ; //
         $('#dwmcId').val(data.administrator) ;
         $('#txdzId').val(data.address) ;

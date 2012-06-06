@@ -53,11 +53,20 @@ public class StationMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
-		if(null != baseService.dao.insert(obj) ){
-			json.put(Constant.SUCCESS, true) ;
+		if("save".equals(action)){
+			obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
+			if(null != baseService.dao.insert(obj) ){
+				json.put(Constant.SUCCESS, true) ;
+			}else{
+				json.put(Constant.INFO, "保存失败") ;
+			}
 		}else{
-			json.put(Constant.INFO, "保存失败") ;
+			obj.setId(action) ;
+			if(1 == baseService.dao.updateIgnoreNull(obj) ){
+				json.put(Constant.SUCCESS, true) ;
+			}else{
+				json.put(Constant.INFO, "更新失败") ;
+			}
 		}
 		
 		return json ;

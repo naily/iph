@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="center" >
     	<button id="createbut">添加</button>
     	<button id="updatebut">修改</button>
-    	<button onclick="">删除</button>
+    	<button id="del">删除</button>
     	<table id="list0"></table>
     	
     	<div id="createblock">
@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<p class="p_input_wid220">邮编:<input id="ybId" />   </p>
     	<p class="p_input_wid400">介绍:<textarea id="jsId" rows="3" cols="48"></textarea> </p>
     	<p><div id="info" class="errorMessages">&nbsp;</div></p>
-    	<p class="p_align"><button onclick="save.save();">保存</button>
+    	<p class="p_align"><button onclick="save.savedata()">保存</button>
     	<button onclick="save.clear(); ">清空</button></p>
     	</div>
     </div>
