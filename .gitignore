@@ -1,4 +1,5 @@
 .*
 *.class
 *.bak
+Thumbs.db
 WebRoot/WEB-INF/classes/*

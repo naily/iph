@@ -29,12 +29,14 @@ var save ={
             title:'添加观测站' 
          });
          
-        $("#createbut").click(this.open) ;
-        $("#updatebut").click(this.modif) ;
-        
-        //$("#savebut").click(this.savedata);
-        
-        $('#del').click(function(){
+          $('a#createbut').omButton({
+            onClick : this.open
+          })  ;
+          $('a#updatebut').omButton({
+            onClick : this.modif
+          })  ;
+          $('a#del').omButton({
+            onClick : function(){
                 var dels = $('#list0').omGrid('getSelections' , true);
                 if(dels.length < 1 ){
                     at({cont:'请选择删除的记录！' , type : 'error'});
@@ -63,11 +65,17 @@ var save ={
                     });
 
                 }
-        });
+        }
+          })  
+        //$("#createbut").click(this.open) ;
+        //$("#updatebut").click(this.modif) ;
+        //$("#savebut").click(this.savedata);
+        
     },
     open:function(){
         save.clear();
         
+        $('#stId').val('').attr('readonly' , false) ;
         this.action = 'save' ;
         $( "#createblock").omDialog('open');
     } ,
@@ -91,6 +99,14 @@ var save ={
     	var wd = $('#wdId') ;//
     	var sq = $('#sqId') ;//
     	var zy = $('#zyId') ;
+        
+        var st = $('#stId') ;//观测站编码
+        
+        if(!st.val()){
+            $('#info').html('请输入观测站编码').show();
+            st.focus();
+            return false ;
+        }
     	
     	if(!mc.val()){
     		$('#info').html('请输入名称').show();
@@ -127,7 +143,7 @@ var save ={
             params :{name:mc.val() , location: wz.val(), longitude: jd.val(), 
             latitude:wd.val() , timeZone:sq.val(), introduction:js.val(), administrator:dw.val(), 
             address:txdz.val() , zipCode:yb.val(), phone:lxdh.val(), email:em.val(), homepage:zy.val()
-            , picPath:'' ,action :this.action},
+            , picPath:'' ,action :this.action , id :st.val()},
             
             callback : function(json){
                 if(json.success){
@@ -158,6 +174,7 @@ var save ={
     	$('#wdId').val('') ;//
     	$('#sqId').val('') ;//
     	$('#zyId').val('') ;
+        //$('#stId').val('').attr('readonly' , false) ;
     	
     	$('#info').html('');
     	//$("#createblock").omDialog('close');
@@ -203,6 +220,7 @@ var save ={
         this.clear();
         this.action = data.id ;
         
+        $('#stId').val(data.id).attr('readonly' , true) ;
         $('#mcId').val(data.name) ; //
         $('#dwmcId').val(data.administrator) ;
         $('#txdzId').val(data.address) ;

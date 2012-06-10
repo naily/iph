@@ -48,18 +48,24 @@ public class StationMod extends BaseMod{
 	@Ok("json")
 	@POST
 	public JSONObject save(@Param("..")Station obj , String action){
-		log.info(action) ;
+		//log.info(action) ;
 		
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
 		if("save".equals(action)){
-			obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
-			if(null != baseService.dao.insert(obj) ){
-				json.put(Constant.SUCCESS, true) ;
+			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
+			if(StringUtil.checkNotNull(obj.getId())){
+				if(null != baseService.dao.insert(obj) ){
+					json.put(Constant.SUCCESS, true) ;
+				}else{
+					json.put(Constant.INFO, "保存失败") ;
+				}
 			}else{
-				json.put(Constant.INFO, "保存失败") ;
+				json.put(Constant.INFO, "保存失败,观测站编码不能为空") ;
 			}
+			
+			
 		}else{
 			obj.setId(action) ;
 			if(1 == baseService.dao.updateIgnoreNull(obj) ){
@@ -130,5 +136,26 @@ public class StationMod extends BaseMod{
 		}
 		
 		return json ;
+	}
+	
+	/**
+	 * 所有观测站名字和Id对
+	 * @Author Derek
+	 * @Date Jun 10, 2012
+	 * @return
+	 */
+	@At("/ht/stationlistall")
+	@Ok("json")
+	public JSONArray listAllNameId(){
+		JSONArray array = new JSONArray();
+		
+		List<Station>  list = baseService.dao.query(Station.class, Cnd.orderBy().desc("id")) ;
+		if(null != list && list.size() > 0){
+			JsonConfig cfg = new JsonConfig();  		
+			cfg.setExcludes(new String[] { "location" , "longitude","latitude","timeZone","introduction","administrator","address","zipCode","phone","email","homepage","picPath"}); 
+			array = JSONArray.fromObject(list , cfg) ;
+		}
+		
+		return array ;
 	}
 }

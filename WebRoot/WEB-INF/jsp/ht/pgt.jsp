@@ -38,10 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <tr>
 		    <td align="left">&nbsp;</td>
 		    <td height="40" align="left">所属观测站：</td>
-		    <td><label>
-		      <select name="select"  class="select1">
-		        <option>请选择</option>
-		      </select>
+		    <td><label><input id = "comboStation" />
 		    </label></td>
 		    </tr>
 		  <tr>

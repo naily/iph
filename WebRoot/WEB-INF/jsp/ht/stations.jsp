@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
+	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	
 	<script type="text/javascript" src="js/Global.js"></script>
 	<script type="text/javascript" src="js/stations.js"></script>
@@ -26,12 +27,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="center" >
+    	<span id="toolbar" class="om-widget-header om-corner-all">
+	        <a id="createbut" href="javascript:void(0)">添加</a>
+	        <a id="updatebut"  href="javascript:void(0)">修改</a>
+	        <a id="del"  href="javascript:void(0)">删除</a>
+    	</span>
+		<!--  
     	<button id="createbut">添加</button>
     	<button id="updatebut">修改</button>
     	<button id="del">删除</button>
+    	-->
+    	
     	<table id="list0"></table>
     	
     	<div id="createblock">
+    	<p class="p_input_wid220">观测站编码:<input id="stId" />   </p>
     	<p class="p_input_wid400">名称:<input id="mcId" /> 位置:<input id="wzId" /></p>
     	<p class="p_input_wid400">单位:<input id="dwmcId" />  经度:<input id="jdId" /></p>
     	<p class="p_input_wid400">通讯地址:<input id="txdzId" /> 纬度:<input id="wdId" /></p>

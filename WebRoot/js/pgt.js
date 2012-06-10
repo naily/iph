@@ -26,6 +26,13 @@ $(document).ready(function(){
     	$('#file_upload').omFileUpload('upload');
     	
     });
+    
+    $('#comboStation').omCombo({
+        dataSource:'ht/stationlistall.do' ,
+        valueField : 'id' ,
+        optionField :'name'
+        
+    }) ;
 });
 
 

@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+#toolbar {padding: 6px 4px; }
+#toolbar .om-btn {border:none;}
+#toolbar *  {background-color: transparent;background-image: none}
+#toolbar .om-state-hover .om-btn-bg {background: url(images/button/button-hover-bg.png);}
+#toolbar .om-state-focus .om-btn-bg {background: url(images/button/button-focus-bg.png);}
+#toolbar .om-state-active .om-btn-bg {background: url(images/button/button-mousedown-bg.png);}
+#toolbar .om-btn .om-btn-left {background-position: 100% 0px;background-repeat: no-repeat;}
+#toolbar .om-btn .om-btn-center {background-position: 100% -24px;background-repeat: repeat-x;}
+#toolbar .om-btn .om-btn-right {background-position: 100% -48px;background-repeat: no-repeat;}
+span.om-widget-header { background: url("images/header_bg.png") repeat-x scroll 0 0 transparent;
+color: #23466D;
+font-weight: bold;
+display:block ;
+height:18px;
+width: 100%;
+}
+
