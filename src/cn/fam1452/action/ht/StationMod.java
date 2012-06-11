@@ -56,11 +56,16 @@ public class StationMod extends BaseMod{
 		if("save".equals(action)){
 			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
 			if(StringUtil.checkNotNull(obj.getId())){
-				if(null != baseService.dao.insert(obj) ){
-					json.put(Constant.SUCCESS, true) ;
+				if(null == baseService.dao.fetch(obj)){
+					if(null != baseService.dao.insert(obj) ){
+						json.put(Constant.SUCCESS, true) ;
+					}else{
+						json.put(Constant.INFO, "保存失败") ;
+					}
 				}else{
-					json.put(Constant.INFO, "保存失败") ;
+					json.put(Constant.INFO, "保存失败,观测站编码已经存在") ;
 				}
+				
 			}else{
 				json.put(Constant.INFO, "保存失败,观测站编码不能为空") ;
 			}

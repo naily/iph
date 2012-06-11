@@ -44,12 +44,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <tr>
 		    <td align="left">&nbsp;</td>
 		    <td height="40" align="left">观测日期：</td>
-		    <td><input type="text" name="textfield4" class="boxinput3" /></td>
+		    <td><input id="actionDateId" type="text" name="textfield4" class="boxinput3" /></td>
 		    </tr>
 		  <tr>
 		    <td align="left">&nbsp;</td>
 		    <td height="42" align="left">频高图日期：</td>
-		    <td><input type="text" name="textfield2" class="boxinput3" /></td>
+		    <td><input id="pgtDateId" type="text" name="textfield2" class="boxinput3" /></td>
 		    </tr>
 		  <tr>
 		    <td align="left">&nbsp;</td>
