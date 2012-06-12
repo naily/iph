@@ -53,10 +53,12 @@ public class StationMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
+		obj.setStatus(1) ;
 		if("save".equals(action)){
 			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
 			if(StringUtil.checkNotNull(obj.getId())){
 				if(null == baseService.dao.fetch(obj)){
+					
 					if(null != baseService.dao.insert(obj) ){
 						json.put(Constant.SUCCESS, true) ;
 					}else{
@@ -83,9 +85,9 @@ public class StationMod extends BaseMod{
 		return json ;
 	}
 	
-	@At("/ht/stationupdate")
+	/*@At("/ht/stationupdate")
 	@Ok("json")
-	@POST
+	@POST */
 	public JSONObject update(@Param("..")Station obj){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
@@ -99,7 +101,8 @@ public class StationMod extends BaseMod{
 	public JSONObject list(@Param("..")Pages page){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
-		List<Station>  list = baseService.dao.query(Station.class, Cnd.orderBy().desc("id"), page.getNutzPager()) ;
+
+		List<Station>  list = baseService.dao.query(Station.class, Cnd.where("status", "=", 1).desc("id"), page.getNutzPager()) ;
 		
 		json.put(Constant.TOTAL, baseService.dao.count(Station.class)) ;
 		
@@ -117,7 +120,11 @@ public class StationMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		
 		if(null != obj && StringUtil.checkNotNull(obj.getId())){
-			baseService.dao.delete(obj) ;
+			obj = baseService.dao.fetch(obj) ;
+			obj.setStatus(0) ;
+			
+			baseService.dao.update(obj);
+			json.put(Constant.SUCCESS, true) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
 		}
@@ -154,7 +161,7 @@ public class StationMod extends BaseMod{
 	public JSONArray listAllNameId(){
 		JSONArray array = new JSONArray();
 		
-		List<Station>  list = baseService.dao.query(Station.class, Cnd.orderBy().desc("id")) ;
+		List<Station>  list = baseService.dao.query(Station.class, Cnd.where("status", "=", 1).desc("id")) ;
 		if(null != list && list.size() > 0){
 			JsonConfig cfg = new JsonConfig();  		
 			cfg.setExcludes(new String[] { "location" , "longitude","latitude","timeZone","introduction","administrator","address","zipCode","phone","email","homepage","picPath"}); 

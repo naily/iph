@@ -73,16 +73,16 @@ var save ={
         
     },
     open:function(){
-        save.clear();
+        save.clear() ;
+        save.action = 'save' ;
         
-        $('#stId').val('').attr('readonly' , false) ;
-        this.action = 'save' ;
+        //$('#stId').val('').attr('readonly' , false) ;
+        $('#stId').val('').removeAttr('disabled') ;
         $( "#createblock").omDialog('open');
     } ,
     action : 'save',
     savedata :function(){
     	if(this.check()){
-    		
 	        
     	}
     },
@@ -150,6 +150,7 @@ var save ={
                     $('#list0').omGrid('reload');
                     
                     save.clear();
+                    $('#stId').removeAttr('disabled') ;
                     $("#createblock").omDialog('close');
                 }else{
                     $('#info').html(json.info).show();
@@ -176,7 +177,7 @@ var save ={
     	$('#zyId').val('') ;
         //$('#stId').val('').attr('readonly' , false) ;
     	
-    	$('#info').html('');
+    	$('#info').html('').hide();
     	//$("#createblock").omDialog('close');
     },
     modif :function(){
@@ -220,7 +221,7 @@ var save ={
         this.clear();
         this.action = data.id ;
         
-        $('#stId').val(data.id).attr('readonly' , true) ;
+        $('#stId').val(data.id).attr('disabled' , true) ;
         $('#mcId').val(data.name) ; //
         $('#dwmcId').val(data.administrator) ;
         $('#txdzId').val(data.address) ;
