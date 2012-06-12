@@ -82,7 +82,7 @@ public class MvcSetup implements Setup{
 				if(this.isRemove(remove, cla.getSimpleName())){
 					Annotation [] a = cla.getAnnotations() ;
 					if(a.length > 0 && "Table".equals(a[0].annotationType().getSimpleName())){
-						dao.create(cla, false) ;  //删除旧表创建;
+						dao.create(cla, true) ;  //true == 删除旧表创建;
 						
 						//log.info("no create: "+cla.getSimpleName()) ;
 					}

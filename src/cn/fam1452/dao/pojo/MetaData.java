@@ -30,11 +30,11 @@ public class MetaData {
 	private String  summary; //原abstract ,s是java关键字 
 	
 	@Column
-    @ColDefine(type=ColType.BINARY)
+	@ColDefine(customType="binary(50)")
 	private Blob thumbnail ;
 	
 	@Column
-    @ColDefine(type=ColType.BINARY)
+    @ColDefine(customType="binary(50)")
 	private Blob fullContent ;
 	
 	@Column

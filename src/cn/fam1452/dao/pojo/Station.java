@@ -71,6 +71,9 @@ public class Station {
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=100)
 	private String picPath ;
+	
+	@Column
+	private int status ; //该表是个基表，不要物理删除它，需要删除时更新该字段即可。1 == 正常 ，0 == 已删除
 
 	public String getId() {
 		return id;
@@ -182,6 +185,14 @@ public class Station {
 
 	public void setPicPath(String picPath) {
 		this.picPath = picPath;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	
