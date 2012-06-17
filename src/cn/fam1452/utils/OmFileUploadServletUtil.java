@@ -70,12 +70,13 @@ public class OmFileUploadServletUtil  {
 		return "files/" + fileName;
 	}
 
-	public void defaultProcessFileUpload(HttpServletRequest request ) throws IOException {
+	public String defaultProcessFileUpload(HttpServletRequest request ) throws IOException {
 		ServletFileUpload upload = new ServletFileUpload();
 		upload.setHeaderEncoding("UTF-8");
 		InputStream stream = null;
 		BufferedOutputStream bos = null;
 		String fileUrl = "";
+		String savePath = "";
 		try {
 			if (ServletFileUpload.isMultipartContent(request)) {
 				FileItemIterator iter = upload.getItemIterator(request);
@@ -90,7 +91,7 @@ public class OmFileUploadServletUtil  {
 						//String fileName = prefix + "." + ext;
 						
 						String fileName = item.getName() ;
-						String savePath = getSavePath(fileName);
+						savePath = getSavePath(fileName);
 						if (i > 0) {
 							fileUrl += ",";
 						}
@@ -123,6 +124,8 @@ public class OmFileUploadServletUtil  {
 				}
 			}
 		}
+		
+		return savePath ;
 	}
 
 	public ServletContext getServletContext() {

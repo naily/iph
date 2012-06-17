@@ -21,6 +21,7 @@ import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.upload.TempFile;
 import org.nutz.mvc.upload.UploadAdaptor;
 
+import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.utils.OmFileUploadServletUtil;
@@ -44,14 +45,21 @@ public class PgtMod extends BaseMod{
     @Ok("json")
 	public JSONObject saveSingleton (@Param("..")IronoGram gram  ,HttpServletRequest request, HttpServletResponse response , ServletContext context){
 		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		try {
-			fusu.defaultProcessFileUpload(request) ;
-		} catch (IOException e) {
+			String file = fusu.defaultProcessFileUpload(request) ;
+			log.info(file) ;
+			
+			json.put(Constant.SUCCESS, true) ;
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
 		}
-		return json ;
 	}
 }

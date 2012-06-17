@@ -3,7 +3,7 @@ $(document).ready(function(){
     $('#list0').omGrid({
         title : '管理员列表' ,
          //height : 250,
-         //width : 600,
+         width : '99.8%',
          limit : 5, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'登录名',name:'loginId',  align : 'center' ,width:'autoExpand'},
@@ -37,37 +37,43 @@ $(document).ready(function(){
                emptyText : '选择角色'
      });
     
+     $('a#createbut').omButton({
+            onClick : showModelessDialog
+          })  ;
+	  $('a#del').omButton({
+	    onClick : function(){
+	                var dels = $('#list0').omGrid('getSelections' , true);
+	                if(dels.length < 1 ){
+	                    at({cont:'请选择删除的记录！' , type : 'error'});
+	                    return;
+	                }else{
+	                    var delt = {
+	                        url : 'ht/admindel.do',
+	                        params : {loginId: dels[0].loginId}  ,
+	                        callback : function(json){
+	                            if(json.success){
+	                                $('#list0').omGrid('reload');
+	                            }else{
+	                                at({cont: json.info , type : 'error'});
+	                            }
+	                        }
+	                    }
+	                    //提示
+	                    $.omMessageBox.confirm({
+	                        title:'确认删除',
+	                        content:'删除用户,你确定要这样做吗?',
+	                        onClose:function(value){
+	                            if(value){
+	                                ajaxpost(delt);
+	                            }
+	                        }
+	                    });
+	
+	                }
+	    }
+	  })  ;
      
-	$('#del').click(function(){
-            	var dels = $('#list0').omGrid('getSelections' , true);
-            	if(dels.length < 1 ){
-            		at({cont:'请选择删除的记录！' , type : 'error'});
-            		return;
-            	}else{
-            		var delt = {
-            			url : 'ht/admindel.do',
-            			params : {loginId: dels[0].loginId}  ,
-            			callback : function(json){
-            				if(json.success){
-			                	$('#list0').omGrid('reload');
-			                }else{
-			                    at({cont: json.info , type : 'error'});
-			                }
-            			}
-            		}
-            		//提示
-            		$.omMessageBox.confirm({
-		                title:'确认删除',
-		                content:'删除用户,你确定要这样做吗?',
-		                onClose:function(value){
-		                    if(value){
-			            		ajaxpost(delt);
-		                    }
-		                }
-		            });
-
-            	}
-	});
+	//$('#del').click();
 
 
 });

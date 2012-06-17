@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <tr>
 		    <td align="left">&nbsp;</td>
 		    <td height="40" align="left">所属观测站：</td>
-		    <td><label><input id = "comboStation" />
+		    <td><label><input id = "comboStation" class="boxinput3"/>
 		    </label></td>
 		    </tr>
 		  <tr>
@@ -48,17 +48,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </tr>
 		  <tr>
 		    <td align="left">&nbsp;</td>
-		    <td height="42" align="left">频高图日期：</td>
-		    <td><input id="pgtDateId" type="text" name="textfield2" class="boxinput3" /></td>
+		    <td height="42" align="left">频高图标题：</td>
+		    <td><input id="pgtTitleId" type="text" name="textfield2" class="boxinput3" /></td>
 		    </tr>
 		  <tr>
 		    <td align="left">&nbsp;</td>
 		    <td height="40" align="left">频高图类型：</td>
-		    <td><a href="#" class="a4">
-		      <select name="select2" size="1"  class="select1">
-		        <option>请选择</option>
-		      </select>
-		    </a></td>
+		    <td><label><input id = "comboPgtType" class="boxinput3"/> </label>
+		    </td>
 		    </tr>
 		  <tr>
 		    <td height="60" colspan="3" align="center"><label>

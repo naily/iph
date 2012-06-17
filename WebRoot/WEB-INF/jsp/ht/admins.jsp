@@ -17,7 +17,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
+	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/admins.js"></script>
+	
   </head>
   
   <body>
@@ -31,7 +33,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="center_right">
     	<!-- 右侧内容 -->
     	<div>
-    		<button onclick="showModelessDialog();">增加</button>
+	    	<span id="toolbar" class="om-widget-header om-corner-all">
+		        <a id="createbut" href="javascript:void(0)">添加</a>
+		        <a id="del"  href="javascript:void(0)">删除</a>
+	    	</span>
+    		
     		<div id="createadmin">
     			<p>登录名:<input id="dlmId" empt="登录名不能为空"/></p>
     			<p> 密码 :&nbsp;&nbsp;<input id="mmId" type="password" empt="密码不能为空"/> </p>
@@ -49,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<p class="p_align"><button onclick="modifpass.submit() ;">修改</button></p>
     			
     		</div>
-    		<button id="del" >删除</button>
+    		
     	</div>
     	<table id="list0"></table>
     </div>

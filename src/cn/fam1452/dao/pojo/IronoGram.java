@@ -40,7 +40,7 @@ public class IronoGram {
 	private String stationID ;  //观测站点ID
 	
 	@Column
-	private Date createDate ;
+	private Date createDate ; //频高图观测日期
 	
 	@Column
 	private String type ;
