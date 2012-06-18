@@ -21,11 +21,15 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.math.RandomUtils;
 
-public class OmFileUploadServletUtil  {
+import cn.fam1452.action.BaseMod;
+
+public class OmFileUploadServletUtil  extends BaseMod{
 	private static final long serialVersionUID = 1L;
 
 	// 上传文件的保存路径，相对于应用的根目录
-	private static final String UPLOAD_PIC_PATH = "/data/pgt_file/";
+	public static final String UPLOAD_PIC_PATH = "/data/pgt_file/";
+	//临时目录
+	public static final String UPLOAD_PIC_PATH_TMP = "/data/pgt_file/tmp/"; 
 
 	byte[] imgBufTemp = new byte[102401];
 
@@ -48,16 +52,72 @@ public class OmFileUploadServletUtil  {
 			throws ServletException, IOException {
 		doPost(request, response);
 	}*/
-
 	/**
-	 * 生成保存上传文件的磁盘路径
+	 * 获得应用绝对路径
+	 */
+	public String getContextRealPath(){
+		return servletContext.getRealPath("/"); 
+	}
+	
+	/**
+	 * 清空临时目录
+	 */
+	public void clearTmpDirectory(){
+		String td = getContextRealPath() + UPLOAD_PIC_PATH_TMP  ;
+		File tmp = new File(td) ;
+		if(null != tmp && tmp.isDirectory()){
+			File[] fs = tmp.listFiles() ;
+			
+			for (File item : fs) {
+				if( item.isFile() && item.canWrite()){
+					item.delete();
+				}
+			}
+		}else{
+			log.info("不是一个有效路径或目录: "+ td ) ;
+		}
+	}
+	
+	/**
+	 * 从临时目录中检索指定的文件名，若存在，克隆到指定的其它目录
+	 * @param tmpFileName
+	 * @param otherDir
+	 */
+	public boolean cloneTmpFile2Other(String tmpFileName , String otherDir){
+		boolean st = false ;
+		String tmpfile = getContextRealPath() + UPLOAD_PIC_PATH_TMP +  tmpFileName ; 
+		File tf = new File(tmpfile) ;
+		
+		if(null != tf && tf.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File f = new File(otherDir + tmpFileName) ;
+				if(!f.exists()){
+					st = tf.renameTo(f) ;
+				}
+			}
+		}
+		
+		return st ;
+	}
+	
+	/**
+	 * 生成保存上传文件的磁盘路径 
 	 * 
 	 * @param fileName
 	 * @return
 	 */
 	public String getSavePath(String fileName) {
-		String realPath = servletContext.getRealPath("/");
+		String realPath = getContextRealPath() ;
 		return realPath + UPLOAD_PIC_PATH + fileName;
+	}
+	/**
+	 * 生成保存上传文件的磁盘路径(保存在临时目录)
+	 * @param fileName
+	 * @return
+	 */
+	public String getSaveTempPath(String fileName) {
+		return getContextRealPath() + UPLOAD_PIC_PATH_TMP + fileName;
 	}
 
 	/**
@@ -69,17 +129,27 @@ public class OmFileUploadServletUtil  {
 	public String getFileUrl(String fileName) {
 		return "files/" + fileName;
 	}
-
-	public String defaultProcessFileUpload(HttpServletRequest request ) throws IOException {
-		ServletFileUpload upload = new ServletFileUpload();
-		upload.setHeaderEncoding("UTF-8");
+	
+	/**
+	 * 从request中取出文件
+	 * @param request
+	 * @param temp --> true表示把文件存入临时目录
+	 * @return
+	 * @throws IOException
+	 */
+	public String defaultProcessFileUpload(HttpServletRequest request , boolean temp) throws IOException {
+		ServletFileUpload sfu = new ServletFileUpload();
+		sfu.setHeaderEncoding("UTF-8");
+		
 		InputStream stream = null;
 		BufferedOutputStream bos = null;
 		String fileUrl = "";
-		String savePath = "";
+		String savePath = ""; //文件保存路径
+		
 		try {
 			if (ServletFileUpload.isMultipartContent(request)) {
-				FileItemIterator iter = upload.getItemIterator(request);
+				FileItemIterator iter = sfu.getItemIterator(request);
+				
 				int i = 0;
 				while (iter.hasNext()) {
 					FileItemStream item = iter.next();
@@ -91,7 +161,12 @@ public class OmFileUploadServletUtil  {
 						//String fileName = prefix + "." + ext;
 						
 						String fileName = item.getName() ;
-						savePath = getSavePath(fileName);
+						if(temp){
+							savePath = getSaveTempPath(fileName);
+						}else{
+							savePath = getSavePath(fileName);
+						}
+						
 						if (i > 0) {
 							fileUrl += ",";
 						}

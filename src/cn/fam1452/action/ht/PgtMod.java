@@ -47,10 +47,13 @@ public class PgtMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
+		if("fileupload".equals(gram.getAction())){
+			
+		}
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		try {
-			String file = fusu.defaultProcessFileUpload(request) ;
+			String file = fusu.defaultProcessFileUpload(request , true) ;
 			log.info(file) ;
 			
 			json.put(Constant.SUCCESS, true) ;

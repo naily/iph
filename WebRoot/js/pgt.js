@@ -14,8 +14,10 @@ $(document).ready(function(){
         	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
         },
         onSelect:function(ID,fileObj,event){
-        	alert('你选择了文件：'+fileObj.name);
+        	//alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
+        	$('#file_upload').omFileUpload( {'actionData':{'action':'fileupload' } } );
+        	$('#file_upload').omFileUpload('upload');
         }
     });
     
