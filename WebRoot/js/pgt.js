@@ -1,14 +1,19 @@
 $(document).ready(function(){
-//初始化上传文件组件
+	var fileName = '' ;
+	//初始化上传文件组件
 	$('#file_upload').omFileUpload({
         action : '../ht/pgtuploads.do',
         swf : 'swf/om-fileupload.swf',
 	  	fileExt  : '*.jpg;*.bmp',
 	  	fileDesc : 'Image Files(*.jpg,*.bmp)' ,
-	  	method   : 'GET',
+	  	method   : 'POST',
         onComplete : function(ID,fileObj,response,data,event){
-            alert('文件'+fileObj.name+'上传完毕');
+            //alert('文件'+fileObj.name+'上传完毕');
             //上传完毕才可以预览
+        	var jsonData = eval("("+response+")");
+        	$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
+        	
+        	fileName = fileObj.name ;
         },
         onError :function(ID, fileObj, errorObj, event){
         	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
@@ -16,9 +21,11 @@ $(document).ready(function(){
         onSelect:function(ID,fileObj,event){
         	//alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
-        	$('#file_upload').omFileUpload( {'actionData':{'action':'fileupload' } } );
-        	$('#file_upload').omFileUpload('upload');
-        }
+        	$('#preview').attr('disabled' , false) ;
+        	$('#errormsg').html('') ;
+        },
+        actionData : { 'action' :'fileupload' } ,
+        autoUpload : true  //自动上传
     });
     
     $('#reset').click(function(){
@@ -28,12 +35,36 @@ $(document).ready(function(){
     //保存表单
     $('#save').click(function(){
         
-    	$('#file_upload').omFileUpload({'actionData':{'stationID':$('#comboStation').omCombo('value') ,
-        'gramTitle': $('#pgtTitleId').val() ,
-        'createDate': $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd') ,
-        'type': $('#comboPgtType').omCombo('value')}});
-    	
-        $('#file_upload').omFileUpload('upload');
+    	if(fileName == ''){
+    		$('#errormsg').html('请选择频高图文件').show();
+    		return false ;
+    	}else{
+    		
+    		if( !$('#pgtTitleId').val()){
+    			$('#errormsg').html('请输入频高图标题').show();
+    			return false ;
+    		}
+    		
+    		var data = {
+	            url :'ht/pgtuploads.do' ,
+	            params :{'stationID' :$('#comboStation').omCombo('value') ,
+        				 'gramTitle' : $('#pgtTitleId').val() ,
+        				 'createDate': $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd') ,
+        				 'type'      : $('#comboPgtType').omCombo('value'),
+        				 'gramFileName':fileName ,
+        				 'action'      : 'savedata'},
+	            callback : function(json){
+	                if(json.success){
+	                	$('#errormsg').html('') ;//清除错误提示
+	                }else{
+	                    $('#errormsg').html(json.info).show();
+	                }
+	                
+	            }
+	        }
+	        
+	        ajaxpost(data);
+    	}
     	
     });
     
@@ -55,6 +86,20 @@ $(document).ready(function(){
     //观测日期
     $('#actionDateId').omCalendar();
     
+    //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
+	//预览按钮
+    $('#preview').attr('disabled' , true) ;
+    $('#preview').click(function(){
+    	//$('#file_upload').omFileUpload( {'actionData':{'action':'fileupload' } } );
+        //$('#file_upload').omFileUpload('upload');
+        $( "#imagePreview").omDialog('open');
+    	
+	});
 });
 
 

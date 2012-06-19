@@ -23,6 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <jsp:include page="header.jsp" flush="true" />
     
+    <div id="imagePreview" title="图片预览"> </div> 
+    
     <div id="center" class="loginbox1">
     	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
 		  <tr>
@@ -57,6 +59,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <td><label><input id = "comboPgtType" class="boxinput3"/> </label>
 		    </td>
 		    </tr>
+		  <tr>
+		    <td align="left">&nbsp;</td>
+		    <td colspan="2"><span id='errormsg' class="errorMessages"> </span>
+		    </td>
+	     </tr>
 		  <tr>
 		    <td height="60" colspan="3" align="center"><label>
 		      <input id="reset" type="button" name="重置" value="重置" />&nbsp;&nbsp;

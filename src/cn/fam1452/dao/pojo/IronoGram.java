@@ -21,7 +21,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_IRONOGRAM")
 public class IronoGram {
 	
-	private String action ; //fileupload  ,请求类型
+	private String action ; //savedata  ,请求类型
 	
 	
 	@Column

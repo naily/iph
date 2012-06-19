@@ -127,7 +127,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	 * @return
 	 */
 	public String getFileUrl(String fileName) {
-		return "files/" + fileName;
+		return UPLOAD_PIC_PATH_TMP + fileName;
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 			}
 		}
 		
-		return savePath ;
+		return fileUrl ;
 	}
 
 	public ServletContext getServletContext() {
