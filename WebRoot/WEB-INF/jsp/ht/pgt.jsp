@@ -24,11 +24,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="imagePreview" title="图片预览"> </div> 
-    
+    <span><a href="./ht/pgtlist.do" class="a3">管理</a></span>
     <div id="center" class="loginbox1">
     	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
 		  <tr>
-		    <td height="10" colspan="3" align="center">&nbsp;</td>
+		    <td height="10" colspan="3" align="center">&nbsp; </td>
 		    </tr>
 		  <tr >
 		    <td width="20" align="left" height="40">&nbsp;</td>

@@ -29,6 +29,8 @@ $(document).ready(function(){
     });
     
     $('#reset').click(function(){
+    	$('#errormsg').html('') ;//清除错误提示
+    	$('#pgtTitleId').val('') ;
     	$('#file_upload').omFileUpload('cancel');
     	
     });
@@ -56,6 +58,14 @@ $(document).ready(function(){
 	            callback : function(json){
 	                if(json.success){
 	                	$('#errormsg').html('') ;//清除错误提示
+	                	$('#pgtTitleId').val('') ;
+	                	$('#file_upload').omFileUpload('cancel');
+	                	$.omMessageTip.show({
+			                type:'success',
+			                title:'提醒',
+			                timeout : 3000 ,
+			                content:'保存成功'
+			            });
 	                }else{
 	                    $('#errormsg').html(json.info).show();
 	                }
