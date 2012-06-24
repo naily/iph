@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    <title>电离层频高图管理</title>
+    <title>电离层参数</title>
 	<!--
 	-->
 	<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
@@ -17,7 +17,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
-	<script type="text/javascript" src="js/pgtlist.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
+	<script type="text/javascript" src="js/pamlist.js"></script>
+	
   </head>
   
   <body>
@@ -25,19 +27,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p><a href="./ht/pgt.do">高频图录入</a></p>
-    	<p>高频图管理</p>
+    	<p><a href="ht/pam.do">参数录入</a></p>
+    	<p>参数管理</p>
     </div>
-    
-    <div id="imagePreview" title="图片预览"> </div> 
-    
-    <div id="center_right" >
+    <div id="center_right">
+    	<!-- 右侧内容 -->
     	<span id="toolbar" class="om-widget-header om-corner-all">
 	        <a id="updatebut"  href="javascript:void(0)">修改</a>
-	        <a id="delbut"  href="javascript:void(0)">删除</a>
+	        <a id="del"  href="javascript:void(0)">删除</a>
     	</span>
     	
     	<table id="list0"></table>
+        
+        
+        
     </div>
     
     <jsp:include page="footer.jsp" flush="true" />

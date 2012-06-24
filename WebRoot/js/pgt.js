@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var fileName = '' ;
-	//初始化上传文件组件
+	//初始化单文件上传文件组件
 	$('#file_upload').omFileUpload({
         action : '../ht/pgtuploads.do',
         swf : 'swf/om-fileupload.swf',
@@ -25,6 +25,32 @@ $(document).ready(function(){
         	$('#errormsg').html('') ;
         },
         actionData : { 'action' :'fileupload' } ,
+        autoUpload : true  //自动上传
+    });
+    
+    //初始化多文件上传 
+    $('#file_upload_more').omFileUpload({
+        action : '../ht/pgtuploads.do',
+        swf : 'swf/om-fileupload.swf',
+        fileExt  : '*.jpg;*.bmp',
+        fileDesc : 'Image Files(*.jpg,*.bmp)' ,
+        method   : 'POST',
+        onComplete : function(ID,fileObj,response,data,event){
+            //alert('文件'+fileObj.name+'上传完毕');
+            //上传完毕才可以预览
+            var jsonData = eval("("+response+")");
+            //$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
+        },
+        onError :function(ID, fileObj, errorObj, event){
+            alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
+        },
+        onSelect:function(ID,fileObj,event){
+            //alert('你选择了文件：'+fileObj.name);
+            //选择文件后立即上传
+            //$('#errormsg2').html('') ;
+        },
+        actionData : { 'action' :'fileupload' } ,
+        multi : true ,
         autoUpload : true  //自动上传
     });
     
@@ -103,13 +129,21 @@ $(document).ready(function(){
         width :'auto'
     });
 	//预览按钮
-    $('#preview').attr('disabled' , true) ;
     $('#preview').click(function(){
     	//$('#file_upload').omFileUpload( {'actionData':{'action':'fileupload' } } );
         //$('#file_upload').omFileUpload('upload');
         $( "#imagePreview").omDialog('open');
     	
 	});
+    $('#preview').attr('disabled' , true) ;
+    
+    
+    //选项卡
+    $('#make-tab').omTabs({
+                //width : 620,
+                height : 500,
+                lazyLoad : false
+    });
 });
 
 

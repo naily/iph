@@ -45,8 +45,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="menutext"><a href="javascript:;" class="a3" id="M1">数据管理</a>
 		<div class="menu_body">
 	      <a href="ht/pgt.do" title="电离层频高图录入与管理维护">电离层频高图管理</a>
-	      <a href="#" title="电离层参数录入与管理维护">电离层参数管理</a>
-	      <a href="#" title="区域电离层特性图管理维护">区域电离层特性图</a> 
+	      <a href="ht/pam.do" title="电离层参数录入与管理维护">电离层参数管理</a>
+	      <a href="ht/sac.do" title="报表扫描图管理维护">报表扫描图管理</a> 
 	      <a href="#" title="元数据录入与管理维护">元数据管理</a>
 	    </div></div>
 	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>

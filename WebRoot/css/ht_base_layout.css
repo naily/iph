@@ -13,10 +13,11 @@
 }
 
 #center_right{
-	width: 84%;
 	float:left;
+	width: 84%;
+	overflow:hidden ;
 	border:0px solid red; 
-	
+	height: 500px;
 }
 #center{
 	border:0px solid red; 
@@ -39,4 +40,8 @@
 .p_input_wid400{
 	width:390px;
 	text-align: right;
+}
+
+.but_base{
+	height: 30px;
 }
