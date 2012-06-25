@@ -5,6 +5,7 @@ package cn.fam1452.action.ht;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,6 +19,7 @@ import net.sf.json.JsonConfig;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
@@ -144,5 +146,94 @@ public class PgtMod extends BaseMod{
 		}
 		json.put(Constant.ROWS, array) ;
 		return json ;
+	}
+	
+	@POST
+	@At("/ht/pgtdel")
+    @Ok("json")
+	public JSONObject deletePgt(@Param("..")IronoGram params){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		if(StringUtil.checkNotNull(params.getIds())){
+			String[] ids = params.getIds().split(";") ;
+			
+			List<IronoGram> igs = new ArrayList<IronoGram>() ;
+			for (String id : ids) {
+				IronoGram ig = new IronoGram();
+				ig.setGramID(id) ;
+				
+				ig = baseService.dao.fetch(ig) ;
+				
+				if(null != ig){
+					igs.add(ig) ;
+				}
+			}
+			
+			if(null != igs && igs.size() > 0 ){
+				if(1 == baseService.dao.delete(igs) ){
+					json.put(Constant.SUCCESS, true) ;
+				}else{
+					json.put(Constant.INFO, error1) ;
+				}
+			}else{
+				json.put(Constant.INFO, error2) ;
+			}
+			
+		}else{
+			json.put(Constant.INFO, error3) ;
+		}
+		
+		return json ;
+	}
+	
+	@POST
+	@At("/ht/pgtupdate")
+    @Ok("json")
+	public JSONObject updatePgt(@Param("..")IronoGram params){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		if(StringUtil.checkNotNull(params.getGramID()) && null != baseService.dao.fetch(params)){
+			int  i = baseService.dao.update(params) ;
+			json.put(Constant.SUCCESS, true ) ;
+		}else{
+			json.put(Constant.INFO, error2) ;
+		}
+		return json ;
+	}
+	
+	/**
+	 * 批量导入频高图，并从文件名解析观测站及日期
+	 * @return
+	 */
+	@POST
+	@At("/ht/pgtmulti")
+    @Ok("json")
+	public JSONObject saveMulti(@Param("..")IronoGram gram  ,HttpServletRequest request, HttpServletResponse response , ServletContext context){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return json ;
+	}
+	
+	@POST
+	@At("/ht/pgtget")
+    @Ok("json")
+    public IronoGram get(String id){
+		IronoGram ig = null ;
+		if(StringUtil.checkNotNull(id)){
+			ig = baseService.dao.fetch(IronoGram.class, id) ;
+		}
+		
+		return ig ;
 	}
 }

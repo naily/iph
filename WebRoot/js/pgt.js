@@ -30,7 +30,7 @@ $(document).ready(function(){
     
     //初始化多文件上传 
     $('#file_upload_more').omFileUpload({
-        action : '../ht/pgtuploads.do',
+        action : '../ht/pgtmulti.do',
         swf : 'swf/om-fileupload.swf',
         fileExt  : '*.jpg;*.bmp',
         fileDesc : 'Image Files(*.jpg,*.bmp)' ,

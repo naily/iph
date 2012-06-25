@@ -22,7 +22,7 @@ import org.nutz.dao.entity.annotation.Table;
 public class IronoGram {
 	
 	private String action ; //savedata  ,请求类型
-	
+	private String ids ; //很多id
 	
 	@Column
     @Name(casesensitive=false)
@@ -122,6 +122,14 @@ public class IronoGram {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 	
 	

@@ -21,4 +21,14 @@ public class BaseMod {
 	protected String getSavePath(ServletContext servletContext) {
 		return  servletContext.getRealPath("/");
 	}
+	
+	protected final String error1 = "删除失败" ; 
+	protected final String error2 = "对象不存在" ; 
+
+	protected final String error3 = "ID为空" ; 
+	
+	protected final String error4 = "文件已经存在" ; 
+	protected final String error5 = "文件保存失败" ; 
+	protected final String error6 = "文件名为空" ; 
+	
 }
