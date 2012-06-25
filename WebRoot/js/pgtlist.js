@@ -6,10 +6,10 @@ $(document).ready(function(){
          width : '99.8%',
          method : 'POST' ,
          limit : 5, //分页显示，每页显示8条
-         //singleSelect : false, //出现checkbox列，可以选择同时多行记录
+         singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID', name:'gramID' ,   width:100},
                          {header:'频高图标题',name:'gramTitle',  width:200  },
-                         {header:'观测站',name:'stationID'  } ,
+                         {header:'观测站',name:'stationName'  } ,
                          {header:'类型',name:'type', width:100,renderer:function(value,rowData,rowIndex){ 
                          	if('1' == value){
 	                         	return '<b> 手动 </b>'; 
@@ -29,6 +29,8 @@ $(document).ready(function(){
          ],
          dataSource : 'ht/pgtlist.do' 
      });
+     
+     
 });
 
 

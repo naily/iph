@@ -120,12 +120,17 @@ public class PgtMod extends BaseMod{
 		JSONArray array = new JSONArray();
 		
 		for(IronoGram g : list ){
-			if(null != g.getStation()){
-				System.out.println(g.getStation().getName());
-			}else{
-				log.info("station is null ") ;
-			}
 			JSONObject item = new JSONObject();
+			
+			Station sa = new Station();
+			sa.setId(g.getStationID()) ;
+			sa = baseService.dao.fetch(sa) ;
+			if(null != sa){
+				item.put("stationName", sa.getName()) ;
+			}else{
+				item.put("stationName", "无") ;
+			}
+			
 			item.put("gramID", g.getGramID()) ;
 			item.put("gramTitle", g.getGramTitle()) ;
 			item.put("stationID", g.getStationID()) ;
