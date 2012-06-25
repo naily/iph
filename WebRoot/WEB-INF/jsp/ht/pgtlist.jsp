@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tr >
 			    <td width="20" align="left" height="40">&nbsp;</td>
 			    <td width="119" height="40" align="left"> 频高图文件：</td>
-			    <td><label> </label></td>
+			    <td><label id="pgtfile"> </label></td>
 			    </tr>
 			  <tr>
 			    <td align="left">&nbsp;</td>
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tr>
 			    <td height="60" colspan="3" align="center">
 			      <input id="save"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
-				  <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>
+				 <!-- <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>  -->
 			    </td>
 			  </tr>
 		</table>

@@ -35,7 +35,7 @@ $(document).ready(function(){
      	
      	onClick : function(){
      		var ss = $('#list0').omGrid('getSelections',true);
-     		if(dels.length < 1 ){
+     		if(ss.length < 1 ){
 			    at({cont:'请选择删除的记录！' , type : 'error'});
 			    return;
 			}else{
@@ -72,6 +72,7 @@ $(document).ready(function(){
      $( "#tab1").omDialog({
             autoOpen: false,
             resizable: false ,
+            width:'auto' ,
             title:'修改频高图信息'
      });
      
@@ -83,12 +84,20 @@ $(document).ready(function(){
         optionField :'name' ,
         value: 'WHA'
     }) ;
+    //频高徒类型下拉框
+    $('#comboPgtType').omCombo({
+        dataSource:[{text:'手动',value:'1'},{text:'胶版',value:'2'},{text:'数字',value:'3'},{text:'打印',value:'4'}] ,
+        valueField : 'value' ,
+        optionField :'text',
+        value:'1'
+        
+    }) ;
 
      $('#updatebut').omButton({
      	
      	onClick : function(){
      		var ss = $('#list0').omGrid('getSelections',true);
-     		if(dels.length != 1 ){
+     		if(ss.length != 1 ){
 			    at({cont:'请选择一条记录修改！' , type : 'error'});
 			    return;
 			}else{
@@ -102,9 +111,13 @@ $(document).ready(function(){
 	                            }else{
 	                               	//at({cont: json.info , type : 'error'});
 	                            }
-	                            alert(json.gramID);
+                                var cd = json.createDate ;
+                                $('#actionDateId').val( cd.substring(0,11) );
+                                $('#pgtfile').html(json.gramFileName);
 	                            $('#comboStation').omCombo('value', json.stationID);
-	                            $('#actionDateId').omCalendar('setDate', new Date(json.createDate));
+                                $('#comboPgtType').omCombo('value', json.type);
+	                            //$('#actionDateId').omCalendar('setDate', new Date() );
+                                //parseInt(cd.substring(0,4)),parseInt(cd.substring(5,7)),parseInt(cd.substring(8,10))
 	                            $('#pgtTitleId').val(json.gramTitle) ;
 	                            $( "#tab1").omDialog('open');
 	                        }
