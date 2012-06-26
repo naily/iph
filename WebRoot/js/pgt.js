@@ -36,10 +36,16 @@ $(document).ready(function(){
         fileDesc : 'Image Files(*.jpg,*.bmp)' ,
         method   : 'POST',
         onComplete : function(ID,fileObj,response,data,event){
-            //alert('文件'+fileObj.name+'上传完毕');
             //上传完毕才可以预览
             var jsonData = eval("("+response+")");
             //$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
+            if(jsonData.success ){
+	            alert('文件'+fileObj.name+'上传完毕');
+                
+            }else{
+	            alert(jsonData.info);
+                
+            }
         },
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);

@@ -172,7 +172,7 @@ public class PgtMod extends BaseMod{
 			}
 			
 			if(null != igs && igs.size() > 0 ){
-				if(1 == baseService.dao.delete(igs) ){
+				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
 				}else{
 					json.put(Constant.INFO, error1) ;
@@ -220,44 +220,51 @@ public class PgtMod extends BaseMod{
 		
 		try {
 			String filepath = fusu.defaultProcessFileUpload(request , false); //存入实际目录
-			log.info(filepath) ;
-			int i = filepath.lastIndexOf("/") ;
-			//文件名
-			String fn = filepath.substring(i+1)  ; 
-			//去掉扩展名
-			String fno = filepath.substring(i+1 , filepath.lastIndexOf("."))  ; 
+			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
+				log.info(filepath) ;
+				int i = filepath.lastIndexOf("/") ;
+				//文件名
+				String fn = filepath.substring(i+1) ; 
+				//去掉扩展名
+				String fno = filepath.substring(i+1 , filepath.lastIndexOf("."))  ; 
+				
+				//解析出观测站
+				String st = filepath.substring(i+1 , i+3)  ; 
+				//解析出日期
+				String da = filepath.substring(i+3 , i+11)  ; 
+				
+				IronoGram ig = new IronoGram() ;
+				ig.setGramID(fno) ;
+				ig.setGramFileName(fn) ;
+				ig.setGramPath(filepath) ;
+				ig.setGramTitle(fn) ;
+				
+				ig.setType("1") ;
+				ig.setCreateDate( DateUtil.convertStringToDate(da, DateUtil.pattern3) ) ;
+				ig.setStationID(st) ;
+				json.put("filename", fn) ;
+				
+				if(baseService.dao.fetch(ig) == null){
+					baseService.dao.insert(ig) ;
+					json.put(Constant.SUCCESS, true) ;
+				}else{
+					json.put(Constant.INFO, "该频高图文件已经存在") ;
+				}
+				
+				//fusu.clearTmpDirectory() ; //清空临时目录
+			}else{
+				json.put(Constant.INFO, "文件名长度小于10,上传失败" ) ;
+			}
 			
-			//观测站
-			String st = filepath.substring(i+1 , i+3)  ; 
-			String da = filepath.substring(i+1 , i+3)  ; 
-			
-			IronoGram ig = new IronoGram() ;
-			ig.setGramID(fno) ;
-			ig.setGramFileName(fn) ;
-			ig.setGramPath(filepath) ;
-			ig.setGramTitle(fn) ;
-			
-			ig.setType("1") ;
-			//ig.setCreateDate() ;DateUtil.convertStringToDate(s, patt)
-			ig.setStationID(st) ;
-			
-			System.out.println(fn);
-			System.out.println(fno);
-			json.put("imgpath", filepath) ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			json.put(Constant.INFO, e.getLocalizedMessage() ) ;
+		}finally{
+			
+			return json ;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		return json ;
 	}
 	
 	@POST
