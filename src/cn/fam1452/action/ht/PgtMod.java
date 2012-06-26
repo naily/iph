@@ -68,7 +68,8 @@ public class PgtMod extends BaseMod{
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		try {
-			if("savedata".equals(gram.getAction())){//把临时目录中的对应的文件转存，并在数据库中保存一条记录
+			if("savedata".equals(gram.getAction())){
+				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(gram.getGramFileName())){
 					if(fusu.cloneTmpFile2Other(gram.getGramFileName(), this.getSavePath(context) + fusu.UPLOAD_PIC_PATH) ){
 						gram.setGramPath(fusu.UPLOAD_PIC_PATH + gram.getGramFileName()); 
@@ -93,7 +94,7 @@ public class PgtMod extends BaseMod{
 			}else{ //仅仅把图片存储到临时目录
 				String file = fusu.defaultProcessFileUpload(request , true) ;
 				
-				log.info(file) ;
+				//log.info(file) ;
 				json.put("imgpath", file) ;
 				json.put(Constant.SUCCESS, true) ;
 			}
@@ -213,6 +214,40 @@ public class PgtMod extends BaseMod{
 	public JSONObject saveMulti(@Param("..")IronoGram gram  ,HttpServletRequest request, HttpServletResponse response , ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
+		try {
+			String filepath = fusu.defaultProcessFileUpload(request , false); //存入实际目录
+			log.info(filepath) ;
+			int i = filepath.lastIndexOf("/") ;
+			//文件名
+			String fn = filepath.substring(i+1)  ; 
+			//去掉扩展名
+			String fno = filepath.substring(i+1 , filepath.lastIndexOf("."))  ; 
+			
+			//观测站
+			String st = filepath.substring(i+1 , i+3)  ; 
+			String da = filepath.substring(i+1 , i+3)  ; 
+			
+			IronoGram ig = new IronoGram() ;
+			ig.setGramID(fno) ;
+			ig.setGramFileName(fn) ;
+			ig.setGramPath(filepath) ;
+			ig.setGramTitle(fn) ;
+			
+			ig.setType("1") ;
+			//ig.setCreateDate() ;DateUtil.convertStringToDate(s, patt)
+			ig.setStationID(st) ;
+			
+			System.out.println(fn);
+			System.out.println(fno);
+			json.put("imgpath", filepath) ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		

@@ -41,7 +41,7 @@ $(document).ready(function(){
 			}else{
 				var arry = new Array( ) ;
 				for(var i=0 ; i<ss.length ; i++){
-					array.push(ss[i].gramID );
+					arry.push(ss[i].gramID );
 				}
 				
 				var delt = {
@@ -50,6 +50,12 @@ $(document).ready(function(){
 	                        callback : function(json){
 	                            if(json.success){
 	                                $('#list0').omGrid('reload');
+	                                $.omMessageTip.show({
+						                type:'success',
+						                title:'提醒',
+						                timeout : 3000 ,
+						                content:'删除成功'
+						            });
 	                            }else{
 	                                at({cont: json.info , type : 'error'});
 	                            }
@@ -113,6 +119,7 @@ $(document).ready(function(){
 	                            }
                                 var cd = json.createDate ;
                                 $('#actionDateId').val( cd.substring(0,11) );
+                                
                                 $('#pgtfile').html(json.gramFileName);
 	                            $('#comboStation').omCombo('value', json.stationID);
                                 $('#comboPgtType').omCombo('value', json.type);
@@ -120,12 +127,42 @@ $(document).ready(function(){
                                 //parseInt(cd.substring(0,4)),parseInt(cd.substring(5,7)),parseInt(cd.substring(8,10))
 	                            $('#pgtTitleId').val(json.gramTitle) ;
 	                            $( "#tab1").omDialog('open');
+	                            
+	                            $('#updatesavebut').omButton({
+							     	onClick : function(){
+							     		json.createDate = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd');
+			                            json.stationID = $('#comboStation').omCombo('value');
+			                            json.type = $('#comboPgtType').omCombo('value');
+			                            json.gramTitle = $('#pgtTitleId').val();
+			                            
+							     		var updatepgt = {
+								                        url : 'ht/pgtupdate.do',
+								                        params : json  ,
+								                        callback : function(json){
+								                            if(json.success){
+								                                $("#tab1").omDialog('close');
+								                                $('#list0').omGrid('reload');
+								                                $.omMessageTip.show({
+													                type:'success',
+													                title:'提醒',
+													                timeout : 3000 ,
+													                content:'修改成功'
+													            });
+								                            }else{
+								                               	at({cont: json.info , type : 'error'});
+								                            }
+								                        }
+							     		}
+							     		ajaxpost(updatepgt);
+							     	}
+							     })
 	                        }
                 }
                 ajaxpost(getpgt);
 			}
      	}
      });
+     
      
 });
 

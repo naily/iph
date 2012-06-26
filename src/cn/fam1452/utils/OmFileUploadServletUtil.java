@@ -163,14 +163,16 @@ public class OmFileUploadServletUtil  extends BaseMod{
 						String fileName = item.getName() ;
 						if(temp){
 							savePath = getSaveTempPath(fileName);
+							fileUrl = UPLOAD_PIC_PATH_TMP + fileName;
 						}else{
 							savePath = getSavePath(fileName);
+							fileUrl = UPLOAD_PIC_PATH + fileName;
 						}
 						
-						if (i > 0) {
+						/*if (i > 0) {
 							fileUrl += ",";
 						}
-						fileUrl += getFileUrl(fileName);
+						fileUrl += getFileUrl(fileName);*/
 						
 						bos = new BufferedOutputStream(new FileOutputStream(
 								new File(savePath)));

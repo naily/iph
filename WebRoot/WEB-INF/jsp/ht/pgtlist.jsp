@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </tr>
 			  <tr>
 			    <td height="60" colspan="3" align="center">
-			      <input id="save"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
+			      <input id="updatesavebut"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
 				 <!-- <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>  -->
 			    </td>
 			  </tr>

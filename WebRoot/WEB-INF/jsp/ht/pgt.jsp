@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="pageleft">
     	<!-- 左侧菜单 -->
     	<p>高频图录入</p>
-    	<p><a href="./ht/pgtlist.do">高频图管理</a></p>
+    	<p><a href="./ht/pgtlist.do" class="a3">高频图管理</a></p>
     </div>
     
     <div id="imagePreview" title="图片预览"> </div> 
@@ -42,7 +42,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	<tr>
 	        	<td> 
 		        	<div style="height:260px;overflow-y:scroll; border: red solid 0px; ">
-		        		<div style="width:100px; float:left;  margin-top: 10px;">选择频高图:</div><input type="file" name="file_upload_more" id="file_upload_more" /> 
+		        		<div style="width:100px; float:left;  margin-top: 10px;">选择频高图:</div>
+		        		<input type="file" name="file_upload_more" id="file_upload_more" /> 
 		        	</div>
 	        	</td>
 	        	</tr>

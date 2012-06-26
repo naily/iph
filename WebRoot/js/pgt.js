@@ -24,7 +24,7 @@ $(document).ready(function(){
         	$('#preview').attr('disabled' , false) ;
         	$('#errormsg').html('') ;
         },
-        actionData : { 'action' :'fileupload' } ,
+        //actionData : { 'action' :'fileupload' } ,
         autoUpload : true  //自动上传
     });
     
@@ -49,7 +49,7 @@ $(document).ready(function(){
             //选择文件后立即上传
             //$('#errormsg2').html('') ;
         },
-        actionData : { 'action' :'fileupload' } ,
+        //actionData : { 'action' :'fileupload' } ,
         multi : true ,
         autoUpload : true  //自动上传
     });

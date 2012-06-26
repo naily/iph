@@ -55,6 +55,8 @@ public class UserMod  extends BaseMod{
 		//log.info(lang) ;
 		Mvcs.setLocaleName(session, lang) ;
 		Mvcs.setLocale(session , lang) ;
+		
+		Mvcs.setLocalizationKey(lang) ;
 		return  ;
 	}
 	
