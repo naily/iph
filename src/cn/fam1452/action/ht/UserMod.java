@@ -53,12 +53,16 @@ public class UserMod  extends BaseMod{
 	@Ok("redirect:/ht/index.do") 
     public void lang(String lang , HttpSession session ){
 		//log.info(lang) ;
-		Mvcs.setLocaleName(session, lang) ;
-		Mvcs.setLocale(session , lang) ;
+		//Mvcs.setLocaleName(session, lang) ;
+		//Mvcs.setLocale(session , lang) ;
 		
 		Mvcs.setLocalizationKey(lang) ;
 		return  ;
 	}
+	
+	@At("/ht/loadhd")
+	@Ok("jsp:jsp.ht.header") 
+    public void loadHead(){  }
 	
 	public void loginCode(){}
 	/**

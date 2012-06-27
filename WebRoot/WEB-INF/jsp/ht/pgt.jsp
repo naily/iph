@@ -21,6 +21,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<!--  
+  	<iframe frameborder=0 src="../ht/loadhd.do" width="100%" height="100%"></iframe> 
+  	-->
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="pageleft">

@@ -25,6 +25,7 @@ $(document).ready(function(){
         	$('#errormsg').html('') ;
         },
         //actionData : { 'action' :'fileupload' } ,
+        removeCompleted : true ,
         autoUpload : true  //自动上传
     });
     
@@ -57,6 +58,7 @@ $(document).ready(function(){
         },
         //actionData : { 'action' :'fileupload' } ,
         multi : true ,
+        removeCompleted : true ,
         autoUpload : true  //自动上传
     });
     
