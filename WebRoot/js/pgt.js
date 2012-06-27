@@ -14,6 +14,11 @@ $(document).ready(function(){
         	$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
         	
         	fileName = fileObj.name ;
+            if(fileName && fileName.length >= 10){
+                $('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
+                $('#pgtTitleId').val( fileName ) ;
+                $('#actionDateId').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(2,10) , "yymmdd") , "yy-mm-dd") );  
+            }
         },
         onError :function(ID, fileObj, errorObj, event){
         	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
@@ -29,6 +34,13 @@ $(document).ready(function(){
         autoUpload : true  //自动上传
     });
     
+    var multiinfo = {
+        ok : 0 , //成功
+        err2 :0 ,//文件已存在
+        err3 :0 ,//文件名无法解析
+        err4 :0 //程序异常
+    }
+    var tmp ;
     //初始化多文件上传 
     $('#file_upload_more').omFileUpload({
         action : '../ht/pgtmulti.do',
@@ -41,12 +53,23 @@ $(document).ready(function(){
             var jsonData = eval("("+response+")");
             //$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
             if(jsonData.success ){
-	            alert('文件'+fileObj.name+'上传完毕');
-                
+	            //alert('文件'+fileObj.name+'上传完毕');
+                tmp.ok += 1 ; 
             }else{
-	            alert(jsonData.info);
-                
+	            //alert(jsonData.info);
+                if(jsonData.error ==2){
+                    tmp.err2 += 1 ;
+                }
+                if(jsonData.error ==3){
+                    tmp.err3 += 1 ;
+                }
+                if(jsonData.error ==4){
+                    tmp.err4 += 1 ;
+                }
             }
+            
+           var s = "提交文件：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4); 
+           $('#msgtip').html(s) ;
         },
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
@@ -54,7 +77,8 @@ $(document).ready(function(){
         onSelect:function(ID,fileObj,event){
             //alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
-            //$('#errormsg2').html('') ;
+            $('#msgtip').html('') ;
+            tmp = new Object() ;
         },
         //actionData : { 'action' :'fileupload' } ,
         multi : true ,

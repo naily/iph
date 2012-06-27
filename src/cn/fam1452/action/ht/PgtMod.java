@@ -249,17 +249,20 @@ public class PgtMod extends BaseMod{
 					json.put(Constant.SUCCESS, true) ;
 				}else{
 					json.put(Constant.INFO, "该频高图文件已经存在") ;
+					json.put("error", 2) ;
 				}
 				
 				//fusu.clearTmpDirectory() ; //清空临时目录
 			}else{
 				json.put(Constant.INFO, "文件名长度小于10,上传失败" ) ;
+				json.put("error", 3) ;
 			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json.put(Constant.INFO, e.getLocalizedMessage() ) ;
+			json.put("error", 4) ;
 		}finally{
 			
 			return json ;
