@@ -221,7 +221,7 @@ public class PgtMod extends BaseMod{
 		try {
 			String filepath = fusu.defaultProcessFileUpload(request , false); //存入实际目录
 			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
-				log.info(filepath) ;
+				//log.info(filepath) ;
 				int i = filepath.lastIndexOf("/") ;
 				//文件名
 				String fn = filepath.substring(i+1) ; 

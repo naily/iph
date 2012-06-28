@@ -34,11 +34,11 @@ $(document).ready(function(){
         autoUpload : true  //自动上传
     });
     
-    var multiinfo = {
-        ok : 0 , //成功
-        err2 :0 ,//文件已存在
-        err3 :0 ,//文件名无法解析
-        err4 :0 //程序异常
+    function multiinfo() {
+        this.ok = 0; //成功
+        this.err2 = 0 ;//文件已存在
+        this.err3 = 0 ;//文件名无法解析
+        this.err4 = 0 ; //程序异常
     }
     var tmp ;
     //初始化多文件上传 
@@ -68,9 +68,12 @@ $(document).ready(function(){
                 }
             }
             
-           var s = "提交文件：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4); 
-           $('#msgtip').html(s) ;
         },
+        onAllComplete:function(data,event){
+           var s = "<p>提交文件总数：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) + ', 成功:'+tmp.ok +', 失败：'+(tmp.err2 +tmp.err3 +tmp.err4) 
+           + '</p><p>失败原因：文件已存在['+tmp.err2+ '], 文件名无法解析[' + tmp.err3 +'], 程序异常['+tmp.err4 + ']</p>'; 
+           $('#msgtip').html(s) ;
+        } ,
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
         },
@@ -78,7 +81,7 @@ $(document).ready(function(){
             //alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
             $('#msgtip').html('') ;
-            tmp = new Object() ;
+            tmp = new multiinfo() ;
         },
         //actionData : { 'action' :'fileupload' } ,
         multi : true ,
