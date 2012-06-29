@@ -213,6 +213,7 @@ public class DateUtil {
 	public static final String pattern1 = "yyyy-MM-dd HH:mm:ss";
 	public static final String pattern2 = "yyyy-MM-dd HH:mm";
 	public static final String pattern3 = "yyyyMMdd";
+	public static final String pattern4 = "yyyyMMddHHmm";
 	
 
 	public static long getCurrentTimeMillis(){

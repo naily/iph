@@ -12,6 +12,9 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_SCANPIC")
 public class Scanpic {
 	
+	private String action ; //savedata  ,请求类型
+	private String ids ; //很多id
+	
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=25)
@@ -92,6 +95,22 @@ public class Scanpic {
 
 	public void setStation(Station station) {
 		this.station = station;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 	
 	

@@ -11,6 +11,12 @@ function ajaxpost(config){
 		success: config.callback
 	}); 
 }
+/**
+ * 一些全局变量
+ * @param {} s
+ * @return {Boolean}
+ */
+var pageslimit = 10 ; //grid每页显示条数
 
 function notEmpty(s){
     if(''!= s && null != s && undefined != s){

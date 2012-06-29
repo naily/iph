@@ -5,7 +5,7 @@ $(document).ready(function(){
          //height : 250,
          width : '99.8%',
          method : 'POST' ,
-         limit : 5, //分页显示，每页显示8条
+         limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID', name:'gramID' ,   width:100},
                          {header:'频高图标题',name:'gramTitle',  width:200  },
@@ -132,7 +132,6 @@ $(document).ready(function(){
 							     	onClick : function(){
 							     		json.createDate = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd');
 			                            json.stationID = $('#comboStation').omCombo('value');
-			                            json.type = $('#comboPgtType').omCombo('value');
 			                            json.gramTitle = $('#pgtTitleId').val();
 			                            
 							     		var updatepgt = {

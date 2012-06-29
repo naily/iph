@@ -15,42 +15,93 @@ $(document).ready(function(){
     //观测日期
     $('#actionDate').omCalendar();
     
-    $('#ip1').omNumberField();
-	$('#ip2').omNumberField();
-	$('#ip3').omNumberField();
-	$('#ip4').omNumberField();
-	$('#ip5').omNumberField();
-	$('#ip6').omNumberField();
-	$('#ip7').omNumberField();
-	$('#ip8').omNumberField();
-	$('#ip9').omNumberField();
-	$('#ip10').omNumberField();
     
-    //批量导入文件
+    function multiinfo() {
+        this.ok = 0; //成功
+        this.err2 = 0 ;//文件已存在
+        this.err3 = 0 ;//文件名无法解析
+        this.err4 = 0 ; //程序异常
+    }
+    var tmp ;
+    //初始化多文件上传 
     $('#file_upload_more').omFileUpload({
-        action : '../ht/zz.do',
+        action : '../ht/sacmulti.do',
         swf : 'swf/om-fileupload.swf',
-        fileExt  : '*.mdb',
-        fileDesc : 'Microsoft Access Database(*.mdb)' ,
+        fileExt  : '*.jpg;*.bmp',
+        fileDesc : 'Image Files(*.jpg,*.bmp)' ,
         method   : 'POST',
         onComplete : function(ID,fileObj,response,data,event){
-            //alert('文件'+fileObj.name+'上传完毕');
             //上传完毕才可以预览
             var jsonData = eval("("+response+")");
+            //$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
+            if(jsonData.success ){
+	            //alert('文件'+fileObj.name+'上传完毕');
+                tmp.ok += 1 ; 
+            }else{
+	            //alert(jsonData.info);
+                if(jsonData.error ==2){
+                    tmp.err2 += 1 ;
+                }
+                if(jsonData.error ==3){
+                    tmp.err3 += 1 ;
+                }
+                if(jsonData.error ==4){
+                    tmp.err4 += 1 ;
+                }
+            }
+            
         },
+        onAllComplete:function(data,event){
+           var s = "<p>提交文件总数：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) + ', 成功:'+tmp.ok +', 失败：'+(tmp.err2 +tmp.err3 +tmp.err4) 
+           + '</p><p>失败原因：文件已存在['+tmp.err2+ '], 文件名无法解析[' + tmp.err3 +'], 程序异常['+tmp.err4 + ']</p>'; 
+           $('#errormsg2').html(s) ;
+        } ,
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
         },
         onSelect:function(ID,fileObj,event){
             //alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
+            $('#errormsg2').html('') ;
+            tmp = new multiinfo() ;
         },
-        actionData : { 'action' :'fileupload' } ,
+        //actionData : { 'action' :'fileupload' } ,
         multi : true ,
+        removeCompleted : true ,
         autoUpload : true  //自动上传
     });
     
-    
+    $('#file_upload').omFileUpload({
+        action : '../ht/sacsingsave.do',
+        swf : 'swf/om-fileupload.swf',
+	  	fileExt  : '*.jpg;*.bmp',
+	  	fileDesc : 'Image Files(*.jpg,*.bmp)' ,
+	  	method   : 'POST',
+        onComplete : function(ID,fileObj,response,data,event){
+            //alert('文件'+fileObj.name+'上传完毕');
+        	var jsonData = eval("("+response+")");
+        	$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
+        	
+        	fileName = fileObj.name ;
+            if(fileName && fileName.length >= 10){
+                $('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
+                $('#sacTitleId').val( fileName ) ;
+                $('#actionDateId').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(2,10) , "yymmdd") , "yy-mm-dd") );  
+            }
+        },
+        onError :function(ID, fileObj, errorObj, event){
+        	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
+        },
+        onSelect:function(ID,fileObj,event){
+        	//alert('你选择了文件：'+fileObj.name);
+            //选择文件后立即上传
+        	$('#preview').attr('disabled' , false) ;
+        	$('#errormsg').html('') ;
+        },
+        //actionData : { 'action' :'fileupload' } ,
+        removeCompleted : true ,
+        autoUpload : true  //自动上传
+    });
     
     
     
