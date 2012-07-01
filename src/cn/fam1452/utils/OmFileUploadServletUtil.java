@@ -94,6 +94,9 @@ public class OmFileUploadServletUtil  extends BaseMod{
 				File f = new File(otherDir + tmpFileName) ;
 				if(!f.exists()){
 					st = tf.renameTo(f) ;
+				}else{
+					st = true ; //文件已经存在
+					
 				}
 			}
 		}

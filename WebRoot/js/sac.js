@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var fileName = '' ;
     //选项卡
     $('#make-tab').omTabs({
                 //width : 620,
@@ -84,9 +85,9 @@ $(document).ready(function(){
         	
         	fileName = fileObj.name ;
             if(fileName && fileName.length >= 10){
-                $('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
+                $('#comboStation').omCombo('value', fileName.substring(0,5) )  ;
                 $('#sacTitleId').val( fileName ) ;
-                $('#actionDateId').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(2,10) , "yymmdd") , "yy-mm-dd") );  
+                $('#actionDate').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(6,18) , "yymmddHi") , "yy-mm-dd H:i") );  
             }
         },
         onError :function(ID, fileObj, errorObj, event){
@@ -103,11 +104,68 @@ $(document).ready(function(){
         autoUpload : true  //自动上传
     });
     
+    //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
+    //预览按钮
+    $('#preview').click(function(){
+        $( "#imagePreview").omDialog('open');
+        
+    });
+    $('#preview').attr('disabled' , true) ;
+    
+    //保存表单
+    $('#savebut').click(function(){
+        if(fileName == ''){
+            $('#errormsg').html('请选择报表扫描图文件').show();
+            return false ;
+        }else{
+            
+            if( !$('#sacTitleId').val()){
+                $('#errormsg').html('请输入报表扫描图标题').show();
+                return false ;
+            }
+            
+            var save = {
+                url :'ht/sacsingsave.do' ,
+                params :{'stationID' :$('#comboStation').omCombo('value') ,
+                         'scanPicTitle' : $('#sacTitleId').val() ,
+                         'createDate': $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd H:i') ,
+                         'scanPicFileName':fileName ,
+                         'action'      : 'savedata'},
+                callback : function(json){
+                    if(json.success){
+                        $('#errormsg').html('') ;//清除错误提示
+                        $('#pgtTitleId').val('') ;
+                        $('#file_upload').omFileUpload('cancel');
+                        $.omMessageTip.show({
+                            type:'success',
+                            title:'提醒',
+                            timeout : 3000 ,
+                            content:'保存成功'
+                        });
+                    }else{
+                        $('#errormsg').html(json.info).show();
+                    }
+                    
+                }
+            }
+            
+            ajaxpost(save);
+        }
+        
+    });
     
     
-    
-    
-    
+    $('#clearbut').click(function(){
+        $('#errormsg').html('') ;//清除错误提示
+        $('#pgtTitleId').val('') ;
+        $('#file_upload').omFileUpload('cancel');
+        
+    });
     
     
     

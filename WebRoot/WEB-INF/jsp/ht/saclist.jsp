@@ -41,9 +41,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	
     	<table id="list0"></table>
         
-        
-        
     </div>
+    
+    <div id="tab1">
+        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
+			  <tr>
+			    <td height="10" colspan="3" align="center">&nbsp; </td>
+			    </tr>
+			  <tr >
+			    <td width="20" align="left" height="40">&nbsp;</td>
+			    <td width="119" height="40" align="right"> 扫描图文件名：</td>
+			    <td><label id="pgtfile"> </label></td>
+			    </tr>
+			  <tr>
+			    <td align="left">&nbsp;</td>
+			    <td height="40" align="right">观测站：</td>
+			    <td><label><input id = "comboStation" class="boxinput3"/>
+			    </label></td>
+			    </tr>
+			  <tr>
+			    <td align="left">&nbsp;</td>
+			    <td height="40" align="right">观测日期：</td>
+			    <td><input id="actionDateId" type="text" name="textfield4" class="boxinput3" /></td>
+			    </tr>
+			  <tr>
+			    <td align="left">&nbsp;</td>
+			    <td height="42" align="right">标题：</td>
+			    <td><input id="pgtTitleId" type="text" name="textfield2" class="boxinput3" /></td>
+			    </tr>
+			  <tr>
+			    <td align="left">&nbsp;</td>
+			    <td colspan="2"><span id='errormsg' class="errorMessages"> </span>
+			    </td>
+		     </tr>
+			  <tr>
+			    <td height="60" colspan="3" align="center">
+			      <input id="updatesavebut"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
+				 <!-- <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>  -->
+			    </td>
+			  </tr>
+		</table>
+        </div>
     
     <jsp:include page="footer.jsp" flush="true" />
   </body>

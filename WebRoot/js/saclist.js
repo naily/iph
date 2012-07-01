@@ -3,7 +3,7 @@ $(document).ready(function(){
          width : '99.8%',
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
-         singleSelect : true, //出现checkbox列，可以选择同时多行记录
+         singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID', name:'ID' ,   width:160},
                          {header:'文件标题',name:'Title',  width:200  },
                          {header:'观测站',name:'stationName'  } ,
@@ -61,8 +61,6 @@ $(document).ready(function(){
             			{label:"修改",
             		     id:"button2" , 
             	 		 onClick:function(){
-            	 		 		alert('你点击了新增按钮！')
-            	 		 		
 					     		var ss = $('#list0').omGrid('getSelections',true);
 					     		if(ss.length != 1 ){
 								    at({cont:'请选择一条记录修改！' , type : 'error'});
@@ -81,20 +79,16 @@ $(document).ready(function(){
 					                                var cd = json.createDate ;
 					                                $('#actionDateId').val( cd.substring(0,11) );
 					                                
-					                                $('#pgtfile').html(json.gramFileName);
+					                                $('#pgtfile').html(json.scanPicFileName);
 						                            $('#comboStation').omCombo('value', json.stationID);
-					                                $('#comboPgtType').omCombo('value', json.type);
-						                            //$('#actionDateId').omCalendar('setDate', new Date() );
-					                                //parseInt(cd.substring(0,4)),parseInt(cd.substring(5,7)),parseInt(cd.substring(8,10))
-						                            $('#pgtTitleId').val(json.gramTitle) ;
+						                            $('#pgtTitleId').val(json.scanPicTitle) ;
 						                            $( "#tab1").omDialog('open');
 						                            
 						                            $('#updatesavebut').omButton({
 												     	onClick : function(){
 												     		json.createDate = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd');
 								                            json.stationID = $('#comboStation').omCombo('value');
-								                            json.type = $('#comboPgtType').omCombo('value');
-								                            json.gramTitle = $('#pgtTitleId').val();
+								                            json.scanPicTitle = $('#pgtTitleId').val();
 								                            
 												     		var updatepgt = {
 													                        url : 'ht/sacupdate.do',
@@ -127,9 +121,21 @@ $(document).ready(function(){
 
             });
 
+    $( "#tab1").omDialog({
+            autoOpen: false,
+            resizable: false ,
+            width:'auto' ,
+            title:'修改报表扫描图信息'
+     });
     
-    
-    
+     $('#actionDateId').omCalendar();
+     //观测站下拉框
+     $('#comboStation').omCombo({
+        dataSource:'ht/stationlistall.do' ,
+        valueField : 'id' ,
+        optionField :'name' ,
+        value: 'WHA'
+    }) ;
     
     
     

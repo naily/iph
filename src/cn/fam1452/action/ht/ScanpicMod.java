@@ -175,7 +175,7 @@ public class ScanpicMod extends BaseMod{
 	@POST
 	@At("/ht/sacdel")
     @Ok("json")
-	public JSONObject deletePgt(@Param("..")Scanpic params){
+	public JSONObject deleteScanpic(@Param("..")Scanpic params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		

@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    </tr>
 			  <tr >
 			    <td width="20" align="left" height="40">&nbsp;</td>
-			    <td width="119" height="40" align="left"> 频高图文件：</td>
+			    <td width="119" height="40" align="left"> 频高图文件名：</td>
 			    <td><label id="pgtfile"> </label></td>
 			    </tr>
 			  <tr>
