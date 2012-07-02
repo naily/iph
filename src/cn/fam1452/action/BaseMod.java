@@ -31,4 +31,6 @@ public class BaseMod {
 	protected final String error5 = "文件保存失败" ; 
 	protected final String error6 = "文件名为空" ; 
 	
+	protected final String error7 = "记录已经存在" ;
+	
 }

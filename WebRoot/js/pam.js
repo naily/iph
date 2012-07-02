@@ -49,7 +49,50 @@ $(document).ready(function(){
         autoUpload : true  //自动上传
     });
     
-    
+    $('#savebut').click(function(){
+    	var st = $('#comboStation').omCombo('value') ;
+    	var ad = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd') ;
+    	var ip1 = $('#ip1').val();
+    	var ip2 = $('#ip2').val();
+    	var ip3 = $('#ip3').val();
+    	var ip4 = $('#ip4').val();
+    	var ip5 = $('#ip5').val();
+    	var ip6 = $('#ip6').val();
+    	var ip7 = $('#ip7').val();
+    	var ip8 = $('#ip8').val();
+    	var ip9 = $('#ip9').val();
+    	var ip10 = $('#ip10').val();
+    	
+    	var data = {
+    		url : 'ht/pamsave.do' ,
+    		params : {'stationID':st, 'createDate': ad,
+    				  'foF2':ip1, 
+    				  'h1F2':ip2,
+    				  'foF1':ip3,
+    				  'h1F1':ip4,
+    				  'hlF':ip5,
+    				  'hpF':ip6,
+    				  'foE':ip7,
+    				  'hlE':ip8,
+    				  'foEs':ip9,
+    				  'hlEs':ip10 } ,
+    		callback : function(json){
+    			if(json.success){
+    				
+    				$.omMessageTip.show({
+			                type:'success',
+			                title:'提醒',
+			                timeout : 3000 ,
+			                content:'保存成功'
+			        });
+    			}else{
+    				$('#errormsg').html(json.info).show();
+    			}
+    		}
+    	}
+    	
+    	
+    }) ;
     
     
     

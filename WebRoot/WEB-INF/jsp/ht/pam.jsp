@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="pageleft">
     	<!-- 左侧菜单 -->
     	<p>参数录入</p>
-    	<p><a href="ht/pamlist.do">参数管理</a></p>
+    	<p><a href="ht/pamlist.do" class="a3">参数管理</a></p>
     </div>
     <div id="center_right">
     	<!-- 右侧内容 -->
@@ -49,43 +49,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td align="right">&nbsp;foF2:</td>
-                <td>&nbsp;<input id="ip1" type="text" name="textfield2" class="boxinput3" />(兆周/秒)</td>
+                <td>&nbsp;<input id="ip1" type="text" name="" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;h1F2:</td>
-                <td>&nbsp;<input id="ip2" type="text" name="textfield2" class="boxinput3" />(公里)</td>
+                <td>&nbsp;<input id="ip2" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;foF1:</td>
-                <td>&nbsp;<input id="ip3" type="text" name="textfield2" class="boxinput3" />(兆周/秒)</td>
+                <td>&nbsp;<input id="ip3" type="text" name="" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;h1F1:</td>
-                <td>&nbsp;<input id="ip4" type="text" name="textfield2" class="boxinput3" />(公里)</td>
+                <td>&nbsp;<input id="ip4" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;foF:</td>
-                <td>&nbsp;<input id="ip5" type="text" name="textfield2" class="boxinput3" />(兆周/秒)</td>
+                <td>&nbsp;<input id="ip5" type="text" name="" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;h1F:</td>
-                <td>&nbsp;<input id="ip6" type="text" name="textfield2" class="boxinput3" />(公里)</td>
+                <td>&nbsp;<input id="ip6" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;foE:</td>
-                <td>&nbsp;<input id="ip7" type="text" name="textfield2" class="boxinput3" />(兆周/秒)</td>
+                <td>&nbsp;<input id="ip7" type="text" name="" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;h1E:</td>
-                <td>&nbsp;<input id="ip8" type="text" name="textfield2" class="boxinput3" />(公里)</td>
+                <td>&nbsp;<input id="ip8" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;foEs:</td>
-                <td>&nbsp;<input id="ip9" type="text" name="textfield2" class="boxinput3" />(兆周/秒)</td>
+                <td>&nbsp;<input id="ip9" type="text" name="" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;h1Es:</td>
-                <td>&nbsp;<input id="ip10" type="text" name="textfield2" class="boxinput3" />(公里)</td>
+                <td>&nbsp;<input id="ip10" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 

@@ -11,6 +11,8 @@ import org.nutz.dao.entity.annotation.Table;
 
 @Table("T_PARAMETER")
 public class Parameter {
+	private String ids ; //很多id
+	
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=25)
@@ -307,6 +309,14 @@ public class Parameter {
 
 	public void setStation(Station station) {
 		this.station = station;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 	
 	
