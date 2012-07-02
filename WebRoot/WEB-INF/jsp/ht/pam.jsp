@@ -88,6 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip10" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
+                <td align="right">&nbsp; </td>
+                <td>&nbsp; <span id="errormsg" class="errorMessages"></span></td>
+              </tr>
+              <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
                 <input id="savebut"  type="button" name="保存" value="保存" style="height: 22px;" /> 
                 &nbsp;&nbsp;&nbsp;&nbsp; 

@@ -51,7 +51,7 @@ $(document).ready(function(){
     
     $('#savebut').click(function(){
     	var st = $('#comboStation').omCombo('value') ;
-    	var ad = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd') ;
+    	var ad = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd') ;
     	var ip1 = $('#ip1').val();
     	var ip2 = $('#ip2').val();
     	var ip3 = $('#ip3').val();
@@ -91,6 +91,12 @@ $(document).ready(function(){
     		}
     	}
     	
+        if( data.params.foF2){
+            //alert(data.params.createDate) ;
+            ajaxpost(data);
+        }else{
+            $('#errormsg').html("请输入").show();
+        }
     	
     }) ;
     

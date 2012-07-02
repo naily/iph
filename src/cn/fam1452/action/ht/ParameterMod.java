@@ -162,9 +162,15 @@ public class ParameterMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getStationID()) ){
 			int s = baseService.dao.count(Parameter.class, Cnd.where("stationID", "=", params.getStationID()).and("createDate", "=", params.getCreateDate()) ) ;
 			
+			StringBuilder id = new StringBuilder();
+			id.append(params.getStationID());
+			id.append(DateUtil.convertDateToString(params.getCreateDate(), DateUtil.pattern3) );
+			
 			String patt = "00" ;  
 			DecimalFormat nf  =  new DecimalFormat(patt);
-			params.setParameterID(nf.format(s)) ;
+			id.append(nf.format(s)) ;
+			
+			params.setParameterID(id.toString()) ;
 		}else{
 			json.put(Constant.INFO, "请选择观测站") ;
 		}
