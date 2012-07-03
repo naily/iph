@@ -31,11 +31,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<p>参数管理</p>
     </div>
     <div id="center_right">
-    	<!-- 右侧内容 -->
+    	<!-- 右侧内容
     	<span id="toolbar" class="om-widget-header om-corner-all">
 	        <a id="updatebut"  href="javascript:void(0)">修改</a>
 	        <a id="del"  href="javascript:void(0)">删除</a>
     	</span>
+    	 -->
+    	<div id="buttonbar"></div>
     	
     	<table id="list0"></table>
         

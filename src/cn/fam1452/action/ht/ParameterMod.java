@@ -72,14 +72,14 @@ public class ParameterMod extends BaseMod{
 		json.put(Constant.TOTAL, baseService.dao.count(Parameter.class)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.setExcludes(new String[] { "station"}); 
+		cfg.setExcludes(new String[] { "station" , "createDate"}); 
 		JSONArray array = new JSONArray();
 		
-		for(Parameter g : list ){
-			JSONObject item = new JSONObject();
+		for(Parameter pm : list ){
+			JSONObject item = JSONObject.fromObject(pm , cfg);
 			
 			Station sa = new Station();
-			sa.setId(g.getStationID()) ;
+			sa.setId(pm.getStationID()) ;
 			sa = baseService.dao.fetch(sa) ;
 			if(null != sa){
 				item.put("stationName", sa.getName()) ;
@@ -87,7 +87,9 @@ public class ParameterMod extends BaseMod{
 				item.put("stationName", "无") ;
 			}
 			
-			item.put("ID", g.getParameterID()) ;
+			item.put("ID", pm.getParameterID()) ;
+			
+			item.put("createDate" , DateUtil.convertDateToString(pm.getCreateDate(), DateUtil.pattern2));
 			
 			array.add(item) ;
 		}

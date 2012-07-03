@@ -14,8 +14,8 @@ $(document).ready(function(){
      });
     $('#buttonbar').omButtonbar({
             	width : '99.8%',
-            	btns : [{label:"删除",
-            		     id:"button1" , 
+            	btns : [{label:"删除"  ,
+            		     id   :"button1" ,
             	 		 onClick:function(){
 					     		var ss = $('#list0').omGrid('getSelections',true);
 					     		if(ss.length < 1 ){
