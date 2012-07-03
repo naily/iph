@@ -89,16 +89,36 @@ $(document).ready(function(){
 						                               	//at({cont: json.info , type : 'error'});
 						                            }
 					                                var cd = json.createDate ;
-					                                $('#actionDateId').val( cd.substring(0,11) );
+					                                $('#actionDate').val( cd.substring(0,11) );
 						                            $('#comboStation').omCombo('value', json.stationID);
-						                            $('#pgtTitleId').val(json.scanPicTitle) ;
+						                            $('#ip1').val(json.foF2) ;
+                                                    $('#ip2').val(json.h1F2) ;
+                                                    $('#ip3').val(json.foF1) ;
+                                                    $('#ip4').val(json.h1F1) ;
+                                                    $('#ip5').val(json.hlF) ;
+                                                    $('#ip6').val(json.hpF) ;
+                                                    $('#ip7').val(json.foE) ;
+                                                    $('#ip8').val(json.hlE) ;
+                                                    $('#ip9').val(json.foEs) ;
+                                                    $('#ip10').val(json.hlEs) ;
+                                                    
 						                            $( "#tab1").omDialog('open');
 						                            
-						                            $('#updatesavebut').omButton({
+						                            $('#savebut').omButton({
 												     	onClick : function(){
-												     		json.createDate = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd');
+												     		json.createDate = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd');
 								                            json.stationID = $('#comboStation').omCombo('value');
-								                            json.scanPicTitle = $('#pgtTitleId').val();
+                                                            
+								                            json.foF2 = $('#ip1').val();
+                                                            json.h1F2 = $('#ip2').val();
+                                                            json.foF1 = $('#ip3').val();
+                                                            json.h1F1 = $('#ip4').val();
+                                                            json.hlF = $('#ip5').val();
+                                                            json.hpF = $('#ip6').val();
+                                                            json.foE = $('#ip7').val();
+                                                            json.hlE = $('#ip8').val();
+                                                            json.foEs = $('#ip9').val();
+                                                            json.hlEs = $('#ip10').val();
 								                            
 												     		var updatepgt = {
 													                        url : 'ht/pamupdate.do',
@@ -131,7 +151,12 @@ $(document).ready(function(){
             			]
     });
     
-    
+    $( "#tab1").omDialog({
+            autoOpen: false,
+            resizable: false ,
+            width:'auto' ,
+            title:'修改电离层参数信息'
+     });
     
     
     
