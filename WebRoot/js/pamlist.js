@@ -17,12 +17,20 @@ $(document).ready(function(){
                          {header:'foE',   name:'foE' } ,
                          {header:'hlE',   name:'hlE' } ,
                          {header:'foEs',   name:'foEs' } ,
-                         {header:'hlEs',   name:'hlEs' } ,
-                         {header:'fbEs',   name:'fbEs' } ,
-                         {header:'Fmin',   name:'Fmin' } 
+                         {header:'hlEs',   name:'hlEs' } //,
+                         //{header:'fbEs',   name:'fbEs' } ,
+                         //{header:'Fmin',   name:'Fmin' } 
          ],
          dataSource : 'ht/pamlist.do' 
      });
+     
+     $('#actionDate').omCalendar();
+     //观测站下拉框
+     $('#comboStation').omCombo({
+        dataSource:'ht/stationlistall.do' ,
+        valueField : 'id' ,
+        optionField :'name' 
+    }) ;
     
     
     $('#buttonbar').omButtonbar({
@@ -138,7 +146,7 @@ $(document).ready(function(){
 													                            }
 													                        }
 												     		}
-												     		//ajaxpost(updatepgt);
+												     		ajaxpost(updatepgt);
 												     	}
 												     })
 						                        }
