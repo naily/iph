@@ -17,7 +17,7 @@
 	width: 84%;
 	overflow:hidden ;
 	border:0px solid red; 
-	height: 500px;
+	height: 100%;
 }
 #center{
 	border:0px solid red; 
@@ -44,4 +44,15 @@
 
 .but_base{
 	height: 30px;
+}
+
+.table_td_fieldlab{
+	text-align: right ;
+	background-color: #f3f3f3 ;
+	
+}
+
+.red_asterisk{
+	color: red ;
+	text-align:inherit; 
 }

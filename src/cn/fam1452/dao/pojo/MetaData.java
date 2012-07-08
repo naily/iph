@@ -12,6 +12,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_METADATA")
 public class MetaData {
 	
+	
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=11)
@@ -96,6 +97,8 @@ public class MetaData {
 	public void setMdDate(Date mdDate) {
 		this.mdDate = mdDate;
 	}
+
+	
 	
 	
 }
