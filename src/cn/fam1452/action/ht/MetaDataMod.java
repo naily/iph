@@ -5,6 +5,8 @@ package cn.fam1452.action.ht;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.impl.jdbc.BlobValueAdaptor;
+import org.nutz.dao.util.blob.SimpleBlob;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -40,6 +43,9 @@ import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
 
 /**
  * @author zdd
@@ -50,13 +56,15 @@ public class MetaDataMod extends BaseMod{
 	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
-
+	
 	@At("/ht/med")
     @Ok("jsp:jsp.ht.med")
     public void loadmed(HttpServletRequest req){}
 	@At("/ht/medlist")
     @Ok("jsp:jsp.ht.medlist")
     public void loadmedlist(HttpServletRequest req){}
+	
+	
 
 	/**
 	 * 保存元数据
@@ -80,17 +88,29 @@ public class MetaDataMod extends BaseMod{
 		try {
 			//姑且只有js验证
 			if(null != mdb){
-				MetaData med = new MetaData() ;
-				//med.setFullContent(fullContent)
-				BlobValueAdaptor fullContent = new BlobValueAdaptor(null) ;
-				fullContent.
+				Configuration cfg  = this.initFreeMarket( context) ;
 				
-				if(baseService.dao.fetch(mdb) == null){
+				MetaData med = new MetaData() ;
+				
+				File tmf = new File("") ;
+				
+				Template t = cfg.getTemplate("MetaDataXMLTemplates.ftl") ;
+				Writer out = new OutputStreamWriter(System.out ) ;
+				t.process(mdb, out) ;
+				out.flush() ;
+				
+
+				//File f = new 
+				SimpleBlob sb = new SimpleBlob(null);
+				med.setFullContent(sb) ;
+				
+				
+				/*if(baseService.dao.fetch(mdb) == null){
 					baseService.dao.insert(mdb) ;
 					json.put(Constant.SUCCESS, true) ;
 				}else{
 					json.put(Constant.INFO, " 该记录已存在") ;
-				}
+				}*/
 			}else{
 				json.put(Constant.INFO, "参数为空") ;
 			}
@@ -207,5 +227,22 @@ public class MetaDataMod extends BaseMod{
 		}
 		
 		return ig ;
+	}
+	/**
+	 * 初始化freemark
+	 * @param context
+	 * @return
+	 */
+	private Configuration initFreeMarket(ServletContext context){
+		Configuration cfg  = new Configuration() ;
+		try {
+			cfg.setDirectoryForTemplateLoading(new File(context.getRealPath("/") + "ftl") ) ;
+			cfg.setObjectWrapper(new DefaultObjectWrapper() ) ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return  cfg ;
 	}
 }

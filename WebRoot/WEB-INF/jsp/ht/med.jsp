@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 -->
         
         <div id="tab1" style="height: 800px;">
-        <form action="#" id="savemetadata">
+        <form action="#" id="savemetadata" method="post">
         	<table width="680" border="0">
         	<tr>
                 <td align="left">&nbsp;提示：标有*的项为必填项</td>

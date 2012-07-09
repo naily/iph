@@ -62,9 +62,20 @@ $(document).ready(function(){
           phone : {required : notempty } 
         },
         submitHandler : function(){
-                    alert('提交成功！');
-                    $(this)[0].currentForm.reset();
-                    return false;
+        	//$(this)[0].currentForm.action = "./ht/medSave.do" ;
+        	//alert($(this)[0].currentForm.action) ;
+        	$("#savemetadata").omAjaxSubmit({
+        		url : './ht/medSave.do' ,
+        		method:'POST' ,
+        		resetForm: true ,
+        		success : function(responseText, statusText, xhr, $form){
+        			alert('提交成功！');
+        		}
+        	}) ;
+        	return false;
+                    //
+                    //$(this)[0].currentForm.reset();
+                    
         }
 
      });
