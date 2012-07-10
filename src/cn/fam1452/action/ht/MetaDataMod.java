@@ -4,10 +4,13 @@
 package cn.fam1452.action.ht;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Blob;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,7 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.MetaData;
+import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.DateUtil;
@@ -88,29 +92,53 @@ public class MetaDataMod extends BaseMod{
 		try {
 			//姑且只有js验证
 			if(null != mdb){
-				Configuration cfg  = this.initFreeMarket( context) ;
+				String xmldir = "data/metadata/xml/" ;
+				
+				//freemarker 准备
+				Configuration cfg  = this.initFreeMarker( context) ;
+				Template t = cfg.getTemplate("MetaDataXMLTemplates.ftl") ;
+				t.setEncoding(StringUtil.UTF_8) ;
 				
 				MetaData med = new MetaData() ;
 				
-				File tmf = new File("") ;
+				//创建一个空的xml文件
+				String fileName = System.currentTimeMillis() + ".xml" ;
+				File medxml = new File(this.getAppRealPath(context) + xmldir + fileName) ;
+				OutputStream outFile = new FileOutputStream(medxml ) ;
 				
-				Template t = cfg.getTemplate("MetaDataXMLTemplates.ftl") ;
-				Writer out = new OutputStreamWriter(System.out ) ;
+				//通过ftl模板输出xml文件
+				Writer out = new OutputStreamWriter(outFile , StringUtil.UTF_8) ;
 				t.process(mdb, out) ;
 				out.flush() ;
-				
 
-				//File f = new 
-				SimpleBlob sb = new SimpleBlob(null);
-				med.setFullContent(sb) ;
+				//存储
+				SimpleBlob sb = new SimpleBlob(medxml);
+				med.setFullContent(sb) ; 
+				med.setFullContentFilePath(xmldir + fileName) ;
+				med.setMdDate(DateUtil.getCurrentDate()) ;
+				String dateStr = DateUtil.convertDateToString(med.getMdDate(), DateUtil.pattern3) ;
 				
+				//构造ID
+				int ct = baseService.dao.count(MetaData.class, Cnd.where("mdId", "like", dateStr+"%" ) ) ;
+				StringBuilder id = new StringBuilder();
+				id.append(dateStr );
 				
-				/*if(baseService.dao.fetch(mdb) == null){
-					baseService.dao.insert(mdb) ;
+				String patt = "00" ;
+				DecimalFormat nf  =  new DecimalFormat(patt);
+				id.append(nf.format(ct)) ;
+				
+				//存值
+				med.setMdId(id.toString()) ;
+				med.setTitle(mdb.getName()) ;
+				med.setKeyword(mdb.getKeys()) ;
+				med.setSummary(mdb.getZhaiyao()) ;
+				
+				if(baseService.dao.fetch(med) == null){
+					baseService.dao.insert(med) ;
 					json.put(Constant.SUCCESS, true) ;
 				}else{
-					json.put(Constant.INFO, " 该记录已存在") ;
-				}*/
+					json.put(Constant.INFO, "该记录已存在") ;
+				}
 			}else{
 				json.put(Constant.INFO, "参数为空") ;
 			}
@@ -228,21 +256,7 @@ public class MetaDataMod extends BaseMod{
 		
 		return ig ;
 	}
-	/**
-	 * 初始化freemark
-	 * @param context
-	 * @return
-	 */
-	private Configuration initFreeMarket(ServletContext context){
-		Configuration cfg  = new Configuration() ;
-		try {
-			cfg.setDirectoryForTemplateLoading(new File(context.getRealPath("/") + "ftl") ) ;
-			cfg.setObjectWrapper(new DefaultObjectWrapper() ) ;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return  cfg ;
-	}
+	
+	
+	
 }

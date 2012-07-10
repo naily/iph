@@ -1,11 +1,18 @@
 package cn.fam1452.action;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+
+import cn.fam1452.utils.StringUtil;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
 
 public class BaseMod {
 	
@@ -18,9 +25,32 @@ public class BaseMod {
 	}
 	
 	//获取当前应用root/ 磁盘绝对路径
-	protected String getSavePath(ServletContext servletContext) {
+	protected String getAppRealPath(ServletContext servletContext) {
 		return  servletContext.getRealPath("/");
 	}
+	
+	/**
+	 * 初始化freemarker
+	 * @param context
+	 * @return
+	 */
+	private Configuration cfg  = new Configuration() ;
+	protected Configuration initFreeMarker(ServletContext context){
+		try {
+//			cfg.setClassForTemplateLoading(clazz, pathPrefix)
+			cfg.setDirectoryForTemplateLoading(new File(getAppRealPath(context) + "ftl") ) ;
+			cfg.setObjectWrapper(new DefaultObjectWrapper() ) ;
+//			cfg.setEncoding(locale, encoding) ;
+			cfg.setDefaultEncoding(StringUtil.UTF_8) ;
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return  cfg ;
+	}
+	
 	
 	protected final String error1 = "删除失败" ; 
 	protected final String error2 = "对象不存在" ; 

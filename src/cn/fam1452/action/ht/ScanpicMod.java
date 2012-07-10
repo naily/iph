@@ -244,7 +244,7 @@ public class ScanpicMod extends BaseMod{
 			if("savedata".equals(sac.getAction())){
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(sac.getScanPicFileName() )){
-					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getSavePath(context) + fusu.UPLOAD_PIC_PATH) ){
+					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + fusu.UPLOAD_PIC_PATH) ){
 						sac.setGramPath(fusu.UPLOAD_PIC_PATH + sac.getScanPicFileName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						sac.setScanPicID(sac.getScanPicFileName().substring(0, sac.getScanPicFileName().lastIndexOf(".")))  ;

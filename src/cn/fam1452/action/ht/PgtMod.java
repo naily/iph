@@ -71,7 +71,7 @@ public class PgtMod extends BaseMod{
 			if("savedata".equals(gram.getAction())){
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(gram.getGramFileName())){
-					if(fusu.cloneTmpFile2Other(gram.getGramFileName(), this.getSavePath(context) + fusu.UPLOAD_PIC_PATH) ){
+					if(fusu.cloneTmpFile2Other(gram.getGramFileName(), this.getAppRealPath(context) + fusu.UPLOAD_PIC_PATH) ){
 						gram.setGramPath(fusu.UPLOAD_PIC_PATH + gram.getGramFileName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						gram.setGramID(gram.getGramFileName().substring(0, gram.getGramFileName().lastIndexOf(".")))  ;

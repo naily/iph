@@ -31,12 +31,16 @@ public class MetaData {
 	private String  summary; //原abstract ,s是java关键字 
 	
 	@Column
-	@ColDefine(customType="binary(50)")
+	@ColDefine(customType="binary(2000)")
 	private Blob thumbnail ;
 	
 	@Column
-    @ColDefine(customType="binary(50)")
+    @ColDefine(customType="binary(2000)")
 	private Blob fullContent ;
+	
+	@Column
+    @ColDefine(type=ColType.VARCHAR, width=100)
+	private String fullContentFilePath ;
 	
 	@Column
     @ColDefine(type=ColType.DATE)
@@ -96,6 +100,14 @@ public class MetaData {
 
 	public void setMdDate(Date mdDate) {
 		this.mdDate = mdDate;
+	}
+
+	public String getFullContentFilePath() {
+		return fullContentFilePath;
+	}
+
+	public void setFullContentFilePath(String fullContentFilePath) {
+		this.fullContentFilePath = fullContentFilePath;
 	}
 
 	

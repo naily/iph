@@ -5,6 +5,7 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
 
 import cn.fam1452.dao.pojo.IronoGram;
+import cn.fam1452.dao.pojo.MetaData;
 
 public class DataSourceTest {
 	
@@ -20,5 +21,7 @@ public class DataSourceTest {
 		if(!dao.exists("T_IRONOGRAM")){
     		dao.create(IronoGram.class, false) ;
     	}
+		
+		dao.create(MetaData.class, true) ;
 	}
 }
