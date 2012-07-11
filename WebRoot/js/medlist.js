@@ -3,23 +3,14 @@ $(document).ready(function(){
     $('#list0').omGrid({
          width : '99.8%',
          method : 'POST' ,
+         autoFit: true ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'ID',      name:'ID' },
-                         {header:'观测站',   name:'stationName'  } ,
-                         {header:'日期',    name:'createDate',width:100 } ,
-                         {header:'foF2',   name:'foF2' } ,
-                         {header:'h1F2',   name:'h1F2' } ,
-                         {header:'foF1',   name:'foF1' } ,
-                         {header:'h1F1',   name:'h1F1' } ,
-                         {header:'hlF',   name:'hlF' } ,
-                         {header:'hpF',   name:'hpF' } ,
-                         {header:'foE',   name:'foE' } ,
-                         {header:'hlE',   name:'hlE' } ,
-                         {header:'foEs',   name:'foEs' } ,
-                         {header:'hlEs',   name:'hlEs' } //,
-                         //{header:'fbEs',   name:'fbEs' } ,
-                         //{header:'Fmin',   name:'Fmin' } 
+         colModel : [    
+                         {header:'标题',		name:'title'  ,width:150} ,
+                         {header:'关键词',   name:'keyword' ,width:200} ,
+                         {header:'摘要',    name:'summary' ,width:200} ,
+                         {header:'创建日期', name:'mdDate',width:"autoExpand" } 
          ],
          dataSource : 'ht/medlist.do' 
      });
@@ -36,11 +27,11 @@ $(document).ready(function(){
 								}else{
 									var arry = new Array( ) ;
 									for(var i=0 ; i<ss.length ; i++){
-										arry.push(ss[i].ID );
+										arry.push(ss[i].mdId );
 									}
 									
 									var delt = {
-						                        url : 'ht/pamdel.do',
+						                        url : 'ht/meddel.do',
 						                        params : {ids: arry.join(";")}  ,
 						                        callback : function(json){
 						                            if(json.success){
@@ -69,9 +60,10 @@ $(document).ready(function(){
 								}
             	 		 	}
             			},
-            			{label:"修改"  ,
+            			{label:""  ,
             		     id   :"button2" ,
             	 		 onClick:function(){
+            	 		 	return false ;
             	 		 		var ss = $('#list0').omGrid('getSelections',true);
 					     		if(ss.length != 1 ){
 								    at({cont:'请选择一条记录修改！' , type : 'error'});
@@ -89,7 +81,7 @@ $(document).ready(function(){
 						                            }
 					                                var cd = json.createDate ;
 					                                $('#actionDate').val( cd.substring(0,11) );
-						                            $('#comboStation').omCombo('value', json.stationID);
+						                            
 						                            $('#ip1').val(json.foF2) ;
                                                     $('#ip2').val(json.h1F2) ;
                                                     $('#ip3').val(json.foF1) ;
@@ -154,7 +146,7 @@ $(document).ready(function(){
             autoOpen: false,
             resizable: false ,
             width:'auto' ,
-            title:'修改电离层参数信息'
+            title:'修改元数据信息'
      });
     
     

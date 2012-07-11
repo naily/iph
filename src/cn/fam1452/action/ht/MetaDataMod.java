@@ -164,23 +164,14 @@ public class MetaDataMod extends BaseMod{
 		json.put(Constant.TOTAL, baseService.dao.count(MetaData.class)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.setExcludes(new String[] { "station"}); 
+		cfg.setExcludes(new String[] { "thumbnail", "fullContent" , "mdDate"  }); 
 		JSONArray array = new JSONArray();
 		
 		for(MetaData g : list ){
 			JSONObject item = new JSONObject();
 			
-			Station sa = new Station();
-			sa.setId(g.getMdId()) ;
-			sa = baseService.dao.fetch(sa) ;
-			if(null != sa){
-				item.put("stationName", sa.getName()) ;
-			}else{
-				item.put("stationName", "无") ;
-			}
-			
-			item.put("gramID", g.getMdId()) ;
-			
+			item = JSONObject.fromObject(g , cfg) ;
+			item.put("mdDate", DateUtil.convertDateToString(g.getMdDate(), DateUtil.pattern2)) ;
 			
 			array.add(item) ;
 		}
@@ -191,7 +182,7 @@ public class MetaDataMod extends BaseMod{
 	@POST
 	@At("/ht/meddel")
     @Ok("json")
-	public JSONObject deletemed(String ids){
+	public JSONObject deletemed(String ids , ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
@@ -207,6 +198,12 @@ public class MetaDataMod extends BaseMod{
 				
 				if(null != ig){
 					igs.add(ig) ;
+					
+					String fp = this.getAppRealPath(context) + ig.getFullContentFilePath() ;
+					File f = new File(fp) ;
+					if(f.exists() && f.isFile()){
+						f.delete() ;
+					}
 				}
 			}
 			
