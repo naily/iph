@@ -1,0 +1,87 @@
+.om-button {
+	font-size: 12px;
+}
+
+#nav_cont {
+	width: 580px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input {
+	border: 1px solid #A1B9DF;
+	vertical-align: middle;
+}
+
+input:focus {
+	border: 1px solid #3A76C2;
+}
+
+.input_slelct {
+	width: 81%;
+}
+
+.textarea_text {
+	border: 1px solid #A1B9DF;
+	height: 40px;
+	width: 445px;
+}
+
+table.grid_layout tr td {
+	font-weight: normal;
+	height: 15px;
+	padding: 5px 0;
+	vertical-align: middle;
+}
+
+.color_red {
+	color: red;
+}
+
+.toolbar {
+	padding: 12px 0 5px;
+	text-align: center;
+}
+
+.birthplace,.address {
+	width: 445px;
+}
+
+.om-span-field input:focus {
+	border: none;
+}
+
+.errorImg {
+	background: url("../images/msg_bg.png") no-repeat scroll 0 0 transparent;
+	height: 16px;
+	width: 16px;
+	cursor: pointer;
+}
+
+input.error,textarea.error {
+	border: 1px solid red;
+}
+
+.errorMsg {
+	border: 1px solid gray;
+	background-color: #FCEFE3;
+	display: none;
+	position: absolute;
+	margin-top: -18px;
+	margin-left: 18px;
+}
+
+.userregtd {
+	width: 110px;
+	height: 30px;
+	text-align: center;
+}
+
+.userregtd_img {
+	width: 150px;
+	text-align: left;
+}
+
+.redcolor {
+	color: red;
+}

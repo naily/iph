@@ -112,7 +112,7 @@ font-weight:bold;
 .textarea1{ width:190px; height:70px; margin:5px ;}
 #bottom{ clear:both; width:1003px; height:66px; background:url(d07.jpg) repeat-x; text-align:center; line-height:24px; color:#ffffff; padding-top:30px; }
 
-/*ÐÂÎÅÒ³Ãæ*/
+/*ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½*/
 .title8{ width:772px; height:28px;padding-left:30px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171; border-bottom: #004171 3px solid; margin-bottom:20px;}
 .newsbox{ width:748px;  height:700px; padding-left:20px;  border:1px solid #e7e7e7; margin:10px; padding-top:15px; padding-bottom:15px;}
 .newsbox li{ list-style:none; line-height:35px; border-bottom:#E7E7E7 1px dashed; padding-top:7px; padding-left:10px; font-size:14px; }
@@ -124,7 +124,7 @@ font-weight:bold;
 .table1{ width:750px; border:1px solid #e7e7e7; padding:10px; margin-left:20px;}
 
 
-/*µÇÂ¼Ò³Ãæ*/
+/*ï¿½ï¿½Â¼Ò³ï¿½ï¿½*/
 #top2{ width:1003px;
 height:115px;
 overflow:hidden;
@@ -146,3 +146,8 @@ float:right;
 .menutext{ width:97px;  padding-top:10px; background:url(d17.jpg) no-repeat;  font-size:16px; font-weight:bold; float:left; }
 .menutext1{ width:129px; height:30px; padding-top:10px; background:url(d18.jpg) no-repeat;  font-size:16px; font-weight:bold; float:left; }
 .select1{ width:220px; height:26px; border:1px #cccccc solid; }
+
+
+.userregtd{width:120px;height:30px;text-align:center;}
+.userregtd_img{width:100px;text-align:left;}
+.redcolor{color:red;}

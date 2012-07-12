@@ -4,6 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title>电离层专题数据库管理系统</title>
 <link href="images/1.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
+<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+<script type="text/javascript" src="js/userRegist.js"></script>
 </head>
 
 <body>
@@ -20,7 +25,44 @@
       <input type="password" name="textfield" class="boxinput1" />
     </label></td>
     <td width="45"><a href="#" class="a1">[登录]</a></td>
-    <td width="55"><a href="#" class="a1">[注册]</a></td>
+    <td width="55"><a href="javascript:void(0)" onclick="showRegistWin();" class="a1">[注册]</a>
+    <div id="userRegDialog" title="用户注册">
+        <div >
+	    		<table width="400" height="210" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor">
+				  <tr>
+				    <td height="10" colspan="4" align="center">&nbsp;</td>
+				    </tr>
+				  <tr>
+				    <td width="96" height="40" align="center">${msg['qt_regist_username']}：</td>
+				    <td colspan="3"><label>
+				      <input type="text" name="loginId" class="boxinput3" />
+				    </label></td>
+				    </tr>
+				  <tr>
+				    <td height="40" align="center">${msg['qt_regist_password']}：</td>
+				    <td colspan="3"><input name="password" class="boxinput3" type="password"/></td>
+				    </tr>
+				  <tr>
+				    <td height="40" align="center">${msg['ht_login_code']}：</td>
+				    <td width="95"><input type="text" name="code" class="boxinput4" /></td>
+				    <td width="84"> <div class="y_img"><img src="ht/logincode.do" width="100" height="22" border="0" id="vailcode"/></div></td>
+				    <td width="119" align="center"><a href="javascript:;" onclick="reloadimage();" class="a4">看不清 换一张</a></td>
+				  </tr>
+				  <tr>
+				    <td colspan="4" height="30"><div id="errorMessages" class="errorMessages"></div>
+				    </td>
+				  </tr>
+				  <tr>
+				    <td height="60" colspan="4" align="center"><a href="javascript:;" id="but-login">
+				    <img src="images/d15.jpg" width="67" height="28" border="0" /></a>
+				    </td>
+				  </tr>
+				</table>
+				</div>
+    </div>
+    
+    
+    </td>
   </tr>
   <tr>
     <td height="67" colspan="6">&nbsp;</td>

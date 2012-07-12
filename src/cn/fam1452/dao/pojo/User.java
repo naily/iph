@@ -19,7 +19,7 @@ import org.nutz.dao.entity.annotation.Table;
  */
 @Table("T_USER")
 public class User {
-	
+	private String code ; //登录验证码
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=12)
@@ -29,6 +29,14 @@ public class User {
     @ColDefine(type=ColType.VARCHAR, width=10)
 	private String password ;
 	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=20)
 	private String name ;
