@@ -3,11 +3,12 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%@ include file="WEB-INF/jsp/jstl.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>电离层专题数据库管理系统</title>
+<title>电离层专题数据库管理系统${sessionScope.qt_account.loginId}${sessionScope.qt_account.login}</title>
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
@@ -24,13 +25,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="top_right">
 <table width="478" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="430" height="35"  align="right" class="fontstyle1">
-         <div id="user_login_form">用户名<input type="text" name="loginId" class="boxinput1" />
-        密码<input type="password" name="textfield" class="boxinput1" />
-    <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a></div>
+    <td width="580" height="35"  align="right" class="fontstyle1">
+   <div id="user_login_form">
+       <c:choose>
+	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
+	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
+	    	</c:when>
+	    	<c:otherwise><!-- 未登录 -->
+					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
+					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
+                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
+    	</c:otherwise>
+    	</c:choose>
+    </div>
     </td>
     <td width="5"></td>
-    <td width="55"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>
+    <td width="150"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;&nbsp;<a href="qt/getPassword.do" class="a1">忘记密码？</a>
     <div id="userRegDialog"  title="用户注册">
         <div >
 	    		<form id="userRegForm">

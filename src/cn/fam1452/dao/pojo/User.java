@@ -20,6 +20,7 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_USER")
 public class User {
 	private String code ; //登录验证码
+	private boolean isLogin;
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=12)
@@ -196,6 +197,12 @@ public class User {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	
+	public boolean isLogin() {
+		return isLogin;
+	}
+
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
+	}
 	
 }

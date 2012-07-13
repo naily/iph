@@ -3,7 +3,23 @@ $(document).ready(function() {
 					 * 用户登录
 					 * */
 					$('#userLoginHref').bind('click', function() {
-						
+					    var data = {
+					            url :'qt/userLogin.do' ,
+					            params :{loginId:$('#userLoginId').val() , password: $('#loginPassword').val()},
+					            callback : function(json){
+					                if(json.success){
+					                	var loginName=$('#userLoginId').val();
+					                	$('#userLoginId').val('') ;
+					                	$('#loginPassword').val('');
+					                	$('#user_login_form').html('欢迎您：'+loginName+'&nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>');
+					                }else{
+					                    //at({cont:json , type : 'error'});
+					                    $('#info').html(json.info).show();
+					                }
+					                
+					            }
+					        }					        
+					        ajaxpost(data);
 					});
 					
 	
