@@ -34,7 +34,7 @@ public class News {
 	private boolean isPicNews ;
 	
 	@Column
-	@ColDefine(customType="binary(50)")
+	@ColDefine(customType="binary(1000)")
 	private Blob picture ;
 
 	public String getNewsId() {
