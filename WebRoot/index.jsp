@@ -40,7 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     </td>
     <td width="5"></td>
-    <td width="150"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;&nbsp;<a href="qt/getPassword.do" class="a1">忘记密码？</a>
+    <td width="150">
+    <a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;&nbsp;
+     <<br /><a href="qt/getPassword.do" class="a1">忘记密码？</a>
     <div id="userRegDialog"  title="用户注册">
         <div >
 	    		<form id="userRegForm">

@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 -->
         
         <div id="tab1" style="height: 800px;">
-        <form action="#" id="savemetadata" method="post">
+        <form action="#" id="savenewsfm" method="post">
         	<table width="790" border="0">
         	<tr>
                 <td align="left">&nbsp; </td>
@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td  class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
-                <td>&nbsp;<input id = "isPicNews" name="isPicNews" class="boxinput3"/><span class="red_asterisk">*</span></td>
+                <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;新闻内容:</td>
