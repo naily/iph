@@ -16,7 +16,7 @@ $(document).ready(function(){
                          }} ,
                          {header:'日期',    name:'publishDate', width:'autoExpand'}  ,
                          {header:'操作',    name:'operation', width:130 ,renderer: function(colValue, rowData, rowIndex){
-                         	return '<a href="#">预览'+rowData.newsId+'</a>' ;
+                         	return '<a href="./ht/preview.do?nid='+rowData.newsId+'" target="_blank">预览 </a>' ;
                          }}
          ],
          dataSource : 'ht/newslist.do' 
