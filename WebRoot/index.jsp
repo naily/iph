@@ -21,40 +21,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
-<div id="top">
-<div class="top_right">
-<table width="478" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="580" height="35"  align="right" class="fontstyle1">
-   <div id="user_login_form">
-       <c:choose>
-	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
-	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
-	    	</c:when>
-	    	<c:otherwise><!-- 未登录 -->
-					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
-					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
-                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
-    	</c:otherwise>
-    	</c:choose>
-    </div>
-    </td>
-    <td width="5"></td>
-    <td width="150">
-    <a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;&nbsp;
-     <<br /><a href="qt/getPassword.do" class="a1">忘记密码？</a>
-    <div id="userRegDialog"  title="用户注册">
+<!-- 用户注册 start -->
+<div id="userRegDialog"  title="用户注册">
         <div >
-	    		<form id="userRegForm">
-	    		<table width="500"  border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+	    		<form id="userRegForm"  name="userRegForm">
+	    		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
 				  <tr>
 				    <td height="10" colspan="3" align="center">&nbsp;</td>
 				    </tr>
 				  <tr>
 				    <td class="userregtd">${msg['qt_regist_username']}：</td>
-				    <td >
-				      <input name="loginId" id="loginId" class="boxinput3" /><!-- <span class="redcolor">*</span> -->
-				    </td>
+				    <td class="userregtd2"><input name="loginId" id="loginId" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    
 				    </tr>
@@ -120,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </tr> 
 				    <tr>
 				    <td  class="userregtd">${msg['ht_login_code']}：</td>
-				    <td width="295"><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="70" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onclick="reloadimage();" class="a4">看不清 换一张</a></td>
+				    <td ><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="90" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode');" class="a4"> 换一张</a></td>
 				    <td class="userregtd_img"></td>
 				    
 				  </tr>				  
@@ -135,8 +112,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</form>
 				</div>
     </div>
-    
-    
+    <!-- 找回密码 start -->
+    <div id="getUserPassword"  title="找回密码">
+        <div >
+	    		<form id="getUserPasswordForm" name="getUserPasswordForm">
+	    		<table border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+				  <tr>
+				    <td height="10" colspan="3" align="center">&nbsp;</td>
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_username']}：</td>
+				    <td class="userregtd2">
+				      <input name="loginId" id="loginId_" class="boxinput3" /><!-- <span class="redcolor">*</span> -->
+				    </td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    
+				    </tr>
+				  
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_email']}：</td>
+				    <td><input name="email" id="email_" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				   <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>				     
+				    <tr>
+				    <td  class="userregtd">${msg['ht_login_code']}：</td>
+				    <td><input type="text" name="code1" id="code1" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="70" height="22" border="0" id="vailcode_1"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode_1');" class="a4">换一张</a></td>
+				  <td class="userregtd_img"></td>
+				    
+				  </tr>				  
+				  <tr>
+				    <td height="30" colspan="3" align="center">				 
+				    <input name="getUserPasswordSubmit"  id="getUserPasswordSubmit" type="image" value="getpassword" src="images/d10.jpg" />				    
+				    </td>
+				  </tr>
+				</table>
+				</form>
+				</div>
+    </div>
+     <!-- 找回密码 end -->
+<div id="top">
+<div class="top_right" >
+<table width="518" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="508" height="35"  align="right" class="fontstyle1">
+   <div id="user_login_form">
+       <c:choose>
+	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
+	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
+	    	</c:when>
+	    	<c:otherwise><!-- 未登录 -->
+					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
+					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
+                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
+    	</c:otherwise>
+    	</c:choose>
+    </div>
+    </td>
+    <td width="5"></td>
+    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码？</a>
     </td>
   </tr>
   <tr>

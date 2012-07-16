@@ -18,7 +18,8 @@ $(document).ready(function() {
 					                }
 					                
 					            }
-					        }					        
+					        }	
+					    alert(1);
 					        ajaxpost(data);
 					});
 					
@@ -93,47 +94,11 @@ $(document).ready(function() {
 												required : '请选择区域'
 											}
 										},
-										errorPlacement : function(error,element) {
-											if (error.html()) {
-												$(element).parents().map(
-																function() {
-																	if (this.tagName.toLowerCase() == 'td') {
-																		var attentionElement = $(this).next().children().eq(0);
-																		attentionElement.css('display','block');
-																		attentionElement.next().html(error);
-																	}
-																});
-											}
-										},
-										showErrors : function(errorMap,errorList) {
-											if (errorList&& errorList.length > 0) {
-												$.each(errorList,function(index,obj) {
-													var msg = this.message;
-														$(obj.element).parents().map(
-															function() {
-																if (this.tagName.toLowerCase() == 'td') {
-																	var attentionElement = $(this).next().children().eq(0);
-																		attentionElement.show();
-																		attentionElement.next().html(msg);
-																		}
-																});
-													});
-											} else {
-												$(this.currentElements).parents().map(
-															function() {
-																if (this.tagName.toLowerCase() == 'td') {
-																		$(this).next().children().eq(0).hide();
-																	}
-																});
-											}
-											this.defaultShowErrors();
-										},
-										submitHandler : function() {
-											// alert("提交成功！");
-										saveRegData();
-										// $(this)[0].currentForm.reset();
-
-										return false;
+										errorPlacement:errorPlacement,
+										showErrors :showErrors,		
+										submitHandler : function() {											
+											saveRegData();
+											return false;
 									}
 									});
 
@@ -233,8 +198,95 @@ $(document).ready(function() {
 
 					// $("#regSubmit1").omButton();
 					//$("#reset").omButton();
+					
+					
+					
 
+					/**
+					 *找回密码
+					 * */
+					$('#getUserPasswordHref').bind('click', function() {
+						$("#getUserPassword").omDialog('open');
+					});
+
+					$("#getUserPassword").omDialog( {
+						autoOpen : false,
+						height : 240,
+						width : 550
+					});
+					/*
+					 * 用户注册表单验证
+					 */
+					$('#getUserPasswordForm').validate(
+									{
+										rules : {
+											loginId : {
+												required : true
+											},
+											
+											email : {
+												required : true
+											}
+										},
+										messages : {
+											loginId : {
+												required : '请输入用户名'
+											},
+											
+											email : {
+												required : '请输入email'
+											}
+										},
+										errorPlacement:errorPlacement,
+										showErrors :showErrors,									
+										submitHandler : function() {
+											getUerPassword();
+										//saveRegData();
+										// $(this)[0].currentForm.reset();
+
+										return false;
+									}
+									});
+					//
 				});
+
+
+errorPlacement=function(error,element) {
+	if (error.html()) {
+		$(element).parents().map(
+						function() {
+							if (this.tagName.toLowerCase() == 'td') {
+								var attentionElement = $(this).next().children().eq(0);
+								attentionElement.css('display','block');
+								attentionElement.next().html(error);
+							}
+						});
+	}
+}
+
+showErrors=function(errorMap,errorList) {
+	if (errorList&& errorList.length > 0) {
+		$.each(errorList,function(index,obj) {
+			var msg = this.message;
+				$(obj.element).parents().map(
+					function() {
+						if (this.tagName.toLowerCase() == 'td') {
+							var attentionElement = $(this).next().children().eq(0);
+								attentionElement.show();
+								attentionElement.next().html(msg);
+								}
+						});
+			});
+	} else {
+		$(this.currentElements).parents().map(
+					function() {
+						if (this.tagName.toLowerCase() == 'td') {
+								$(this).next().children().eq(0).hide();
+							}
+						});
+	}
+	this.defaultShowErrors();
+}
 /**
  * 通过国家级联地区
  */
@@ -265,7 +317,6 @@ function getCityRecords() {
  * 
  */
 function saveRegData() {
-
 	var data = {
 		url : 'qt/userReg.do',
 		params : {
@@ -288,6 +339,33 @@ function saveRegData() {
 		callback : function(json) {
 			if (json.success) {
 				showWaiting();
+				setTimeout("$.omMessageBox.waiting('close');showRegSuccess();", 3000);
+			} else {
+				showError(json.info);
+
+			}
+
+		}
+	}
+	ajaxpost(data);
+
+}
+
+/**
+ * 请求找回密码
+ * 
+ */
+function getUerPassword() {
+	var data = {
+		url : 'qt/getPassword.do',
+		params : {
+			loginId : $('#loginId_').val(),			
+			email : $('#email_').val()		
+		},
+		callback : function(json) {
+			if (json.success) {
+				showWaiting();
+				setTimeout("$.omMessageBox.waiting('close');getPasswordSuccess();", 3000);
 			} else {
 				showError(json.info);
 
@@ -302,11 +380,9 @@ function showWaiting() {
 	$.omMessageBox.waiting( {
 		title : '请等待',
 		content : '服务器正在处理请求，请稍等...'
-	});
-	setTimeout("$.omMessageBox.waiting('close');showSuccess();", 3000);
-
+	});	
 }
-function showSuccess() {
+function showRegSuccess() {
 	$.omMessageBox.alert( {
 		type : 'success',
 		title : '成功',
@@ -317,6 +393,18 @@ function showSuccess() {
 		}
 	});
 }
+function getPasswordSuccess() {
+	$.omMessageBox.alert( {
+		type : 'success',
+		title : '成功',
+		content : '密码已经发送至您的邮箱，请登录邮箱查看！',
+		onClose : function(v) {
+			$('#getUserPassword').omDialog('close');
+			$('#getUserPasswordForm')[0].reset();
+		}
+	});
+}
+
 function showError(v) {
 	$.omMessageBox.alert( {
 		type : 'error',
@@ -327,6 +415,9 @@ function showError(v) {
 	}
 	});
 }
-function reloadimage(){
-	$('#vailcode').attr('src' , 'ht/logincode.do?'+new Date().getTime());
+/**
+ * 重载验证码
+ * */
+function reloadimage(codeImageID){
+	$('#'+codeImageID).attr('src' , 'ht/logincode.do?'+new Date().getTime());
 }

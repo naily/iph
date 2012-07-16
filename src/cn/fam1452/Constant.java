@@ -24,4 +24,5 @@ public class Constant {
 	
 	public static String TOTAL = "total" ;
 	public static String ROWS = "rows" ;
+	
 }

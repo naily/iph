@@ -88,9 +88,8 @@ public class NewsMod extends BaseMod{
 			//姑且只有js验证
 			if(null != news){
 				news.setNewsId(String.valueOf(System.currentTimeMillis())) ;
-				news.setPublishDate(DateUtil.getCurrentDate()) ;
-//				log.info(news.isPicNews()) ;
-//				log.info(news.getContent()) ;
+				log.info(news.isPicNews()) ;
+				log.info(news.getContent()) ;
 				
 				if(StringUtil.checkNotNull(news.getNewsId()) ){ //&& baseService.dao.fetch(news) == null
 					baseService.dao.insert(news) ;
@@ -118,19 +117,19 @@ public class NewsMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
 
-		List<News>  list = baseService.dao.query(News.class, null, page.getNutzPager()) ;
+		List<MetaData>  list = baseService.dao.query(MetaData.class, null, page.getNutzPager()) ;
 		
-		json.put(Constant.TOTAL, baseService.dao.count(News.class)) ;
+		json.put(Constant.TOTAL, baseService.dao.count(MetaData.class)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.setExcludes(new String[] { "content", "publishDate" , "picture"  }); 
+		cfg.setExcludes(new String[] { "thumbnail", "fullContent" , "mdDate"  }); 
 		JSONArray array = new JSONArray();
 		
-		for(News g : list ){
+		for(MetaData g : list ){
 			JSONObject item = new JSONObject();
 			
 			item = JSONObject.fromObject(g , cfg) ;
-			item.put("publishDate", DateUtil.convertDateToString(g.getPublishDate() == null  ? DateUtil.getCurrentDate() : g.getPublishDate() , DateUtil.pattern2)) ;
+			item.put("mdDate", DateUtil.convertDateToString(g.getMdDate(), DateUtil.pattern2)) ;
 			
 			array.add(item) ;
 		}
@@ -228,30 +227,14 @@ public class NewsMod extends BaseMod{
      * @param fileName
      * @return
      */
-    public String getFileUrl(String fileName,HttpServletRequest request){
-    	return request.getContextPath() + UPLOAD_PIC_PATH + fileName; 
+    public String getFileUrl(String fileName){
+    	return "userfiles/images/" + fileName;
     }
     
     private static final String UPLOAD_PIC_PATH = "/data/editor/images/";
-  	private static final long MAX_SIZE = 300000;// 设置上传文件最大为 100KB
+  	private static final long MAX_SIZE = 100000;// 设置上传文件最大为 100KB
   	private byte[] imgBufTemp = new byte[102401];
   	private String OMEditorFuncNum ;
-  	
-	@At("/ht/omEditorImageUpload")
-  	public void uploadEditorImages(String OMEditorFuncNum ,
-  			HttpServletRequest request, HttpServletResponse response , ServletContext servletContext){
-  		this.OMEditorFuncNum = OMEditorFuncNum ;
-  		if(StringUtil.checkNotNull(this.OMEditorFuncNum)){
-  			try {
-				this.defaultProcessFileUpload(request, response, servletContext) ;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				log.error(e.getMessage()) ;
-			}
-  		}
-  	}
-  	                                 
   	
     private void defaultProcessFileUpload(HttpServletRequest request, HttpServletResponse response , ServletContext servletContext)
             throws IOException {
@@ -274,7 +257,7 @@ public class NewsMod extends BaseMod{
                         String ext = item.getName().substring(item.getName().lastIndexOf(".") + 1);
                         String fileName = prefix + "." + ext;
                     	String savePath = getSavePath(fileName , servletContext );
-                    	fileUrl = getFileUrl(fileName , request);
+                    	fileUrl = getFileUrl(fileName);
                         bos = new BufferedOutputStream(new FileOutputStream(new File(savePath)));
                         int length;
                         while ((length = stream.read(imgBufTemp)) != -1) {
