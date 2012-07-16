@@ -2,10 +2,14 @@ $(document).ready(function(){
 
 	var editor = $('#contentId').omEditor({
 		width : 600 ,
-		filebrowserImageUploadUrl : '../../../omEditorImageUpload.do?type=Images'
+		filebrowserImageUploadUrl : './omEditorImageUpload.do'
 
      });
-	
+	function clearfm (){
+		$( '#contentId' ).omEditor('setData' , '') ;
+		$('#title').val('') ;
+		$('#isPicNews').removeAttr('checked') ;
+	}
 	//表单验证
      var notempty = "不能为空" ;
     $("#savenewsfm").validate({
@@ -26,13 +30,19 @@ $(document).ready(function(){
                     callback : function(json){
                         if(json.success){
                             //$('#list0').omGrid('reload');
+                        	clearfm() ;
+                        	$.omMessageTip.show({
+					                type:'success',
+					                title:'提醒',
+					                timeout : 3000 ,
+					                content:'保存成功'
+					        });
                         }else{
                             at({cont: json.info , type : 'error'});
                         }
                     }
                 } 
                 //alert(data.params.content) ;
-                
 	        	ajaxpost(data) ;
             }
         	return false;
