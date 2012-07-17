@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
 <script type="text/javascript" src="js/userRegist.js"></script>
-<script type="text/javascript" src="js/indexLogin.js"></script>
+<script type="text/javascript" src="js/indexNews.js"></script>
 </head>
 
 <body>
@@ -199,11 +199,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--rightbox1 项目简介 结束-->
 <div class="rightbox2">
 <div class="rightbox2_1">
-<div class="rightbox2_1_img"></div>
+<div class="rightbox2_1_img" id="indexRightNewsImg"></div>
 <div class="title5">图片新闻</div>
-<div class="rightbox2_1_text"><a href="#" class="a2">新闻内容</a></div>
+<div class="rightbox2_1_text"><a href="#" class="a2"><div id="newsBrief"></div></a></div>
 </div><!--rightbox2_1 结束-->
-
 <div class="rightbox2_2">
 <div class="title6">最新数据更新</div>
 <div class="rightbox2_2_text">
