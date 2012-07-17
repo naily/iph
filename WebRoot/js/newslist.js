@@ -22,6 +22,11 @@ $(document).ready(function(){
          dataSource : 'ht/newslist.do' 
      });
      
+     var editor = $('#contentId').omEditor({
+        width : 600 ,
+        filebrowserImageUploadUrl : './omEditorImageUpload.do'
+
+     });
     
     $('#buttonbar').omButtonbar({
             	width : '99.8%',
@@ -35,11 +40,11 @@ $(document).ready(function(){
 								}else{
 									var arry = new Array( ) ;
 									for(var i=0 ; i<ss.length ; i++){
-										arry.push(ss[i].ID );
+										arry.push(ss[i].newsId );
 									}
 									
 									var delt = {
-						                        url : 'ht/pamdel.do',
+						                        url : 'ht/newsdel.do',
 						                        params : {ids: arry.join(";")}  ,
 						                        callback : function(json){
 						                            if(json.success){
@@ -76,50 +81,33 @@ $(document).ready(function(){
 								    at({cont:'请选择一条记录修改！' , type : 'error'});
 								    return;
 								}else{
-									var igid = ss[0].ID ;
+									var igid = ss[0].newsId ;
 									var getpgt = {
-						                        url : 'ht/pamget.do',
+						                        url : 'ht/newsget.do',
 						                        params : {id : igid }  ,
 						                        callback : function(json){
-						                            if(json.success){
-						                                //$('#list0').omGrid('reload');
+						                            if(json){
+						                            	$('#title').val(json.title) ;
+						                            	$('#contentId').omEditor('setData' , json.content) ;
+						                            	if(json.isPicNews ){
+						                            		$('#isPicNews').attr('checked' , true) ;
+						                            	}else{
+						                            		$('#isPicNews').removeAttr('checked') ;
+						                            	}
+						                            	
+						                            	$( "#tab1").omDialog('open');
 						                            }else{
-						                               	//at({cont: json.info , type : 'error'});
+						                            	at({cont: "查询文章失败" , type : 'error'});
 						                            }
-					                                var cd = json.createDate ;
-					                                $('#actionDate').val( cd.substring(0,11) );
-						                            $('#comboStation').omCombo('value', json.stationID);
-						                            $('#ip1').val(json.foF2) ;
-                                                    $('#ip2').val(json.h1F2) ;
-                                                    $('#ip3').val(json.foF1) ;
-                                                    $('#ip4').val(json.h1F1) ;
-                                                    $('#ip5').val(json.hlF) ;
-                                                    $('#ip6').val(json.hpF) ;
-                                                    $('#ip7').val(json.foE) ;
-                                                    $('#ip8').val(json.hlE) ;
-                                                    $('#ip9').val(json.foEs) ;
-                                                    $('#ip10').val(json.hlEs) ;
-                                                    
-						                            $( "#tab1").omDialog('open');
 						                            
 						                            $('#savebut').omButton({
 												     	onClick : function(){
-												     		json.createDate = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd');
-								                            json.stationID = $('#comboStation').omCombo('value');
-                                                            
-								                            json.foF2 = $('#ip1').val();
-                                                            json.h1F2 = $('#ip2').val();
-                                                            json.foF1 = $('#ip3').val();
-                                                            json.h1F1 = $('#ip4').val();
-                                                            json.hlF = $('#ip5').val();
-                                                            json.hpF = $('#ip6').val();
-                                                            json.foE = $('#ip7').val();
-                                                            json.hlE = $('#ip8').val();
-                                                            json.foEs = $('#ip9').val();
-                                                            json.hlEs = $('#ip10').val();
+								                            json.title = $('#title').val() ;
+							                                json.isPicNews = $('#isPicNews').attr('checked') ? true : false ;
+							                                json.content = $( '#contentId' ).omEditor('getData') ;
 								                            
 												     		var updatepgt = {
-													                        url : 'ht/pamupdate.do',
+													                        url : 'ht/newsupdate.do',
 													                        params : json  ,
 													                        callback : function(json){
 													                            if(json.success){
@@ -138,7 +126,7 @@ $(document).ready(function(){
 												     		}
 												     		ajaxpost(updatepgt);
 												     	}
-												     })
+												     }) ;
 						                        }
 					                }
 					                ajaxpost(getpgt);
@@ -153,7 +141,7 @@ $(document).ready(function(){
             autoOpen: false,
             resizable: false ,
             width:'auto' ,
-            title:'修改电离层参数信息'
+            title:'修改新闻'
      });
     
     

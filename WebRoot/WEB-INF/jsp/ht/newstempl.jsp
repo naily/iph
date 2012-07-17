@@ -42,14 +42,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <a id="del"  href="javascript:void(0)">删除</a>
     	</span>
     	 -->
-        <div class="newsbox">
+        <div class="newsbox" style="margin: auto;">
 			<div class="newstitle">${obj.title }</div>
-			<div class="newsinfo">作者：*** 来源：*** 日期： <fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
+			<div class="newsinfo"><!--  作者：*** 来源：*** --> 日期： <fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
 			<div class="newstext">
 			${obj.content }
 			</div>
 		</div>
-        
         
     </div>
     

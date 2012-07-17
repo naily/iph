@@ -102,6 +102,7 @@ public class NewsMod extends BaseMod{
 //				log.info(news.isPicNews()) ;
 //				log.info(news.getContent()) ;
 				
+				
 				if(StringUtil.checkNotNull(news.getNewsId()) ){ //&& baseService.dao.fetch(news) == null
 					baseService.dao.insert(news) ;
 					json.put(Constant.SUCCESS, true) ;
@@ -158,22 +159,13 @@ public class NewsMod extends BaseMod{
 		if(StringUtil.checkNotNull(ids) ){
 			String[] idss = ids.split(";") ;
 			
-			List<MetaData> igs = new ArrayList<MetaData>() ;
+			List<News> igs = new ArrayList<News>() ;
 			for (String id : idss) {
-				MetaData ig = new MetaData();
-				ig.setMdId (id) ;
+				News n = new News();
+				n.setNewsId(id) ;
 				
-				ig = baseService.dao.fetch(ig) ;
-				
-				if(null != ig){
-					igs.add(ig) ;
-					
-					String fp = this.getAppRealPath(context) + ig.getFullContentFilePath() ;
-					File f = new File(fp) ;
-					if(f.exists() && f.isFile()){
-						f.delete() ;
-					}
-				}
+				n = baseService.dao.fetch(n) ;
+				igs.add(n) ;
 			}
 			
 			if(null != igs && igs.size() > 0 ){
@@ -196,11 +188,11 @@ public class NewsMod extends BaseMod{
 	@POST
 	@At("/ht/newsupdate")
     @Ok("json")
-	public JSONObject updatenews(@Param("..")MetaData params){
+	public JSONObject updatenews(@Param("..")News params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(StringUtil.checkNotNull(params.getMdId()) && null != baseService.dao.fetch(params)){
+		if(StringUtil.checkNotNull(params.getNewsId() ) && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
 		}else{
@@ -214,10 +206,10 @@ public class NewsMod extends BaseMod{
 	@POST
 	@At("/ht/newsget")
     @Ok("json")
-    public MetaData get(String id){
-		MetaData ig = null ;
+    public News get(String id){
+		News ig = null ;
 		if(StringUtil.checkNotNull(id)){
-			ig = baseService.dao.fetch(MetaData.class, id) ;
+			ig = baseService.dao.fetch(News.class, id) ;
 		}
 		
 		return ig ;

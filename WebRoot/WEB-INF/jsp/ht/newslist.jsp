@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<table id="list0"></table>
         
         <div id="tab1">
-        	<form action="#" id="savenewsfm" method="post">
+        	
         	<table width="790" border="0">
         	<tr>
                 <td align="left">&nbsp; </td>
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </td>
               </tr>
             </table>
-            </form>
+            
         </div>
         
     </div>

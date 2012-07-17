@@ -1,11 +1,13 @@
 package cn.fam1452.dao;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
 
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.MetaData;
+import cn.fam1452.dao.pojo.News;
 
 public class DataSourceTest {
 	
@@ -18,10 +20,15 @@ public class DataSourceTest {
 		//ds.close();  // 关闭池内所有连接
 		
 		Dao dao = new NutDao(ds);
-		if(!dao.exists("T_IRONOGRAM")){
+		/*if(!dao.exists("T_IRONOGRAM")){
     		dao.create(IronoGram.class, false) ;
-    	}
+    	}*/
 		
-		dao.create(MetaData.class, true) ;
+		//dao.create(MetaData.class, true) ;
+		
+		News n = dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
+		System.out.println(n.getTitle());
 	}
+	
+	
 }
