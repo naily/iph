@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>电离层专题数据库管理系统${sessionScope.qt_account.loginId}${sessionScope.qt_account.login}</title>
+<title>电离层专题数据库管理系统</title>
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>

@@ -1395,23 +1395,27 @@ public class StringUtil
     	}
         return imgUrl;
     } 
-	/**
-	 * 获取指定长度的字符
-	 * */
-	public static String subString(String imgStr,int len)
-    {
-		String pattern = "<img [^~]*?>";	
-        Matcher matcher = Pattern.compile(pattern).matcher(imgStr);
-        String imgUrl_ =null;
-    	while(matcher.find()){
-    		imgUrl_=matcher.group();
-    		imgStr=imgStr.replaceAll(imgUrl_, "");
-    	}
-    	if(imgStr.length()>len){
-    		len=imgStr.length()-1;
-    	}
-    	imgStr=imgStr.substring(0, len);
-		return imgStr;
-    }
-	
+	/** 
+	* 方法描述： 去掉html标签 ,并返回一定长度的字符串
+	* @return String 
+	*/ 
+
+	public static String splitAndFilterString(String input, int length) {  
+	        if (input == null || input.trim().equals("")) {  
+	            return "";  
+	        }  
+	        // 去掉所有html元素,  
+	        String str = input.replaceAll("<img [^~]*?>", "").replaceAll("\\&[a-zA-Z]{1,10};", "").replaceAll(  
+	                "<[^>]*>", "");  
+	        str = str.replaceAll("[(/>)<]", "");  
+	        int len = str.length();  
+	        if (len <= length) {  
+	            return str;  
+	        } else {  
+	            str = str.substring(0, length);  
+	            str += "...";  
+	        }  
+	        return str;  
+	    }  
+
 }

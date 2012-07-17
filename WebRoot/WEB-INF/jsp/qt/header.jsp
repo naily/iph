@@ -13,67 +13,182 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- -->
 	<link href="images/1.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
-	<script type="text/javascript">
-		$(document).ready(function(){
-		    $("#M1,#M2,#M0").click(function() {
-		
-		        $(this).parent().find(".menu_body").slideDown('fast').show();
-		
-		        $(this).parent().hover(function() {}, 
-			        function(){
-			            $(this).parent().find(".menu_body").slideUp('slow');
-			    	});
-		     });
-		});
-	</script>
+
+
+<script type="text/javascript" src="js/userRegist.js"></script>
   </head>
   
   <body>
-  <div id="top2">
-	<div class="top_right2"></div>
-	<!--top右侧结束-->
-	<div class="top_language"><a href="ht/lang/zh_CN.do" class="a1">中文</a>   <a href="ht/lang/en_US.do" class="a1">English</a> </div>
-  </div><!--top结束-->
-  <div class="menu">
-	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
-	<div class="menutext"><a href='javascript:;' class="a3" id="M0">${msg['ht_menu_sysseting']}</a>
-		<div class="menu_body">
-	      <a href="ht/admins.do" title="管理员">管理员信息</a>
-	      <a href="ht/stationload.do" title="观测站管理">观测站</a>
-	    </div>
+ <!-- 用户注册 start -->
+<div id="userRegDialog"  title="用户注册">
+        <div >
+	    		<form id="userRegForm"  name="userRegForm">
+	    		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+				  <tr>
+				    <td height="10" colspan="3" align="center">&nbsp;</td>
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_username']}：</td>
+				    <td class="userregtd2"><input name="loginId" id="loginId" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_password']}：</td>
+				    <td ><input name="password" id="password" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_realname']}：</td>
+				    <td><input name="name" id="name" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_gender']}：</td>
+				    <td><input name="gender" id="gender" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_degree']}：</td>
+				    <td ><input name="eduBackground" id="eduBackground" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_email']}：</td>
+				    <td><input name="email" id="email" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_industry']}：</td>
+				    <td><input name="vocation" id="vocation" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_country']}：</td>
+				    <td><input name="country" id="country" class="boxinput3" /></td>
+				    <td class="userregtd_img"></td>
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_region']}：</td>
+				    <td><input name="region" id="region" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>
+				   <tr>
+				    <td class="userregtd">${msg['qt_regist_company']}：</td>
+				    <td ><input name="workunit" id="workunit" class="boxinput3" /></td>
+				    <td class="userregtd_img"></td>
+				    </tr>
+				    <tr>
+				    <td class="userregtd">${msg['qt_regist_address']}：</td>
+				    <td><input name="address" id="address" class="boxinput3" /></td>
+				    <td class="userregtd_img"></td>
+				    </tr>
+				    <tr>
+				    <td class="userregtd">${msg['qt_regist_zipcode']}：</td>
+				    <td><input name="zipcode" id="zipcode" class="boxinput3" /></td>
+				    <td class="userregtd_img"></td>
+				    </tr> 
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_telephone']}：</td>
+				    <td><input name="telephone" id="telephone" class="boxinput3" /></td>
+				    <td class="userregtd_img"></td>
+				    </tr> 
+				    <tr>
+				    <td  class="userregtd">${msg['ht_login_code']}：</td>
+				    <td ><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="90" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode');" class="a4"> 换一张</a></td>
+				    <td class="userregtd_img"></td>
+				    
+				  </tr>				  
+				  <tr>
+				    <td height="30" colspan="3" align="center">
+				    
+				    <input name="regSubmit"  id="regSubmit" type="image" value="ee" src="images/d10.jpg" />
+				    
+				    </td>
+				  </tr>
+				</table>
+				</form>
+				</div>
+    </div>
+    <!-- 找回密码 start -->
+    <div id="getUserPassword"  title="找回密码">
+        <div >
+	    		<form id="getUserPasswordForm" name="getUserPasswordForm">
+	    		<table border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+				  <tr>
+				    <td height="10" colspan="3" align="center">&nbsp;</td>
+				    </tr>
+				  <tr>
+				    <td class="userregtd">${msg['qt_regist_username']}：</td>
+				    <td class="userregtd2">
+				      <input name="loginId" id="loginId_" class="boxinput3" /><!-- <span class="redcolor">*</span> -->
+				    </td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    
+				    </tr>
+				  
+				     <tr>
+				    <td class="userregtd">${msg['qt_regist_email']}：</td>
+				    <td><input name="email" id="email_" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
+				   <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
+				    </tr>				     
+				    <tr>
+				    <td  class="userregtd">${msg['ht_login_code']}：</td>
+				    <td><input type="text" name="code1" id="code1" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="70" height="22" border="0" id="vailcode_1"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode_1');" class="a4">换一张</a></td>
+				  <td class="userregtd_img"></td>
+				    
+				  </tr>				  
+				  <tr>
+				    <td height="30" colspan="3" align="center">				 
+				    <input name="getUserPasswordSubmit"  id="getUserPasswordSubmit" type="image" value="getpassword" src="images/d10.jpg" />				    
+				    </td>
+				  </tr>
+				</table>
+				</form>
+				</div>
+    </div>
+     <!-- 找回密码 end -->
+<div id="top">
+<div class="top_right" >
+<table width="518" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="508" height="35"  align="right" class="fontstyle1">
+   <div id="user_login_form">
+       <c:choose>
+	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
+	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
+	    	</c:when>
+	    	<c:otherwise><!-- 未登录 -->
+					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
+					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
+                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
+    	</c:otherwise>
+    	</c:choose>
+    </div>
+    </td>
+    <td width="5"></td>
+    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码？</a>
+    </td>
+  </tr>
+  <tr>
+    <td height="67" colspan="6">&nbsp;</td>
+    </tr>
+  <tr>
+    <td height="30" colspan="6">
+	<div class="nav">
+	<a href="#" class="a2 nav_float">首页</a>
+	<a href="#" class="a2 nav_float">找数据</a>
+	<a href="#" class="a2 nav_float">报表</a>
+	<a href="#" class="a2 nav_float">曲线图</a>
+	<a href="#" class="a2 nav_float">关于我们</a>
 	</div>
-	<div class="menutext"><a href="javascript:;" class="a3" id="M1">数据管理</a>
-		<div class="menu_body">
-	      <a href="ht/pgt.do" title="电离层频高图录入与管理维护">电离层频高图管理</a>
-	      <a href="ht/pam.do" title="电离层参数录入与管理维护">电离层参数管理</a>
-	      <a href="ht/sac.do" title="报表扫描图管理维护">报表扫描图管理</a> 
-	      <a href="ht/med.do" title="元数据录入与管理维护">元数据管理</a>
-	    </div></div>
-	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>
-		<div class="menu_body">
-	      <a href="#" title="用户管理与统计">用户管理</a>
-	      <a href="#" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
-	    </div>
-	</div>
-	<div class="menutext1"><a href="javascript:;" class="a3">访问权限管理</a></div>
-	<div class="menutext"><a href="javascript:;" class="a3">管理日志</a></div>
-	<div class="menutext"><a href="javascript:;" class="a3">服务系统</a></div>
-	<div class="menutext"><a href="javascript:;" class="a3">新闻管理</a></div>
-  </div>
-  
-    <!-- 
-    <table width="80%" border="0">
-		  <tr>
-		    <td>&nbsp;</td>
-		    <td>&nbsp;<a href='ht/admins.do'>${msg['ht_menu_sysseting']}</a></td>
-		    <td>&nbsp;${msg['ht_menu_datamgr']}</td>
-		    <td>&nbsp;${msg['ht_menu_usermgr']}</td>
-		    <td>&nbsp;${msg['ht_menu_protect']}</td>
-		    <td>&nbsp;${msg['ht_menu_logmgr']}</td>
-		    <td>&nbsp;${msg['ht_menu_sysservice']}</td>
-		    <td>&nbsp;${msg['ht_menu_newsmgr']}</td>
-		  </tr>
-		</table>
-     -->
+	
+	</td>
+    </tr>
+</table>
+</div><!--top右侧结束-->
+<div class="top_language"><a href="javascript:;" class="a1">中文</a>   <a href="javascript:;" class="a1">English</a> </div>
+</div><!--top结束-->
+
   </body>
 </html>
