@@ -13,12 +13,13 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
 import cn.fam1452.Constant;
+import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.News;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
-public class QTNewsMod {
+public class QTNewsMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
 	
@@ -27,6 +28,25 @@ public class QTNewsMod {
     public JSONObject loadPicNews(HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
+		News news = baseService.dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
+		if(null!=news){
+			String dbNewsContent =news.getContent();//
+			String  pageNewsContent=StringUtil.subString(dbNewsContent, 10);
+			if(StringUtil.checkNotNull(pageNewsContent)){
+				pageNewsContent=pageNewsContent.trim();
+			}			
+			json.put(Constant.SUCCESS, true);
+			if(StringUtil.checkNotNull(dbNewsContent)){
+				json.put("imgStr", StringUtil.GetFirstImages(dbNewsContent));
+				
+				json.put("newsBrief", pageNewsContent);
+			}else{
+				json.put("imgStr", "");
+				json.put("newsBrief", "");
+			}
+			log.info("img="+StringUtil.GetFirstImages(dbNewsContent));
+			log.info("cont="+pageNewsContent);
+		}
 		return json ;
 	}
 }

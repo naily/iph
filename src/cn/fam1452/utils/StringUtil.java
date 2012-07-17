@@ -8,6 +8,8 @@ import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -1034,7 +1036,7 @@ public class StringUtil
 		return src.replaceAll("\\s+", " ");
 	}
 	public static void main(String[] args)
-	{
+	{		
 		//		String testStr = "<input > &    \\r\\n    \\n", newStr;
 		//		newStr = toHtml(testStr);
 		//		System.out.println(testStr);
@@ -1380,5 +1382,36 @@ public class StringUtil
 		ResourceBundle conf = ResourceBundle.getBundle("conf");
 		return conf.getString("WS.url") ;
 	}
+	/**
+	 * 从字符串中找出截取出图片
+	 * */
+	public static String GetFirstImages(String htmlText)
+    {
+		String pattern = "<img [^~]*?>";
+        Matcher matcher = Pattern.compile(pattern).matcher(htmlText);
+        String imgUrl =null;
+    	if(matcher.find()){
+    		imgUrl=matcher.group();
+    	}
+        return imgUrl;
+    } 
+	/**
+	 * 获取指定长度的字符
+	 * */
+	public static String subString(String imgStr,int len)
+    {
+		String pattern = "<img [^~]*?>";	
+        Matcher matcher = Pattern.compile(pattern).matcher(imgStr);
+        String imgUrl_ =null;
+    	while(matcher.find()){
+    		imgUrl_=matcher.group();
+    		imgStr=imgStr.replaceAll(imgUrl_, "");
+    	}
+    	if(imgStr.length()>len){
+    		len=imgStr.length()-1;
+    	}
+    	imgStr=imgStr.substring(0, len);
+		return imgStr;
+    }
 	
 }
