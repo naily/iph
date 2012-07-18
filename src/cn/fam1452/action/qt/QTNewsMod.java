@@ -82,7 +82,7 @@ public class QTNewsMod extends BaseMod{
 	
 	@At("/qt/indexNewsList")
     @Ok("json")
-    public String newsListss(){
+    public JSONObject newsListss(){
 		JSONObject json12 = new JSONObject();
 		json12.put(Constant.SUCCESS, false) ;
 		List newslist = baseService.dao.query(News.class, null,baseService.dao.createPager(1, 10)) ;
@@ -96,7 +96,7 @@ public class QTNewsMod extends BaseMod{
 		}else{
 			
 		}	
-		log.info(json12.toString());
-		return json12.toString();
+		//log.info(json12.toString());
+		return json12;
 	}
 }
