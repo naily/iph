@@ -34,6 +34,7 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
@@ -47,6 +48,9 @@ public class PgtMod extends BaseMod{
 	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	
+	@Inject("refer:dataLogService")
+	private DataLogService dls ;
 
 	@At("/ht/pgt")
     @Ok("jsp:jsp.ht.pgt")
@@ -54,6 +58,8 @@ public class PgtMod extends BaseMod{
 	@At("/ht/pgtlist")
     @Ok("jsp:jsp.ht.pgtlist")
     public void loadPgtlist(HttpServletRequest req){}
+	
+	private static final String tableName = "T_IRONOGRAM" ;
 	
 	/**
 	 * 上传单个高频图文件 
@@ -79,6 +85,8 @@ public class PgtMod extends BaseMod{
 						if(baseService.dao.fetch(gram) == null){
 							baseService.dao.insert(gram) ;
 							json.put(Constant.SUCCESS, true) ;
+							
+							dls.insert("01", tableName, "admin") ;
 						}else{
 							json.put(Constant.INFO, "该频高图文件已经存在") ;
 						}
@@ -174,6 +182,7 @@ public class PgtMod extends BaseMod{
 			if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
+					dls.insert("03", tableName, "admin") ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
@@ -198,6 +207,8 @@ public class PgtMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getGramID()) && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
+			
+			dls.insert("02", tableName, "admin") ;
 		}else{
 			json.put(Constant.INFO, error2) ;
 		}
@@ -247,6 +258,8 @@ public class PgtMod extends BaseMod{
 				if(baseService.dao.fetch(ig) == null){
 					baseService.dao.insert(ig) ;
 					json.put(Constant.SUCCESS, true) ;
+					
+					dls.insert("01", tableName, "admin") ;
 				}else{
 					json.put(Constant.INFO, "该频高图文件已经存在") ;
 					json.put("error", 2) ;

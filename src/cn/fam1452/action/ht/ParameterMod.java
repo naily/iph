@@ -25,6 +25,7 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -45,8 +46,12 @@ public class ParameterMod extends BaseMod{
     @Ok("jsp:jsp.ht.pamlist")
 	public void loadListPages(){}
 	
+	@Inject("refer:dataLogService")
+	private DataLogService dls ;
+	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	private static final String tableName = "T_PARAMETER" ;
 	
 	@POST
 	@At("/ht/pamget")
@@ -123,6 +128,8 @@ public class ParameterMod extends BaseMod{
 			if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
+					
+					dls.insert("03", tableName, "admin") ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
@@ -148,6 +155,8 @@ public class ParameterMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getParameterID()) && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
+			
+			dls.insert("02", tableName, "admin") ;
 		}else{
 			json.put(Constant.INFO, error2) ;
 		}
@@ -180,6 +189,8 @@ public class ParameterMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getParameterID()) && null == baseService.dao.fetch(params)){
 			baseService.dao.insert(params) ;
 			json.put(Constant.SUCCESS, true ) ;
+			
+			dls.insert("01", tableName, "admin") ;
 		}else{
 			json.put(Constant.INFO, error7) ;
 		}

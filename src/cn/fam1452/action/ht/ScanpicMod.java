@@ -28,6 +28,7 @@ import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
@@ -50,9 +51,13 @@ public class ScanpicMod extends BaseMod{
     @Ok("jsp:jsp.ht.saclist")
 	public void loadListPages(){}
 	
+	@Inject("refer:dataLogService")
+	private DataLogService dls ;
 	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	private static final String tableName = "T_SCANPIC" ;
+	
 	/**
 	 * 批量导入报表扫描图，并从文件名解析观测站及日期
 	 * @return
@@ -95,6 +100,7 @@ public class ScanpicMod extends BaseMod{
 				if(baseService.dao.fetch(sp) == null){
 					baseService.dao.insert(sp) ;
 					json.put(Constant.SUCCESS, true) ;
+					dls.insert("03", tableName, "admin") ;
 				}else{
 					json.put(Constant.INFO, this.error4) ;
 					json.put("error", 2) ;
@@ -197,6 +203,7 @@ public class ScanpicMod extends BaseMod{
 			if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
+					dls.insert("03", tableName, "admin") ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
@@ -222,6 +229,7 @@ public class ScanpicMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getScanPicID()) && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
+			dls.insert("02", tableName, "admin") ;
 		}else{
 			json.put(Constant.INFO, error2) ;
 		}
@@ -252,6 +260,7 @@ public class ScanpicMod extends BaseMod{
 						if(baseService.dao.fetch(sac) == null){
 							baseService.dao.insert(sac) ;
 							json.put(Constant.SUCCESS, true) ;
+							dls.insert("03", tableName, "admin") ;
 						}else{
 							json.put(Constant.INFO, "该文件已经存在") ;
 						}
