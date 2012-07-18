@@ -302,7 +302,7 @@ public class NewsMod extends BaseMod{
             script.append("<script type=\"text/javascript\">");
             script.append("alert('");
             if(e instanceof SizeLimitExceededException){
-            	script.append("图片大小不能超过100KB");
+            	script.append("Photo size can't more than 300 KB");
             }else{
             	script.append(e.getMessage());
             }
