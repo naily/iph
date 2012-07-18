@@ -17,11 +17,11 @@ import org.nutz.dao.entity.annotation.Table;
  * @version $Revision:1.0.0, $Date:May 13, 2012 11:55:32 AM $
  */
 @Table("T_PROTECTDATE")
-public class Protectdate {
+public class ProtectDate {
 	
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=8)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String id ;
 	
 	
