@@ -24,5 +24,5 @@ public class Constant {
 	
 	public static String TOTAL = "total" ;
 	public static String ROWS = "rows" ;
-	
+	public static int PAGE_SIZE=20;
 }

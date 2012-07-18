@@ -3,9 +3,12 @@ $(document).ready(function() {
 					 * 用户登录
 					 * */
 					$('#userLoginHref').bind('click', function() {
-					    var data = {
+						var loginId=$('#userLoginId').val();
+						var password=$('#loginPassword').val();
+						if(loginId!='' && password!=''){
+						  var data = {
 					            url :'qt/userLogin.do' ,
-					            params :{loginId:$('#userLoginId').val() , password: $('#loginPassword').val()},
+					            params :{loginId:loginId , password: password},
 					            callback : function(json){
 					                if(json.success){
 					                	var loginName=$('#userLoginId').val();
@@ -20,6 +23,9 @@ $(document).ready(function() {
 					            }
 					        }	
 					        ajaxpost(data);
+						}
+						
+					    
 					});
 					
 	

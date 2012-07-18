@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../jstl.jsp" flush="true" />
+<%@ include file="../jstl.jsp" %>
 <!DOCTYPE HTML >
 <html>
   <head>
@@ -13,9 +13,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- -->
 	<link href="images/1.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
-
+<link href="css/index.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
+<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
 <script type="text/javascript" src="js/userRegist.js"></script>
+<title></title>
   </head>
   
   <body>
