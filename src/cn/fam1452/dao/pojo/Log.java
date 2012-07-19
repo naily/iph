@@ -13,7 +13,7 @@ import org.nutz.dao.entity.annotation.Table;
 public class Log {
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String id ;
 	
 	@Column
@@ -25,7 +25,7 @@ public class Log {
 	private String dataTable ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String adminId ;
 	
 	@Column

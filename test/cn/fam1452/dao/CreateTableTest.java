@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
 
+import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.ProtectDate;
 
 public class CreateTableTest {
@@ -26,6 +27,6 @@ public class CreateTableTest {
 	public void createTab(){
 		this.initDataSource() ;
 		
-		this.dao.create(ProtectDate.class, true) ;
+		this.dao.create(Log.class, true) ;
 	}
 }

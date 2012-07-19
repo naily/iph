@@ -88,6 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip10" type="text" name="" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
+                <td align="right">&nbsp;M3000F2:</td>
+                <td>&nbsp;<input id="ip11" type="text" name="" class="boxinput3" /> </td>
+              </tr>
+              <tr>
                 <td align="right">&nbsp; </td>
                 <td>&nbsp; <span id="errormsg" class="errorMessages"></span></td>
               </tr>

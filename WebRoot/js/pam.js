@@ -9,19 +9,18 @@ $(document).ready(function(){
     $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
-        optionField :'name' ,
-        value: 'WHA'
+        optionField :'name' 
     }) ;
     //观测日期
-    $('#actionDate').omCalendar();
+    $('#actionDate').omCalendar({showTime : true});
     
-    $('#ip1').omNumberField();
+    $('#ip11').omNumberField();
 	$('#ip2').omNumberField();
-	$('#ip3').omNumberField();
-	$('#ip4').omNumberField();
+	//$('#ip3').omNumberField();
+	//$('#ip4').omNumberField();
 	$('#ip5').omNumberField();
 	$('#ip6').omNumberField();
-	$('#ip7').omNumberField();
+	//$('#ip7').omNumberField();
 	$('#ip8').omNumberField();
 	$('#ip9').omNumberField();
 	$('#ip10').omNumberField();
@@ -51,7 +50,7 @@ $(document).ready(function(){
     
     $('#savebut').click(function(){
     	var st = $('#comboStation').omCombo('value') ;
-    	var ad = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd') ;
+    	var ad = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd H:i:s') ;
     	var ip1 = $('#ip1').val();
     	var ip2 = $('#ip2').val();
     	var ip3 = $('#ip3').val();
@@ -62,6 +61,7 @@ $(document).ready(function(){
     	var ip8 = $('#ip8').val();
     	var ip9 = $('#ip9').val();
     	var ip10 = $('#ip10').val();
+        var ip11 = $('#ip11').val();
     	
     	var data = {
     		url : 'ht/pamsave.do' ,
@@ -75,10 +75,11 @@ $(document).ready(function(){
     				  'foE':ip7,
     				  'hlE':ip8,
     				  'foEs':ip9,
-    				  'hlEs':ip10 } ,
+    				  'hlEs':ip10,
+                      'M3000F2' :ip11 } ,
     		callback : function(json){
     			if(json.success){
-    				
+    				$('#errormsg').hide();
     				$.omMessageTip.show({
 			                type:'success',
 			                title:'提醒',

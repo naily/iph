@@ -5,30 +5,31 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'ID',      name:'ID' },
-                         {header:'观测站',   name:'stationName'  } ,
-                         {header:'日期',    name:'createDate',width:100 } ,
-                         {header:'foF2',   name:'foF2' } ,
-                         {header:'h1F2',   name:'h1F2' } ,
-                         {header:'foF1',   name:'foF1' } ,
-                         {header:'h1F1',   name:'h1F1' } ,
-                         {header:'hlF',   name:'hlF' } ,
-                         {header:'hpF',   name:'hpF' } ,
-                         {header:'foE',   name:'foE' } ,
-                         {header:'hlE',   name:'hlE' } ,
-                         {header:'foEs',   name:'foEs' } ,
-                         {header:'hlEs',   name:'hlEs' } //,
+         colModel : [    {header:'ID',      name:'ID' , width:'autoExpand'},
+                         {header:'观测站',   name:'stationName'  ,width:80 } ,
+                         {header:'日期',    name:'createDate',width:120} ,
+                         {header:'foF2',   name:'foF2' ,width:30} ,
+                         {header:'h1F2',   name:'h1F2' ,width:30} ,
+                         {header:'foF1',   name:'foF1' ,width:30} ,
+                         {header:'h1F1',   name:'h1F1' ,width:30} ,
+                         {header:'hlF',   name:'hlF' ,width:30} ,
+                         {header:'hpF',   name:'hpF' ,width:30} ,
+                         {header:'foE',   name:'foE' ,width:30} ,
+                         {header:'hlE',   name:'hlE' ,width:30} ,
+                         {header:'foEs',   name:'foEs' ,width:30} ,
+                         {header:'hlEs',   name:'hlEs' ,width:30} //,
                          //{header:'fbEs',   name:'fbEs' } ,
                          //{header:'Fmin',   name:'Fmin' } 
          ],
          dataSource : 'ht/pamlist.do' 
      });
      
-     $('#actionDate').omCalendar();
+     $('#actionDate').omCalendar({disabled  : true });
      //观测站下拉框
      $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
+        disabled  : true ,
         optionField :'name' 
     }) ;
     
@@ -97,7 +98,7 @@ $(document).ready(function(){
 						                               	//at({cont: json.info , type : 'error'});
 						                            }
 					                                var cd = json.createDate ;
-					                                $('#actionDate').val( cd.substring(0,11) );
+					                                $('#actionDate').val( cd.substring(0,16) );
 						                            $('#comboStation').omCombo('value', json.stationID);
 						                            $('#ip1').val(json.foF2) ;
                                                     $('#ip2').val(json.h1F2) ;
@@ -109,6 +110,7 @@ $(document).ready(function(){
                                                     $('#ip8').val(json.hlE) ;
                                                     $('#ip9').val(json.foEs) ;
                                                     $('#ip10').val(json.hlEs) ;
+                                                    $('#ip11').val(json.M3000F2) ;
                                                     
 						                            $( "#tab1").omDialog('open');
 						                            
@@ -127,6 +129,7 @@ $(document).ready(function(){
                                                             json.hlE = $('#ip8').val();
                                                             json.foEs = $('#ip9').val();
                                                             json.hlEs = $('#ip10').val();
+                                                            json.M3000F2 = $('#ip11').val();
 								                            
 												     		var updatepgt = {
 													                        url : 'ht/pamupdate.do',

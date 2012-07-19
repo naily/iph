@@ -169,31 +169,38 @@ public class ParameterMod extends BaseMod{
 	public JSONObject save(@Param("..")Parameter params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		
-		if(StringUtil.checkNotNull(params.getStationID()) ){
-			int s = baseService.dao.count(Parameter.class, Cnd.where("stationID", "=", params.getStationID()).and("createDate", "=", params.getCreateDate()) ) ;
+		try{
+			if(StringUtil.checkNotNull(params.getStationID()) ){
+				int s = baseService.dao.count(Parameter.class, Cnd.where("stationID", "=", params.getStationID()).and("createDate", "=", params.getCreateDate()) ) ;
+				
+				StringBuilder id = new StringBuilder();
+				id.append(params.getStationID());
+				id.append(DateUtil.convertDateToString(params.getCreateDate(), "yyyyMMddHH") );
+				
+				String patt = "00" ;  
+				DecimalFormat nf  =  new DecimalFormat(patt);
+				id.append(nf.format(s)) ;
+				
+				params.setParameterID(id.toString()) ;
+			}else{
+				json.put(Constant.INFO, "请选择观测站") ;
+			}
 			
-			StringBuilder id = new StringBuilder();
-			id.append(params.getStationID());
-			id.append(DateUtil.convertDateToString(params.getCreateDate(), DateUtil.pattern3) );
+			if(StringUtil.checkNotNull(params.getParameterID()) && null == baseService.dao.fetch(params)){
+				baseService.dao.insert(params) ;
+				json.put(Constant.SUCCESS, true ) ;
+				
+				dls.insert("01", tableName, "admin") ;
+			}else{
+				json.put(Constant.INFO, error7) ;
+			}
 			
-			String patt = "00" ;  
-			DecimalFormat nf  =  new DecimalFormat(patt);
-			id.append(nf.format(s)) ;
-			
-			params.setParameterID(id.toString()) ;
-		}else{
-			json.put(Constant.INFO, "请选择观测站") ;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace() ;
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
 		}
-		
-		if(StringUtil.checkNotNull(params.getParameterID()) && null == baseService.dao.fetch(params)){
-			baseService.dao.insert(params) ;
-			json.put(Constant.SUCCESS, true ) ;
-			
-			dls.insert("01", tableName, "admin") ;
-		}else{
-			json.put(Constant.INFO, error7) ;
-		}
-		return json ;
 	}
 }
