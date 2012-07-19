@@ -15,16 +15,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 <script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
-
+<script type="text/javascript" src="js/index_global_zn.js"></script>
 <script type="text/javascript" src="js/userRegist.js"></script>
 <script type="text/javascript" src="js/indexNews.js"></script>
 </head>
 
 <body>
 <!-- 用户注册 start -->
-<div id="userRegDialog"  title="用户注册">
+    <div id="userRegDialog"  title="用户注册">
         <div >
 	    		<form id="userRegForm"  name="userRegForm">
+	    		<input name="optType" id="optTpyeID" type="hidden"/>
 	    		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
 				  <tr>
 				    <td height="10" colspan="3" align="center">&nbsp;</td>
@@ -158,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div id="user_login_form">
        <c:choose>
 	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
-	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
+	    	欢迎您：<a href="javascript:void(0)" onclick="getRegInfo()" class="a1">${sessionScope.qt_account.loginId}</a> &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
 	    	</c:when>
 	    	<c:otherwise><!-- 未登录 -->
 					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />

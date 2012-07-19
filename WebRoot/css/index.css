@@ -90,3 +90,16 @@ input.error,textarea.error {
 .loginbox_bor{ border:#bfd0e1 3px solid; background:#ffffff; font-size:14px; width:450px; }
 .boxinput4{ width:80px; height:20px; padding-top:3px; border:1px #cccccc solid; font-size:14px; background:#ffffff;}
 
+
+.index_a2{    
+        width:50px;    
+        white-space:nowrap;    
+        word-break:keep-all;    
+        overflow:hidden;    
+        text-overflow:ellipsis;   
+    }
+.index_a2:link{ color:#000000; text-decoration:none; }
+.index_a2:visited{ color:#000000; text-decoration:none; }
+.index_a2:active{ color:#000000; text-decoration:none; }
+.index_a2:hover{ color:#003399; text-decoration:none; }
+

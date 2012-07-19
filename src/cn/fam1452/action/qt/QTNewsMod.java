@@ -6,8 +6,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 import org.nutz.dao.Cnd;
 import org.nutz.dao.pager.Pager;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -83,20 +86,24 @@ public class QTNewsMod extends BaseMod{
 	@At("/qt/indexNewsList")
     @Ok("json")
     public JSONObject newsListss(){
-		JSONObject json12 = new JSONObject();
-		json12.put(Constant.SUCCESS, false) ;
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
 		List newslist = baseService.dao.query(News.class, null,baseService.dao.createPager(1, 10)) ;
-		JSONArray jsonAry = JSONArray.fromObject(newslist);
-		System.err.println(jsonAry.toString());
+		
+		JsonConfig cfg = new JsonConfig(); 
+		cfg.setExcludes(new String[] { "content", "publishDate" , "picture"  }); 
+		
+		JSONArray jsonAry = JSONArray.fromObject(newslist , cfg);
 
 		if(newslist!=null && newslist.size()>0){
-			json12.put(Constant.SUCCESS, true);
-			json12.put("newsList", jsonAry.toString());
-			json12.put("newsnum", newslist.size());
+			json.put(Constant.SUCCESS, true);
+			json.put("newsList", jsonAry);
+			json.put("newsnum", newslist.size());
 		}else{
 			
 		}	
+		//System.err.println(jsonAry.toString());
 		//log.info(json12.toString());
-		return json12;
+		return json;
 	}
 }

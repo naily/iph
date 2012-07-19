@@ -43,10 +43,10 @@ public class UserRegMod extends BaseMod{
 				userservice.dao.insert(user) ;
 				json.put(Constant.SUCCESS, true) ;
 			}else{
-				json.put(Constant.INFO, "该登录名已经存在") ;
+				json.put(Constant.INFO, this.getMsgByKey(req, "qt_regist_username_exist")) ;
 			}
 		}else{
-			json.put(Constant.INFO, "参数错误") ;
+			json.put(Constant.INFO, this.getMsgByKey(req, "qt_public_error")) ;
 		}
 		}else{
 			json.put(Constant.INFO, this.getMsgByKey(req, "ht_login_codeerror")) ;
@@ -124,17 +124,55 @@ public class UserRegMod extends BaseMod{
 				themail.setFrom(mailForm);
 				themail.setNamePass(userName, passowrd);
 				if (themail.sendout() == false){
-					json.put(Constant.INFO, "密码找回失败,请确认邮箱是否正确") ;
+					json.put(Constant.INFO, this.getMsgByKey(req, "qt_user_getpassword_error")) ;
 					log.info("false");
 				}else{
 					json.put(Constant.SUCCESS, true);
 					log.info("success");
-					json.put(Constant.INFO, "密码已发送至您的邮箱，请查收") ;
+					json.put(Constant.INFO, this.getMsgByKey(req, "qt_user_getpassword_success")) ;
 				}			
 			}
 				
 		}
 	
+		return json;
+	}
+	@At("/qt/getReg")
+	@Ok("json")
+	@POST
+	//获取注册信息
+	public JSONObject getUserRegInfo(HttpServletRequest req,HttpSession session){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);			
+			json.put(Constant.SUCCESS, true);
+			json.put("user", user);
+		}else{
+			json.put(Constant.INFO, this.getMsgByKey(req, "qt_user_regupdate_nologin")) ;
+		}
+		return json;
+	}
+	@At("/qt/updateUserReg")
+	@Ok("json")
+	@POST
+	//注册信息修改
+	public JSONObject updateUserReg(HttpSession session ,HttpServletRequest req,@Param("..")User user){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+			User userSen =(User)session.getAttribute(Constant.QT_USER_SESSION);
+			user.setRegDate(userSen.getRegDate());
+			userservice.dao.update(user);		
+			json.put(Constant.SUCCESS, true);
+			user.setLogin(true) ;
+			session.setAttribute(Constant.QT_USER_SESSION, user);
+			json.put(Constant.INFO, this.getMsgByKey(req, "qt_modify_success")) ;
+			
+			
+		}else{
+			json.put(Constant.INFO, this.getMsgByKey(req, "qt_modify_fail")) ;
+		}
 		return json;
 	}
 	

@@ -8,25 +8,28 @@ $(document).ready(function() {
 		params : {
 			
 		},
-		callback : function(jsonStr) {		
-			var json=eval("("+jsonStr+")");//转换为json对象 
+		callback : function(json) {		
+			//var json=eval("("+jsonStr+")");//转换为json对象 
 			var divstart='<div class="rightbox3_1_text">';
 			var divend='</div>';
 			var divstr='';
 			 divstr+=divstart;
 			if (json.success) {	
 			$.each(json.newsList,function(idx,item){ 
-				if(idx==0){ 
+				/*if(idx==0){ 
 				 return true;
-			     } 		   
-			    divstr+='<a href="#" class="a2">'+item.title+'</a><br />';		
-			   	if(idx==5){
+			     } */			
+			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>';
+			     if(idx<4 || (idx>4 && idx<9)){
+			      divstr+='<br />';
+			     }			    
+			   	if(idx==4){			   
 			   		divstr+=divend;
 			   		divstr+=divstart;
-			   	}			   			   
+			   	}		   			   
 			
 			}) 
-			    divstr+=divend;			
+			    divstr+=divend;				   
 				$('#rightbox3_1').html(divstr);
 				
 			}
