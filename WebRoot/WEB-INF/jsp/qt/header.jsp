@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 <script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
+<script type="text/javascript" src="js/index_global_zn.js"></script>
 <script type="text/javascript" src="js/userRegist.js"></script>
 <title></title>
   </head>
@@ -183,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="nav">
 	<a href="#" class="a2 nav_float">首页</a>
 	<a href="#" class="a2 nav_float">找数据</a>
-	<a href="#" class="a2 nav_float">报表</a>
+	<a href="qt/report.do" class="a2 nav_float">报表</a>
 	<a href="#" class="a2 nav_float">曲线图</a>
 	<a href="#" class="a2 nav_float">关于我们</a>
 	</div>

@@ -181,7 +181,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="nav">
 	<a href="#" class="a2 nav_float">首页</a>
 	<a href="#" class="a2 nav_float">找数据</a>
-	<a href="#" class="a2 nav_float">报表</a>
+	<a href="qt/report.do" class="a2 nav_float">报表</a>
 	<a href="#" class="a2 nav_float">曲线图</a>
 	<a href="#" class="a2 nav_float">关于我们</a>
 	</div>
