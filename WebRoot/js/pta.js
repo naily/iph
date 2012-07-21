@@ -110,7 +110,7 @@ $(document).ready(function(){
      		if(!(st && tn && sd && ed && pd) ){
      			$('#errormsg').html(notempty).show() ;
      		}else{
-     			alert(tn) ;
+     			//alert(tn) ;
      			$('#errormsg').hide() ;
      			var save = {
 	                url :'ht/ptaSave.do' ,
