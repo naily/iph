@@ -23,6 +23,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.Administrator;
+import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.AdministratorService;
 import cn.fam1452.service.UserService;
 import cn.fam1452.utils.StringUtil;
@@ -119,5 +120,26 @@ public class AdministratorMod extends BaseMod{
 		}
 		
 		return j ;
+	}
+	
+	
+	@At("/ht/adminlistall")
+	@Ok("json")
+	public JSONArray listAllNameId(){
+		JSONArray array = new JSONArray();
+		
+		List<Administrator>  list = adminService.dao.query(Administrator.class, null) ;
+		if(null != list && list.size() > 0){
+			
+			for (Administrator administrator : list) {
+				JSONObject i = new JSONObject() ;
+				i.put("id", administrator.getLoginId()) ;
+				i.put("name", administrator.getLoginId()) ;
+				
+				array.add(i) ;
+			}
+		}
+		
+		return array ;
 	}
 }

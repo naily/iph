@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </div>
 	</div>
 	<div class="menutext1"><a href="ht/pta.do" class="a3">访问权限管理</a></div>
-	<div class="menutext"><a href="javascript:;" class="a3">管理日志</a></div>
+	<div class="menutext"><a href="ht/dlog.do" class="a3">管理日志</a></div>
 	<div class="menutext"><a href="javascript:;" class="a3">服务系统</a></div>
 	<div class="menutext"><a href="ht/news.do" class="a3">新闻管理</a></div>
   </div>

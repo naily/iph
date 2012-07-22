@@ -3,16 +3,25 @@
  */
 package cn.fam1452.action.ht;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
+import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -48,18 +57,28 @@ public class DataLogMod extends BaseMod{
 	private BaseService baseService ;
 	
 	@At("/ht/dlog")
-    @Ok("jsp:jsp.ht.dlog")
+    @Ok("jsp:jsp.ht.dLog")
     public void load(HttpServletRequest req){ }
 	
 	
 	@POST
-	@At("/ht/ptalist")
+	@At("/ht/dataLogList")
     @Ok("json")
-	public JSONObject list(@Param("..")Pages page){
+	public JSONObject list( @Param("..")Log params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
+		
+		Criteria cri = Cnd.cri();
+		if(StringUtil.checkNotNull(params.getActionType())){
+			cri.where().and( "actionType", "=", params.getActionType()) ;
+		}
+		if(StringUtil.checkNotNull(params.getAdminId())) {
+			cri.where().and( "adminId", "=", params.getAdminId()) ;
+		}
+		
+		//log.info(cri.toString()) ;
 
-		List<Log>  list = baseService.dao.query(Log.class, null, page.getNutzPager()) ;
+		List<Log>  list = baseService.dao.query(Log.class, cri, params.getNutzPager()) ;
 		
 		json.put(Constant.TOTAL, baseService.dao.count(Log.class)) ;
 		
@@ -71,7 +90,7 @@ public class DataLogMod extends BaseMod{
 			JSONObject item = new JSONObject();
 			
 			item = JSONObject.fromObject(g , cfg) ;
-			//item.put("dataSDate", DateUtil.convertDateToString(g.getDataSDate()  , DateUtil.pattern0)) ;
+			item.put("logDate", DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)) ;
 			//item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
 			//item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
 			
@@ -82,40 +101,23 @@ public class DataLogMod extends BaseMod{
 	}
 	
 	@POST
-	@At("/ht/ptadel")
+	@At("/ht/dLogDelAll")
     @Ok("json")
-	public JSONObject delete(String ids , ServletContext context){
+	public JSONObject deleteLogAll(String ids , ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(StringUtil.checkNotNull(ids) ){
-			String[] idss = ids.split(";") ;
-			
-			List<Log> igs = new ArrayList<Log>() ;
-			for (String id : idss) {
-				Log n = new Log();
-				n.setId(id) ;
-				
-				n = baseService.dao.fetch(n) ;
-				igs.add(n) ;
-			}
-			
-			if(null != igs && igs.size() > 0 ){
-				if( baseService.dao.delete(igs) == igs.size() ){
-					json.put(Constant.SUCCESS, true) ;
-				}else{
-					json.put(Constant.INFO, error1) ;
-				}
-				//log.info(igs.size()) ;
-			}else{
-				json.put(Constant.INFO, error2) ;
-			}
-			
-		}else{
-			json.put(Constant.INFO, error3) ;
+		try{
+			int i = baseService.dao.clear(Log.class) ;
+			json.put(Constant.SUCCESS, true) ;
+			json.put("total", i) ;
+		}catch (Exception e) {
+			// TODO: handle exception
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
 		}
 		
-		return json ;
 	}
 	
 	@POST
@@ -146,5 +148,31 @@ public class DataLogMod extends BaseMod{
 		}
 		
 		return ig ;
+	}
+	
+	@At("/ht/downloadAllLog")
+	@Ok("raw")
+	public void exportLogAndDownload(HttpServletResponse response){
+		
+		Workbook wb = dls.exportToHSSFWorkbook() ;
+		
+		try {
+			if(null != wb){
+				OutputStream out = response.getOutputStream();
+				response.setContentType("application/x-msdownload");
+				
+				StringBuffer fileName = new StringBuffer().append("DataLog_all.xls") ;
+				response.setHeader("Content-Disposition", "attachment; filename=" + new String( fileName.toString().getBytes("GBK"), "ISO8859-1" ));
+				
+				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
+				//byte[] buffer = IOUtils.toByteArray(bis);
+				//os.write(buffer);
+				wb.write(out) ;
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error(e, e) ;
+		}
 	}
 }
