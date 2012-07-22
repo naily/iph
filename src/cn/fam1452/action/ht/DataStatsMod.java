@@ -1,5 +1,5 @@
 /**
- * 描述：
+ * 描述：数据服务统计
  */
 package cn.fam1452.action.ht;
 
@@ -32,6 +32,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.dao.pojo.DataService;
 import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Station;
@@ -41,58 +42,66 @@ import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
 
 /**
- * 数据表操作日志记录
- * Class DataLogMod
+ * 
+ * Class DataStatsMod
  *
  * @author <a href="mailto:zhagndingding@cyanway.com">Derek</a>
- * @version $Revision:1.0.0, $Date:Jul 18, 2012 10:12:18 PM $
+ * @version $Revision:1.0.0, $Date:Jul 22, 2012 12:39:42 PM $
  */
 @IocBean
-public class DataLogMod extends BaseMod{
+public class DataStatsMod extends BaseMod{
 
-	@Inject("refer:dataLogService")
-	private DataLogService dls ;
-	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
 	
-	@At("/ht/dlog")
-    @Ok("jsp:jsp.ht.dLog")
+	@At("/ht/dstats")
+    @Ok("jsp:jsp.ht.dStats")
     public void load(HttpServletRequest req){ }
 	
 	
 	@POST
-	@At("/ht/dataLogList")
+	@At("/ht/dataStatsList")
     @Ok("json")
-	public JSONObject list( @Param("..")Log params){
+	public JSONObject list( @Param("..")DataService params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
 		
 		Criteria cri = Cnd.cri();
-		if(StringUtil.checkNotNull(params.getActionType())){
-			cri.where().and( "actionType", "=", params.getActionType()) ;
-		}
-		if(StringUtil.checkNotNull(params.getAdminId())) {
+		if( !StringUtil.checkNotNull(params.getActionType())){
+			params.setActionType("01") ; //设置默认类别为 '查询'
+		} 
+		cri.where().and( "actionType", "=", params.getActionType()) ;
+		
+		/*if(StringUtil.checkNotNull(params.getAdminId())) {
 			cri.where().and( "adminId", "=", params.getAdminId()) ;
-		}
+		}*/
 		
 		//log.info(cri.toString()) ;
 
-		List<Log>  list = baseService.dao.query(Log.class, cri, params.getNutzPager()) ;
+		List<DataService>  list = baseService.dao.query(DataService.class, cri, params.getNutzPager()) ;
 		
-		json.put(Constant.TOTAL, baseService.dao.count(Log.class)) ;
+		json.put(Constant.TOTAL, baseService.dao.count(DataService.class)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.setExcludes(new String[] { "admin", "logDate"  }); 
+		cfg.setExcludes(new String[] { "admin", "serviceDate"  }); 
 		JSONArray array = new JSONArray();
 		
-		for(Log g : list ){
+		for(DataService g : list ){
 			JSONObject item = new JSONObject();
 			
 			item = JSONObject.fromObject(g , cfg) ;
-			item.put("logDate", DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)) ;
-			//item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
-			//item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
+			item.put("serviceDate", DateUtil.convertDateToString(g.getServiceDate()  , DateUtil.pattern2)) ;
+			
+			if("01".equals(params.getActionType())){ //查询
+				item.put("dataTable", g.getSearchTable()) ;
+				item.put("resultNum", g.getResultNum1()) ;
+			}else if("02".equals(params.getActionType())){ //浏览
+				item.put("dataTable", g.getBrowseTable()) ;
+				item.put("resultNum", g.getResultNum2()) ;
+			}else if("03".equals(params.getActionType())){ //下载
+				item.put("dataTable", g.getDownloadTable()) ;
+				item.put("resultNum", g.getResultNum3()) ;
+			}
 			
 			array.add(item) ;
 		}
@@ -101,7 +110,7 @@ public class DataLogMod extends BaseMod{
 	}
 	
 	@POST
-	@At("/ht/dLogDelAll")
+	//@At("/ht/dLogDelAll")
     @Ok("json")
 	public JSONObject deleteLogAll(String ids , ServletContext context){
 		JSONObject json = new JSONObject();
@@ -121,7 +130,25 @@ public class DataLogMod extends BaseMod{
 	}
 	
 	@POST
-	@At("/ht/dlogget")
+	//@At("/ht/ptaupdate")
+    @Ok("json")
+	public JSONObject update(@Param("..")Log params){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		if(StringUtil.checkNotNull(params.getId() ) && null != baseService.dao.fetch(params)){
+			int  i = baseService.dao.update(params) ;
+			json.put(Constant.SUCCESS, true ) ;
+		}else{
+			json.put(Constant.INFO, error2) ;
+		}
+		return json ;
+	}
+	
+	
+	
+	@POST
+	//@At("/ht/dlogget")
     @Ok("json")
     public Log get(String id){
 		Log ig = null ;
@@ -132,11 +159,11 @@ public class DataLogMod extends BaseMod{
 		return ig ;
 	}
 	
-	@At("/ht/downloadAllLog")
+	//@At("/ht/downloadAllLog")
 	@Ok("raw")
 	public void exportLogAndDownload(HttpServletResponse response){
 		
-		Workbook wb = dls.exportToHSSFWorkbook() ;
+		Workbook wb = null;
 		
 		try {
 			if(null != wb){

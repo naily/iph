@@ -8,8 +8,10 @@ import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
+import cn.fam1452.action.bo.Pages;
+
 @Table("T_DATASERVICE")
-public class DataService {
+public class DataService extends Pages{
 	@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=12)
