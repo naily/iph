@@ -44,12 +44,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="center" >
-    	<div><input id = "comboActionType" />
-    			<input id = "comboAdmin" />
-    			<input id="searchbut"  type="button" value="查询" style="height: 22px;" /></div>
-		<div id="buttonbar"></div>
-    	<table id="list0"></table>
-    	
+    	<div id="make-tab" >
+	        <ul>
+	            <li><a href="#tab1">详细记录</a></li>
+	            <li><a href="#tab2">访问统计</a></li>
+	            <li><a href="#tab3">下载统计</a></li>
+	            <li><a href="#tab4">c++语言</a></li>
+	        </ul>
+	        
+	        <div id="tab1">
+	        	<div><input id = "comboActionType" />
+		    			<input id = "comboAdmin" />
+		    			<input id="searchbut"  type="button" value="查询" style="height: 22px;" />
+		 		</div>
+				<div id="buttonbar"></div>
+		    	<table id="list0"></table>
+	        </div>
+	        <div id="tab2"></div>
+	        <div id="tab3"></div>
+	        <div id="tab4"></div>
+	        
+		</div>
+    
     </div>
     
     <jsp:include page="footer.jsp" flush="true" />

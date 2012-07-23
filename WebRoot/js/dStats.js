@@ -1,7 +1,12 @@
 $(document).ready(function(){
+    $('#make-tab').omTabs({
+        width : '99.8%' ,
+        height : 'auto'  
+    });
+    
     /* 数据操作日志*/
     $('#list0').omGrid({
-         width : '99.8%',
+         width : '100%',
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
@@ -28,7 +33,7 @@ $(document).ready(function(){
          //extraData: { adminId : $('#comboAdmin').omCombo('value') ,actionType:$('#comboActionType').omCombo('value')} ,
          dataSource : 'ht/dataStatsList.do' //后台取数的URL
      });
-	
+	/**
 	$('#buttonbar').omButtonbar({
 		width : '99.8%',
 		btns : [{
@@ -71,7 +76,8 @@ $(document).ready(function(){
 				}
 		}] 
 	}) ;
-	
+	*/
+    
     $('#comboAdmin').omCombo({
         dataSource:'ht/adminlistall.do' ,
         valueField : 'id' ,
