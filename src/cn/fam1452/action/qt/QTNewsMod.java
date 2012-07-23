@@ -84,7 +84,7 @@ public class QTNewsMod extends BaseMod{
     public JSONObject newsListss(){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		List newslist = baseService.dao.query(News.class, null,baseService.dao.createPager(1, 10)) ;
+		List newslist = baseService.dao.query(News.class, Cnd.orderBy().desc("newsId"),baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] { "content", "publishDate" , "picture"  }); 

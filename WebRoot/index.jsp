@@ -15,9 +15,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 <script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
 <script type="text/javascript" src="js/index_global_zn.js"></script>
 <script type="text/javascript" src="js/userRegist.js"></script>
 <script type="text/javascript" src="js/indexNews.js"></script>
+<script type="text/javascript" src="js/indexMetaData.js"></script>
 </head>
 
 <body>
@@ -262,33 +264,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <td width="46" height="34" align="right" class="fontstyle2" ><img src="images/d09.jpg" width="41" height="34" /></td>
       <td width="88" align="left" class="fontstyle2" >元数据搜索</td>
       <td width="301"><label></label>
-          <input type="text" name="textfield2" class="boxinput2" /></td>
-      <td width="67"><a href="#"><img src="images/d08.jpg" width="67" height="28" border="0" /></a></td>
+          <input type="text" name="metaDataKeyword" id="metaDataKeyword" class="boxinput2" /></td>
+      <td width="67"><a href="javascript:void(0)" onclick="queryMetaData();"><img src="images/d08.jpg" width="67" height="28" border="0" /></a></td>
     </tr>
   </table>
   <!--搜索结束-->
 <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;专题数据库1 名称</td>
+    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title0"></span></td>
     </tr>
   <tr>
-    <td width="135" ><div class="rightbox3_img"></div></td>
-    <td><div class="rightbox3_text">由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。</div></td>
+    <td width="135" ><div class="rightbox3_img" id="metaData_img0"></div></td>
+    <td><div class="rightbox3_text" id="metaData_Summary0"></div></td>
   </tr>
     <tr>
-    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;专题数据库1 名称</td>
+    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title1"></span></td>
     </tr>
   <tr>
-    <td width="135" ><div class="rightbox3_img"></div></td>
-    <td><div class="rightbox3_text">由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。</div></td>
+    <td width="135" ><div class="rightbox3_img" id="metaData_img1"></div></td>
+    <td><div class="rightbox3_text" id="metaData_Summary1"></div></td>
   </tr>  
   
     <tr>
-    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;专题数据库1 名称</td>
+    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title2"></span></td>
     </tr>
   <tr>
-    <td width="135" ><div class="rightbox3_img"></div></td>
-    <td><div class="rightbox3_text">由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。</div></td>
+    <td width="135" ><div class="rightbox3_img" id="metaData_img2"></div></td>
+    <td><div class="rightbox3_text" id="metaData_Summary2"></div></td>
   </tr>
   
 </table>

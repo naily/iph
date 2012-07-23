@@ -24,5 +24,8 @@ public class Constant {
 	
 	public static String TOTAL = "total" ;
 	public static String ROWS = "rows" ;
-	public static int PAGE_SIZE=20;
+	public static int PAGE_SIZE=20;//默认分页数量
+	
+	public static int INDEX_NEWS_NUMS=10;//首页元数据条数
+	public static int INDEX_META_NUMS=3;//首页元数据条数
 }
