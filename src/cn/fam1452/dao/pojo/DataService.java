@@ -14,7 +14,7 @@ import cn.fam1452.action.bo.Pages;
 public class DataService extends Pages{
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String id ;
 	
 	@Column
