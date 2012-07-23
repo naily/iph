@@ -240,7 +240,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--rightbox2_4 结束-->
 </div><!--rightbox2 结束-->
 <div  class="rightbox3_1" id="rightbox3_1">
-<div class="rightbox3_1_text">
+<!-- <div class="rightbox3_1_text">
 <a href="#" class="a2">电离层专题数据库管理系统数据</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
@@ -253,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a>
-</div>
+</div> -->
 </div>
 
 <div class="rightbox3_2"> 
