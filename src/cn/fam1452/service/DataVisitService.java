@@ -1,5 +1,8 @@
 package cn.fam1452.service;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,6 +12,9 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
+import org.nutz.dao.sql.SqlCallback;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.dao.pojo.DataService;
@@ -82,5 +88,42 @@ public class DataVisitService extends Base{
 		this.insert(ds) ;
 	}
 	
+	public List<DataService> statsSearchTable(){
+		Sql sql = Sqls.create("select searchTable , sum(resultNum1) resultNum1 , count(searchTable) resultNum2 from T_DATASERVICE where actionType='01' group by searchTable ") ;
+		/*sql.setCallback(new SqlCallback(){
+			public Object invoke(Connection conn, ResultSet rs, Sql sql) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		}) ;*/
+		sql.setEntity(dao.getEntity(DataService.class)) ;
+		
+		this.dao.execute(sql) ;
+		
+		List<DataService> list = sql.getList(DataService.class) ;
+		return list ;
+	}
 	
+	public List<DataService> statsDownloadTable(){
+		Sql sql = Sqls.create("select downloadTable , sum(resultNum3) resultNum1 , count(downloadTable) resultNum2 from T_DATASERVICE where actionType='03' group by downloadTable ") ;
+		sql.setEntity(dao.getEntity(DataService.class)) ;
+		
+		this.dao.execute(sql) ;
+		
+		List<DataService> list = sql.getList(DataService.class) ;
+		return list ;
+	}
+	public void statsv(){
+		Sql sql = Sqls.create("") ;
+		sql.setCallback(new SqlCallback(){
+			public Object invoke(Connection conn, ResultSet rs, Sql sql) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		}) ;
+		
+		this.dao.execute(sql) ;
+	}
 }

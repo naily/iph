@@ -58,7 +58,7 @@ public class DataStatsMod extends BaseMod{
     @Ok("jsp:jsp.ht.dStats")
     public void load(HttpServletRequest req){ }
 	
-	
+	//详细数据
 	@POST
 	@At("/ht/dataStatsList")
     @Ok("json")
@@ -67,10 +67,10 @@ public class DataStatsMod extends BaseMod{
 		json.put(Constant.SUCCESS, true) ;
 		
 		Criteria cri = Cnd.cri();
-		if( !StringUtil.checkNotNull(params.getActionType())){
-			params.setActionType("01") ; //设置默认类别为 '查询'
+		if( StringUtil.checkNotNull(params.getActionType())){
+			//params.setActionType("01") ; //设置默认类别为 '查询'
+			cri.where().and( "actionType", "=", params.getActionType()) ;
 		} 
-		cri.where().and( "actionType", "=", params.getActionType()) ;
 		
 		/*if(StringUtil.checkNotNull(params.getAdminId())) {
 			cri.where().and( "adminId", "=", params.getAdminId()) ;
@@ -92,13 +92,13 @@ public class DataStatsMod extends BaseMod{
 			item = JSONObject.fromObject(g , cfg) ;
 			item.put("serviceDate", DateUtil.convertDateToString(g.getServiceDate()  , DateUtil.pattern2)) ;
 			
-			if("01".equals(params.getActionType())){ //查询
+			if("01".equals(g.getActionType())){ //查询
 				item.put("dataTable", g.getSearchTable()) ;
 				item.put("resultNum", g.getResultNum1()) ;
-			}else if("02".equals(params.getActionType())){ //浏览
+			}else if("02".equals(g.getActionType())){ //浏览
 				item.put("dataTable", g.getBrowseTable()) ;
 				item.put("resultNum", g.getResultNum2()) ;
-			}else if("03".equals(params.getActionType())){ //下载
+			}else if("03".equals(g.getActionType())){ //下载
 				item.put("dataTable", g.getDownloadTable()) ;
 				item.put("resultNum", g.getResultNum3()) ;
 			}
@@ -107,6 +107,22 @@ public class DataStatsMod extends BaseMod{
 		}
 		json.put(Constant.ROWS, array) ;
 		return json ;
+	}
+	
+	/**
+	 * 访问统计
+	 */
+	@POST
+	@At("/ht/statsVisitList")
+    @Ok("json")
+	public void statsVisitList( @Param("..") Pages page){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, true) ;
+		
+		Criteria cri = Cnd.cri();
+		cri.where().and("actionType", "=", "01").and("" , "" , "") ;
+		
+		List<DataService>  list = baseService.dao.query(DataService.class, cri, page.getNutzPager()) ;
 	}
 	
 	@POST

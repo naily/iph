@@ -60,7 +60,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="buttonbar"></div>
 		    	<table id="list0"></table>
 	        </div>
-	        <div id="tab2"></div>
+	        <div id="tab2">
+	        	
+	        </div>
 	        <div id="tab3"></div>
 	        <div id="tab4"></div>
 	        
