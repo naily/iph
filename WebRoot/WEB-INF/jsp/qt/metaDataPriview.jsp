@@ -22,6 +22,10 @@
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
+
+		<script type="text/javascript" src="js/dhtmlxcommon.js"></script>
+		<script type="text/javascript" src="js/dhtmlxtree.js"></script>
+
 		<style type="text/css">
        label.error{
         background: #fff6bf url(images/errorIcon.png) center no-repeat;
@@ -34,10 +38,10 @@
 		margin-left: 10px;
        }
     </style>
-
 	</head>
 
 	<body>
+
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
 			<div class="title8">
@@ -47,7 +51,7 @@
 				cellspacing="0" class="">
 				<tr>
 					<td width="141" height="35" bgcolor="#edf7fb">
-						<strong> &nbsp;&nbsp;名称</strong>：
+						<strong> &nbsp;&nbsp;数据集名称</strong>：
 					</td>
 					<td width="659" bgcolor="#edf7fb">
 						${obj.title }
@@ -55,131 +59,36 @@
 				</tr>
 				<tr>
 					<td height="35">
-						<strong> &nbsp;&nbsp;所属服务系统：</strong>
+						<strong> &nbsp;&nbsp; 关键词：</strong>
 					</td>
 					<td>
-						<iframe src="${obj.fullContentFilePath }"></iframe>
+						${obj.keyword }
 					</td>
 				</tr>
 				<tr>
 					<td height="35" bgcolor="#edf7fb">
-						<strong>&nbsp;&nbsp;URI：</strong>
+						<strong>&nbsp;&nbsp;摘要：</strong>
 					</td>
 					<td bgcolor="#edf7fb">
-						www
+						<div style="word-break:break-all;width:100px;">
+							${obj.summary }
+						</div>
 					</td>
 				</tr>
-				<tr>
-					<td height="35">
-						<strong> &nbsp;&nbsp;关键词：</strong>
-					</td>
-					<td>
-						电站
-					</td>
-				</tr>
-				<tr>
-					<td height="35" bgcolor="#edf7fb">
-						<strong>&nbsp;&nbsp;简介：</strong>
-					</td>
-					<td bgcolor="#edf7fb">
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td height="35">
-						<strong>&nbsp;&nbsp;目的：</strong>
-					</td>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td height="35" bgcolor="#edf7fb">
-						<strong>&nbsp;&nbsp;数据分类：</strong>
-					</td>
-					<td bgcolor="#edf7fb">
-						&nbsp;
-					</td>
-				</tr>
+
 				<tr>
 					<td height="35" colspan="2">
-						<table width="700" border="0" align="right" cellpadding="0"
-							cellspacing="0">
-							<tr>
-								<td width="121" height="35">
-									<strong>&nbsp;&nbsp;项目名称：</strong>
-								</td>
-								<td width="579">
-									名称
-								</td>
-							</tr>
-							<tr>
-								<td height="35" bgcolor="#edf7fb">
-									<strong>&nbsp;&nbsp;分类列表：</strong>
-								</td>
-								<td bgcolor="#edf7fb">
-									表
-								</td>
-							</tr>
-						</table>
+						<div id="treeboxbox_tree"
+							style="word-break:break-all;width:100px;"></div>
+								<script> 
+							            tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+							            tree.setImagePath("imgs/");
+							            tree.loadXML("data/metadata/xml/1343113465921.xml");
+					            </script>
 					</td>
+
 				</tr>
-				<tr>
-					<td height="35">
-						&nbsp;&nbsp;
-						<strong>范围</strong>
-					</td>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td height="35" colspan="2">
-						<table width="700" border="0" align="right" cellpadding="0"
-							cellspacing="0">
-							<tr>
-								<td width="121" height="35" bgcolor="#edf7fb">
-									<strong>&nbsp;&nbsp;时间范围：</strong>
-								</td>
-								<td width="579" bgcolor="#edf7fb">
-									&nbsp;
-								</td>
-							</tr>
-							<tr>
-								<td height="35">
-									<strong>&nbsp;&nbsp;空间范围表：</strong>
-								</td>
-								<td>
-									&nbsp;
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td height="35" bgcolor="#edf7fb">
-						<strong>&nbsp;&nbsp;数据来源：</strong>
-					</td>
-					<td bgcolor="#edf7fb">
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td height="35">
-						<strong>&nbsp;&nbsp;数据类型：</strong>
-					</td>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td height="35" bgcolor="#edf7fb">
-						<strong>&nbsp;&nbsp;创建者：</strong>
-					</td>
-					<td bgcolor="#edf7fb">
-						&nbsp;
-					</td>
-				</tr>
+
 			</table>
 
 		</div>
