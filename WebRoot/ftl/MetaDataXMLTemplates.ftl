@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xml.xsl"?>
 <metadata>
 	<name>${name!}</name>
 	<keys>${keys!}</keys>
