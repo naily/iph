@@ -3,8 +3,11 @@
  */
 package cn.fam1452.action.qt;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -54,6 +57,20 @@ public class QTMetaDataMod extends BaseMod{
 		metaData = baseService.dao.fetch(MetaData.class, mdId);
 		return metaData;	
 	}
-//	metaDataList
+	@At("/qt/metaDataList")
+    @Ok("jsp:jsp.qt.metaDataList")
+    public void metaDataList(HttpServletRequest req,HttpServletResponse res,String title){
+		try {
+			req.setCharacterEncoding("UTF-8");
+			res.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<MetaData>  list = baseService.dao.query(MetaData.class,  Cnd.where("title", "like", "%"+title+"%")) ;
+		req.setAttribute("metaDataList", list);
+		
+	}
+//	
 }
 
