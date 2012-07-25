@@ -1,4 +1,4 @@
-var chart;
+
 $(document).ready(function(){
     $('#make-tab').omTabs({
         width : '99.8%' ,
@@ -79,14 +79,15 @@ $(document).ready(function(){
 		}] 
 	}) ;
 	*/
-    
+    /*
     $('#comboAdmin').omCombo({
         dataSource:'ht/adminlistall.do' ,
         valueField : 'id' ,
         optionField :'name'  ,
-        //editable : false,
+        editable : false,
         emptyText : '选择操作者'
     }) ;
+    */
     $('#comboActionType').omCombo({
         dataSource : [ {text : '查询', value : "01"}, 
                        {text : '浏览', value : "02"},
@@ -95,16 +96,16 @@ $(document).ready(function(){
        emptyText : '选择操作类型'
      });
      
-     var notempty = "不能为空" ;
+     
      
      $('#searchbut').omButton({
         width : 100,
         label : '查询' ,
         onClick : function(){
-            var admin = $('#comboAdmin').omCombo('value') ;
+            //var admin = $('#comboAdmin').omCombo('value') ;
             var act = $('#comboActionType').omCombo('value') ;
             
-            $('#list0').omGrid({extraData: { adminId : admin ,actionType:act}}) ;
+            $('#list0').omGrid({extraData: { actionType:act}}) ;
             $('#list0').omGrid('reload') ;
         }
      });
@@ -144,9 +145,10 @@ $(document).ready(function(){
          		array.push(ob) ;
          	}
          	//alert(array.length) ;
-         	chart = new Highcharts.Chart({
+            if(array.length > 0)
+         	var chart = new Highcharts.Chart({
 		        chart: {
-		            renderTo: 'statsbar',
+		            renderTo: 'statsvisitbar',
 		            type: 'column'
 		        },
 		        title: {
@@ -196,7 +198,93 @@ $(document).ready(function(){
          }
      });
      
-     
+     $('#list3').omGrid({
+         width : '99.8%',
+         method : 'POST' ,
+         limit : pageslimit,  
+         colModel : [    
+                         {header:'操作类型',name:'actionType',  width:150  ,
+                             renderer : function(val, rowData, rowIndex){
+                                if (val == '01') {
+                                     return '<span style="color:green;"><b>查询</b></span>';
+                                 }  
+                                 if (val == '02') {
+                                     return '<span style="color:green;"><b>浏览</b></span>';
+                                 } 
+                                 if (val == '03') {
+                                     return '<span style="color:green;"><b>下载</b></span>';
+                                 } 
+                             }
+                         },
+                         {header:'表名', name:'downloadTable' , width:300 },
+                         {header:'数据库记录数',name:'dbResultNum', width:200 } ,
+                         {header:'下载次数',name:'actionNum',width:200  }  
+         ],
+         dataSource : 'ht/statsDownList.do', //后台取数的URL
+         onSuccess:function(data,testStatus,XMLHttpRequest,event){
+            var array = new Array() ;
+            for(var i =0 ; i<data.rows.length ; i++){
+                var ob = new Object();
+                ob.name = data.rows[i].downloadTable ;
+                ob.data = new Array() ;
+                ob.data[0] = data.rows[i].dbResultNum ;
+                ob.data[1] = data.rows[i].actionNum ;
+                
+                array.push(ob) ;
+            }
+            //alert(array.length) ;
+            if(array.length > 0)
+            var chart3 = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'statsdownbar',
+                    type: 'column'
+                },
+                title: {
+                    text: '数据下载统计'
+                },
+                subtitle: {
+                    text: 'ActionType："下载"'
+                },
+                xAxis: {
+                    categories: [
+                        '数据库记录数',
+                        '下载次数' 
+                    ]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Record Number '
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    backgroundColor: '#FFFFFF',
+                    align: 'left',
+                    verticalAlign: 'top',
+                    x: 100,
+                    y: 70,
+                    floating: true,
+                    shadow: true
+                },
+                tooltip: {
+                    formatter: function() {
+                        return  ' '+ this.x +': '+ this.y ;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: array
+            });
+            
+            
+            
+         }
+     });
      
  	
 

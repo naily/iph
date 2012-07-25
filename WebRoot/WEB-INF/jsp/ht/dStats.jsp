@@ -52,12 +52,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <li><a href="#tab1">详细记录</a></li>
 	            <li><a href="#tab2">访问统计</a></li>
 	            <li><a href="#tab3">下载统计</a></li>
-	            <li><a href="#tab4">c++语言</a></li>
+	            <!--  <li><a href="#tab4">c++语言</a></li>  -->
 	        </ul>
 	        
 	        <div id="tab1">
 	        	<div><input id = "comboActionType" />
-		    			<input id = "comboAdmin" />
+		    			<!--  <input id = "comboAdmin" /> -->
 		    			<input id="searchbut"  type="button" value="查询" style="height: 22px;" />
 		 		</div>
 				<div id="buttonbar"></div>
@@ -65,11 +65,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </div>
 	        <div id="tab2">
 	        	<table id="list2"></table>
-	        	<div id="statsbar" style="width:100%; height: 400px; margin: 0 auto"> </div>
+	        	<div id="statsvisitbar" style="width:800px;   margin: 0 auto"> </div>
 	        </div>
-	        <div id="tab3"></div>
+	        <div id="tab3">
+	        	<table id="list3"></table>
+	        	<div id="statsdownbar" style="width:800px;   margin: 0 auto"> </div>
+	        </div>
+	        <!--  
 	        <div id="tab4"></div>
-	        
+	        -->
 		</div>
     
     </div>

@@ -147,79 +147,42 @@ public class DataStatsMod extends BaseMod{
 		return json ;
 	}
 	
+	/**
+	 * 下载统计
+	 */
 	@POST
-	//@At("/ht/dLogDelAll")
+	@At("/ht/statsDownList")
     @Ok("json")
-	public JSONObject deleteLogAll(String ids , ServletContext context){
+	public JSONObject statsDownloadTable( @Param("..") Pages page){
 		JSONObject json = new JSONObject();
-		json.put(Constant.SUCCESS, false) ;
+		json.put(Constant.SUCCESS, true) ;
 		
-		try{
-			int i = baseService.dao.clear(Log.class) ;
-			json.put(Constant.SUCCESS, true) ;
-			json.put("total", i) ;
-		}catch (Exception e) {
-			// TODO: handle exception
-			json.put(Constant.INFO, e.getMessage()) ;
-		}finally{
-			return json ;
+		List<DataService>  list = dvs.statsDownloadTable() ;
+		
+		JSONArray array = new JSONArray();
+		if(null != list && list.size() > 0){
+			
+			for (DataService ds : list) {
+				JSONObject t = new JSONObject() ;
+				t.put("downloadTable", ds.getDownloadTable()) ;
+				t.put("dbResultNum", ds.getResultNum1()) ;  //影响数据库记录数
+				t.put("actionNum", ds.getResultNum2()) ;  //查询次数
+				t.put("actionType", "03") ;
+				
+				array.add(t) ;
+			}
 		}
 		
-	}
-	
-	@POST
-	//@At("/ht/ptaupdate")
-    @Ok("json")
-	public JSONObject update(@Param("..")Log params){
-		JSONObject json = new JSONObject();
-		json.put(Constant.SUCCESS, false) ;
-		
-		if(StringUtil.checkNotNull(params.getId() ) && null != baseService.dao.fetch(params)){
-			int  i = baseService.dao.update(params) ;
-			json.put(Constant.SUCCESS, true ) ;
-		}else{
-			json.put(Constant.INFO, error2) ;
-		}
+		json.put(Constant.TOTAL, array.size()) ;
+		json.put(Constant.ROWS, array) ;
 		return json ;
 	}
 	
 	
 	
-	@POST
-	//@At("/ht/dlogget")
-    @Ok("json")
-    public Log get(String id){
-		Log ig = null ;
-		if(StringUtil.checkNotNull(id)){
-			ig = baseService.dao.fetch(Log.class, id) ;
-		}
-		
-		return ig ;
-	}
 	
-	//@At("/ht/downloadAllLog")
-	@Ok("raw")
-	public void exportLogAndDownload(HttpServletResponse response){
-		
-		Workbook wb = null;
-		
-		try {
-			if(null != wb){
-				OutputStream out = response.getOutputStream();
-				response.setContentType("application/x-msdownload");
-				
-				StringBuffer fileName = new StringBuffer().append("DataLog_all.xls") ;
-				response.setHeader("Content-Disposition", "attachment; filename=" + new String( fileName.toString().getBytes("GBK"), "ISO8859-1" ));
-				
-				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
-				//byte[] buffer = IOUtils.toByteArray(bis);
-				//os.write(buffer);
-				wb.write(out) ;
-			}
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-			log.error(e, e) ;
-		}
-	}
+	
+	
+	
+	
 }
