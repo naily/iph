@@ -1,6 +1,8 @@
+var chart;
 $(document).ready(function(){
     $('#make-tab').omTabs({
         width : '99.8%' ,
+        lazyLoad : true,
         height : 'auto'  
     });
     
@@ -107,6 +109,97 @@ $(document).ready(function(){
         }
      });
      
+     $('#list2').omGrid({
+         width : '99.8%',
+         method : 'POST' ,
+         limit : pageslimit,  
+         colModel : [    
+                         {header:'操作类型',name:'actionType',  width:150  ,
+	                         renderer : function(val, rowData, rowIndex){
+	                            if (val == '01') {
+	                                 return '<span style="color:green;"><b>查询</b></span>';
+	                             }  
+                                 if (val == '02') {
+                                     return '<span style="color:green;"><b>浏览</b></span>';
+                                 } 
+                                 if (val == '03') {
+                                     return '<span style="color:green;"><b>下载</b></span>';
+                                 } 
+	                         }
+                         },
+                         {header:'表名', name:'searchTable' , width:300 },
+                         {header:'数据库记录数',name:'dbResultNum', width:200 } ,
+                         {header:'操作次数',name:'actionNum',width:200  }  
+         ],
+         dataSource : 'ht/statsVisitList.do', //后台取数的URL
+         onSuccess:function(data,testStatus,XMLHttpRequest,event){
+         	var array = new Array() ;
+         	for(var i =0 ; i<data.rows.length ; i++){
+         		var ob = new Object();
+         		ob.name = data.rows[i].searchTable ;
+         		ob.data = new Array() ;
+         		ob.data[0] = data.rows[i].dbResultNum ;
+         		ob.data[1] = data.rows[i].actionNum ;
+         		
+         		array.push(ob) ;
+         	}
+         	//alert(array.length) ;
+         	chart = new Highcharts.Chart({
+		        chart: {
+		            renderTo: 'statsbar',
+		            type: 'column'
+		        },
+		        title: {
+		            text: '数据查询统计'
+		        },
+		        subtitle: {
+		            text: 'ActionType："查询"'
+		        },
+		        xAxis: {
+		            categories: [
+		                '数据库记录数',
+		                '操作次数' 
+		            ]
+		        },
+		        yAxis: {
+		            min: 0,
+		            title: {
+		                text: 'Record Number '
+		            }
+		        },
+		        legend: {
+		            layout: 'vertical',
+		            backgroundColor: '#FFFFFF',
+		            align: 'left',
+		            verticalAlign: 'top',
+		            x: 100,
+		            y: 70,
+		            floating: true,
+		            shadow: true
+		        },
+		        tooltip: {
+		            formatter: function() {
+		                return  ' '+ this.x +': '+ this.y ;
+		            }
+		        },
+		        plotOptions: {
+		            column: {
+		                pointPadding: 0.2,
+		                borderWidth: 0
+		            }
+		        },
+		        series: array
+		    });
+         	
+         	
+         	
+         }
+     });
+     
+     
+     
+ 	
+
 });
 
 

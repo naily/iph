@@ -87,16 +87,23 @@ public class DataVisitService extends Base{
 		
 		this.insert(ds) ;
 	}
-	
+	/**
+	 * 查询
+	 * @return
+	 */
 	public List<DataService> statsSearchTable(){
-		Sql sql = Sqls.create("select searchTable , sum(resultNum1) resultNum1 , count(searchTable) resultNum2 from T_DATASERVICE where actionType='01' group by searchTable ") ;
+		Sql sql = Sqls.create("select searchTable , sum(resultNum1) resultNum1 , count(searchTable) resultNum2 from T_DATASERVICE where actionType='01' group by searchTable") ;
 		/*sql.setCallback(new SqlCallback(){
 			public Object invoke(Connection conn, ResultSet rs, Sql sql) throws SQLException {
 				// TODO Auto-generated method stub
+				while (rs.next()) {
+					log.info(rs.getString("searchTable" )) ;
+				}
 				return null;
 			}
 			
 		}) ;*/
+		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(DataService.class)) ;
 		
 		this.dao.execute(sql) ;
@@ -104,7 +111,10 @@ public class DataVisitService extends Base{
 		List<DataService> list = sql.getList(DataService.class) ;
 		return list ;
 	}
-	
+	/**
+	 *下载
+	 * @return
+	 */
 	public List<DataService> statsDownloadTable(){
 		Sql sql = Sqls.create("select downloadTable , sum(resultNum3) resultNum1 , count(downloadTable) resultNum2 from T_DATASERVICE where actionType='03' group by downloadTable ") ;
 		sql.setEntity(dao.getEntity(DataService.class)) ;
@@ -114,6 +124,21 @@ public class DataVisitService extends Base{
 		List<DataService> list = sql.getList(DataService.class) ;
 		return list ;
 	}
+	
+	/**
+	 *浏览
+	 * @return
+	 */
+	public List<DataService> statsBrowseTable(){
+		Sql sql = Sqls.create("select browseTable , sum(resultNum2) resultNum1 , count(browseTable) resultNum2 from T_DATASERVICE where actionType='02' group by browseTable ") ;
+		sql.setEntity(dao.getEntity(DataService.class)) ;
+		
+		this.dao.execute(sql) ;
+		
+		List<DataService> list = sql.getList(DataService.class) ;
+		return list ;
+	}
+	
 	public void statsv(){
 		Sql sql = Sqls.create("") ;
 		sql.setCallback(new SqlCallback(){

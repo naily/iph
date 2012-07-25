@@ -16,6 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	
+	<script type="text/javascript" src="js/library/highcharts225/highcharts.js"></script>
+	<script type="text/javascript" src="js/library/highcharts225/modules/exporting.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	
@@ -61,7 +64,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	<table id="list0"></table>
 	        </div>
 	        <div id="tab2">
-	        	
+	        	<table id="list2"></table>
+	        	<div id="statsbar" style="width:100%; height: 400px; margin: 0 auto"> </div>
 	        </div>
 	        <div id="tab3"></div>
 	        <div id="tab4"></div>

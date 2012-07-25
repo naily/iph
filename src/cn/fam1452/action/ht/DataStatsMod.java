@@ -38,6 +38,7 @@ import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
+import cn.fam1452.service.DataVisitService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -53,6 +54,9 @@ public class DataStatsMod extends BaseMod{
 
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dvs  ;
 	
 	@At("/ht/dstats")
     @Ok("jsp:jsp.ht.dStats")
@@ -86,24 +90,27 @@ public class DataStatsMod extends BaseMod{
 		cfg.setExcludes(new String[] { "admin", "serviceDate"  }); 
 		JSONArray array = new JSONArray();
 		
-		for(DataService g : list ){
-			JSONObject item = new JSONObject();
+		if(null != list && list.size() > 0){
 			
-			item = JSONObject.fromObject(g , cfg) ;
-			item.put("serviceDate", DateUtil.convertDateToString(g.getServiceDate()  , DateUtil.pattern2)) ;
-			
-			if("01".equals(g.getActionType())){ //查询
-				item.put("dataTable", g.getSearchTable()) ;
-				item.put("resultNum", g.getResultNum1()) ;
-			}else if("02".equals(g.getActionType())){ //浏览
-				item.put("dataTable", g.getBrowseTable()) ;
-				item.put("resultNum", g.getResultNum2()) ;
-			}else if("03".equals(g.getActionType())){ //下载
-				item.put("dataTable", g.getDownloadTable()) ;
-				item.put("resultNum", g.getResultNum3()) ;
+			for(DataService g : list ){
+				JSONObject item = new JSONObject();
+				
+				item = JSONObject.fromObject(g , cfg) ;
+				item.put("serviceDate", null == g.getServiceDate() ? "" : DateUtil.convertDateToString( g.getServiceDate(), DateUtil.pattern2)) ;
+				
+				if("01".equals(g.getActionType())){ //查询
+					item.put("dataTable", g.getSearchTable()) ;
+					item.put("resultNum", g.getResultNum1()) ;
+				}else if("02".equals(g.getActionType())){ //浏览
+					item.put("dataTable", g.getBrowseTable()) ;
+					item.put("resultNum", g.getResultNum2()) ;
+				}else if("03".equals(g.getActionType())){ //下载
+					item.put("dataTable", g.getDownloadTable()) ;
+					item.put("resultNum", g.getResultNum3()) ;
+				}
+				
+				array.add(item) ;
 			}
-			
-			array.add(item) ;
 		}
 		json.put(Constant.ROWS, array) ;
 		return json ;
@@ -115,14 +122,29 @@ public class DataStatsMod extends BaseMod{
 	@POST
 	@At("/ht/statsVisitList")
     @Ok("json")
-	public void statsVisitList( @Param("..") Pages page){
+	public JSONObject statsSearchTable( @Param("..") Pages page){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
 		
-		Criteria cri = Cnd.cri();
-		cri.where().and("actionType", "=", "01").and("" , "" , "") ;
+		List<DataService>  list = dvs.statsSearchTable();
 		
-		List<DataService>  list = baseService.dao.query(DataService.class, cri, page.getNutzPager()) ;
+		JSONArray array = new JSONArray();
+		if(null != list && list.size() > 0){
+			
+			for (DataService ds : list) {
+				JSONObject t = new JSONObject() ;
+				t.put("searchTable", ds.getSearchTable()) ;
+				t.put("dbResultNum", ds.getResultNum1()) ;  //影响数据库记录数
+				t.put("actionNum", ds.getResultNum2()) ;  //查询次数
+				t.put("actionType", "01") ;
+				
+				array.add(t) ;
+			}
+		}
+		
+		json.put(Constant.TOTAL, array.size()) ;
+		json.put(Constant.ROWS, array) ;
+		return json ;
 	}
 	
 	@POST
