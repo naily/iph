@@ -22,10 +22,6 @@
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
-
-		<script type="text/javascript" src="js/dhtmlxcommon.js"></script>
-		<script type="text/javascript" src="js/dhtmlxtree.js"></script>
-
 		<style type="text/css">
        label.error{
         background: #fff6bf url(images/errorIcon.png) center no-repeat;
@@ -70,25 +66,19 @@
 						<strong>&nbsp;&nbsp;摘要：</strong>
 					</td>
 					<td bgcolor="#edf7fb">
-						<div style="word-break:break-all;width:100px;">
+						<div style="word-break:break-all;width:500px;">
 							${obj.summary }
 						</div>
 					</td>
 				</tr>
 
-				<tr>
-					<td height="35" colspan="2">
-						<div id="treeboxbox_tree"
-							style="word-break:break-all;width:100px;"></div>
-								<script> 
-							            tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
-							            tree.setImagePath("imgs/");
-							            tree.loadXML("data/metadata/xml/1343113465921.xml");
-					            </script>
+			
+			<tr>
+					<td height="35"  colspan="2">					
+							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="650" scrolling="no" width="800"></iframe>
+					
 					</td>
-
 				</tr>
-
 			</table>
 
 		</div>
