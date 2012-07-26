@@ -11,6 +11,8 @@ import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
+import cn.fam1452.action.bo.Pages;
+
 /**
  * Class User
  *
@@ -18,7 +20,7 @@ import org.nutz.dao.entity.annotation.Table;
  * @version $Revision:1.0.0, $Date:May 13, 2012 4:42:35 PM $
  */
 @Table("T_USER")
-public class User {
+public class User extends Pages{
 	private String code ; //登录验证码
 	private boolean isLogin;
 	@Column
@@ -28,7 +30,7 @@ public class User {
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=10)
-	private String password ;
+	private transient String password ;
 	
 	public String getCode() {
 		return code;
