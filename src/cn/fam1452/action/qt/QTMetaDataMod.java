@@ -3,24 +3,29 @@
  */
 package cn.fam1452.action.qt;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.pager.Pager;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
+
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.MetaData;
+import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataVisitService;
+import cn.fam1452.utils.GetIP;
 
 /**
  * @author 
@@ -32,9 +37,13 @@ public class QTMetaDataMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
 	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dvs ;
 
+	
 	@At("/qt/mataDataIndex")
     @Ok("json")
+    /*首页三条元数据*/
     public JSONObject loadIndexMetaData(){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
@@ -42,7 +51,6 @@ public class QTMetaDataMod extends BaseMod{
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] { "thumbnail", "fullContent" , "mdDate"  }); 
 		JSONArray jsonAry = JSONArray.fromObject(list , cfg);
-		log.info("metaData="+jsonAry.toString());
 		if(list!=null && list.size()>0){
 			json.put("metaList", jsonAry);
 			json.put(Constant.SUCCESS, true);
@@ -52,25 +60,37 @@ public class QTMetaDataMod extends BaseMod{
 
 	@At("/qt/metaDataPriview")
     @Ok("jsp:jsp.qt.metaDataPriview")
-    public MetaData metaDataPriview(HttpServletRequest req,String mdId){
+      /*元数据详细信息浏览*/
+    public MetaData metaDataPriview(HttpServletRequest req,HttpSession session,String mdId){
 		MetaData metaData = new MetaData();
 		metaData = baseService.dao.fetch(MetaData.class, mdId);
+		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
+			dvs.insertMetaData("01", 1, user.getLoginId(),GetIP.getIpAddr(req),0f);
+		}
 		return metaData;	
 	}
+	
 	@At("/qt/metaDataList")
     @Ok("jsp:jsp.qt.metaDataList")
-    public void metaDataList(HttpServletRequest req,HttpServletResponse res,String title){
-		try {
-			req.setCharacterEncoding("UTF-8");
-			res.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<MetaData>  list = baseService.dao.query(MetaData.class,  Cnd.where("title", "like", "%"+title+"%")) ;
+    /*元数据查询*/
+    public void metaDataList(HttpServletRequest req,HttpSession session,@Param("..")Pager page,String title){
+		page.setPageSize(Constant.META_DATA_PAGESIZE);//默认分页记录数
+		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());   
+		List<MetaData>  list = baseService.dao.query(MetaData.class,  Cnd.where("title", "like", "%"+title+"%").or("keyword","like", "%"+title+"%").or("summary","like", "%"+title+"%"),pager) ;
+		pager.setRecordCount(baseService.dao.count(MetaData.class,Cnd.where("title", "like", "%"+title+"%").or("keyword","like", "%"+title+"%").or("summary","like", "%"+title+"%")));
 		req.setAttribute("metaDataList", list);
+		req.setAttribute("page", pager);
+		req.setAttribute("keyword", title);
 		
-	}
-//	
+		
+		int records = list.size();
+		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
+			dvs.insertMetaData("01", records, user.getLoginId(),GetIP.getIpAddr(req),0f);
+		}
+		
+		
+	}	
 }
 

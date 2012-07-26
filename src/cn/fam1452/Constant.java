@@ -28,4 +28,5 @@ public class Constant {
 	
 	public static int INDEX_NEWS_NUMS=10;//首页元数据条数
 	public static int INDEX_META_NUMS=3;//首页元数据条数
+	public static int META_DATA_PAGESIZE=4;//元数据查询分页大小
 }

@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*,cn.fam1452.dao.pojo.*" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" import="java.util.*,cn.fam1452.dao.pojo.*"  %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -7,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>电离层专题数据库管理系统</title>
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
@@ -259,15 +260,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 
 <div class="rightbox3_2"> 
+<form id="metaDataQueryForm"  name="metaDataQueryForm" action="qt/metaDataList.do" method="post" onSubmit="return queryMetaData()">
  <table width="99%" border="0" cellspacing="0" cellpadding="0" class="rightbox3_2_m">
     <tr>
       <td width="46" height="34" align="right" class="fontstyle2" ><img src="images/d09.jpg" width="41" height="34" /></td>
       <td width="88" align="left" class="fontstyle2" >元数据搜索</td>
       <td width="301"><label></label>
-          <input type="text" name="metaDataKeyword" id="metaDataKeyword" class="boxinput2" /></td>
-      <td width="67"><a href="javascript:void(0)" onclick="queryMetaData();"><img src="images/d08.jpg" width="67" height="28" border="0" /></a></td>
+      	
+          <input type="text" name="title" id="metaDataKeyword" class="boxinput2" /></td>
+      <td width="67"> <input name="metaSubmit"  id="metaSubmit" type="image" value="" src="images/d08.jpg" /><%--<img src="images/d08.jpg" width="67" height="28" border="0" /></td>--%>
     </tr>
   </table>
+  </form>
   <!--搜索结束-->
 <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

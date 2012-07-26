@@ -16,14 +16,14 @@
 				            $('li').css({'cursor': 'default', 'list-style-image': 'none',' font-weight':'normal' });        
 				              $('li:not(:has(ul))').css({'cursor': 'default', 'list-style-image': 'none' });  
 				           //包含子菜单时鼠标指针和项目图标 
-				              $('li:has(ul)').css({ 'cursor': 'pointer', 'list-style-image': 'url(../../../imgs/plus.gif)' }); 
+				              $('li:has(ul)').css({ 'cursor': 'pointer', 'list-style-image': 'url(../../../images/plus.gif)' }); 
 				              //单击含子菜单的项   
 				          $('li:has(ul)').click(function (event) {       
 				                   if (this == event.target) {           
 				                            if ($(this).children().is(':hidden')) {                                                                     
-				                                $(this).css('list-style-image', 'url(../../../imgs/minus.gif)').children().show();                            
+				                                $(this).css('list-style-image', 'url(../../../images/minus.gif)').children().show();                            
 									      } else {  
-						                    $(this).css('list-style-image', 'url(../../../imgs/plus.gif)').children().hide();  
+						                    $(this).css('list-style-image', 'url(../../../images/plus.gif)').children().hide();  
 				                          }   
 				                   }
 				                   })
