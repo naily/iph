@@ -166,14 +166,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</c:when>
 	    	<c:otherwise><!-- 未登录 -->
 					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
-					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
+					        密    码<input type="password" id="loginPassword"  name="loginPassword" class="boxinput1" />
                        <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
     	</c:otherwise>
     	</c:choose>
     </div>
     </td>
     <td width="5"></td>
-    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码？</a>
+    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码?</a>
     </td>
   </tr>
   <tr>
@@ -182,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td height="30" colspan="6">
 	<div class="nav">
-	<a href="#" class="a2 nav_float">首页</a>
+	<a href="index.jsp" class="a2 nav_float">首页</a>
 	<a href="#" class="a2 nav_float">找数据</a>
 	<a href="qt/report.do" class="a2 nav_float">报表</a>
 	<a href="#" class="a2 nav_float">曲线图</a>
