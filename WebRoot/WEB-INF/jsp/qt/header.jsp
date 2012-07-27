@@ -182,18 +182,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td height="30" colspan="6">
 	<div class="nav">
-	<a href="#" class="a2 nav_float">首页</a>
-	<a href="#" class="a2 nav_float">找数据</a>
-	<a href="qt/report.do" class="a2 nav_float">报表</a>
-	<a href="#" class="a2 nav_float">曲线图</a>
-	<a href="#" class="a2 nav_float">关于我们</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
+	<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>
 	</div>
 	
 	</td>
     </tr>
 </table>
 </div><!--top右侧结束-->
-<div class="top_language"><a href="javascript:;" class="a1">中文</a>   <a href="javascript:;" class="a1">English</a> </div>
+<div class="top_language"><a href="qt/lang/zh_CN.do" class="a1">中文</a>   
+						  <a href="qt/lang/en_US.do" class="a1">English</a> </div>
 </div><!--top结束-->
 
   </body>

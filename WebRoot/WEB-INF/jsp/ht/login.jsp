@@ -25,11 +25,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="content_login" class="loginbox">
     	<c:choose>
-	    	<c:when test="${sessionScope.ht_account.login}" ><!-- 已经登录 -->
+	    	<c:when test="${sessionScope.ht_account.login}" >
+	    	<!-- 已经登录 -->
 	    		${sessionScope.ht_account.name}<br/>
 	    		<a href="ht/logout.do">退出</a>
 	    	</c:when>
-	    	<c:otherwise><!-- 未登录 -->
+	    	<c:otherwise>
+	    	<!-- 未登录 -->
 	    		<div >
 	    		<table width="400" height="210" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor">
 				  <tr>

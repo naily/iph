@@ -182,18 +182,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td height="30" colspan="6">
 	<div class="nav">
-	<a href="#" class="a2 nav_float">首页</a>
-	<a href="#" class="a2 nav_float">找数据</a>
-	<a href="qt/report.do" class="a2 nav_float">报表</a>
-	<a href="#" class="a2 nav_float">曲线图</a>
-	<a href="#" class="a2 nav_float">关于我们</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
+	<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
+	<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>
 	</div>
 	
 	</td>
     </tr>
 </table>
 </div><!--top右侧结束-->
-<div class="top_language"><a href="javascript:;" class="a1">中文</a>   <a href="javascript:;" class="a1">English</a> </div>
+<div class="top_language"><a href="qt/lang/zh_CN.do" class="a1">中文</a>   
+						  <a href="qt/lang/en_US.do" class="a1">English</a> </div>
 </div><!--top结束-->
 
 <div  id="right">
@@ -366,8 +367,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </table>
 </div><!--left 结束-->
 <div id="bottom">
-版权所有：*** &nbsp;&nbsp;&nbsp;&nbsp;<a href="ht/index.do" class="a1" target="blank">[管理员]</a><br />
-联系电话：010-51888888  地址：*** 邮编：***
+版权所有：中国科学院地理科学与资源研究所-科技基础性工作专项重点项目 &nbsp;&nbsp; 
+<a href="ht/index.do" class="a1" target="blank">[管理员]</a><br />
+联系电话：010-51888888  &nbsp;&nbsp; 通讯地址：  邮编： 
 </div>
 </body>
 </html>

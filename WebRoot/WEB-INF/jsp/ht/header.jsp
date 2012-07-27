@@ -32,7 +32,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div id="top2">
 	<div class="top_right2"></div>
 	<!--top右侧结束-->
-	<div class="top_language"><a href="ht/lang/zh_CN.do" class="a1">中文</a>   <a href="ht/lang/en_US.do" class="a1">English</a> </div>
+	<div class="top_language">
+	<!--  
+	<a href="ht/lang/zh_CN.do" class="a1">中文</a>   
+	<a href="ht/lang/en_US.do" class="a1">English</a> 
+	-->
+	</div>
   </div><!--top结束-->
   <div class="menu">
 	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
