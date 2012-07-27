@@ -182,11 +182,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td height="30" colspan="6">
 	<div class="nav">
-	<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
-	<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
-	<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
-	<a href="#" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
-	<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>
+		<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
+		<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
+		<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
+		<a href="#" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
+		<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>
 	</div>
 	
 	</td>
