@@ -166,14 +166,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</c:when>
 	    	<c:otherwise><!-- 未登录 -->
 					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
-					        密    码<input type="text" id="loginPassword"  name="loginPassword" class="boxinput1" />
+					        密    码<input type="password" id="loginPassword"  name="loginPassword" class="boxinput1" />
                        <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
     	</c:otherwise>
     	</c:choose>
     </div>
     </td>
     <td width="5"></td>
-    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码？</a>
+    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码?</a>
     </td>
   </tr>
   <tr>

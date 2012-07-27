@@ -43,7 +43,7 @@
 <div class="title8">新闻内容</div>
 <div class="newsbox">
 <div class="newstitle">${obj.title }</div>
-<div class="newsinfo">作者：*** 来源：*** 出处：***</div>
+<div class="newsinfo">时间：<fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
 <div class="newstext">${obj.content }</div>
 </div>
 </div>
