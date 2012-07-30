@@ -152,7 +152,7 @@ float:right;
 .userregtd_img{width:100px;text-align:left;}
 .redcolor{color:red;}
 
-.reportbox{ width:790px;  height:700px; padding-left:0px;  border:1px solid #e7e7e7; margin:5px; padding-top:15px; padding-bottom:15px;}
-.report_table{ width:750px;font-size:14px; background:#ffffff;border:1px solid #e7e7e7; }
+.reportbox{ width:796px;  height:700px; padding-left:0px;  border:1px solid #e7e7e7; margin:3px; padding-top:15px; padding-bottom:15px;}
+.report_table{ width:790px;font-size:14px; background:#ffffff;border:1px solid #e7e7e7; }
 .boxinput_report{ width:90px; height:20px; padding-top:3px; border:1px #cccccc solid; font-size:14px; background:#ffffff;}
 .report_table_td{ width:25px; font-size:14px; background:#ffffff;text-align:center;}

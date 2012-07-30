@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
-		
+		<script type="text/javascript" src="js/index_global_zn.js"></script>
 		<script type="text/javascript" src="js/reportData.js"></script>
 
 	</head>
@@ -33,27 +33,28 @@
 				<!--  <div class="newstext">-->
 					<table  class="report_table" align="center">
 						<tr>
-							<td>
-								选择观测站:
-								<input id="stationid" name="stationid" class="boxinput_report"/>
-							</td>
-							<td>
-								选择年份：
+							<td height="30">
+								观测站:
+								<input id="stationId" name="stationId" class="boxinput_report"/>
+							    &nbsp;&nbsp;
+								年份：
 								<input id="year" name="year" class="boxinput_report"/>
-							</td>
-							<td>
-								选择月份：
+								&nbsp;&nbsp;
+								月份：
 								<input id="month" name="month" class="boxinput_report"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								选&nbsp;择&nbsp;参&nbsp;数:
-								<input id="parameter" name="parameter" class="boxinput_report"/>&nbsp;
+								&nbsp;
+								<input type="checkbox" id=""/>所有月份
+								&nbsp;&nbsp;
+								参数:
+								<input id="parameter" name="parameter" class="boxinput_report"/>
+								&nbsp;
 								<input type="checkbox" id=""/>所有参数 
 							</td>
-							<td>
-								月报生成 月报下载
+						</tr>
+						<tr>						
+							<td align="center">
+								<input type="button" id="loadReportData" value="月报生成"/> 
+								<input type="button" value="月报下载"/>
 							</td>
 						</tr>
 					</table>
