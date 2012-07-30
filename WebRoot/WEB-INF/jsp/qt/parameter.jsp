@@ -31,7 +31,7 @@
 			</div>
 			<div class="reportbox">
 				<!--  <div class="newstext">-->
-					<table  class="report_table">
+					<table  class="report_table" align="center">
 						<tr>
 							<td>
 								选择观测站:
@@ -57,26 +57,9 @@
 							</td>
 						</tr>
 					</table>
-					<table class="report_table">
-					<tr>
-					  <td>days</td>
-					  <td class="report_table_td">00</td><td class="report_table_td">01</td>
-					  <td class="report_table_td">02</td><td class="report_table_td">03</td>
-					  <td class="report_table_td">04</td><td class="report_table_td">05</td>
-					  <td class="report_table_td">06</td><td class="report_table_td">07</td>
-					  <td class="report_table_td">08</td><td class="report_table_td">09</td>
-					  <td class="report_table_td">10</td><td class="report_table_td">11</td>
-					  <td class="report_table_td">12</td><td class="report_table_td">13</td>
-					  <td class="report_table_td">14</td><td class="report_table_td">15</td>
-					  <td class="report_table_td">16</td><td class="report_table_td">17</td>
-					  <td class="report_table_td">18</td><td class="report_table_td">19</td>
-					  <td class="report_table_td">20</td><td class="report_table_td">21</td>
-					  <td class="report_table_td">22</td><td class="report_table_td">23</td>
-					</tr>
-					<tr>
-					  <td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td>
-					</tr>
-					</table>
+					<br/>
+					 <table id="reportGrid"></table>					
+					
 				</div>
 		   <!-- </div> -->
 		</div>

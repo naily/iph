@@ -63,7 +63,7 @@ public class ParameterService extends Base{
 	   sb.append(" group by a.days,a.stationID");
 	    
 	   returnStr= sb.toString();
-	   System.out.println("sql="+returnStr);
+	   //System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);
 	   return returnStr;
    }
