@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="../jstl.jsp" flush="true" />
+<%@ include file="../jstl.jsp" %>
 <!DOCTYPE HTML >
 <html>
   <head>
@@ -40,8 +40,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
   </div><!--top结束-->
   <div class="menu">
-	<div class="menutext"><a href="ht/index.do" class="a3">${msg['ht_menu_login']}</a></div>
-	<div class="menutext"><a href='javascript:;' class="a3" id="M0">${msg['ht_menu_sysseting']}</a>
+	<div class="menutext">
+		<c:choose>
+	    	<c:when test="${sessionScope.ht_account.login}" >
+	    		<a href="ht/logout.do" class="a3">退出</a>
+	    	</c:when>
+	    	<c:otherwise>
+				<a href="ht/index.do" class="a3">登录</a>
+	    	</c:otherwise>
+    	</c:choose>
+	</div>
+	
+	<div class="menutext"><a href='javascript:;' class="a3" id="M0">系统设置</a>
 		<div class="menu_body">
 	      <a href="ht/admins.do" title="管理员">管理员信息</a>
 	      <a href="ht/stationload.do" title="观测站管理">观测站</a>

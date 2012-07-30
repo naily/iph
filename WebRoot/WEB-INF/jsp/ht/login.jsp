@@ -17,18 +17,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	
 	<script type="text/javascript" src="js/login.js"></script>
-	
+	<script type="text/javascript">
+		var s = '${sessionScope.ht_account.login}' ;
+	</script>
   </head>
   
   <body>
   	<jsp:include page="header.jsp" flush="true" />
-    
+
     <div id="content_login" class="loginbox">
     	<c:choose>
 	    	<c:when test="${sessionScope.ht_account.login}" >
 	    	<!-- 已经登录 -->
-	    		${sessionScope.ht_account.name}<br/>
-	    		<a href="ht/logout.do">退出</a>
+	    		<div >
+					<table width="400" height="210" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor">
+					  <tr>
+					    <td colspan="4" align="center">&nbsp;
+					    <h1 style="color:#FF8C00; ">登录成功!</h1>
+					    </td>
+				     </tr>
+					  <tr>
+					    <td colspan="4" align="center">欢迎你：&nbsp;&nbsp; ${sessionScope.ht_account.name}<br/></td>
+				    </tr>
+					  <tr>
+					    <td colspan="4" height="40" align="right">
+					    <!--  
+					    <a href="ht/logout.do"><h4>退出</h4></a>&nbsp;&nbsp; --></td>
+				    </tr>
+					  <tr>
+					    <td colspan="4" height="10"  align="center">&nbsp;</td>
+				    </tr>
+				</table>
+				</div>
 	    	</c:when>
 	    	<c:otherwise>
 	    	<!-- 未登录 -->

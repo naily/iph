@@ -66,12 +66,13 @@ public class UserMod  extends BaseMod{
 	
 	public void loginCode(){}
 	/**
-	 * 用户登出 : http://localhost:8080/hellomvc/pet/logout.nut
+	 * 用户登出
 	 */
 	@At("/ht/logout")
 	@Ok("redirect:/ht/index.do")
 	public void logout(HttpSession session) {
 		session.removeAttribute(Constant.HT_USER_SESSION);
+		session.invalidate() ;
 	}
 	
 	@At("/ht/login")
