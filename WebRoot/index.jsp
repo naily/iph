@@ -335,7 +335,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">...</a></td>
   </tr>
 </table>
-<div class="title2">区域电离层参数特征图</div>
+<div class="title2">电离层报表扫描图</div>
 <table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="30" class="fontstyle2"><a href="#" class="a3">武汉站</a></td>
