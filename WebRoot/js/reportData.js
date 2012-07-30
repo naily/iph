@@ -14,9 +14,7 @@ $(document).ready(function() {
 
 	// 年份
 	$('input[name=year]').omCombo({ // 初始化Combo
-		dataSource : [ { text : '2011', value : '2011' }, {
-						text : '2012',  value : '2012' } ]
-												,
+		dataSource : "year_list.json",
 		width : 80,
 		value:2012,
 		onValueChange : function() {

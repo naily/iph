@@ -29,7 +29,7 @@ import cn.fam1452.service.ParameterService;
 
 
 @IocBean
-public class ParameterMod extends BaseMod{
+public class QTParameterMod extends BaseMod{
 	
 	
 	@Inject("refer:parameterService")
