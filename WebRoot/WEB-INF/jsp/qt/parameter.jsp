@@ -22,7 +22,9 @@
 		<script type="text/javascript" src="js/reportData.js"></script>
 
 	</head>
-
+<script type="text/javascript">
+    	var basepath = "<%=basePath%>" ;
+    </script>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
@@ -54,7 +56,7 @@
 						<tr>						
 							<td align="center">
 								<input type="button" id="loadReportData" value="月报生成"/> 
-								<input type="button" value="月报下载"/>
+								<input type="button" id="downloadReportData" value="月报下载"/>
 							</td>
 						</tr>
 					</table>

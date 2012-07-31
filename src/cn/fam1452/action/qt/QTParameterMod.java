@@ -3,15 +3,18 @@
  */
 package cn.fam1452.action.qt;
 
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -31,8 +34,8 @@ import cn.fam1452.utils.StringUtil;
 @IocBean
 public class QTParameterMod extends BaseMod {
 
-	@Inject("refer:baseService")
-	private BaseService baseService ;
+	/*@Inject("refer:baseService")
+	private BaseService baseService ;*/
 	
 	@Inject("refer:parameterService")
 	private ParameterService parameterService;
@@ -83,18 +86,29 @@ public class QTParameterMod extends BaseMod {
 		}		
 		return json;
 	}
-	@At("/qt/stationlist")
-	@Ok("json")
-	public JSONObject list(){
-		JSONObject json = new JSONObject();
-		json.put(Constant.SUCCESS, true) ;
-
-		List<Station>  list = baseService.dao.query(Station.class, null) ;
+	@At("/qt/downloadReportData")
+	@Ok("raw")
+	public void exportLogAndDownload(HttpServletResponse response,@Param("..")ParameteDataBo parameter){
 		
+		Workbook wb = parameterService.exportToHSSFWorkbook(parameter) ;
 		
-		JsonConfig cfg = new JsonConfig();  		
-		cfg.setExcludes(new String[] { "code"}); 
-		json.put(Constant.ROWS, JSONArray.fromObject(list)) ;
-		return json ;
+		try {
+			if(null != wb){
+				OutputStream out = response.getOutputStream();
+				response.setContentType("application/x-msdownload");
+				
+				StringBuffer fileName = new StringBuffer().append("month_reportData.xls") ;
+				response.setHeader("Content-Disposition", "attachment; filename=" + new String( fileName.toString().getBytes("GBK"), "ISO8859-1" ));
+				
+				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
+				//byte[] buffer = IOUtils.toByteArray(bis);
+				//os.write(buffer);
+				wb.write(out) ;
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error(e, e) ;
+		}
 	}
 }

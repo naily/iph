@@ -17,17 +17,14 @@ $(document).ready(function() {
         optionField :'name',
         onValueChange : function(target, newValue, oldValue, event) {
 			//$('input[name=year]').focus();
-        	alert(newValue);
+        	//alert(newValue);
         	var getSation = {
                         url : 'ht/getstation.do',
                         params : {id: newValue}  ,
                         callback : function(json){
                             if(json.success){  
-                            	var stationStr=json.data.location;
-                            	stationStr+="&nbsp;&nbsp;&nbsp;&nbsp;";
-                            	stationStr+=json.data.name+"("+json.data.longitude+" &nbsp;"+json.data.latitude+")";
-                               
-                                $('#reportHeadStation').html(stationStr);
+                            	$('#location').html(json.data.location);
+                                $('#jingweidu').html(json.data.name+"("+json.data.longitude+"&nbsp;"+json.data.latitude+")");
                             }else{
                                 //at({cont: json.info , type : 'error'});
                             }
@@ -53,43 +50,26 @@ $(document).ready(function() {
 		dataSource :month_omCombo_datasource,
 		width : 40,
 		value:1,
-		onValueChange : function() {
+		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
+			$('#month_year').html($('#year').val()+".&nbsp;"+newValue);
 		}
 	});
 
 	// 国家下拉列表
 	$('input[name=parameter]').omCombo({ // 初始化Combo
-		dataSource : [ { text : 'foF2',  value : 'foF2'}, 
-			           { text : 'h1F2',  value : 'h1F2'}, 
-			           { text : 'foF1',  value : 'foF1'}, 
-			           { text : 'hlF1',  value : 'hlF1'}, 
-			           { text : 'hlF',   value : 'hlF'}, 
-			           { text : 'hpF',   value : 'hpF'}, 
-			           { text : 'foE',   value : 'foE'}, 
-			           { text : 'hlE',   value : 'hlE'}, 
-			           { text : 'foes',  value : 'foes'}, 
-			           { text : 'hlEs',  value : 'hlEs'}, 
-			           { text : 'fbEs',  value : 'fbEs'}, 
-			           { text : 'Fmin',  value : 'Fmin'}, 
-			           { text : 'M3000F2',  value : 'M3000F2'}, 
-			           { text : 'M1500F2',  value : 'M1500F2'}, 
-			           { text : 'M3000F1',  value : 'M3000F1'}, 
-			           { text : 'M3000F',   value : 'M3000F'}
-			         
-			           
-						 ],
+		dataSource :parameter_omCombo_datasource,
 		width : 80,
 		value:'foF2',
-		onValueChange : function() {
+		onValueChange : function(target, newValue, oldValue, event) {
 			 $('input[name=parameter]').focus();
-			
+			$('#para_unit').html(newValue);
 		}
 	});
 	
 	
 	$('#reportGrid').omGrid({
-                title : '<span id="reportPara">&nbsp;</span><span  id="reportHeadStation">&nbsp;</span>',
+                title : '<table border="0" width="780"><tr><td  width="120" align="center" id="para_unit">&nbsp;</td><td width="120" align="center" id="month_year">&nbsp;</td><td width="270" align="center" id="location">&nbsp;</td><td  width="280" align="center" id="jingweidu">&nbsp;</td></tr></table',
                 dataSource : 'qt/loadReport.do',
                 limit:0,
                 height:655,
@@ -131,8 +111,24 @@ $(document).ready(function() {
 			  
                 if(stationId && year && month && parameter){
                       $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationId='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
-                }else{ //有查询条件，显示查询数据                 
+                }else{ //有查询条件，显示查询数据  
+                	at({cont:'请选择条件！' , type : 'error'});
                      $('#reportGrid').omGrid("setData", 'qt/loadReport.do');
+                }
+
+            });
+            
+            $("#downloadReportData").click(function(){
+               var stationId=$('#stationId').val();
+			   var year=$('#year').val();
+			   var month=$('#month').val();
+			   var parameter=$('#parameter').val();
+//			  window.open(basepath + '/qt/downloadReportData.do')
+                if(stationId && year && month && parameter){
+                      window.open(basepath +'/qt/downloadReportData.do?stationId='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+                }else{ //有查询条件，显示查询数据  
+                	at({cont:'请选择条件！' , type : 'error'});
+                   
                 }
 
             });
