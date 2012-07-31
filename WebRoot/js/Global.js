@@ -13,6 +13,16 @@ function alertMsg(txt) {
 				}
 			});
 }
+
+function tipOK(){
+	$.omMessageTip.show({
+        type:'success',
+        title:'提醒',
+        timeout : 3000 ,
+        content:'删除成功'
+    });
+}
+
 //将超链接转化为表单提交
 function linkClick(linkObject) {
 	var formObject = document.createElement('form');
