@@ -54,9 +54,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     
     <div id="qtum_update">
-  		<form id="userRegForm"  name="userRegForm">
+  		
   		<input name="optType" id="optTpyeID" type="hidden"/>
-  		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+  		<table   border="0" align="center" cellpadding="0" cellspacing="0" >
 	  <tr>
 	    <td height="10" colspan="3" align="center">&nbsp;</td>
 	    </tr>
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </td>
 	  </tr>
 	</table>
-	</form>
+	
 	</div>
     
     

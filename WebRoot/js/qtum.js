@@ -84,13 +84,58 @@ $(document).ready(function(){
      
      $('#updateUserSubmit').omButton({
         //icons : {left:'images/help.png',right:'images/edit_add.png'},
+        label : '提  交' ,
         width : 150, 
-        onClick : function(event){
-            // do something
-        	saveUserUpdate() ;
-        }
+        onClick : saveUserUpdate
     });
     
+    // 性别下拉列表
+    $('input[name=gender]').omCombo({ // 初始化Combo
+        dataSource : gender_omCombo_datasource/*
+                                                 * [ { text : '男', value : '男' }, {
+                                                 * text : '女', value : '女' } ]
+                                                 */,
+        width : 225,
+        onValueChange : function() {
+            $('input[name=gender]').focus();
+
+        }
+    });
+
+    // 学历下拉列表：博士、硕士、本科、本科以下
+    $('input[name=eduBackground]').omCombo({ // 初始化Combo
+        dataSource : eduBackground_omCombo_datasource,
+        width : 225,
+        onValueChange : function() {
+            $('input[name=eduBackground]').focus();
+        }
+    });
+
+    // 所在行业：科研院所、教育院校、政府机关、企事业单位、民间组织、其他
+    $('input[name=vocation]').omCombo({ // 初始化Combo
+        dataSource : vocation_omCombo_datasource,
+        width : 225,
+        onValueChange : function() {
+            $('input[name=vocation]').focus();
+        }
+    });
+
+    // 国家下拉列表
+    $('input[name=country]').omCombo({ // 初始化Combo
+        dataSource : country_omCombo_datasource,
+        width : 225,
+        onValueChange : function() {
+            // 根据第1个combo的当前值算出第2个combo的值
+            // $('input[name=country]').focus();
+            var records = getCityRecords();
+            // 将算出的值设置为第2个combo的数据源
+            $('#region').val('').omCombo('setData', records);
+        }
+    });
+    // 区域下拉列表，省份
+    $('input[name=region]').omCombo({
+                width : 225
+            });
     
 });
 
@@ -198,8 +243,9 @@ function getUserInfo(uid) {
 
 
 function saveUserUpdate() {
+    
 	var data = {
-		url : "ht/updateqtuser",
+		url : "ht/updateqtuser.do",
 		params : {
 			loginId : $('#loginId').val(),
 			name : $('#name').val(),
@@ -217,30 +263,34 @@ function saveUserUpdate() {
 		},
 		callback : function(json) {
 			if (json.success) {
-				showWaiting(); 
+				//showWaiting(); 
+                $('#list0').omGrid('reload');
+                $("#qtum_update").omDialog('close');
 			} else {
 				showError(json.info);
 
 			}
 		}
 	}
+    
+    //alert(data.params.address);
 	ajaxpost(data);
 }
 
 function showWaiting() {
 	$.omMessageBox.waiting({
-				title : '请等待',
-				content : '服务器正在处理请求，请稍等...'
-			});
+		title : '请等待',
+		content : '服务器正在处理请求，请稍等...'
+	});
 }
 
 function showError(v) {
 	$.omMessageBox.alert({
-				type : 'error',
-				title : '失败',
-				content : v,
-				onClose : function(v) {
-					// showResult('我知道了！');
-				}
-			});
+		type : 'error',
+		title : '失败',
+		content : v,
+		onClose : function(v) {
+			// showResult('我知道了！');
+		}
+	});
 }

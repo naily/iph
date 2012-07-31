@@ -87,7 +87,7 @@ public class QTUserMgeMod extends BaseMod{
 			JSONObject item = new JSONObject();
 			
 			item = JSONObject.fromObject(u , cfg) ;
-			item.put("regDate", DateUtil.convertDateToString(u.getRegDate() , DateUtil.pattern2)) ;
+			item.put("regDate", null == u.getRegDate() ? "" :DateUtil.convertDateToString(u.getRegDate() , DateUtil.pattern2)) ;
 			//item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
 			//item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
 			
@@ -162,7 +162,7 @@ public class QTUserMgeMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		
 		if(StringUtil.checkNotNull(params.getLoginId()) && null != baseService.dao.fetch(params)){
-			int  i = baseService.dao.update(params) ;
+			int  i = baseService.dao.updateIgnoreNull(params) ;
 			json.put(Constant.SUCCESS, true ) ;
 		}else{
 			json.put(Constant.INFO, error2) ;
@@ -203,7 +203,10 @@ public class QTUserMgeMod extends BaseMod{
 		
 		if(null != obj && StringUtil.checkNotNull(obj.getLoginId())){
 			User u = baseService.dao.fetch(obj) ;
-			json.put("user", JSONObject.fromObject(u)) ;
+			JsonConfig cfg = new JsonConfig(); 
+			cfg.setExcludes(new String[] {  "regDate"  }); 
+			
+			json.put("user", JSONObject.fromObject(u , cfg)) ;
 			json.put(Constant.SUCCESS, true) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
