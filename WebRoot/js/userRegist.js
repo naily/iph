@@ -265,31 +265,7 @@ showErrors = function(errorMap, errorList) {
 	}
 	this.defaultShowErrors();
 }
-/**
- * 通过国家级联地区
- */
-function getCityRecords() {
-	var country = $('#country').omCombo('value');
-	if (country == '86') {// 中国
-		return [{
-					'text' : '北京市',
-					'value' : '110000'
-				}, {
-					'text' : '江苏省',
-					'value' : '320000'
-				}];
-	} else if (country == '01') {// 美国
-		return [{
-					'text' : '夏威夷',
-					'value' : 'hawaii'
-				}, {
-					'text' : '佛罗里达',
-					'value' : 'florida'
-				}];
-	} else {
-		return [];
-	}
-}
+
 /**
  * 注册信息保存
  *qt/userReg.do

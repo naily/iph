@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		$(document).ready(function(){
 		    $("#M1,#M2,#M0").click(function() {
-		
+				
 		        $(this).parent().find(".menu_body").slideDown('fast').show();
 		
 		        $(this).parent().hover(function() {}, 
@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </div></div>
 	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>
 		<div class="menu_body">
-	      <a href="#" title="用户管理与统计">用户管理</a>
+	      <a href="ht/qtum.do" title="用户管理与统计">用户管理</a>
 	      <a href="#" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
 	    </div>
 	</div>
