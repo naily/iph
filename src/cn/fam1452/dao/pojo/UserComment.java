@@ -11,6 +11,8 @@ import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
+import cn.fam1452.action.bo.Pages;
+
 /**
  * Class UserComment
  *
@@ -19,7 +21,7 @@ import org.nutz.dao.entity.annotation.Table;
  */
 
 @Table("T_USERCOMMENT")
-public class UserComment {
+public class UserComment extends Pages{
 	
 	@Column
     @Name(casesensitive=false)
