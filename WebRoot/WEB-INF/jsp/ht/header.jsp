@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>
 		<div class="menu_body">
 	      <a href="ht/qtum.do" title="用户管理与统计">用户管理</a>
-	      <a href="#" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
+	      <a href="ht/qtcm.do" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
 	    </div>
 	</div>
 	<div class="menutext1"><a href="ht/pta.do" class="a3">访问权限管理</a></div>
