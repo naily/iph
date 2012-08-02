@@ -34,8 +34,8 @@ import cn.fam1452.utils.StringUtil;
 @IocBean
 public class QTParameterMod extends BaseMod {
 
-	/*@Inject("refer:baseService")
-	private BaseService baseService ;*/
+	@Inject("refer:baseService")
+	private BaseService baseService ;
 	
 	@Inject("refer:parameterService")
 	private ParameterService parameterService;
@@ -89,7 +89,9 @@ public class QTParameterMod extends BaseMod {
 	@At("/qt/downloadReportData")
 	@Ok("raw")
 	public void exportLogAndDownload(HttpServletResponse response,@Param("..")ParameteDataBo parameter){
-		
+		String id = parameter.getStationID();
+		Station station = baseService.dao.fetch(Station.class, id);
+		parameter.setStation(station);
 		Workbook wb = parameterService.exportToHSSFWorkbook(parameter) ;
 		
 		try {

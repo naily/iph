@@ -39,7 +39,7 @@ $(document).ready(function() {
 	$('input[name=year]').omCombo({ // 初始化Combo
 		dataSource :year_omCombo_datasource,
 		width : 60,
-		value:2012,
+		//value:2012,
 		onValueChange : function() {
 			$('input[name=year]').focus();
 		}
@@ -49,7 +49,7 @@ $(document).ready(function() {
 	$('input[name=month]').omCombo({ // 初始化Combo
 		dataSource :month_omCombo_datasource,
 		width : 40,
-		value:1,
+		//value:1,
 		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
 			$('#month_year').html($('#year').val()+".&nbsp;"+newValue);
@@ -60,7 +60,7 @@ $(document).ready(function() {
 	$('input[name=parameter]').omCombo({ // 初始化Combo
 		dataSource :parameter_omCombo_datasource,
 		width : 80,
-		value:'foF2',
+		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {
 			 $('input[name=parameter]').focus();
 			$('#para_unit').html(newValue);
@@ -107,10 +107,9 @@ $(document).ready(function() {
                var stationId=$('#stationId').val();
 			   var year=$('#year').val();
 			   var month=$('#month').val();
-			   var parameter=$('#parameter').val();
-			  
+			   var parameter=$('#parameter').val();		  
                 if(stationId && year && month && parameter){
-                      $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationId='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+                      $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
                 }else{ //有查询条件，显示查询数据  
                 	at({cont:'请选择条件！' , type : 'error'});
                      $('#reportGrid').omGrid("setData", 'qt/loadReport.do');
@@ -123,9 +122,14 @@ $(document).ready(function() {
 			   var year=$('#year').val();
 			   var month=$('#month').val();
 			   var parameter=$('#parameter').val();
-//			  window.open(basepath + '/qt/downloadReportData.do')
+			   if($("#allMonth").attr("checked")){
+			   	  month='all';
+			   }
+ 			   if($("#allPara").attr("checked")){
+ 			      parameter='all';
+ 			   }
                 if(stationId && year && month && parameter){
-                      window.open(basepath +'/qt/downloadReportData.do?stationId='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+                      window.open(basepath +'/qt/downloadReportData.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
                 }else{ //有查询条件，显示查询数据  
                 	at({cont:'请选择条件！' , type : 'error'});
                    

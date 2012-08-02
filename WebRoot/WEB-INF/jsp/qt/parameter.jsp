@@ -45,12 +45,12 @@
 								月份：
 								<input id="month" name="month" class="boxinput_report"/>
 								&nbsp;
-								<input type="checkbox" id=""/>所有月份
+								<input type="checkbox" id="allMonth" value="allMonth"/>所有月份
 								&nbsp;&nbsp;
 								参数:
 								<input id="parameter" name="parameter" class="boxinput_report"/>
 								&nbsp;
-								<input type="checkbox" id=""/>所有参数 
+								<input type="checkbox" id="allPara" value="allPara"/>所有参数 
 							</td>
 						</tr>
 						<tr>						

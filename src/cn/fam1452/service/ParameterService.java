@@ -1,9 +1,8 @@
 package cn.fam1452.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,16 +10,20 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.IocBean;
 
+import cn.fam1452.Constant;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
 public class ParameterService extends Base{
 	
+	private String paraArys;
 	public List parameterMonthReport(ParameteDataBo pdb){
 		/*dao.setSqlManager(new FileSqlManager("all.sqls"));
 		Sql sql =dao.sqls().create("insert.data");
@@ -30,7 +33,7 @@ public class ParameterService extends Base{
 		sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		this.dao.execute(sql) ;		
 		List<ParameteDataBo> list = sql.getList(ParameteDataBo.class) ;
-		 return list;
+		return list;
 	}
    public String getQuerySQL(ParameteDataBo pdb){
 	   String returnStr=null;
@@ -75,69 +78,247 @@ public class ParameterService extends Base{
 	   sb.delete(0,sb.length()-1);
 	   return returnStr;
    }
+   /*
+    *生成excel报表 
+    *1、生成一个工作薄：HSSFWorkbook
+    *2、选择某一个参数时，生成一个工作表(Sheet)；全选参数时生成多个工作表(多个Sheet)
+    *3、全选月份时，一个工作表中包含1-12月份的所有参数表
+    * */
    public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
+	    String defaultTitle="IONOSPHERIC DATA";//报表名称
+	    String year= pdb.getYear();
+	    String month=pdb.getMonth();
+	    String paraType=pdb.getParaType();
+	    Station station = pdb.getStation();
 	   
-		Workbook wb = new HSSFWorkbook();
-		
-		 HSSFCellStyle cellStyle=(HSSFCellStyle) wb.createCellStyle();     //在工作薄的基础上建立一个样式
-        // cellStyle.setBorderBottom(HSSFCellStyle.BORDER_DOUBLE);    //设置边框样式
-		 cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);    //设置边框样式
+	    String[] monthAry=null;
+	    String[] paraAry=null;
+	    if("all".equals(month)){//全部月份
+	    	monthAry=Constant.monthAry;
+	    }else{
+	    	monthAry = new String[1];
+	    	monthAry[0]=month;
+	    }
+        if("all".equals(paraType)){//全部参数
+        	paraAry=Constant.paraAry;
+	    }else{
+	    	paraAry= new String[1];
+	    	paraAry[0]=paraType;
+	    }
+        HSSFWorkbook wb = new HSSFWorkbook();// 创建新的Excel 工作簿     	
+   		CreationHelper createHelper = wb.getCreationHelper();	
+   		Sheet sheet =null;//在Excel工作簿中建一工作表
+   		Row  row;//定义行
+   		Cell cell;//定义单元格
+   	    List listData =null;//参数list
+   	    ParameteDataBo para =null;//参数bean
+   		int rowSatrt=0;//开始行
+   		//遍历参数
+	    for(String paraArys:paraAry){
+	    	rowSatrt=0;
+			pdb.setParaType(paraArys);
+			sheet = wb.createSheet(year+"-"+paraArys);
+			//遍历月份
+			for(String months:monthAry){
+				pdb.setMonth(months);
+				try{
+				 listData = parameterMonthReport(pdb) ;
+				 if(listData==null || listData.size()<=0){
+						continue;
+					}
+				}catch(Exception e){
+					 continue;
+				}
+				
+				if(rowSatrt!=0){//第一次遍历从0行开始
+					rowSatrt++;//向下移动一行
+				}
+	    		
+	    		//报表名称行（顶行）合并为一列
+	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt,rowSatrt,0,25));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)	    		
+	    		row = sheet.createRow((short)rowSatrt);// 在索引0的位置创建行（最顶端的行）
+	    		cell = row.createCell(0);
+	    		cell.setCellValue(defaultTitle);
+	    		cell.setCellStyle(setAlign(wb));
+	    		//报表基础参数行（第二行）合并为四列	    		
+	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,0,3));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)
+		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,4,8));
+		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,9,15));
+		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,16,25));
+		   		//创建一行四列,并为四列赋值
+		   		row = sheet.createRow((short)rowSatrt+1);
+		   		
+		   		cell = row.createCell(0); 
+		   		cell.setCellValue(paraArys);
+		   		cell.setCellStyle(setAlign(wb));
+		   		
+		   		cell = row.createCell(4); 
+		   		cell.setCellValue(months+"."+year);
+		   		cell.setCellStyle(setAlign(wb));
+		   		
+		   		cell = row.createCell(9); 
+		   		cell.setCellValue(station.getLocation());
+		   		cell.setCellStyle(setAlign(wb));	
+		   		
+		   		cell = row.createCell(16); 
+		   		cell.setCellValue(station.getName()+"("+station.getLongitude()+"  "+station.getLatitude()+")");
+		   		cell.setCellStyle(setAlign(wb));
+		   		//设置单元格宽度
+		   		sheet.setColumnWidth( 0,10*256);//.autoSizeColumn(0 )
+		   		for(int col=1;col<=25;col++){
+		   			sheet.setColumnWidth( col  , 5*256); 
+		   		}
+		   		//创建报表表头（第三行）（日期及0-23小时行）
+		        row = sheet.createRow((short)rowSatrt+2);
+		   	    cell = row.createCell(0); 		   	    
+		   	    cell.setCellValue("Day\\Month");//此处应该设为斜线，暂未解决
+		   	    cell.setCellStyle(setHeadStyle(wb));
+		   	    for(int col1=0;col1<=24;col1++){
+		   	    	cell=row.createCell(col1+1);
+		   	    	 if(col1<10){
+		   	    		cell.setCellValue("0"+col1);		   	    		 
+		   	    	   }else{
+		   	    		cell.setCellValue(col1);
+		   	    	  }
+		   	    	 	cell.setCellStyle(setHeadStyle(wb));	   	   
+		   	    }
+		   	    //参数报表内容开始（第四行）-------------------------------------------------------------------------
+		   	    				   	    
+					    if(null != listData && listData.size() > 0){					    
+					    	for (int i = 0 ; i < listData.size() ; i++) {
+					    		para = (ParameteDataBo)listData.get(i) ;
+					    		row = sheet.createRow(rowSatrt+3); 				    		
+					    		  for(int col2=0;col2<=25;col2++){
+					    			  cell=row.createCell(col2);
+						    	    	if(col2==0){
+						    	    		cell.setCellValue(para.getDays());
+						    	    	}else{
+						    	    		cell.setCellValue(getParaValue(para,col2));
+						    	    	}
+						    	    	cell.setCellStyle(setContentStyle(wb));
+						    	    }
+					    		  rowSatrt++;
+					    	}
+					    	
+					    }else{
+					    	row = sheet.createRow((short)rowSatrt+3);
+					    	row.createCell(0).setCellValue(createHelper.createRichTextString("数据为空")) ;
+					    }
+		   	    //参数报表内容结束--------------------------------------------------------------------------
+	    		
+	    	}//end for 月份  for(String months:monthAry){
+	    	
+	    }//end for 参数(sheet) for(String paraArys:paraAry){
+			
+	    return wb ;
+	}
+   
+   public String getParaValue(ParameteDataBo pdb,int idx){
+   	//para.getH00()
+	   String retValue="";
+	   switch(idx){
+	   case 1: retValue=pdb.getH00();
+	   break;
+	   case 2: retValue=pdb.getH01();
+	   break;
+	   case 3: retValue=pdb.getH02();
+	   break;
+	   case 4: retValue=pdb.getH03();
+	   break;
+	   case 5: retValue=pdb.getH04();
+	   break;
+	   case 6: retValue=pdb.getH05();
+	   break;
+	   case 7: retValue=pdb.getH06();
+	   break;
+	   case 8: retValue=pdb.getH07();
+	   break;
+	   case 9: retValue=pdb.getH08();
+	   break;
+	   case 10: retValue=pdb.getH09();
+	   break;
+	   case 11: retValue=pdb.getH10();
+	   break;
+	   case 12: retValue=pdb.getH11();
+	   break;
+	   case 13: retValue=pdb.getH12();
+	   break;
+	   case 14: retValue=pdb.getH13();
+	   break;
+	   case 15: retValue=pdb.getH14();
+	   break;
+	   case 16: retValue=pdb.getH15();
+	   break;
+	   case 17: retValue=pdb.getH16();
+	   break;
+	   case 18: retValue=pdb.getH17();
+	   break;
+	   case 19: retValue=pdb.getH18();
+	   break;
+	   case 20: retValue=pdb.getH19();
+	   break;
+	   case 21: retValue=pdb.getH20();
+	   break;
+	   case 22: retValue=pdb.getH21();
+	   break;
+	   case 23: retValue=pdb.getH22();
+	   break;
+	   case 24: retValue=pdb.getH23();
+	   break;
+	   default: ;
+	   break;
+	   }
+   	return retValue;
+   }
+   /*对齐方式
+    * */
+    public HSSFCellStyle setAlign(HSSFWorkbook wb){
+    	 HSSFCellStyle cellStyle=(HSSFCellStyle) wb.createCellStyle(); 
+		 cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);//水平居中
+	     cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+    	return cellStyle;
+    } 
+   /*设置边框与对齐方式
+    * */
+    public HSSFCellStyle setBorderAndAlign(HSSFWorkbook wb){
+    	 HSSFCellStyle cellStyle=(HSSFCellStyle) wb.createCellStyle(); 
+    	 cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);    //设置边框样式
 		 cellStyle.setBorderLeft((short)1);     //左边框
 		 cellStyle.setBorderRight((short)1);    //右边框
 		 cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);    //顶边框
-		 cellStyle.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);    //填充的背景颜色
-         
-       
+		 cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);//水平居中
+	     cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);//垂直居中
+    	return cellStyle;
+    }
+    /*设置字体*/
+    public HSSFFont setFont(HSSFWorkbook wb){  
+    	 HSSFFont font = wb.createFont();   //设置字体的样式
+         font.setFontHeightInPoints((short)8);   //字体大小
+         font.setFontName("宋体");   //什么字体
+         font.setItalic(false);                 //是不倾斜
+         font.setStrikeout(false);         //是不是划掉
+         //font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);   //字体加粗
+    	 return font;
+    }
 
-		
-		CreationHelper createHelper = wb.getCreationHelper();
-		/*sheet.setColumnWidth( 0,   5*256) ;//.autoSizeColumn(0 ); // 调整第一列宽度  
-		sheet.setColumnWidth( 1  , 5*256);  
-		sheet.setColumnWidth( 2  , 5*256);  */
-		Sheet sheet = wb.createSheet("2012-07-foF2");
-		sheet.setColumnWidth( 0,   10*256);
-		for(int col=1;col<25;col++){
-			sheet.setColumnWidth( col  , 5*256); 
-		}	      
-        Row row = sheet.createRow((short)1);
-	    Cell cellDays = row.createCell(0); 
-	    cellDays.setCellValue("days\\month");
-	    Cell cellHead;
-	    for(int col1=0;col1<=24;col1++){
-	    	cellHead=row.createCell(col1+1);
-	    	 if(col1<10){
-	    		 cellHead.setCellValue("0"+col1);
-	    		 
-	    	 }else{
-	    		 cellHead.setCellValue(col1);
-	    	 }
-	    	 cellHead.setCellStyle(cellStyle);
-	    }
-	    cellDays.setCellStyle(cellStyle);
-	    List list = parameterMonthReport(pdb) ;
-	    if(null != list && list.size() > 0){
-	    	Row rw ;
-	    	for (int i = 0 ; i < list.size() ; i++) {
-	    		ParameteDataBo para = (ParameteDataBo)list.get(i) ;
-	    		rw = sheet.createRow(i+2);  //向后偏移2行
-	    		Cell cellData;
-	    		  for(int col2=0;col2<=25;col2++){
-	    			  cellData=rw.createCell(col2);
-		    	    	if(col2==0){
-		    	    		cellData.setCellValue(para.getDays());
-		    	    	}else{
-		    	    		cellData.setCellValue(para.getH00());
-		    	    	}
-		    	    	cellData.setCellStyle(cellStyle);
-		    	    }
-	    		
-	    	}
-	    	
-	    }else{
-	    	Row r1 = sheet.createRow((short)2);
-	    	r1.createCell(0).setCellValue(createHelper.createRichTextString("数据为空")) ;
-	    }
-		
-	    return wb ;
-	}
+    /*
+     * 设置表头样式（有背景色）
+     * */
+    public HSSFCellStyle setHeadStyle(HSSFWorkbook wb){
+    	HSSFCellStyle cellStyle=setBorderAndAlign(wb);
+    	cellStyle.setFont(setFont(wb));//字体
+    	cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+    	cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);  
+    	return cellStyle;
+    }
+    /*
+     * 设置内容样式（无背景色）
+     * */
+    public HSSFCellStyle setContentStyle(HSSFWorkbook wb){
+    	HSSFCellStyle cellStyle=setBorderAndAlign(wb);
+    	cellStyle.setFont(setFont(wb));//字体
+    	return cellStyle;
+    }
+   
+
 }
