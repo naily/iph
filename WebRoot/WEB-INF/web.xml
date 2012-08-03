@@ -31,9 +31,20 @@
     <servlet-mapping>
             <servlet-name>ionosphere</servlet-name>
             <url-pattern>*.do</url-pattern>
-    </servlet-mapping><!--
+    </servlet-mapping>
+    
+    <!-- Druid内置监控界面 -->
+    <servlet>
+         <servlet-name>DruidStatView</servlet-name>
+         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+          <servlet-name>DruidStatView</servlet-name>
+          <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping> 
     
     
+    <!--
     <filter>
 		<filter-name>Set Character Encoding</filter-name>
 		<filter-class>
@@ -46,7 +57,8 @@
 	</filter-mapping>
 	
 	
-    --><filter>
+    -->
+    	<filter>
                 <filter-name>msgs</filter-name>
                 <filter-class>org.nutz.mvc.NutFilter</filter-class>
                 <init-param>

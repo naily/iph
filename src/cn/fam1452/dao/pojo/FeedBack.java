@@ -14,7 +14,7 @@ public class FeedBack {
 	
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String id ;
 	
 	@Column

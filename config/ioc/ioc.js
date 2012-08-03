@@ -11,7 +11,7 @@ var ioc = {
             args : [{refer:"dataSource"}]
     },
     dataSource : {
-            type : "org.apache.commons.dbcp.BasicDataSource",
+            type : "com.alibaba.druid.pool.DruidDataSource",
             events : {
                     depose : 'close'
             },
@@ -19,7 +19,8 @@ var ioc = {
                     driverClassName : {java: "$config.get('db-driver')"},
                     url : {java: "$config.get('db-url')"},
                     username : {java: "$config.get('db-username')"},
-                    password : {java: "$config.get('db-password')"}
+                    password : {java: "$config.get('db-password')"},
+                    maxActive : 20
             }
     }
 }
