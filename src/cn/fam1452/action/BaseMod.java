@@ -51,16 +51,40 @@ public class BaseMod {
 		return  cfg ;
 	}
 	
-	
+	/**
+	 * 删除失败
+	 */
 	protected final String error1 = "删除失败" ; 
+	/**
+	 * 对象不存在
+	 */
 	protected final String error2 = "对象不存在" ; 
 
+	/**
+	 * ID为空
+	 */
 	protected final String error3 = "ID为空" ; 
 	
+	/**
+	 * 文件已经存在
+	 */
 	protected final String error4 = "文件已经存在" ; 
+	/**
+	 * 文件保存失败
+	 */
 	protected final String error5 = "文件保存失败" ; 
+	/**
+	 * 文件名为空
+	 */
 	protected final String error6 = "文件名为空" ; 
 	
+	/**
+	 * 记录已经存在
+	 */
 	protected final String error7 = "记录已经存在" ;
 	
+	/**
+	 * 参数错误
+	 */
+	protected final String error8 = "参数错误" ;
 }

@@ -1,12 +1,8 @@
 package cn.fam1452.dao;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.Test;
-import org.nutz.dao.Dao;
-import org.nutz.dao.impl.NutDao;
 
-import cn.fam1452.dao.pojo.Log;
-import cn.fam1452.dao.pojo.ProtectDate;
+import cn.fam1452.dao.pojo.FeedBack;
 
 public class CreateTableTest extends DataSource{
 	
@@ -16,6 +12,6 @@ public class CreateTableTest extends DataSource{
 	public void createTab(){
 		//this.initDataSource() ;
 		
-		this.dao.create(Log.class, true) ;
+		this.dao.create(FeedBack.class, true) ;
 	}
 }

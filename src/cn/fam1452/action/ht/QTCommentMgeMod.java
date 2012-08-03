@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -158,18 +159,51 @@ public class QTCommentMgeMod extends BaseMod{
 	@At("/savefeedback")
 	@Ok("json")
 	@POST
-	public JSONObject saveFeedBack(@Param("..")FeedBack obj){
+	public JSONObject saveFeedBack(@Param("..")FeedBack obj , HttpSession session){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(null != obj && null == baseService.dao.fetch(obj) ){
-			FeedBack u = baseService.dao.insert(obj) ;
+		if(null != obj ){
+			Administrator admin = (Administrator)session.getAttribute(Constant.HT_USER_SESSION) ;
+			if(null != admin){
+				obj.setAdminId(admin.getLoginId()) ;
+			}
 			
+			obj.setId(String.valueOf(System.currentTimeMillis())) ;
+			obj.setFeedbackDate(DateUtil.getCurrentDate()) ;
+			
+			FeedBack f = baseService.dao.insert(obj) ;
 			json.put(Constant.SUCCESS, true) ;
 		}else{
-			json.put(Constant.INFO, "参数错误") ;
+			json.put(Constant.INFO, error8) ;
 		}
 		
 		return json ;
 	} 
+	
+	/**
+	 * 查询评论的所有回复
+	 * @param cid 评论的ID
+	 * @return
+	 */
+	public JSONObject getCommentFeedBackList(String cid){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		
+		return json ;
+	}
+	
+	/**
+	 * 
+	 * @param fid 按id查看每条回复详情
+	 * @return
+	 */
+	public JSONObject getFeedBackById(String fid){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		
+		return json ;
+	}
 }
