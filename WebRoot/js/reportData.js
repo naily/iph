@@ -38,7 +38,7 @@ $(document).ready(function() {
 	// 年份
 	$('input[name=year]').omCombo({ // 初始化Combo
 		dataSource :year_omCombo_datasource,
-		width : 60,
+		width : 100,
 		//value:2012,
 		onValueChange : function() {
 			$('input[name=year]').focus();
@@ -48,7 +48,7 @@ $(document).ready(function() {
 	// 月份
 	$('input[name=month]').omCombo({ // 初始化Combo
 		dataSource :month_omCombo_datasource,
-		width : 40,
+		width : 80,
 		//value:1,
 		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
@@ -56,7 +56,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// 国家下拉列表
+	// 电离参数下拉列表
 	$('input[name=parameter]').omCombo({ // 初始化Combo
 		dataSource :parameter_omCombo_datasource,
 		width : 80,

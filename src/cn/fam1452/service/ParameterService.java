@@ -22,8 +22,7 @@ import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
 public class ParameterService extends Base{
-	
-	private String paraArys;
+
 	public List parameterMonthReport(ParameteDataBo pdb){
 		/*dao.setSqlManager(new FileSqlManager("all.sqls"));
 		Sql sql =dao.sqls().create("insert.data");
@@ -212,9 +211,10 @@ public class ParameterService extends Base{
 			
 	    return wb ;
 	}
-   
+   /*
+    * 返回相应列的电离参数
+    * */
    public String getParaValue(ParameteDataBo pdb,int idx){
-   	//para.getH00()
 	   String retValue="";
 	   switch(idx){
 	   case 1: retValue=pdb.getH00();

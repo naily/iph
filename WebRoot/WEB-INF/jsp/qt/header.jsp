@@ -185,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
 		<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
 		<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
-		<a href="#" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
+		<a href="qt/paraDataChart.do" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
 		<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>
 	</div>
 	

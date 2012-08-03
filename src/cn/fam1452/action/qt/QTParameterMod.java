@@ -15,7 +15,6 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -24,7 +23,6 @@ import org.nutz.mvc.annotation.Param;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
-import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -62,6 +60,7 @@ public class QTParameterMod extends BaseMod {
 
 	@At("/qt/loadReport")
 	@Ok("json")
+	/*电离层参数生成*/
 	public JSONObject loadReportData(@Param("..")ParameteDataBo parameter) {
 		/*
 		 * parameter.setYear("2012"); parameter.setMonth("7");
@@ -87,7 +86,8 @@ public class QTParameterMod extends BaseMod {
 		return json;
 	}
 	@At("/qt/downloadReportData")
-	@Ok("raw")
+	@Ok("jsp:jsp.qt.parameter")
+	/*电离层参数报表生成*/
 	public void exportLogAndDownload(HttpServletResponse response,@Param("..")ParameteDataBo parameter){
 		String id = parameter.getStationID();
 		Station station = baseService.dao.fetch(Station.class, id);
@@ -112,5 +112,22 @@ public class QTParameterMod extends BaseMod {
 			// TODO: handle exception
 			log.error(e, e) ;
 		}
+	}
+	@At("/qt/paraDataChart")
+	@Ok("jsp:jsp.qt.parameterChart")
+	/*电离层参数报表生成*/
+	public void loadParaChart(){
+		
+	}
+	@At("/qt/loadParaData")
+	@Ok("json")
+	/*电离层参数生成*/
+	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
+		JSONObject json = new JSONObject();
+
+		log.info(parameter.getMonth());
+		json.put(Constant.SUCCESS, true);
+				
+		return json;
 	}
 }
