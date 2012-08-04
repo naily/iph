@@ -52,6 +52,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="qtcm_feedback">
     	<span id="titinfo"></span>
   		<p id="cmtcontent"></p>
+  		<p><textarea id="feedbackcontent" rows="4" cols="60"></textarea></p>
+  		<input id="cid" type="hidden">
 		<input id="saveFeedbackBut" type="button" />
 	</div>
     

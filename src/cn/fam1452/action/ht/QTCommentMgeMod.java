@@ -88,8 +88,11 @@ public class QTCommentMgeMod extends BaseMod{
 			
 			item = JSONObject.fromObject(u , cfg) ;
 			item.put("commentDate", null == u.getCommentDate() ? "" :DateUtil.convertDateToString(u.getCommentDate() , DateUtil.pattern2)) ;
-			//item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
-			//item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
+			if(baseService.dao.count(FeedBack.class, Cnd.where("commentId", "=", u.getId())) > 0){
+				item.put("cmtstatus", 1) ;
+			}else{
+				item.put("cmtstatus", 0) ;
+			}
 			
 			array.add(item) ;
 		}
@@ -145,7 +148,7 @@ public class QTCommentMgeMod extends BaseMod{
 		if(null != obj && StringUtil.checkNotNull(obj.getId())){
 			UserComment u = baseService.dao.fetch(obj) ;
 			JsonConfig cfg = new JsonConfig(); 
-			cfg.setExcludes(new String[] {  "regDate"  }); 
+			cfg.setExcludes(new String[] {  "commentDate"  }); 
 			
 			json.put("obj", JSONObject.fromObject(u , cfg)) ;
 			json.put(Constant.SUCCESS, true) ;

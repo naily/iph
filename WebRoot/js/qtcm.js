@@ -4,7 +4,7 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'用户名', name:'userId' ,  width:150},
+         colModel : [    {header:'用户名', name:'userId' , align : 'center', width:150},
                          {header:'内容',   name:'content', width:'autoExpand',
 	                         renderer : function(val, rowData, rowIndex){
 	                            if (val == '86') {
@@ -14,9 +14,16 @@ $(document).ready(function(){
                                  }
 	                         } 
                          } ,
-                         {header:'IP',    name:'userId',    width:100},
-                         {header:'日期',   name:'commentDate',width:120  },
-                         {header:'操作',name:'operation',width:150 ,
+                         {header:'IP',    name:'uerIP', align : 'center',   width:100},
+                         {header:'日期',   name:'commentDate',width:120 ,align : 'center' },
+                         {header:'回复状态',   name:'cmtstatus',width:60 , renderer :function(val, rowData, rowIndex){
+                                if (val == 1) {
+                                    return '<span style="color:green;"><b>已回复</b></span>';
+                                 }else{
+                                    return '<span><b>否</b></span>' ;
+                                 }
+                             }},
+                         {header:'操作',name:'operation',width:150 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
 	                         	var id = rowData.id ;
 	                         	return '<a href="javascript:openCmtInfo(\''+id+'\');" >回复 </a>&nbsp;&nbsp;&nbsp;&nbsp;' +
@@ -79,8 +86,9 @@ function openCmtInfo(uid) {
 			if (json.success) {
 				var cid = json.obj.id ;
 				$('#cmtcontent').html(json.obj.content);//
-				$('#titinfo').html(  json.obj.userId + "    " + json.obj.uerIP);
-				
+				$('#titinfo').html( '用户: '+ json.obj.userId + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP: " + json.obj.uerIP);
+				$('#cid').val(json.obj.id) ;
+                
 				$("#qtcm_feedback").omDialog('open');
 			} else {
 				showError(json.info);
@@ -105,8 +113,8 @@ function saveFeedback() {
 		callback : function(json) {
 			if (json.success) {
 				//showWaiting(); 
+                $("#qtcm_feedback").omDialog('close');
                 $('#list0').omGrid('reload');
-                $("#qtum_update").omDialog('close');
 			} else {
 				showError(json.info);
 
@@ -114,8 +122,17 @@ function saveFeedback() {
 		}
 	}
     
-    //alert(data.params.address);
-	ajaxpost(data);
+    var fbc = $('#feedbackcontent').val();
+    var cid = $('#cid').val() ;
+    if(fbc && cid){
+        data.params.feedback = fbc ;
+        data.params.commentId = cid ;
+        ajaxpost(data);
+	    //alert(data.params.feedback);
+    }else{
+        at({cont: ' 回复内容不能为空' , type : 'error'});
+    }
+	
 }
 
 function showWaiting() {
