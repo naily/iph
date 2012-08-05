@@ -89,6 +89,10 @@ function openCmtInfo(uid) {
 				$('#titinfo').html( '用户: '+ json.obj.userId + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP: " + json.obj.uerIP);
 				$('#cid').val(json.obj.id) ;
                 
+                if(json.feedbackarray){
+                    $('#cmtcontent').append('<p class="borderbg"> '+json.feedbackarray[0].adminId+'的回复： '+ json.feedbackarray[0].feedback+'</p>') ;
+                }
+                
 				$("#qtcm_feedback").omDialog('open');
 			} else {
 				showError(json.info);

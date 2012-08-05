@@ -151,6 +151,16 @@ public class QTCommentMgeMod extends BaseMod{
 			cfg.setExcludes(new String[] {  "commentDate"  }); 
 			
 			json.put("obj", JSONObject.fromObject(u , cfg)) ;
+			if(StringUtil.checkNotNull(u.getId())){
+				List<FeedBack> list = baseService.dao.query(FeedBack.class, Cnd.where("commentId", "=", u.getId())) ;
+			
+				if(null != list && list.size() > 0){
+					JsonConfig cfg1 = new JsonConfig(); 
+					cfg1.setExcludes(new String[] {  "comment","admin","feedbackDate"  }); 
+					json.put("feedbackarray", JSONArray.fromObject(list , cfg1)) ;
+				}
+			}
+			
 			json.put(Constant.SUCCESS, true) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
