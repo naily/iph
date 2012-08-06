@@ -154,7 +154,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
     </div>
      <!-- 找回密码 end -->
-<div id="top">
+<div id="top" 
+	<c:choose>
+		<c:when test='${msg.lang=="zh"}'> style="background:url(images/d01.jpg) no-repeat;"</c:when>
+		<c:otherwise>style="background:url(images/d13.jpg) no-repeat;"</c:otherwise>
+	</c:choose>
+>
 <div class="top_right" >
 <table width="518" border="0" cellspacing="0" cellpadding="0">
   <tr>
