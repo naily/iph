@@ -13,11 +13,48 @@ $(document).ready(function(){
         	var jsonData = eval("("+response+")");
         	$( "#imagePreview").html('<img src=".'+ jsonData.imgpath+'" border=0 height=500 / >');
         	
+        	//上传结束通过文件名解析出来参数
         	fileName = fileObj.name ;
             if(fileName && fileName.length >= 10){
+            	/**
+            	 * 从文件名中分别检索 "wh" , "WU430_"
+            	 */
+            	var d ;
+            	if(fileName.indexOf("WU430_") != -1){
+            		$('#comboStation').omCombo('value', "WU430")  ;
+            		d = $.omCalendar.parseDate(fileName.substring(6 , fileName.indexOf(".", 6)) , "yymmddHi") ;
+            	}else if(fileName.indexOf("wh") != -1){
+					$('#comboStation').omCombo('value', "WU430")  ;
+					d = $.omCalendar.parseDate(fileName.substring(2 , fileName.indexOf(".", 2)) , "yymmddH") ;
+            	}
                 $('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
                 $('#pgtTitleId').val( fileName ) ;
-                $('#actionDateId').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(2,10) , "yymmdd") , "yy-mm-dd") );  
+                if(d)
+                	$('#actionDateId').val( $.omCalendar.formatDate( d , "yy-mm-dd H:i") );  
+                
+                //手动频高图日期范围
+                var pt1min = new Date() ; 
+                pt1min.setFullYear(1946) ;
+                pt1min.setMonth(0) ; //1月
+                var pt1max = new Date() ; 
+                pt1max.setFullYear(1956) ;
+                pt1max.setMonth(11) ; //12月
+                
+                //胶片类型
+                var pt2min = new Date() ; 
+                pt2min.setFullYear(1957) ;
+                pt2min.setMonth(5) ; //6
+                var pt2max = new Date() ; 
+                pt2max.setFullYear(1991) ;
+                pt2max.setMonth(9) ; //9
+                
+                if(pt1max >= d && pt1min <=d){
+                	$('#comboPgtType').omCombo('value', 1) ;
+                }
+                
+                if(pt2max >= d && pt2min <=d){
+                	$('#comboPgtType').omCombo('value', 2) ;
+                }
             }
         },
         onError :function(ID, fileObj, errorObj, event){
@@ -112,7 +149,7 @@ $(document).ready(function(){
 	            url :'ht/pgtuploads.do' ,
 	            params :{'stationID' :$('#comboStation').omCombo('value') ,
         				 'gramTitle' : $('#pgtTitleId').val() ,
-        				 'createDate': $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd') ,
+        				 'createDate': $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd H:i') ,
         				 'type'      : $('#comboPgtType').omCombo('value'),
         				 'gramFileName':fileName ,
         				 'action'      : 'savedata'},
@@ -133,7 +170,7 @@ $(document).ready(function(){
 	                
 	            }
 	        }
-	        
+	        //alert(data.params.createDate) ;
 	        ajaxpost(data);
     	}
     	
@@ -143,8 +180,7 @@ $(document).ready(function(){
     $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
-        optionField :'name' ,
-        value: 'WHA'
+        optionField :'name'  
     }) ;
     //频高徒类型下拉框
     $('#comboPgtType').omCombo({

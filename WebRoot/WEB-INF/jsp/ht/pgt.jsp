@@ -29,8 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p>高频图录入</p>
-    	<p><a href="./ht/pgtlist.do" class="a3">高频图管理</a></p>
+    	<p>频高图录入</p>
+    	<p><a href="./ht/pgtlist.do" class="a3">频高图管理</a></p>
     </div>
     
     <div id="imagePreview" title="图片预览"> </div> 
@@ -82,13 +82,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tr>
 			    <td align="left">&nbsp;</td>
 			    <td height="40" align="left">所属观测站：</td>
-			    <td><label><input id = "comboStation" class="boxinput3"/>
+			    <td><label><input id = "comboStation" class="boxinput3"/><span class="red_asterisk">*</span>
 			    </label></td>
 			    </tr>
 			  <tr>
 			    <td align="left">&nbsp;</td>
 			    <td height="40" align="left">观测日期：</td>
-			    <td><input id="actionDateId" type="text" name="textfield4" class="boxinput3" /></td>
+			    <td><input id="actionDateId" type="text" name="textfield4" class="boxinput3" /><span class="red_asterisk">*</span></td>
 			    </tr>
 			  <tr>
 			    <td align="left">&nbsp;</td>
@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tr>
 			    <td align="left">&nbsp;</td>
 			    <td height="40" align="left">频高图类型：</td>
-			    <td><label><input id = "comboPgtType" class="boxinput3"/> </label>
+			    <td><label><input id = "comboPgtType" class="boxinput3"/><span class="red_asterisk">*</span> </label>
 			    </td>
 			    </tr>
 			  <tr>

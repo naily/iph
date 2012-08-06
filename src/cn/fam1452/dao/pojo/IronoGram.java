@@ -14,7 +14,7 @@ import org.nutz.dao.entity.annotation.Table;
 
 /**
  * Class Ironogram
- *	电离层高频图
+ *	电离层频高图
  * @author <a href="mailto:zhagndingding@cyanway.com">Derek</a>
  * @version $Revision:1.0.0, $Date:May 12, 2012 2:52:29 PM $
  */
