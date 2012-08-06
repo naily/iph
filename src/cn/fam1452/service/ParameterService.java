@@ -17,6 +17,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.StringUtil;
 
@@ -319,6 +320,11 @@ public class ParameterService extends Base{
     	cellStyle.setFont(setFont(wb));//字体
     	return cellStyle;
     }
-   
+    public List parameterDataList(Parameter pdb,String pageSize){
+		
+		List<Parameter> list = this.dao.query(Parameter.class, null) ;
+		return list;
+	}
+    
 
 }

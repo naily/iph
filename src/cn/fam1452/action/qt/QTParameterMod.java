@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -24,6 +25,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
@@ -128,6 +130,58 @@ public class QTParameterMod extends BaseMod {
 		log.info(parameter.getMonth());
 		json.put(Constant.SUCCESS, true);
 				
+		return json;
+	}
+	
+	@At("/qt/paraDataQuery")
+	@Ok("jsp:jsp.qt.parameterQuery")
+	/*电离层参数报表生成*/
+	public void loadParaQuery(){
+		
+	}
+	
+	@At("/qt/listAllStation")
+	@Ok("json")
+	/*电离参数查询-观测站选择*/
+	public JSONArray listAllStation(){		
+		JSONArray array = new JSONArray();
+		JSONObject json = new JSONObject();
+		List<Station>  list = baseService.dao.query(Station.class, Cnd.where("status", "=", 1).desc("id")) ;
+		if(null != list && list.size() > 0){
+			for(Station station:list){	
+				json.put("text", station.getName());
+				json.put("value", station.getId());
+				array.add(json);
+			}		
+			
+		}
+		log.info(array.toString());
+		return array ;
+	}
+	
+	@At("/qt/doParaDataQuery")
+	@Ok("json")
+	/*电离层参数报表生成*/
+	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")String pageSize,String allDate) {
+		JSONObject json = new JSONObject();
+
+		JsonConfig cfg = new JsonConfig();
+		cfg.setExcludes(new String[] { "station" , "createDate"});
+
+		json.put(Constant.SUCCESS, false);
+		/*if (parameter != null && StringUtil.checkNotNull(parameter.getIds())
+				&& StringUtil.checkNotNull(parameter.getCreateDate().toString())
+				&& StringUtil.checkNotNull(parameter.getParameterID())) {*/
+			List list = parameterService.parameterDataList(parameter,pageSize);
+			//json.put(Constant.ROWS, JSONArray.fromObject(list));
+			if(null!=list && list.size()>0){
+				json.put(Constant.SUCCESS, true);
+				json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+				json.put(Constant.TOTAL, list.size());
+			}
+			
+		//}	
+		
 		return json;
 	}
 }

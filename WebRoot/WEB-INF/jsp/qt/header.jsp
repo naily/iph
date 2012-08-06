@@ -154,7 +154,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
     </div>
      <!-- 找回密码 end -->
-<div id="top">
+<div id="top"
+<c:choose>
+		<c:when test='${msg.lang=="zh"}'> style="background:url(images/d01.jpg) no-repeat;"</c:when>
+		<c:otherwise>style="background:url(images/d13.jpg) no-repeat;"</c:otherwise>
+	</c:choose>
+>
 <div class="top_right" >
 <table width="518" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -182,8 +187,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <tr>
     <td height="30" colspan="6">
 	<div class="nav">
-		<a href="#" class="a2 nav_float">${msg['qt_mu_home']}</a>
-		<a href="#" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
+		<a href="index.jsp" class="a2 nav_float">${msg['qt_mu_home']}</a>
+		<a href="qt/paraDataQuery.do" class="a2 nav_float">${msg['qt_mu_fetch']}</a>
 		<a href="qt/report.do" class="a2 nav_float">${msg['qt_mu_report']}</a>
 		<a href="qt/paraDataChart.do" class="a2 nav_float">${msg['qt_mu_graphs']}</a>
 		<a href="#" class="a2 nav_float">${msg['qt_mu_me']}</a>

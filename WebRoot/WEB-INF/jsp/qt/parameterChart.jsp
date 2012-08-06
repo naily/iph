@@ -23,7 +23,7 @@
 		<script type="text/javascript" src="js/library/highcharts225/themes/grid.js"></script>
 		
 		<script type="text/javascript" src="js/index_global_zn.js"></script>
-		<script type="text/javascript" src="js/reportData.js"></script>
+		
 		<script type="text/javascript" src="js/parameterChart.js"></script>
 		
 
