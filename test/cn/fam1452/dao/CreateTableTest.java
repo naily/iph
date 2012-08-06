@@ -2,7 +2,7 @@ package cn.fam1452.dao;
 
 import org.junit.Test;
 
-import cn.fam1452.dao.pojo.FeedBack;
+import cn.fam1452.dao.pojo.*;
 
 public class CreateTableTest extends DataSource{
 	
@@ -12,6 +12,6 @@ public class CreateTableTest extends DataSource{
 	public void createTab(){
 		//this.initDataSource() ;
 		
-		this.dao.create(FeedBack.class, true) ;
+		this.dao.create(Log.class, true) ;
 	}
 }

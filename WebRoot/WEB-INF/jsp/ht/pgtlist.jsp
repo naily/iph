@@ -25,8 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p><a href="./ht/pgt.do" class="a3">高频图录入</a></p>
-    	<p>高频图管理</p>
+    	<p><a href="./ht/pgt.do" class="a3">频高图录入</a></p>
+    	<p>频高图管理</p>
     </div>
     
     <div id="imagePreview" title="图片预览"> </div> 
