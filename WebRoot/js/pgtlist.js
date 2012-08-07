@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	//图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
 	
 	$('#list0').omGrid({
         //title : '观测站列表' ,
@@ -10,7 +16,7 @@ $(document).ready(function(){
          colModel : [    {header:'ID', name:'gramID' ,   width:100},
                          {header:'频高图标题',name:'gramTitle',  width:200  },
                          {header:'观测站',name:'stationName'  } ,
-                         {header:'类型',name:'type', width:100,renderer:function(value,rowData,rowIndex){ 
+                         {header:'类型',name:'type',align : 'center', width:50,renderer:function(value,rowData,rowIndex){ 
                          	if('1' == value){
 	                         	return '<b> 手动 </b>'; 
                          	}
@@ -25,7 +31,12 @@ $(document).ready(function(){
                          	}
                          } } ,
                          {header:'日期',name:'createDate',width:100 } ,
-                         {header:'文件名',name:'gramFileName', width:100,width:'autoExpand' } 
+                         {header:'文件名',name:'gramFileName', width:100,width:'autoExpand' } ,
+                         {header:'操作',name:'operation',width:60 ,align : 'center' ,
+	                         renderer: function(colValue, rowData, rowIndex){
+	                         	return '<a href="javascript:previewPgt(\''+rowData.gramPath+'\');" >预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         }
+                         }
          ],
          dataSource : 'ht/pgtlist.do' 
      });
@@ -165,4 +176,9 @@ $(document).ready(function(){
      
 });
 
-
+function previewPgt(path){
+	if(path){
+		$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 / >');
+		$( "#imagePreview").omDialog('open');
+	}
+}
