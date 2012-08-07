@@ -12,14 +12,14 @@ import java.sql.Statement;
 public class AccessUtil {
 
 	
-	private final String dirver = "sun.jdbc.odbc.JdbcOdbcDriver" ;
+	private final String driver = "sun.jdbc.odbc.JdbcOdbcDriver" ;
 	private final String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
 
 
 	public Connection getConnection(String mdbpath){
 		Connection c = null ;
 		try {
-			Class.forName(dirver) ;
+			Class.forName(driver) ;
 			c =  DriverManager.getConnection( dburl.replace("#mdbpath#", mdbpath) ,"","");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -32,7 +32,8 @@ public class AccessUtil {
 	}
 	
 	public static void main(String[] a){
-		Connection con = new AccessUtil().getConnection("E:/GHY_____________/xyzWWWWW/数据示例/1946_1956电离层参数.mdb") ;
+		String path = "E:/GHY_____________/xyzWWWWW/数据示例/1946_1956电离层参数.mdb" ;
+		Connection con = new AccessUtil().getConnection(path) ;
 		
 		try{
 			Statement s = con.createStatement();
@@ -42,9 +43,17 @@ public class AccessUtil {
 
 	        if (rs != null) {
 	        	ResultSetMetaData md =  rs.getMetaData() ;
-	        	int total = md.getColumnCount() ; 
-	        	System.out.println("记录总行数：" + total);
+	        	int cc = md.getColumnCount() ; 
+	        	System.out.println("总列数：" + cc);
+	        	
+	        	for(int i= 1 ; i <= cc ; i++){
+					System.out.print(md.getColumnName(i) + "   ");
+				}
+				//System.out.println(".." + rs.getType() + "..");
+	        	
 				while (rs.next()) {
+					
+					//System.out.println(rs.getRow()); //当前行编号
 					/*
 					 * 读取一个二进制文件
 					InputStream image = rs.getBinaryStream(2);
@@ -55,12 +64,20 @@ public class AccessUtil {
 						file.write(chunk);
 					 */
 					
-					System.out.println(rs.getString(2));
+					
+					for(int i= 1 ; i <= cc ; i++){
+						System.out.print(rs.getString(i) + "   ");
+					}
+					System.out.println();
+					
 				}
 			}
+	        
+	        rs.close() ;
 	        s.close();
 	        con.close();
 			System.gc() ;
+			
 		}catch (Exception e) {
             e.printStackTrace() ;
         }
