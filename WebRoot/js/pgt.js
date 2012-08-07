@@ -26,11 +26,14 @@ $(document).ready(function(){
             	}else if(fileName.indexOf("wh") != -1){
 					$('#comboStation').omCombo('value', "WU430")  ;
 					d = $.omCalendar.parseDate(fileName.substring(2 , fileName.indexOf(".", 2)) , "yymmddH") ;
+					d.setMinutes(0) ;
             	}
-                $('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
+                //$('#comboStation').omCombo('value', fileName.substring(0,2) )  ;
                 $('#pgtTitleId').val( fileName ) ;
-                if(d)
-                	$('#actionDateId').val( $.omCalendar.formatDate( d , "yy-mm-dd H:i") );  
+                if(d){
+                	$('#actionDateId').omCalendar('setDate' , d) ;
+                	$('#actionDateId').val( $.omCalendar.formatDate( d , "yy-mm-dd H:i") );
+                }
                 
                 //手动频高图日期范围
                 var pt1min = new Date() ; 
@@ -147,11 +150,11 @@ $(document).ready(function(){
     		
     		var data = {
 	            url :'ht/pgtuploads.do' ,
-	            params :{'stationID' :$('#comboStation').omCombo('value') ,
+	            params :{'stationID' : $('#comboStation').omCombo('value') ,
         				 'gramTitle' : $('#pgtTitleId').val() ,
-        				 'createDate': $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd H:i') ,
+        				 'createDate': $('#actionDateId').val() ,
         				 'type'      : $('#comboPgtType').omCombo('value'),
-        				 'gramFileName':fileName ,
+        				 'gramFileName': fileName ,
         				 'action'      : 'savedata'},
 	            callback : function(json){
 	                if(json.success){
