@@ -1,4 +1,4 @@
 git 更新命令
 git pull origin master
 
-协同开发测试
+github 避免冲突，在每次提交之前先进行更新操作 ： git pull origin master
