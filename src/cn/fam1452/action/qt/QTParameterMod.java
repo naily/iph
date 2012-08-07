@@ -4,6 +4,7 @@
 package cn.fam1452.action.qt;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +25,13 @@ import org.nutz.mvc.annotation.Param;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
+import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
+import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
@@ -155,33 +158,46 @@ public class QTParameterMod extends BaseMod {
 			}		
 			
 		}
-		log.info(array.toString());
+		//log.info(array.toString());
 		return array ;
 	}
 	
 	@At("/qt/doParaDataQuery")
 	@Ok("json")
 	/*电离层参数报表生成*/
-	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")String pageSize,String allDate) {
+	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,String allDate,String startDate,String endDate,String pageSize) {
 		JSONObject json = new JSONObject();
-
 		JsonConfig cfg = new JsonConfig();
-		cfg.setExcludes(new String[] { "station" , "createDate"});
-
+		//cfg.setExcludes(new String[] {"station"});
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		json.put(Constant.SUCCESS, false);
-		/*if (parameter != null && StringUtil.checkNotNull(parameter.getIds())
-				&& StringUtil.checkNotNull(parameter.getCreateDate().toString())
-				&& StringUtil.checkNotNull(parameter.getParameterID())) {*/
-			List list = parameterService.parameterDataList(parameter,pageSize);
-			//json.put(Constant.ROWS, JSONArray.fromObject(list));
-			if(null!=list && list.size()>0){
-				json.put(Constant.SUCCESS, true);
-				json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
-				json.put(Constant.TOTAL, list.size());
+		if(StringUtil.checkNotNull(allDate)){//全选日期时，去除查询日期区间值
+			startDate=null;
+			endDate=null;
+		}
+		if(StringUtil.checkNotNull(pageSize)){
+			page.setLimit(Integer.parseInt(pageSize));
+		}
+		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
+			List<Parameter> list = parameterService.parameterDataList(parameter,startDate,endDate,page);
+			List<Parameter> listD= new ArrayList<Parameter>();
+			for(Parameter para:list){
+				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+				para.setStation(station);
+				listD.add(para);
 			}
-			
-		//}	
-		
+			if(null!=listD && listD.size()>0){
+				json.put(Constant.SUCCESS, true);
+				json.put(Constant.ROWS, JSONArray.fromObject(listD, cfg));
+				json.put(Constant.TOTAL, list.size());
+			}else{
+				json.put(Constant.ROWS, "[]");
+				json.put(Constant.TOTAL, 0);
+			}						
+		}else{
+				json.put(Constant.ROWS, "[]");
+				json.put(Constant.TOTAL, 0);
+		}		
 		return json;
 	}
 }

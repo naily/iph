@@ -1,5 +1,6 @@
 package cn.fam1452.service;
 
+import java.sql.Date;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -11,14 +12,19 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Criteria;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.Constant;
+import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
+import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
@@ -320,9 +326,17 @@ public class ParameterService extends Base{
     	cellStyle.setFont(setFont(wb));//字体
     	return cellStyle;
     }
-    public List parameterDataList(Parameter pdb,String pageSize){
+    public List<Parameter> parameterDataList(Parameter params,String startDate,String endDate,Pages page){
 		
-		List<Parameter> list = this.dao.query(Parameter.class, null) ;
+		Condition cnd;
+		if(StringUtil.checkNotNull(startDate) && StringUtil.checkNotNull(endDate)){
+			Date start = DateUtil.convertStringToSqlDate(startDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			Date end = DateUtil.convertStringToSqlDate(endDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end);
+		}else{//不选择日期区间时，查询所有日期的数据
+		    cnd = Cnd.where("stationID", "in", params.getIds());
+		}		
+		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
 		return list;
 	}
     

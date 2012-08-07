@@ -56,9 +56,10 @@
 							</td>
 							<td>
 							  <table width="100%">
-							     <tr><td width="100" align="right">选择日期：</td><td><input id="stationIds" type="checkbox" name="stationIdss" />全部日期</td></tr>
+							     <tr><td width="100" align="right">选择日期：</td><td><input id="allDate" type="checkbox" name="allDate" />全部日期</td></tr>
 							     <tr><td align="right">起始观测日期：</td><td><input id="startDate" name="startDate" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">结束观测日期：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>
+							     <tr><td align="right">数据排序方式：</td><td><input id="orderType" name="orderType" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">每页显示记录：</td><td><input id="showNum" name="showNum" class="boxinput_report"/></td></tr>
 							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="查询"/> 
 								</td></tr>
