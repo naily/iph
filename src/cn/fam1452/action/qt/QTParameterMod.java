@@ -165,7 +165,7 @@ public class QTParameterMod extends BaseMod {
 	@At("/qt/doParaDataQuery")
 	@Ok("json")
 	/*电离层参数报表生成*/
-	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,String allDate,String startDate,String endDate,String pageSize) {
+	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,String allDate,String startDate,String endDate,String pageSize,String orderBy) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		//cfg.setExcludes(new String[] {"station"});
@@ -175,11 +175,16 @@ public class QTParameterMod extends BaseMod {
 			startDate=null;
 			endDate=null;
 		}
-		if(StringUtil.checkNotNull(pageSize)){
+		if(StringUtil.checkNotNull(pageSize)){//分页大小
 			page.setLimit(Integer.parseInt(pageSize));
 		}
+		log.info("orderBy="+orderBy);
+		if(!StringUtil.checkNotNull(orderBy)){//排序字段
+			orderBy="stationID";
+		}
+		
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
-			List<Parameter> list = parameterService.parameterDataList(parameter,startDate,endDate,page);
+			List<Parameter> list = parameterService.parameterDataList(parameter,startDate,endDate,page,orderBy);
 			List<Parameter> listD= new ArrayList<Parameter>();
 			for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());

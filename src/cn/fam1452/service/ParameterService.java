@@ -326,16 +326,17 @@ public class ParameterService extends Base{
     	cellStyle.setFont(setFont(wb));//字体
     	return cellStyle;
     }
-    public List<Parameter> parameterDataList(Parameter params,String startDate,String endDate,Pages page){
+    public List<Parameter> parameterDataList(Parameter params,String startDate,String endDate,Pages page,String orderBy){
 		
 		Condition cnd;
 		if(StringUtil.checkNotNull(startDate) && StringUtil.checkNotNull(endDate)){
 			Date start = DateUtil.convertStringToSqlDate(startDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			Date end = DateUtil.convertStringToSqlDate(endDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end);
+			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end).asc(orderBy);
 		}else{//不选择日期区间时，查询所有日期的数据
-		    cnd = Cnd.where("stationID", "in", params.getIds());
-		}		
+		    cnd = Cnd.where("stationID", "in", params.getIds()).asc(orderBy);
+		}	
+		System.out.println(cnd.toString());
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
 		return list;
 	}

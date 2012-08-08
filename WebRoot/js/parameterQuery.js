@@ -45,9 +45,21 @@ $(document).ready(function() {
 				height : 345
 
 			});
-
+//开始时间
 	$('#startDate').omCalendar();
+//截止时间
 	$('#endDate').omCalendar();
+//页面显示记录
+	$('#orderCol').omCombo({
+				dataSource : [{
+							text : '观测站',
+							value : 'stationID'
+						}, {
+							text : '观测日期',
+							value : 'createDate'
+						}]
+			});
+//页面显示记录
 	$('#showNum').omCombo({
 				dataSource : [{
 							text : '20',
@@ -87,26 +99,20 @@ $(document).ready(function() {
 		var parameter = $('#parameter').val();
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
-		var allDate;
+		var allDate='';
 		if ($("#allDate").attr("checked")) {
-			allDate = 'all';
-			$('#startDate').attr({
-						value : ''
-					});
-			$('#endDate').attr({
-						value : ''
-					})
+			allDate = 'all';		
 		}
 		var pageSize = $('#showNum').val();
-
+		var orderBy = $('#orderCol').val();
 		if (stationId && parameter && (startDate || endDate || allDate)) {
 
 			var dUrl = 'qt/doParaDataQuery.do?ids=' + stationId + '&startDate='
-					+ startDate + '&endDate=' + endDate + '&allDate=all';
+					+ startDate + '&endDate=' + endDate + '&allDate='+allDate+'&orderBy='+orderBy;
 
 			var cols = getColmModel();
 			$('#paraQueryGrid').omGrid({
-						title : '电离层参数查询',
+						//title : '电离层参数查询',
 						dataSource : dUrl,
 						// limit:0,
 						height : 325,

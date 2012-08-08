@@ -38,7 +38,7 @@
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
 			<div class="title8">
-				电离层参数查询
+				${msg['qt_parameter_query_title']}
 			</div>
 			<div class="reportbox">
 					<table height="400" class="report_table" align="center">
@@ -56,12 +56,12 @@
 							</td>
 							<td>
 							  <table width="100%">
-							     <tr><td width="100" align="right">选择日期：</td><td><input id="allDate" type="checkbox" name="allDate" />全部日期</td></tr>
-							     <tr><td align="right">起始观测日期：</td><td><input id="startDate" name="startDate" class="boxinput_report"/></td></tr>
-							     <tr><td align="right">结束观测日期：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>
-							     <tr><td align="right">数据排序方式：</td><td><input id="orderType" name="orderType" class="boxinput_report"/></td></tr>
-							     <tr><td align="right">每页显示记录：</td><td><input id="showNum" name="showNum" class="boxinput_report"/></td></tr>
-							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="查询"/> 
+							     <tr><td width="100" align="right">${msg['qt_parameter_select_date']}：</td><td><input id="allDate" type="checkbox" name="allDate" />${msg['qt_parameter_selectAlldate']}</td></tr>
+							     <tr><td align="right">${msg['qt_parameter_start_date']}：</td><td><input id="startDate" name="startDate" class="boxinput_report"/></td></tr>
+							     <tr><td align="right">${msg['qt_parameter_end_date']}：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>
+							     <tr><td align="right">${msg['qt_parameter_orderby']}：</td><td><input id="orderCol" name="orderCol" class="boxinput_report"/></td></tr>
+							     <tr><td align="right">${msg['qt_parameter_pagesize']}：</td><td><input id="showNum" name="showNum" class="boxinput_report"/></td></tr>
+							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="${msg['qt_query_button']}"/> 
 								</td></tr>
 							   </table>	
 							</td>
