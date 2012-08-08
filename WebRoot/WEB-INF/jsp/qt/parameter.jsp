@@ -22,41 +22,45 @@
 		<script type="text/javascript" src="js/reportData.js"></script>
 
 	</head>
-<script type="text/javascript">
+	<script type="text/javascript">
     	var basepath = "<%=basePath%>" ;
     </script>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
 			<div class="title8">
-				报表动态生成
+				${msg['qt_month_report_title']}
 			</div>
 			<div class="reportbox">
 				<!--  <div class="newstext">-->
 					<table  class="report_table" align="center">
 						<tr>
 							<td height="30">
-								观测站:
+								${msg['qt_month_report_station']}:
 								<input id="stationId" name="stationId" class="boxinput_report"/>
 							    &nbsp;&nbsp;
-								年份：
+								${msg['qt_month_report_year']}:
 								<input id="year" name="year" class="boxinput_report"/>
 								&nbsp;&nbsp;
-								月份：
+								${msg['qt_month_report_month']}:
 								<input id="month" name="month" class="boxinput_report"/>
 								&nbsp;
-								<input type="checkbox" id="allMonth" value="allMonth"/>所有月份
-								&nbsp;&nbsp;
-								参数:
+								<input type="checkbox" id="allMonth" value="allMonth"/>${msg['qt_month_report_allmonth']}
+								&nbsp;&nbsp;							
+							</td>
+						</tr>
+							<tr>
+							<td height="30">																
+								${msg['qt_month_report_selectpara']}:
 								<input id="parameter" name="parameter" class="boxinput_report"/>
 								&nbsp;
-								<input type="checkbox" id="allPara" value="allPara"/>所有参数 
+								<input type="checkbox" id="allPara" value="allPara"/>${msg['qt_month_report_allpara']} 
 							</td>
 						</tr>
 						<tr>						
 							<td align="center">
-								<input type="button" id="loadReportData" value="月报生成"/> 
-								<input type="button" id="downloadReportData" value="月报下载"/>
+								<input type="button" id="loadReportData" value="${msg['qt_month_report_press']}"/> 
+								<input type="button" id="downloadReportData" value="${msg['qt_month_report_download']}"/>
 							</td>
 						</tr>
 					</table>

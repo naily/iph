@@ -15,6 +15,7 @@ $(document).ready(function() {
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
         optionField :'name',
+        width : 120,
         onValueChange : function(target, newValue, oldValue, event) {
 			//$('input[name=year]').focus();
         	//alert(newValue);
@@ -59,7 +60,7 @@ $(document).ready(function() {
 	// 电离参数下拉列表
 	$('input[name=parameter]').omCombo({ // 初始化Combo
 		dataSource :parameter_omCombo_datasource,
-		width : 80,
+		width : 120,
 		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {
 			 $('input[name=parameter]').focus();
@@ -72,7 +73,7 @@ $(document).ready(function() {
                 title : '<table border="0" width="780"><tr><td  width="120" align="center" id="para_unit">&nbsp;</td><td width="120" align="center" id="month_year">&nbsp;</td><td width="270" align="center" id="location">&nbsp;</td><td  width="280" align="center" id="jingweidu">&nbsp;</td></tr></table',
                 dataSource : 'qt/loadReport.do',
                 limit:0,
-                height:655,
+                height:625,
                 showIndex : false,
                 colModel : [ {header : '<img src="images/table_head.jpg" border="0"/>', name : 'days',width : 39}, 
                              {header : '00', name : 'h00',  align : 'center',width : 20}, 

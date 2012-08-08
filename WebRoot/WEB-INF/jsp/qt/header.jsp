@@ -13,20 +13,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- -->
 	<link href="images/1.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
-<link href="css/index.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
-<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
-<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
-
-<script type="text/javascript" src="js/index_global_zn.js"></script>
-<script type="text/javascript" src="js/userRegist.js"></script>
-<title></title>
+	<link href="css/index.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
+	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+	<c:choose>
+			 <c:when test='${msg.lang=="zh"}'> 
+			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
+			</c:when>
+			<c:otherwise>
+				<script type="text/javascript" src="js/index_global_en.js"></script>
+			</c:otherwise>
+	</c:choose>
+	
+	<script type="text/javascript" src="js/userRegist.js"></script>
+	<title></title>
   </head>
   
   <body>
  <!-- 用户注册 start -->
-<div id="userRegDialog"  title="用户注册">
+<div id="userRegDialog"  title="${msg['qt_regist_title']}">
         <div >
 	    		<form id="userRegForm"  name="userRegForm">
 	    		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
@@ -117,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
     </div>
     <!-- 找回密码 start -->
-    <div id="getUserPassword"  title="找回密码">
+    <div id="getUserPassword"  title="${msg['qt_get_password']}">
         <div >
 	    		<form id="getUserPasswordForm" name="getUserPasswordForm">
 	    		<table border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
