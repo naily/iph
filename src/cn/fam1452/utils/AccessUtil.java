@@ -15,7 +15,21 @@ public class AccessUtil {
 	private final String driver = "sun.jdbc.odbc.JdbcOdbcDriver" ;
 	private final String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
 
-
+	private String accessFile ;
+	public AccessUtil(){} 
+	public AccessUtil(String mdbpath){
+		this.accessFile = mdbpath ;
+		
+	} 
+	
+	public Connection getConnection(){
+		if(null != this.accessFile ){
+			return getConnection(this.accessFile) ;
+		}else{
+			return null ;
+		}
+	}
+	
 	public Connection getConnection(String mdbpath){
 		Connection c = null ;
 		try {

@@ -27,7 +27,7 @@ $(document).ready(function(){
     
     //上传批量导入的数据文件
     $('#file_upload_access').omFileUpload({
-        action : '../ht/zz.do',
+        action : '../ht/uploadaccessdata.do',
         swf : 'swf/om-fileupload.swf',
         fileExt  : '*.mdb',
         fileDesc : 'Microsoft Access Database(*.mdb)' ,
@@ -35,7 +35,12 @@ $(document).ready(function(){
         onComplete : function(ID,fileObj,response,data,event){
             //alert('文件'+fileObj.name+'上传完毕');
             //上传完毕才可以预览
-            var jsonData = eval("("+response+")");
+            var json = eval("("+response+")");
+            if(json.success){
+            	$("#errormsg2").html("上传Access成功<br\> 文件路径: "+ json.info).show() ;
+            }else{
+            	$("#errormsg2").html("上传失败<br\> Info: "+ json.info).show() ;
+            }
         },
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);

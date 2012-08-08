@@ -3,9 +3,17 @@
  */
 package cn.fam1452.action.ht;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,7 +34,9 @@ import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
+import cn.fam1452.utils.AccessUtil;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -202,5 +212,62 @@ public class ParameterMod extends BaseMod{
 		}finally{
 			return json ;
 		}
+	}
+	
+	@POST
+	@At("/ht/uploadaccessdata")
+    @Ok("json")
+	public JSONObject uploadMultiDataFromAccess(HttpServletRequest request, HttpServletResponse response , ServletContext context){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil(context);
+		try {
+			String mdb = fusu.defaultProcessFileUpload(request, this.getAppRealPath(context) + "data/access/") ;
+			
+			//Connection con = new AccessUtil(mdb).getConnection() ;
+			log.info(mdb) ;
+			json.put(Constant.INFO, mdb) ;
+			json.put(Constant.SUCCESS, true) ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
+		}
+	}
+	
+	private List<Parameter> loadAccessFileData(Connection con){
+		List<Parameter> list = null;
+		
+		if (null != con) {
+			try {
+
+				Statement s = con.createStatement();
+				s.execute("select * from wio ");
+				ResultSet rs = s.getResultSet();
+				
+				if (rs != null) {
+		        	ResultSetMetaData md =  rs.getMetaData() ;
+		        	int cc = md.getColumnCount() ; 
+		        	
+		        	while (rs.next()) {
+		        		
+		        	}
+				}
+				
+				
+				rs.close();
+				s.close();
+				con.close();
+				System.gc();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 }

@@ -34,6 +34,12 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	byte[] imgBufTemp = new byte[102401];
 
 	private ServletContext servletContext;
+	
+	public OmFileUploadServletUtil(){}
+	
+	public OmFileUploadServletUtil (ServletContext sc){
+		this.servletContext = sc  ;
+	}
 
 	/*public void init(ServletConfig config) throws ServletException {
 		this.servletContext = config.getServletContext();
@@ -206,6 +212,66 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		}
 		
 		return fileUrl ;
+	}
+	
+	/**
+	 * request中取出文件并存储到指定目录
+	 * @param request
+	 * @param dir
+	 * @return 返回文件真实路径
+	 * @throws IOException
+	 */
+	public String defaultProcessFileUpload(HttpServletRequest request , String  dir) throws IOException {
+		ServletFileUpload sfu = new ServletFileUpload();
+		sfu.setHeaderEncoding("UTF-8");
+		
+		InputStream stream = null;
+		BufferedOutputStream bos = null;
+		String savePath = ""; //文件保存路径
+		
+		try {
+			if (ServletFileUpload.isMultipartContent(request)) {
+				
+				FileItemIterator iter = sfu.getItemIterator(request);
+				
+				int i = 0;
+				while (iter.hasNext()) {
+					FileItemStream item = iter.next();
+					stream = item.openStream();
+					if (!item.isFormField()) {
+						
+						String fileName = item.getName() ;
+						
+						savePath = dir + fileName ;
+						
+						bos = new BufferedOutputStream(new FileOutputStream(new File(savePath)));
+						int length;
+						while ((length = stream.read(imgBufTemp)) != -1) {
+							bos.write(imgBufTemp, 0, length);
+						}
+						i++;
+					}
+				}
+				
+			}
+		} catch (FileUploadException e) {
+			e.printStackTrace();
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (Exception e) {
+				}
+			}
+			if (bos != null) {
+				try {
+					bos.close();
+				} catch (Exception e) {
+				}
+			}
+		}
+		
+		return savePath ;
 	}
 
 	public ServletContext getServletContext() {
