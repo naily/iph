@@ -108,7 +108,7 @@ $(document).ready(function() {
 		if (stationId && parameter && (startDate || endDate || allDate)) {
 
 			var dUrl = 'qt/doParaDataQuery.do?ids=' + stationId + '&startDate='
-					+ startDate + '&endDate=' + endDate + '&allDate='+allDate+'&orderBy='+orderBy;
+					+ startDate + '&endDate=' + endDate + '&selectAllDate='+allDate+'&orderBy='+orderBy+'&pageSize='+pageSize;
 
 			var cols = getColmModel();
 			$('#paraQueryGrid').omGrid({

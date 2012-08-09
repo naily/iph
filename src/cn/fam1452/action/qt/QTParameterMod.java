@@ -27,6 +27,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -45,6 +46,9 @@ public class QTParameterMod extends BaseMod {
 
 	@At("/qt/report")
 	@Ok("jsp:jsp.qt.parameter")
+	/**
+	 * 跳转进入报表页面
+	 * */
 	public void loaddefault(HttpSession session, HttpServletRequest req,
 			@Param("..")
 			ParameteDataBo parameter) {
@@ -65,7 +69,10 @@ public class QTParameterMod extends BaseMod {
 
 	@At("/qt/loadReport")
 	@Ok("json")
-	/*电离层参数生成*/
+	/**
+	 * 报表：电离层参数月报动态生成
+	 * 根据传入的观测站、年份、月份、电离参数等条件生成月报报表
+	 * */
 	public JSONObject loadReportData(@Param("..")ParameteDataBo parameter) {
 		/*
 		 * parameter.setYear("2012"); parameter.setMonth("7");
@@ -73,26 +80,31 @@ public class QTParameterMod extends BaseMod {
 		 */
 		JSONObject json = new JSONObject();
 
-		JsonConfig cfg = new JsonConfig();
-		cfg.setExcludes(new String[] { "station" });
+		//JsonConfig cfg = new JsonConfig();
+		//cfg.setExcludes(new String[] { "station","year","month","paraType","parameterID","hours","stationID" });
 
 		json.put(Constant.SUCCESS, false);
 		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())
 				&& StringUtil.checkNotNull(parameter.getMonth())) {
-			List list = parameterService.parameterMonthReport(parameter);
+			List<ParameterMonthDateBo> list = parameterService.parameterMonthReport(parameter);
 			//json.put(Constant.ROWS, JSONArray.fromObject(list));
 			if(null!=list && list.size()>0){
 				json.put(Constant.SUCCESS, true);
-				json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+				//json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+				json.put(Constant.ROWS, list);
 				json.put(Constant.TOTAL, list.size());
-			}
-			
-		}		
+			}		
+		}	
+		log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadReportData")
 	@Ok("jsp:jsp.qt.parameter")
-	/*电离层参数报表生成*/
+	/**
+	 * 电离层参数报表下载
+	 * 1、根据传入的观测站、年份、月份、电离参数等条件生成报表导出到excel文件中供用户下载
+	 * 2、支持全选参数、全选月份多报表生成
+	 * */
 	public void exportLogAndDownload(HttpServletResponse response,@Param("..")ParameteDataBo parameter){
 		String id = parameter.getStationID();
 		Station station = baseService.dao.fetch(Station.class, id);
@@ -120,7 +132,8 @@ public class QTParameterMod extends BaseMod {
 	}
 	@At("/qt/paraDataChart")
 	@Ok("jsp:jsp.qt.parameterChart")
-	/*电离层参数报表生成*/
+	/**
+	 * 电离曲线图图页面跳转*/
 	public void loadParaChart(){
 		
 	}
@@ -164,27 +177,15 @@ public class QTParameterMod extends BaseMod {
 	
 	@At("/qt/doParaDataQuery")
 	@Ok("json")
-	/*电离层参数报表生成*/
-	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,String allDate,String startDate,String endDate,String pageSize,String orderBy) {
+	/**
+	 * 找数据模块：电离层参数查询
+	 * */
+	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
-		//cfg.setExcludes(new String[] {"station"});
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
-		json.put(Constant.SUCCESS, false);
-		if(StringUtil.checkNotNull(allDate)){//全选日期时，去除查询日期区间值
-			startDate=null;
-			endDate=null;
-		}
-		if(StringUtil.checkNotNull(pageSize)){//分页大小
-			page.setLimit(Integer.parseInt(pageSize));
-		}
-		log.info("orderBy="+orderBy);
-		if(!StringUtil.checkNotNull(orderBy)){//排序字段
-			orderBy="stationID";
-		}
-		
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
-			List<Parameter> list = parameterService.parameterDataList(parameter,startDate,endDate,page,orderBy);
+			List<Parameter> list = parameterService.parameterDataList(parameter,page,paraQuery);
 			List<Parameter> listD= new ArrayList<Parameter>();
 			for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());

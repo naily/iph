@@ -15,13 +15,13 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
 import org.nutz.dao.Sqls;
-import org.nutz.dao.sql.Criteria;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.DateUtil;
@@ -29,22 +29,30 @@ import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
 public class ParameterService extends Base{
-
-	public List parameterMonthReport(ParameteDataBo pdb){
+/**
+ * 电离参数月报报表生成
+ * 
+ * */
+	public List<ParameterMonthDateBo> parameterMonthReport(ParameteDataBo pdb){
 		/*dao.setSqlManager(new FileSqlManager("all.sqls"));
 		Sql sql =dao.sqls().create("insert.data");
 		dao.execute(sql);*/
 		Sql sql =Sqls.create(getQuerySQL(pdb));
 		sql.setCallback(Sqls.callback.entities());
-		sql.setEntity(dao.getEntity(ParameteDataBo.class));
+		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
+		sql.setEntity(dao.getEntity(ParameterMonthDateBo.class));
 		this.dao.execute(sql) ;		
-		List<ParameteDataBo> list = sql.getList(ParameteDataBo.class) ;
+		List<ParameterMonthDateBo> list = sql.getList(ParameterMonthDateBo.class) ;
 		return list;
 	}
+	/**
+	 * 电离月报报表查询SQL
+	 * */
    public String getQuerySQL(ParameteDataBo pdb){
 	   String returnStr=null;
 	   StringBuffer sb = new StringBuffer();
-	   sb.append("select days,stationID");
+	   //sb.append("select days,stationID");
+	   sb.append("select days");
 	   sb.append(",max(case a.hours when '0'  then ").append(pdb.getParaType()).append(" else ' ' end) 'h00'");
 	   sb.append(",max(case a.hours when '1'  then ").append(pdb.getParaType()).append(" else ' ' end) 'h01'");
 	   sb.append(",max(case a.hours when '2'  then ").append(pdb.getParaType()).append(" else ' ' end) 'h02'");
@@ -70,17 +78,18 @@ public class ParameterService extends Base{
 	   sb.append(",max(case a.hours when '22' then ").append(pdb.getParaType()).append(" else ' ' end) 'h22'");
 	   sb.append(",max(case a.hours when '23' then ").append(pdb.getParaType()).append(" else ' ' end) 'h23'");
 	   sb.append(" from (");
-	   sb.append("select stationID,").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from t_parameter");
+	   //sb.append("select stationID,")
+	   sb.append("select ").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from t_parameter");
 	  if(StringUtil.checkNotNull(pdb.getStationID()) && StringUtil.checkNotNull(pdb.getYear()) && StringUtil.checkNotNull(pdb.getMonth())){
 		  sb.append(" where datepart(YY,createdate)='").append(pdb.getYear()).append("'");
 		  sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("'").append(" and stationID="+pdb.getStationID());
 	  }
 	   
 	   sb.append(") as a");
-	   sb.append(" group by a.days,a.stationID");
+	   sb.append(" group by a.days");//,a.stationID
 	    
 	   returnStr= sb.toString();
-	   //System.out.println("sql="+returnStr);
+	   System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);
 	   return returnStr;
    }
@@ -117,7 +126,7 @@ public class ParameterService extends Base{
    		Row  row;//定义行
    		Cell cell;//定义单元格
    	    List listData =null;//参数list
-   	    ParameteDataBo para =null;//参数bean
+   	    ParameterMonthDateBo para =null;//参数bean
    		int rowSatrt=0;//开始行
    		//遍历参数
 	    for(String paraArys:paraAry){
@@ -192,7 +201,7 @@ public class ParameterService extends Base{
 		   	    				   	    
 					    if(null != listData && listData.size() > 0){					    
 					    	for (int i = 0 ; i < listData.size() ; i++) {
-					    		para = (ParameteDataBo)listData.get(i) ;
+					    		para = (ParameterMonthDateBo)listData.get(i) ;
 					    		row = sheet.createRow(rowSatrt+3); 				    		
 					    		  for(int col2=0;col2<=25;col2++){
 					    			  cell=row.createCell(col2);
@@ -221,7 +230,7 @@ public class ParameterService extends Base{
    /*
     * 返回相应列的电离参数
     * */
-   public String getParaValue(ParameteDataBo pdb,int idx){
+   public String getParaValue(ParameterMonthDateBo pdb,int idx){
 	   String retValue="";
 	   switch(idx){
 	   case 1: retValue=pdb.getH00();
@@ -326,17 +335,20 @@ public class ParameterService extends Base{
     	cellStyle.setFont(setFont(wb));//字体
     	return cellStyle;
     }
-    public List<Parameter> parameterDataList(Parameter params,String startDate,String endDate,Pages page,String orderBy){
+    public List<Parameter> parameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){
 		
 		Condition cnd;
-		if(StringUtil.checkNotNull(startDate) && StringUtil.checkNotNull(endDate)){
-			Date start = DateUtil.convertStringToSqlDate(startDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			Date end = DateUtil.convertStringToSqlDate(endDate+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end).asc(orderBy);
+		if(StringUtil.checkNull(paraQuery.getOrderBy())){
+			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+		}
+		if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
+			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
-		    cnd = Cnd.where("stationID", "in", params.getIds()).asc(orderBy);
+		    cnd = Cnd.where("stationID", "in", params.getIds()).asc(paraQuery.getOrderBy());
 		}	
-		System.out.println(cnd.toString());
+		page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
 		return list;
 	}
