@@ -1417,5 +1417,19 @@ public class StringUtil
 	        }  
 	        return str;  
 	    }  
+	/** 
+	* 方法描述： 去掉字符中的非数字字符(本例数据中去除大小写字母即可)
+	* @return String 
+	*/ 
+
+	public static String replaceLetter(String inputValue) { 
+		 String outputValue;
+		 if(checkNotNull(inputValue)){
+			 outputValue= inputValue.replaceAll("[a-zA-Z]", "");
+		 }else{
+			 outputValue= "";
+		 }		 
+	     return outputValue;  
+	    } 
 
 }
