@@ -29,6 +29,9 @@ import cn.fam1452.dao.pojo.*;
  */
 public class QuartileUtil<T>{
 	//private <T> List<T>  srcdata ;
+	private final double q1 = 0.25 ;
+	private final double q2 = 0.5 ;
+	private final double q3 = 0.75 ;
 	
 	public QuartileUtil(){}
 	
@@ -58,11 +61,35 @@ public class QuartileUtil<T>{
 		return map ;
 	}
 	
+	public String[] filterFields(Field[] fa , String[] ft){
+		if(null == fa || fa.length ==0){
+			return null ;
+		}
+		List<String> list = new ArrayList<String>() ;
+		for (Field f : fa) {
+			String fn = f.getName() ;
+			if( !exist(ft , fn) ){
+				
+				list.add(fn) ;
+			}
+			
+		}
+		
+		return (String[]) list.toArray() ;
+	}
+	
+	private boolean exist(String[] list , String s){
+		for (String string : list) {
+			if(s.equals(string))
+				return true ;
+		}
+		return false ;
+	}
+	
 	public Field[] getFields(Object o){
 		Class c = o.getClass() ;
-		Field[] fieldArray = c.getDeclaredFields() ;
-		
-		return fieldArray ;
+		Field[] fa = c.getDeclaredFields() ;
+		return fa ;
 	}
 	
 	public Method[] getMethods(Object o){
@@ -83,7 +110,7 @@ public class QuartileUtil<T>{
 		return arry ;
 	}
 	/**
-	 * 获取中位数
+	 * 获取一个一维数组的中位数
 	 * @Author Derek
 	 * @Date Aug 8, 2012
 	 * @param list
@@ -92,12 +119,53 @@ public class QuartileUtil<T>{
 	public Number getMed(List<Number> list){
 		int t = list.size() ;
 		
-		Number m = t *0.5 ;
-		if(m instanceof Float){
-			
-		}
-		return m ;
+		Number med = quartile(list , q2)  ;
+		
+		return med ;
 	}
+	/**
+	 * 计算四分位数
+	 * @return
+	 * q1 0.25 , q2 0.5, q3 0.75
+	 */
+	private Number quartile(List<Number> list ,double d){
+		Number m = list.size() * d ;
+		int i = m.intValue() ;
+		float f = m.floatValue() ;
+		Number med = 0 ;
+		if( (f-i) > 0 ){
+			//m不是整数
+			//情况2: 如果 L 不是一个整数，则取下一个最近的整数。（比如 ， 则取 2 ）
+			med = list.get(i) ; 
+			
+		}else{
+			//情况1: 如果 L 是一个整数，则取 第 L 和 第 L+1 的平均值
+			Number m1 = list.get(i) ; 
+			Number m2 = list.get(i + 1) ; 
+			med = (m1.floatValue() + m2.floatValue())/2 ;
+		}
+		
+		return med ;
+	}
+	
+	
+	public List<T> miancallme(List<T> list , String[] field){
+		if( null == list || list.size() <=4){
+			return list ;
+		}
+		
+		String[] fields = this.filterFields(fa, ft) ;
+		
+		return null ;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public static void main(String[] a) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException{
 		QuartileUtil util = new QuartileUtil() ;
