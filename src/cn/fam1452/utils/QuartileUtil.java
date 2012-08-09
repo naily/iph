@@ -14,6 +14,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.nutz.dao.Condition;
 import org.nutz.dao.pager.Pager;
 
+import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.dao.pojo.*;
 
@@ -36,7 +37,7 @@ public class QuartileUtil<T>{
 	public QuartileUtil(){}
 	
 	/**
-	 * 统计出T中属性(有有效值)的个数
+	 * 统计出T中属性(有效值)的个数
 	 * @Author Derek
 	 * @Date Aug 8, 2012
 	 * @param list
@@ -61,24 +62,33 @@ public class QuartileUtil<T>{
 		return map ;
 	}
 	
-	public String[] filterFields(Field[] fa , String[] ft){
+	public static String[] filterFields(Field[] fa , String[] ft){
 		if(null == fa || fa.length ==0){
 			return null ;
 		}
-		List<String> list = new ArrayList<String>() ;
-		for (Field f : fa) {
-			String fn = f.getName() ;
-			if( !exist(ft , fn) ){
-				
-				list.add(fn) ;
+		String[] array = new String[fa.length] ;
+		for (int i = 0 ; i< fa.length ; i++) {
+			String fn = fa[i].getName() ;
+			if( !isExist(ft , fn) ){
+				//list.add(fn) ;
+				array[i] = fn ;
 			}
-			
 		}
 		
-		return (String[]) list.toArray() ;
+		return array ;
 	}
-	
-	private boolean exist(String[] list , String s){
+	/**
+	 * 检查数组中是否包含指定的字符串
+	 * @Author Derek
+	 * @Date Aug 9, 2012
+	 * @param list
+	 * @param s
+	 * @return 若找到返回true
+	 */
+	private static boolean isExist(String[] list , String s){
+		if(null == list || list.length == 0)
+			return false ;
+		
 		for (String string : list) {
 			if(s.equals(string))
 				return true ;
@@ -86,7 +96,7 @@ public class QuartileUtil<T>{
 		return false ;
 	}
 	
-	public Field[] getFields(Object o){
+	public static Field[] getFields(Object o){
 		Class c = o.getClass() ;
 		Field[] fa = c.getDeclaredFields() ;
 		return fa ;
@@ -98,11 +108,15 @@ public class QuartileUtil<T>{
 		return methods ;
 	}
 	
-	public List<Number> getValueArrayByField(List<T> list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+	public List<Number> getValueArrayByField(List list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
 		List arry = new ArrayList() ;
-		for (T t : list) {
+		for (Object t : list) {
 			Object va = PropertyUtils.getSimpleProperty(t, fieldName) ;
-			if(va instanceof Number){
+			
+			if(va instanceof String){
+				String s = StringUtil.replaceLetter(va.toString()) ;
+				arry.add(Double.parseDouble(s) );
+			}else if(va instanceof Number){
 				arry.add(va) ;
 			}
 		}
@@ -129,10 +143,13 @@ public class QuartileUtil<T>{
 	 * q1 0.25 , q2 0.5, q3 0.75
 	 */
 	private Number quartile(List<Number> list ,double d){
+		if(null == list || list.size() == 0)
+			return null ;
 		Number m = list.size() * d ;
 		int i = m.intValue() ;
 		float f = m.floatValue() ;
 		Number med = 0 ;
+		
 		if( (f-i) > 0 ){
 			//m不是整数
 			//情况2: 如果 L 不是一个整数，则取下一个最近的整数。（比如 ， 则取 2 ）
@@ -148,34 +165,88 @@ public class QuartileUtil<T>{
 		return med ;
 	}
 	
-	
-	public List<T> miancallme(List<T> list , String[] field){
-		if( null == list || list.size() <=4){
-			return list ;
+	/**
+	 * 四分位数统计实现
+	 * @Author Derek
+	 * @Date Aug 9, 2012
+	 * @param list  
+	 * @param field 排除的属性
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 * @throws InstantiationException
+	 */
+	public QuartileBean mianCallMe(List<Object> list , String[] field) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+		if( null == list || list.size() <2){
+			return null ;
 		}
 		
-		String[] fields = this.filterFields(fa, ft) ;
+		String[] fields = this.filterFields(this.getFields(list.get(0)), field) ;
 		
-		return null ;
+		Class clas = (list.get(0)).getClass() ;
+		Object cnt = clas.newInstance() ;
+		Object q1 = clas.newInstance() ;
+		Object q2 = clas.newInstance() ;
+		Object q3 = clas.newInstance() ;
+		
+		//Map<String , List<Number>> map = new HashMap<String, List<Number>>();
+		/*
+		 * */
+		for(String f : fields){
+			List<Number> ln = this.getValueArrayByField(list, f) ;
+			//map.put(f, ln) ;
+			PropertyUtils.setSimpleProperty(cnt, f, String.valueOf(ln.size()) ) ;
+			PropertyUtils.setSimpleProperty(q1, f, String.valueOf(this.quartile(ln, this.q1))) ;
+			PropertyUtils.setSimpleProperty(q2, f, String.valueOf(this.quartile(ln, this.q2)) ) ;
+			PropertyUtils.setSimpleProperty(q3, f, String.valueOf(this.quartile(ln, this.q3)) ) ;
+		}
+		QuartileBean qb = new QuartileBean(cnt , q1 ,q2 ,q3) ;
+		qb.printQuartile() ;
+		
+		return qb ;
 	}
 	
 	
 	
-	
-	
-	
-	
+	public static void printList(List list) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+		if(null == list || list.size() == 0)
+			return ;
+		Field[] fs = QuartileUtil.getFields(list.get(0)) ;
+		String[] farray = QuartileUtil.filterFields(fs, null) ;
+		
+		for(Object o : list){
+			for(String f : farray){
+				Object t = PropertyUtils.getSimpleProperty(o, f) ;
+				if(null != t)
+					System.out.print(t.toString() + "\t");
+			}
+			System.out.println();
+		}
+	}
 	
 	
 	public static void main(String[] a) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException{
 		QuartileUtil util = new QuartileUtil() ;
 		
-		Object o = new Log() ;
-		Field[] fs =  util.getFields(o) ;
-		for (Field f : fs) {
-			System.out.print (f.getName() + " "); 
-			System.out.println(PropertyUtils.getSimpleProperty(o, f.getName()) ); 
+		Pages o = new Pages() ;
+		List<MetaDataBo> list = new ArrayList () ;
+		
+		for (int i = 0 ; i < 10 ; i++) {
+			MetaDataBo p = new MetaDataBo() ;
+			p.setAnquan ( String.valueOf(Math.round( (Math.random() *100)) )+"L") ;
+			p.setContacts(String.valueOf(Math.round(Math.random() *100))) ;
+			list.add(p) ;
 		}
+		util.printList(list) ;
+		
+		try {
+			QuartileBean q = util.mianCallMe(list, null) ;
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
