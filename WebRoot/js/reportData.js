@@ -75,7 +75,7 @@ $(document).ready(function() {
                 limit:0,
                 height:625,
                 showIndex : false,
-                colModel : [ {header : '<img src="images/table_head.jpg" border="0"/>', name : 'days',width : 39}, 
+                colModel : [ {header : '<img src="images/table_head.jpg" border="0"/>',align : 'center', name : 'days',width : 39}, 
                              {header : '00', name : 'h00',  align : 'center',width : 20}, 
                              {header : '01', name : 'h01',  align : 'center',width : 20}, 
                              {header : '02', name : 'h02',  align : 'center',width : 20}, 

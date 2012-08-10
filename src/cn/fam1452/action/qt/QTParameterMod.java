@@ -34,7 +34,6 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
-import cn.fam1452.utils.QuartileBean;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -70,6 +69,7 @@ public class QTParameterMod extends BaseMod {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@At("/qt/loadReport")
 	@Ok("json")
 	/**
@@ -77,15 +77,7 @@ public class QTParameterMod extends BaseMod {
 	 * 根据传入的观测站、年份、月份、电离参数等条件生成月报报表
 	 * */
 	public JSONObject loadReportData(@Param("..")ParameteDataBo parameter) {
-		/*
-		 * parameter.setYear("2012"); parameter.setMonth("7");
-		 * parameter.setParaType("foF2");
-		 */
 		JSONObject json = new JSONObject();
-
-		//JsonConfig cfg = new JsonConfig();
-		//cfg.setExcludes(new String[] { "station","year","month","paraType","parameterID","hours","stationID" });
-
 		json.put(Constant.SUCCESS, false);
 		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())
 				&& StringUtil.checkNotNull(parameter.getMonth())) {
@@ -93,9 +85,9 @@ public class QTParameterMod extends BaseMod {
 			//json.put(Constant.ROWS, JSONArray.fromObject(list));
 			
 			QuartileUtil quartUtil = new QuartileUtil();
-			String[] filterFiled={"days"};
+			String[] filterFiled={"days"};//过滤非数据字段
 			try {
-				List quartAndParaDataList=	quartUtil.monthIonosphericDate(list, filterFiled,"days");
+				list  =	quartUtil.monthIonosphericDate(list, filterFiled,filterFiled[0]);
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -116,7 +108,7 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.TOTAL, list.size());
 			}		
 		}	
-		log.info(json.toString());
+//		log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadReportData")
@@ -160,7 +152,8 @@ public class QTParameterMod extends BaseMod {
 	}
 	@At("/qt/loadParaData")
 	@Ok("json")
-	/*电离层参数生成*/
+	/**
+	 * 电离层曲线图生成*/
 	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
 		JSONObject json = new JSONObject();
 
@@ -172,14 +165,17 @@ public class QTParameterMod extends BaseMod {
 	
 	@At("/qt/paraDataQuery")
 	@Ok("jsp:jsp.qt.parameterQuery")
-	/*电离层参数报表生成*/
+	/**
+	 * 找数据：电离层数据查询页面跳转
+	 * */
 	public void loadParaQuery(){
 		
 	}
 	
 	@At("/qt/listAllStation")
 	@Ok("json")
-	/*电离参数查询-观测站选择*/
+	/**
+	 * 电离参数查询-观测站选择*/
 	public JSONArray listAllStation(){		
 		JSONArray array = new JSONArray();
 		JSONObject json = new JSONObject();
@@ -207,6 +203,7 @@ public class QTParameterMod extends BaseMod {
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list = parameterService.parameterDataList(parameter,page,paraQuery);
+			int total =this.baseService.dao.count(Parameter.class);
 			List<Parameter> listD= new ArrayList<Parameter>();
 			for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
@@ -216,7 +213,7 @@ public class QTParameterMod extends BaseMod {
 			if(null!=listD && listD.size()>0){
 				json.put(Constant.SUCCESS, true);
 				json.put(Constant.ROWS, JSONArray.fromObject(listD, cfg));
-				json.put(Constant.TOTAL, list.size());
+				json.put(Constant.TOTAL, total);//list.size()
 			}else{
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);

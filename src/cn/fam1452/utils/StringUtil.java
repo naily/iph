@@ -54,7 +54,7 @@ public class StringUtil
 	 * */
 	public static String getNotNullStr(String strValue)
 	{
-		return (strValue == null ? "" : strValue.trim());
+		return ((strValue == null || strValue=="null") ? "" : strValue.trim());
 	}
 	/**
 	 * 将中文转化成AscII码以便存入数据库

@@ -204,13 +204,13 @@ public class QuartileUtil<T>{
 		for(String f : fields){
 			List<Number> ln = this.getValueArrayByField(list, f) ;
 			//map.put(f, ln) ;
-			PropertyUtils.setSimpleProperty(cnt, f, String.valueOf(ln.size()) ) ;
-			PropertyUtils.setSimpleProperty(q1, f, String.valueOf(this.quartile(ln, this.q1))) ;
-			PropertyUtils.setSimpleProperty(q2, f, String.valueOf(this.quartile(ln, this.q2)) ) ;
-			PropertyUtils.setSimpleProperty(q3, f, String.valueOf(this.quartile(ln, this.q3)) ) ;
+			PropertyUtils.setSimpleProperty(cnt, f, StringUtil.getNotNullStr(String.valueOf(ln.size()) )) ;
+			PropertyUtils.setSimpleProperty(q1, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q1))));
+			PropertyUtils.setSimpleProperty(q2, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q2)))) ;
+			PropertyUtils.setSimpleProperty(q3, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q3)))) ;
 		}
 		QuartileBean qb = new QuartileBean(cnt , q1 ,q2 ,q3) ;
-		qb.printQuartile() ;
+//		qb.printQuartile() ;
 		
 		return qb ;
 	}
@@ -229,12 +229,12 @@ public class QuartileUtil<T>{
 		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
 		PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
 		
-		quartBean.printQuartile();
+		//quartBean.printQuartile();
 		//重新组装电离月报数据
-		list.add(quartBean.getQ1()) ;
-		list.add(quartBean.getQ2()) ;
-		list.add(quartBean.getQ3()) ;
-		list.add(quartBean.getCnt()) ;
+		list.add(quartBean.getQ1());
+		list.add(quartBean.getQ3());
+		list.add(quartBean.getQ2());
+		list.add(quartBean.getCnt());
 
 		return list;
 		
