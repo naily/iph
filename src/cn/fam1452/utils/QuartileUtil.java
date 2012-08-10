@@ -16,6 +16,7 @@ import org.nutz.dao.pager.Pager;
 
 import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.*;
 
 /**
@@ -66,16 +67,21 @@ public class QuartileUtil<T>{
 		if(null == fa || fa.length ==0){
 			return null ;
 		}
-		String[] array = new String[fa.length] ;
+		
+		List<String> list = new ArrayList<String>() ;
 		for (int i = 0 ; i< fa.length ; i++) {
 			String fn = fa[i].getName() ;
 			if( !isExist(ft , fn) ){
-				//list.add(fn) ;
-				array[i] = fn ;
+				list.add(fn) ;
 			}
 		}
+		String[] re = {} ;
+		if(list.size() > 0){
+			String[] array = new String[list.size()] ;
+			re = list.toArray(array) ;
+		}
 		
-		return array ;
+		return re ;
 	}
 	/**
 	 * 检查数组中是否包含指定的字符串
@@ -115,9 +121,11 @@ public class QuartileUtil<T>{
 			
 			if(va instanceof String){
 				String s = StringUtil.replaceLetter(va.toString()) ;
-				arry.add(Double.parseDouble(s) );
+				if(StringUtil.checkNotNull(s)){
+					arry.add(Double.parseDouble(s) );
+				}
 			}else if(va instanceof Number){
-				arry.add(va) ;
+					arry.add(va) ;
 			}
 		}
 		Arrays.sort(arry.toArray()) ;
@@ -206,7 +214,29 @@ public class QuartileUtil<T>{
 		
 		return qb ;
 	}
-	
+	/**
+	 * 功能：返回完整电离月报报表（每天的电离值+四分位值）
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * */
+	public List monthIonosphericDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+		List rtList=list;//返回带四分位数的list
+		QuartileBean quartBean = this.mianCallMe(list, field);
+		//为四分位数赋标题值
+		PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
+		PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
+		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
+		PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+		
+		quartBean.printQuartile();
+		//重新组装电离月报数据
+		
+		
+
+		return rtList;
+		
+	}
 	
 	
 	public static void printList(List list) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{

@@ -4,6 +4,7 @@
 package cn.fam1452.action.qt;
 
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,8 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
+import cn.fam1452.utils.QuartileBean;
+import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
@@ -88,6 +91,24 @@ public class QTParameterMod extends BaseMod {
 				&& StringUtil.checkNotNull(parameter.getMonth())) {
 			List<ParameterMonthDateBo> list = parameterService.parameterMonthReport(parameter);
 			//json.put(Constant.ROWS, JSONArray.fromObject(list));
+			
+			QuartileUtil quartUtil = new QuartileUtil();
+			String[] filterFiled={"days"};
+			try {
+				List quartAndParaDataList=	quartUtil.monthIonosphericDate(list, filterFiled,"days");
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(null!=list && list.size()>0){
 				json.put(Constant.SUCCESS, true);
 				//json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
