@@ -45,11 +45,11 @@ $(document).ready(function() {
 				height : 345
 
 			});
-//开始时间
+	// 开始时间
 	$('#startDate').omCalendar();
-//截止时间
+	// 截止时间
 	$('#endDate').omCalendar();
-//页面显示记录
+	// 页面显示记录
 	$('#orderCol').omCombo({
 				dataSource : [{
 							text : '观测站',
@@ -59,7 +59,7 @@ $(document).ready(function() {
 							value : 'createDate'
 						}]
 			});
-//页面显示记录
+	// 页面显示记录
 	$('#showNum').omCombo({
 				dataSource : [{
 							text : '20',
@@ -85,40 +85,48 @@ $(document).ready(function() {
 				name : 'createDate',
 				align : 'center',
 				width : 80
-			}, {
-				header : 'foF2',
-				name : 'foF2',
-				align : 'center',
-				width : 50
 			}];
 
 	// 电离参数列表显示
+
+	/*var dUrl = 'qt/doParaDataQuery.do';
+	$('#paraQueryGrid').omGrid({
+				// title : '电离层参数查询',
+				dataSource : dUrl,
+				// limit:0,
+				height : 325,
+				showIndex : false,
+				colModel : colModel_
+			});*/
 	$("#paraDataQuery").click(function() {
 
 		var stationId = $('#stationIDs').val();
 		var parameter = $('#parameter').val();
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
-		var allDate='';
+		var allDate = '';
 		if ($("#allDate").attr("checked")) {
-			allDate = 'all';		
+			allDate = 'all';
 		}
 		var pageSize = $('#showNum').val();
 		var orderBy = $('#orderCol').val();
 		if (stationId && parameter && (startDate || endDate || allDate)) {
 
-			var dUrl = 'qt/doParaDataQuery.do?ids=' + stationId + '&startDate='
-					+ startDate + '&endDate=' + endDate + '&selectAllDate='+allDate+'&orderBy='+orderBy+'&pageSize='+pageSize;
-
 			var cols = getColmModel();
-			$('#paraQueryGrid').omGrid({
-						//title : '电离层参数查询',
-						dataSource : dUrl,
-						// limit:0,
-						height : 325,
-						showIndex : false,
-						colModel : cols
-					});
+			var dUrl = 'qt/doParaDataQuery.do?ids=' + stationId + '&startDate='
+					+ startDate + '&endDate=' + endDate + '&selectAllDate='
+					+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
+			
+			 $('#paraQueryGrid').omGrid({
+				//title : '电离层参数查询',
+			 	dataSource :dUrl, // limit:0, 
+			 	height : 325, 
+			 	showIndex : false,
+			 	colModel :cols
+			 	});
+			 
+			//$('#paraQueryGrid').omGrid('setData', dUrl);
+
 		} else { // 有查询条件，显示查询数据
 
 			at({
@@ -144,6 +152,7 @@ $(document).ready(function() {
 			width : 80
 		}
 		var str = new Array();
+
 		var selectPara = $('#parameter').val();
 		str = selectPara.split(",");
 		for (i = 0; i < str.length; i++) {

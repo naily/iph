@@ -1,5 +1,6 @@
 package cn.fam1452.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -25,6 +26,7 @@ import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
@@ -89,7 +91,7 @@ public class ParameterService extends Base{
 	   sb.append(" group by a.days");//,a.stationID
 	    
 	   returnStr= sb.toString();
-	   System.out.println("sql="+returnStr);
+//	   System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);
 	   return returnStr;
    }
@@ -99,7 +101,8 @@ public class ParameterService extends Base{
     *2、选择某一个参数时，生成一个工作表(Sheet)；全选参数时生成多个工作表(多个Sheet)
     *3、全选月份时，一个工作表中包含1-12月份的所有参数表
     * */
-   public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
+   @SuppressWarnings("unchecked")
+public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	    String defaultTitle="IONOSPHERIC DATA";//报表名称
 	    String year= pdb.getYear();
 	    String month=pdb.getMonth();
@@ -138,6 +141,25 @@ public class ParameterService extends Base{
 				pdb.setMonth(months);
 				try{
 				 listData = parameterMonthReport(pdb) ;
+				   /*合并四分位数*/
+				    QuartileUtil quartUtil = new QuartileUtil();
+					String[] filterFiled={"days"};//过滤非数据字段
+					try {
+						listData  =	quartUtil.monthIonosphericDate(listData, filterFiled,filterFiled[0]);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				 
 				 if(listData==null || listData.size()<=0){
 						continue;
 					}
@@ -348,8 +370,9 @@ public class ParameterService extends Base{
 		}else{//不选择日期区间时，查询所有日期的数据
 		    cnd = Cnd.where("stationID", "in", params.getIds()).asc(paraQuery.getOrderBy());
 		}	
-		page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
+		//page.setLimit(Integer.parseInt(paraQuery.getPageSize()));		
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
+		//System.out.println(page.getStart()+"__"+page.getLimit());
 		return list;
 	}
     
