@@ -220,8 +220,8 @@ public class QuartileUtil<T>{
 	 * @param field ：排除的属性
 	 * @param headTitle ：四分位数的四个标题对应的bean属性
 	 * */
-	public List monthIonosphericDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
-		List rtList=list;//返回带四分位数的list
+	public List  monthIonosphericDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+		//List rtList = list;//返回带四分位数的list
 		QuartileBean quartBean = this.mianCallMe(list, field);
 		//为四分位数赋标题值
 		PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
@@ -231,10 +231,12 @@ public class QuartileUtil<T>{
 		
 		quartBean.printQuartile();
 		//重新组装电离月报数据
-		
-		
+		list.add(quartBean.getQ1()) ;
+		list.add(quartBean.getQ2()) ;
+		list.add(quartBean.getQ3()) ;
+		list.add(quartBean.getCnt()) ;
 
-		return rtList;
+		return list;
 		
 	}
 	
