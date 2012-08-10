@@ -1,0 +1,23 @@
+f(min)--Minimum frequeney at which echo is observed
+A--Blanketing by Es
+B -- Absorption
+C--Equipment failure
+D--foF2 higher than the upper frequency limit of the recorder
+E--foF1 less than the lower frequency limit of the recorder
+F--Spread echoes (scattered reflections)present
+G--foF2 less than foF1
+H--Stratification within the layer
+J--foF2 derived from fxF2 by the relationship fo - fx -fh/2
+K--Ionospheric storm
+L--Inflection of the curve insufficient for scaling foF1
+M--No observation
+N--Uable to make logical interpretation
+P--Trace extrapolated to a foF2
+Q--F1 layer not present as a disinct layer
+R--Curve becomes incoherent near the foF2
+S--Interference
+V--Forked record
+Z--Triple split near foF2
+()--Doubtful value
+[]--Interpolated value from diurnal curves
+P(foEs)--Percentage of foEs greater than a particular value
