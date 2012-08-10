@@ -33,7 +33,7 @@ public class Parameter {
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=8)
-	private String h1F2 ;
+	private String hlF2 ;
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=8)
@@ -41,7 +41,7 @@ public class Parameter {
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=8)
-	private String h1F1 ;
+	private String hlF1 ;
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=8)
@@ -143,32 +143,34 @@ public class Parameter {
 		this.foF2 = foF2;
 	}
 
-	public String getH1F2() {
-		return h1F2;
-	}
-
-	public void setH1F2(String h1f2) {
-		h1F2 = h1f2;
-	}
-
-	public String getFoF1() {
-		return foF1;
-	}
 
 	public void setFoF1(String foF1) {
 		this.foF1 = foF1;
 	}
 
-	public String getH1F1() {
-		return h1F1;
-	}
-
-	public void setH1F1(String h1f1) {
-		h1F1 = h1f1;
-	}
 
 	public String getHlF() {
 		return hlF;
+	}
+
+	public String getHlF2() {
+		return hlF2;
+	}
+
+	public void setHlF2(String hlF2) {
+		this.hlF2 = hlF2;
+	}
+
+	public String getHlF1() {
+		return hlF1;
+	}
+
+	public void setHlF1(String hlF1) {
+		this.hlF1 = hlF1;
+	}
+
+	public String getFoF1() {
+		return foF1;
 	}
 
 	public void setHlF(String hlF) {

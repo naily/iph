@@ -181,11 +181,12 @@ public class ParameterMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		try{
 			if(StringUtil.checkNotNull(params.getStationID()) ){
-				int s = baseService.dao.count(Parameter.class, Cnd.where("stationID", "=", params.getStationID()).and("createDate", "=", params.getCreateDate()) ) ;
 				
 				StringBuilder id = new StringBuilder();
 				id.append(params.getStationID());
 				id.append(DateUtil.convertDateToString(params.getCreateDate(), "yyyyMMddHH") );
+				
+				int s = baseService.dao.count(Parameter.class, Cnd.where("parameterID", "like",  id.toString()+"%") ) ;
 				
 				String patt = "00" ;  
 				DecimalFormat nf  =  new DecimalFormat(patt);

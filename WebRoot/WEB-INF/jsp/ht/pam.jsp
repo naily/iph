@@ -20,6 +20,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/pam.js"></script>
 	
+	<style type="text/css">
+		#fieldsInfo{
+			float: right; 
+			width : 260px;
+			height : 100%  ;
+			border:#FFDFFF solid 1px; 
+			word-wrap:break-word;
+		}
+	</style>
   </head>
   
   <body>
@@ -38,7 +47,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <li><a href="#tab2">批量导入</a></li>
 	        </ul>
 	        <div id="tab1">
-        	<table width="500" border="0">
+	        
+        	<table width="520" border="0" style="float: left;">
               <tr>
                 <td align="right">&nbsp;所属观测站:</td>
                 <td>&nbsp;<input id = "comboStation" class="boxinput3"/><span class="red_asterisk">*</span></td>
@@ -124,6 +134,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </td>
               </tr>
             </table>
+            <div id="fieldsInfo">
+            	<p>f(min)--Minimum frequeney at which echo is observed</p>
+				<p>A--Blanketing by Es</p>
+				<p>B -- Absorption</p>
+				<p>C--Equipment failure</p>
+				<p>D--foF2 higher than the upper frequency limit of the recorder</p>
+				<p>E--foF1 less than the lower frequency limit of the recorder</p>
+				<p>F--Spread echoes (scattered reflections)present</p>
+				<p>G--foF2 less than foF1</p>
+				<p>H--Stratification within the layer</p>
+				<p>J--foF2 derived from fxF2 by the relationship fo - fx -fh/2</p>
+				<p>K--Ionospheric storm</p>
+				<p>L--Inflection of the curve insufficient for scaling foF1</p>
+				<p>M--No observation</p>
+				<p>N--Uable to make logical interpretation</p>
+				<p>P--Trace extrapolated to a foF2</p>
+				<p>Q--F1 layer not present as a disinct layer</p>
+				<p>R--Curve becomes incoherent near the foF2</p>
+				<p>S--Interference</p>
+				<p>V--Forked record</p>
+				<p>Z--Triple split near foF2</p>
+				<p>()--Doubtful value</p>
+				<p>[]--Interpolated value from diurnal curves</p>
+				<p>P(foEs)--Percentage of foEs greater than a particular value</p>
+			</div>
         </div>
         <!-- 导入 -->
         <div id="tab2">

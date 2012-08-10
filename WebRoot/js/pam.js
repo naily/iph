@@ -14,16 +14,16 @@ $(document).ready(function(){
     //观测日期
     $('#actionDate').omCalendar({showTime : true});
     
-    $('#ip11').omNumberField();
-	$('#ip2').omNumberField();
+    //$('#ip11').omNumberField();
+	//$('#ip2').omNumberField();
 	//$('#ip3').omNumberField();
 	//$('#ip4').omNumberField();
-	$('#ip5').omNumberField();
-	$('#ip6').omNumberField();
+	//$('#ip5').omNumberField();
+	//$('#ip6').omNumberField();
 	//$('#ip7').omNumberField();
-	$('#ip8').omNumberField();
-	$('#ip9').omNumberField();
-	$('#ip10').omNumberField();
+	//$('#ip8').omNumberField();
+	//$('#ip9').omNumberField();
+	//$('#ip10').omNumberField();
     
     //上传批量导入的数据文件
     $('#file_upload_access').omFileUpload({
@@ -56,32 +56,43 @@ $(document).ready(function(){
     $('#savebut').click(function(){
     	var st = $('#comboStation').omCombo('value') ;
     	var ad = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd H:i:s') ;
-    	var ip1 = $('#ip1').val();
-    	var ip2 = $('#ip2').val();
-    	var ip3 = $('#ip3').val();
-    	var ip4 = $('#ip4').val();
-    	var ip5 = $('#ip5').val();
-    	var ip6 = $('#ip6').val();
-    	var ip7 = $('#ip7').val();
-    	var ip8 = $('#ip8').val();
-    	var ip9 = $('#ip9').val();
-    	var ip10 = $('#ip10').val();
-        var ip11 = $('#ip11').val();
+    	var foF2 = $("input[name='foF2']").val();
+    	var hlF2 = $("input[name='hlF2']").val();
+    	var foF1 = $("input[name='foF1']").val();
+    	var hlF1 = $("input[name='hlF1']").val();
+    	var hlF = $("input[name='hlF']").val();
+    	var hpF = $("input[name='hpF']").val();
+    	var foE = $("input[name='foE']").val();
+    	var hlE = $("input[name='hlE']").val();
+    	var foEs = $("input[name='foEs']").val();
+    	var hlEs = $("input[name='hlEs']").val();
+        var fbEs = $("input[name='fbEs']").val();
+        var Fmin = $("input[name='Fmin']").val();
+        var M3000F2 = $("input[name='M3000F2']").val();
+        var M1500F2 = $("input[name='M1500F2']").val();
+        var M3000F1 = $("input[name='M3000F1']").val();
+        var M3000F  = $("input[name='M3000F']").val();
+        var array = new Array('foF2', 'hlF2','foF1', 'hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','Fmin','M3000F2','M1500F2','M3000F1','M3000F' );
     	
     	var data = {
     		url : 'ht/pamsave.do' ,
     		params : {'stationID':st, 'createDate': ad,
-    				  'foF2':ip1, 
-    				  'h1F2':ip2,
-    				  'foF1':ip3,
-    				  'h1F1':ip4,
-    				  'hlF':ip5,
-    				  'hpF':ip6,
-    				  'foE':ip7,
-    				  'hlE':ip8,
-    				  'foEs':ip9,
-    				  'hlEs':ip10,
-                      'M3000F2' :ip11 } ,
+    				  'foF2':foF2, 
+    				  'hlF2':hlF2,
+    				  'foF1':foF1,
+    				  'hlF1':hlF1,
+    				  'hlF':hlF,
+    				  'hpF':hpF,
+    				  'foE':foE,
+    				  'hlE':hlE,
+    				  'foEs':foEs,
+    				  'hlEs':hlEs,
+    				  'fbEs': fbEs,
+    				  'Fmin': Fmin,
+    				  'M3000F2': M3000F2,
+    				  'M1500F2': M1500F2,
+    				  'M3000F1': M3000F1,
+    				  'M3000F':  M3000F} ,
     		callback : function(json){
     			if(json.success){
     				$('#errormsg').hide();
@@ -91,6 +102,7 @@ $(document).ready(function(){
 			                timeout : 3000 ,
 			                content:'保存成功'
 			        });
+			        clearFields(array);
     			}else{
     				$('#errormsg').html(json.info).show();
     			}
@@ -106,23 +118,13 @@ $(document).ready(function(){
     	
     }) ;
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+	function clearFields(arry){
+		if(arry)
+			for(var fn in arry){
+				$("input[name='"+ arry[fn] +"']").val('');
+			}
+	}
+	
 });
 
 
