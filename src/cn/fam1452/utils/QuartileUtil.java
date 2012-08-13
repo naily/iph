@@ -165,8 +165,10 @@ public class QuartileUtil<T>{
 			
 		}else{
 			//情况1: 如果 L 是一个整数，则取 第 L 和 第 L+1 的平均值
-			Number m1 = list.get(i) ; 
-			Number m2 = list.get(i + 1) ; 
+			/*Number m1 = list.get(i) ; 
+			Number m2 = list.get(i + 1) ; */
+			Number m1 = list.get(i-1) ; 
+			Number m2 = list.get(i) ; 
 			med = (m1.floatValue() + m2.floatValue())/2 ;
 		}
 		
@@ -201,13 +203,25 @@ public class QuartileUtil<T>{
 		//Map<String , List<Number>> map = new HashMap<String, List<Number>>();
 		/*
 		 * */
+		
 		for(String f : fields){
 			List<Number> ln = this.getValueArrayByField(list, f) ;
-			//map.put(f, ln) ;
-			PropertyUtils.setSimpleProperty(cnt, f, StringUtil.getNotNullStr(String.valueOf(ln.size()) )) ;
-			PropertyUtils.setSimpleProperty(q1, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q1))));
-			PropertyUtils.setSimpleProperty(q2, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q2)))) ;
-			PropertyUtils.setSimpleProperty(q3, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q3)))) ;
+			//map.put(f, ln) ;				
+			
+			if(null!=ln && ln.size()>0){
+				PropertyUtils.setSimpleProperty(cnt, f, StringUtil.getNotNullStr(String.valueOf(ln.size()))) ;
+				PropertyUtils.setSimpleProperty(q1, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q1))));
+				PropertyUtils.setSimpleProperty(q2, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q2)))) ;
+				PropertyUtils.setSimpleProperty(q3, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q3)))) ;
+			}else{
+				PropertyUtils.setSimpleProperty(cnt, f, "") ;
+				PropertyUtils.setSimpleProperty(q1, f, "");
+				PropertyUtils.setSimpleProperty(q2, f, "") ;
+				PropertyUtils.setSimpleProperty(q3, f, "") ;
+			}
+			
+			
+			
 		}
 		QuartileBean qb = new QuartileBean(cnt , q1 ,q2 ,q3) ;
 //		qb.printQuartile() ;
@@ -239,7 +253,31 @@ public class QuartileUtil<T>{
 		return list;
 		
 	}
-	
+	/**
+	 * 功能：返回电离月报四分位值
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * */
+	public List  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+		//List rtList = list;//返回带四分位数的list
+		QuartileBean quartBean = this.mianCallMe(list, field);
+		//为四分位数赋标题值
+		PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
+		PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
+		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
+		PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+		
+		//quartBean.printQuartile();
+		//重新组装电离月报数据
+		list.add(quartBean.getQ1());
+		list.add(quartBean.getQ3());
+		list.add(quartBean.getQ2());
+		list.add(quartBean.getCnt());
+
+		return list;
+		
+	}
 	
 	public static void printList(List list) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
 		if(null == list || list.size() == 0)

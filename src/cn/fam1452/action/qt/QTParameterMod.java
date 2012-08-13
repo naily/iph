@@ -108,7 +108,7 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.TOTAL, list.size());
 			}		
 		}	
-//		log.info(json.toString());
+		log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadReportData")
@@ -150,16 +150,43 @@ public class QTParameterMod extends BaseMod {
 	public void loadParaChart(){
 		
 	}
-	@At("/qt/loadParaData")
+	@At("/qt/loadParaChartData")
 	@Ok("json")
 	/**
 	 * 电离层曲线图生成*/
 	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
 		JSONObject json = new JSONObject();
-
-		log.info(parameter.getMonth());
-		json.put(Constant.SUCCESS, true);
-				
+		json.put(Constant.SUCCESS, false);
+		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())
+				&& StringUtil.checkNotNull(parameter.getMonth())) {
+			List<ParameterMonthDateBo> list = parameterService.parameterMonthReport(parameter);
+			//json.put(Constant.ROWS, JSONArray.fromObject(list));
+			
+			QuartileUtil quartUtil = new QuartileUtil();
+			String[] filterFiled={"days"};//过滤非数据字段
+			try {
+				list  =	quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0]);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(null!=list && list.size()>0){
+				json.put(Constant.SUCCESS, true);
+				//json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+				json.put(Constant.ROWS, list);
+				json.put(Constant.TOTAL, list.size());
+			}		
+		}	
+		log.info(json.toString());
 		return json;
 	}
 	
@@ -221,7 +248,8 @@ public class QTParameterMod extends BaseMod {
 		}else{
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
-		}		
+		}
+		log.info(json.toString());
 		return json;
 	}
 }
