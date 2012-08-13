@@ -37,24 +37,23 @@ month_omCombo_datasource= [ {text : '1',  value : '1' },
 							{text : '12', value : '12' }]
 
 //电离参数
-parameter_omCombo_datasource= [
-						   { text : 'foF2',  	value : 'foF2'}, 
-				           { text : 'h1F2',  	value : 'h1F2'}, 
-				           { text : 'foF1',  	value : 'foF1'}, 
-				           { text : 'h1F1',  	value : 'h1F1'}, 
-				           { text : 'hlF',   	value : 'hlF'}, 
-				           { text : 'hpF',   	value : 'hpF'}, 
-				           { text : 'foE',   	value : 'foE'}, 
-				           { text : 'hlE',   	value : 'hlE'}, 
-				           { text : 'foes',  	value : 'foes'}, 
-				           { text : 'hlEs',  	value : 'hlEs'}, 
-				           { text : 'fbEs',  	value : 'fbEs'}, 
-				           { text : 'Fmin',  	value : 'Fmin'}, 
-				           { text : 'M3000F2',  value : 'M3000F2'}, 
-				           { text : 'M1500F2',  value : 'M1500F2'}, 
-				           { text : 'M3000F1',  value : 'M3000F1'}, 
-				           { text : 'M3000F',   value : 'M3000F'}
-				           ]
+parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'}, 
+					           { text : 'hlF2',  value : 'hlF2'}, 
+					           { text : 'foF1',  value : 'foF1'}, 
+					           { text : 'hlF1',  value : 'hlF1'}, 
+					           { text : 'hlF',   value : 'hlF'}, 
+					           { text : 'hpF',   value : 'hpF'}, 
+					           { text : 'foE',   value : 'foE'}, 
+					           { text : 'hlE',   value : 'hlE'}, 
+					           { text : 'foEs',  value : 'foEs'}, 
+					           { text : 'hlEs',  value : 'hlEs'}, 
+					           { text : 'fbEs',  value : 'fbEs'}, 
+					           { text : 'Fmin',  value : 'Fmin'}, 
+					           { text : 'M3000F2',  value : 'M3000F2'}, 
+					           { text : 'M1500F2',  value : 'M1500F2'}, 
+					           { text : 'M3000F1',  value : 'M3000F1'}, 
+					           { text : 'M3000F',   value : 'M3000F'}
+					           ]
 
 
 /**

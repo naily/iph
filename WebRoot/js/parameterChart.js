@@ -9,20 +9,30 @@
 	});
 	
 	var paraValue;
- 	//选择电离参数
+	var selectOk=true;
+ 	/*
+ 	 * 选择电离参数
+ 	 * 一次只选择一个单因子或者一组多因子，不允许多选
+ 	 * */
        var sss=$('#selectorPara').omItemSelector({
                 availableTitle : '可选择参数',
                 selectedTitle : '已选择参数',
-                dataSource : parameter_omCombo_datasource,
+                dataSource : parameter_omCombo_datasource2,
                 value:[],
-                onItemSelect:function(itemDatas, event){
-                	paraValue=itemDatas[0].value;
-                	//alert(itemDatas.length);
-                	//alert(itemDatas[0].value);
-                	$('#parameter').attr({value:paraValue});
-                	
+                onBeforeItemSelect:function(itemDatas, event){
+	                if(itemDatas.length<=1 && selectOk){
+	                	   paraValue=itemDatas[0].value;
+	                	    selectOk=false;
+	                	}else{	           			
+	           			  at({cont:'只能选择一个单因子或者一组多因子！' , type : 'error'});	                	
+	                	  return false;
+	                	}
                 },
-                width:250,
+                 onItemDeselect:function(itemDatas, event){ 
+                 	  selectOk=true;
+                	 $('#parameter').attr({value:''});
+                 },
+                width:350,
         		height:250
 
             });
@@ -47,11 +57,12 @@
 
 			  // var month=$('#monthForChart').val();
 			   var month=chk_value.toString();
+			   month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份
 			   var parameter=$('#parameter').val();	
 			   	
                 if(stationId && year && month && parameter){
                      var data = {
-								url : 'qt/loadParaData.do',
+								url : 'qt/loadParaChartData.do',
 								params : {
 								stationID : stationId,
 								year :year,
