@@ -20,12 +20,15 @@ import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
@@ -40,6 +43,7 @@ import cn.fam1452.utils.StringUtil;
  * @version $Revision:1.0.0, $Date:Jul 18, 2012 10:12:18 PM $
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class DataLogMod extends BaseMod{
 
 	@Inject("refer:dataLogService")

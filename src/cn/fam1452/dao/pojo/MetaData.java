@@ -20,7 +20,7 @@ public class MetaData {
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=50)
-	private String title ;
+	private String title ;  //元数据标题
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=50)
@@ -28,23 +28,27 @@ public class MetaData {
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=300)
-	private String  summary; //原abstract ,s是java关键字 
+	private String  summary; //元数据摘要原abstract ,s是java关键字 
 	
 	@Column
 	@ColDefine(customType="binary(2000)")
-	private Blob thumbnail ;
+	private Blob thumbnail ; //元数据缩略图
 	
 	@Column
     @ColDefine(customType="binary(2000)")
-	private Blob fullContent ;
+	private Blob fullContent ; //详细元数据XML
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=100)
-	private String fullContentFilePath ;
+	private String fullContentFilePath ; //XML文件路径
+	
+	@Column
+    @ColDefine(type=ColType.VARCHAR, width=100)
+	private String thumbnailFilePath ; //元数据缩略图文件路径
 	
 	@Column
     @ColDefine(type=ColType.DATE)
-	private Date mdDate ;
+	private Date mdDate ;//元数据创建日期
 
 	public String getMdId() {
 		return mdId;
@@ -108,6 +112,14 @@ public class MetaData {
 
 	public void setFullContentFilePath(String fullContentFilePath) {
 		this.fullContentFilePath = fullContentFilePath;
+	}
+
+	public String getThumbnailFilePath() {
+		return thumbnailFilePath;
+	}
+
+	public void setThumbnailFilePath(String thumbnailFilePath) {
+		this.thumbnailFilePath = thumbnailFilePath;
 	}
 
 	

@@ -266,8 +266,8 @@ public class QuartileUtil<T>{
 		
 		for (int i = 0 ; i < 10 ; i++) {
 			MetaDataBo p = new MetaDataBo() ;
-			p.setAnquan ( String.valueOf(Math.round( (Math.random() *100)) )+"L") ;
-			p.setContacts(String.valueOf(Math.round(Math.random() *100))) ;
+			//p.setAnquan ( String.valueOf(Math.round( (Math.random() *100)) )+"L") ;
+			//p.setContacts(String.valueOf(Math.round(Math.random() *100))) ;
 			list.add(p) ;
 		}
 		util.printList(list) ;

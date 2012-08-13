@@ -25,6 +25,8 @@ import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
@@ -32,6 +34,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.DataService;
 import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.ProtectDate;
@@ -50,6 +53,7 @@ import cn.fam1452.utils.StringUtil;
  * @version $Revision:1.0.0, $Date:Jul 22, 2012 12:39:42 PM $
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class DataStatsMod extends BaseMod{
 
 	@Inject("refer:baseService")

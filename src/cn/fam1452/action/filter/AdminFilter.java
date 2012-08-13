@@ -24,7 +24,7 @@ public class AdminFilter implements ActionFilter{
 	private final static String[] admin_menu_bar = {""} ;
 	//仅仅超级管理员可用的菜单
 	private final static String[] superadmin_menu = {"admins", "admindel","adminsave"} ;
-	private String loginpath = ""; //默认登录地址
+	private String loginpath = "/ht/index.do"; //默认登录地址
 	private String lackpath = "" ; //权限不足
 	
 	public View match(ActionContext actionContext) {
@@ -35,7 +35,7 @@ public class AdminFilter implements ActionFilter{
 		}else{
 			String reqPath = actionContext.getPath() ;
 			try {
-				Object sp = PropertyUtils.getSimpleProperty(obj, "isSuper") ;
+				Object sp = PropertyUtils.getSimpleProperty(obj, "super") ;
 				if(null != sp && "true".equals(sp.toString())){
 					return null  ;
 				}else{

@@ -30,6 +30,8 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
@@ -40,6 +42,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.MetaData;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
@@ -56,6 +59,7 @@ import freemarker.template.Template;
  *
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class MetaDataMod extends BaseMod{
 	
 	@Inject("refer:baseService")
@@ -129,9 +133,9 @@ public class MetaDataMod extends BaseMod{
 				
 				//存值
 				med.setMdId(id.toString()) ;
-				med.setTitle(mdb.getName()) ;
-				med.setKeyword(mdb.getKeys()) ;
-				med.setSummary(mdb.getZhaiyao()) ;
+				med.setTitle(mdb.getResTitle()) ;
+				med.setKeyword(mdb.getKeyword()) ;
+				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
 				
 				if(baseService.dao.fetch(med) == null){
 					baseService.dao.insert(med) ;
