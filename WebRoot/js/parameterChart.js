@@ -72,7 +72,7 @@
 							},
 							callback : function(json) {											
 								if (json.success) {									
-									   var chart;
+									   var chart;									  
 										chart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'paraDataChart',
@@ -81,11 +81,11 @@
 												marginBottom: 25
 											},
 											title: {
-												text: year+'.'+month+'&nbsp;&nbsp;'+location+jingweidu,
+												text: json.chartTitle,
 												x: -20 //center
 											},
 											subtitle: {
-												text: 'Source: WorldClimate.com',
+												text: year+'.'+month+'&nbsp;&nbsp;'+location+'&nbsp;&nbsp;'+jingweidu,
 												x: -20
 											},
 											xAxis: {
@@ -93,7 +93,7 @@
 											},
 											yAxis: {
 												title: {
-													text: 'Frequency (MHZ)'
+													text: json.yAxis+getUnit(json.paraName)
 												},
 												plotLines: [{
 													value: 0,
@@ -104,7 +104,7 @@
 											tooltip: {
 												formatter: function() {
 														return '<b>'+ this.series.name +'</b><br/>'+
-														this.x +': '+ this.y +getUnit(this.series.name);
+														this.x +': '+ this.y ;
 												}
 											},
 											legend: {
@@ -122,7 +122,7 @@
 											}]*/
 										});
 								} else {
-									at({cont:'服务器错误！' , type : 'error'});
+									at({cont:'没有数据！' , type : 'error'});
 								}
 							}
 						  }

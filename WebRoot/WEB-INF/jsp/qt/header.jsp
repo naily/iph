@@ -174,18 +174,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div id="user_login_form">
        <c:choose>
 	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
-	    	欢迎您：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>
+	    	${msg['qt_login_welcome']}：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">${msg['qt_login_out']}</a>
 	    	</c:when>
 	    	<c:otherwise><!-- 未登录 -->
-					        用户名<input type="text" id="userLoginId" name="userLoginId" class="boxinput1" />
-					        密    码<input type="password" id="loginPassword"  name="loginPassword" class="boxinput1" />
-                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[登录]</a>
+					        ${msg['qt_login_username']}<input type="text" id="userLoginId" name="userLoginId" class="boxinput1_1" />
+					        ${msg['qt_login_password']}<input type="password" id="loginPassword"  name="loginPassword" class="boxinput1_1" />
+                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[${msg['qt_login_submit']}]</a>
     	</c:otherwise>
     	</c:choose>
     </div>
     </td>
     <td width="5"></td>
-    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[注册]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">忘记密码?</a>
+    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[${msg['qt_register']}]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">${msg['qt_login_forget']}?</a>
     </td>
   </tr>
   <tr>

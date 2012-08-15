@@ -4,10 +4,8 @@
 package cn.fam1452.action.qt;
 
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +17,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -154,6 +151,7 @@ public class QTParameterMod extends BaseMod {
 	public void loadParaChart(){
 		
 	}
+	@SuppressWarnings("unchecked")
 	@At("/qt/loadParaChartData")
 	@Ok("json")
 	/**
@@ -171,77 +169,38 @@ public class QTParameterMod extends BaseMod {
 			if(null!=parameter.getParaType()){
 				QuartileUtil quartUtil=null;
 				String[] filterFiled={"days"};//过滤非数据字段
-				ParameterMonthDateBo	pmb  =null;
 				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
 				if(paraAry.length==1){//单因子
+					json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+					json.put("yAxis", "Critical Frequency ");
+					json.put("paraName", paraAry[0]);
+					quartUtil = new QuartileUtil();	
 					parameter.setParaType(paraAry[0]);
 					list = parameterService.parameterMonthReport(parameter);
-					try {
-						medList=quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0],parameter);
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					if(null!=list && list.size()>0){
+						medList=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
+					}									
 				}else{//多因子
-					Map map =null;//用于存放单因子数据
-					for(String paraValue:paraAry){//遍历因子，并生成电离月报数据
-						 parameter.setParaType(paraValue);
-						 list = parameterService.parameterMonthReport(parameter);				
-						 quartUtil = new QuartileUtil();					
-						 float[] pValue = null;
-						
-						try {
-								pmb  =	quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0]);
-								if(null!=pmb){
-									 map =new HashMap();
-									Field[] field = pmb.getClass().getDeclaredFields();
-									String[] farray = QuartileUtil.filterFields(field, filterFiled) ;
-									 pValue = new float[farray.length];
-									for(int i=0;i<farray.length;i++){
-										String filedName =farray[i];
-										Object va = PropertyUtils.getSimpleProperty(pmb, filedName) ;
-										pValue[i]=Float.parseFloat(va.toString());
-									}
-									map.put("name",paraValue);
-									map.put("data", pValue);
-								}
-								
-								medList.add(map);	
-								
-						} catch (IllegalAccessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NoSuchMethodException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InstantiationException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}	
+					json.put("chartTitle", "Monthly ionospheric data plot");
+					json.put("yAxis", "Frequency ");
+					json.put("paraName", paraAry[0]);
+					Map map =null;
+					for(String paraValue:paraAry){//遍历因子，通过生成的单因子电离月报数据，计算单因子四分位数
+						 parameter.setParaType(paraValue);						 
+						 list = parameterService.parameterMonthReport(parameter);	
+						 if(null!=list && list.size()>0){
+							 quartUtil = new QuartileUtil();	
+							 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+						 }
+						 map.put("name", paraValue);
+						 medList.add(map);														
+					 }	
 					}//end for
 				}
-				
-			
-			if(null!=list ){
+							
+			if(null!=medList ){
 				json.put(Constant.SUCCESS, true);
 				json.put(Constant.ROWS, medList);
-				//json.put("name", parameter.getParaType());
-				//json.put("data", null);
-				
 			}		
 			}//end if
 			

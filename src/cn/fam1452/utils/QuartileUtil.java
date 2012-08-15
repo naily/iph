@@ -260,11 +260,43 @@ public class QuartileUtil<T>{
 	 * @param field ：排除的属性
 	 * @param headTitle ：四分位数的四个标题对应的bean属性
 	 * */
-	public ParameterMonthDateBo  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
-		QuartileBean quartBean = this.mianCallMe(list, field);
+	public Map  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle) {
+		QuartileBean quartBean = null;
+		Map map =null;
+		float[] pValue = null;
+		try {
+			quartBean = this.mianCallMe(list, field);
+			PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
+			
+					if(null!=quartBean){
+					    map = new HashMap();
+						Field[] fields = quartBean.getQ2().getClass().getDeclaredFields();
+						String[] farray = QuartileUtil.filterFields(fields, field) ;
+						pValue = new float[farray.length];
+						for(int i=0;i<farray.length;i++){
+							String filedName =farray[i];
+							Object va = PropertyUtils.getSimpleProperty(quartBean.getQ2(), filedName) ;
+							pValue[i]=Float.parseFloat(va.toString());
+						}
+						//map.put("name",paraValue);
+						map.put("data", pValue);
+					}							
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//为四分位数赋标题值
-		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
-		return (ParameterMonthDateBo) quartBean.getQ2();
+		
+		return map;
 		
 	}
 	/**
@@ -273,13 +305,25 @@ public class QuartileUtil<T>{
 	 * @param field ：排除的属性
 	 * @param headTitle ：四分位数的四个标题对应的bean属性
 	 * */
-	public List  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle,ParameteDataBo parameter) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+	@SuppressWarnings("unchecked")
+	public List  monthIonosphericMedDateOne(List<Object> list , String[] field,String headTitle) {
 		List medList= new ArrayList();
-		QuartileBean quartBean = this.mianCallMe(list, field);
-		Map map = new HashMap();
-		
-		
-		
+		QuartileBean quartBean = null;
+		try {
+			quartBean = this.mianCallMe(list, field);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		Field[] fields = quartBean.getQ1().getClass().getDeclaredFields();
 		String[] farray = QuartileUtil.filterFields(fields, field) ;
 		
@@ -289,19 +333,34 @@ public class QuartileUtil<T>{
 		 Object lq,med,uq;
 		 for(int i=0;i<farray.length;i++){
 			String filedName =farray[i];
-			 lq = PropertyUtils.getSimpleProperty(quartBean.getQ1(), filedName) ;			
-			 lqValue[i]=Float.parseFloat(lq.toString());
-			 med = PropertyUtils.getSimpleProperty(quartBean.getQ2(), filedName) ;			
-			 medValue[i]=Float.parseFloat(med.toString());
-			 uq = PropertyUtils.getSimpleProperty(quartBean.getQ3(), filedName) ;			
-			 uqValue[i]=Float.parseFloat(uq.toString());
+			 try {
+				lq = PropertyUtils.getSimpleProperty(quartBean.getQ1(), filedName) ;
+				lqValue[i]=Float.parseFloat(lq.toString());
+				 med = PropertyUtils.getSimpleProperty(quartBean.getQ2(), filedName) ;			
+				 medValue[i]=Float.parseFloat(med.toString());
+				 uq = PropertyUtils.getSimpleProperty(quartBean.getQ3(), filedName) ;			
+				 uqValue[i]=Float.parseFloat(uq.toString());
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			 
 		}
+		Map map = new HashMap();
 		map.put("name", "LQ");
 		map.put("data", lqValue);
 		medList.add(map);
+		map = new HashMap();
 	    map.put("name", "MED");
 		map.put("data", medValue);
 		medList.add(map);
+		map = new HashMap();
 		map.put("name", "UQ");
 		map.put("data", uqValue);
 		medList.add(map);
@@ -350,5 +409,20 @@ public class QuartileUtil<T>{
 		}
 		
 	}
-	
+	public String getUnit(String ptype){
+		String retValue;
+		String km="(KM)";
+		String mhz="(MHZ)";
+		String[] kmArry= {"hlF2","hlF1","hlF","hpF", "hlE","hlEs"};
+		String[] mhzArray={"foF2","foF1","foE","foEs","fbEs","fmin"};
+		            // {'m3000F2', 'M1500F2','m3000F1','m3000F'}
+		if(kmArry.toString().indexOf(ptype) > -1){
+			retValue =km;
+		}else if(mhzArray.toString().indexOf(ptype) > -1){
+			retValue=mhz;
+		}else{
+			retValue="";
+		}
+		return retValue;
+	}
 }

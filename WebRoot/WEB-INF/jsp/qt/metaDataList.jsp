@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>电离层专题数据库管理系统</title>
+		<title>${msg['site_name']}</title>
 		<!--
 	-->
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -23,13 +23,22 @@
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 		<script type="text/javascript" src="js/Global.js"></script>
+		<script type="text/javascript" src="js/index_global.js"></script>
+		<c:choose>
+			 <c:when test='${msg.lang=="zh"}'> 
+			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
+			</c:when>
+			<c:otherwise>
+				<script type="text/javascript" src="js/index_global_en.js"></script>
+			</c:otherwise>
+		</c:choose>
 	</head>
 
 	<body>
 
 		<jsp:include page="header.jsp" flush="true" />
 	<div  id="right">
-<div class="title8">数据查询</div>
+<div class="title8">${msg['qt_parameter_title']}</div>
 <table width="800" border="0" align="left" cellpadding="0" cellspacing="0">
 <c:forEach items="${metaDataList}" var="metaData" varStatus="varStatusMeta">	
   <tr>

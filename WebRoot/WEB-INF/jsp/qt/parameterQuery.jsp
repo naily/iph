@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>电离层专题数据库管理系统</title>
+		<title>${msg['site_name']}</title>
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
@@ -21,9 +21,15 @@
 		<script type="text/javascript" src="js/library/highcharts225/highcharts.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/modules/exporting.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/themes/grid.js"></script>
-		
-		<script type="text/javascript" src="js/index_global_zn.js"></script>
-
+		<script type="text/javascript" src="js/index_global.js"></script>
+		<c:choose>
+			 <c:when test='${msg.lang=="zh"}'> 
+			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
+			</c:when>
+			<c:otherwise>
+				<script type="text/javascript" src="js/index_global_en.js"></script>
+			</c:otherwise>
+		</c:choose>
 		<script type="text/javascript" src="js/reportData.js"></script>
 		<script type="text/javascript" src="js/parameterQuery.js"></script>
 		

@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>电离层专题数据库管理系统</title>
+		<title>${msg['site_name']}</title>
 		<!--
 	-->
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
@@ -21,7 +21,15 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
-
+		<script type="text/javascript" src="js/index_global.js"></script>
+		<c:choose>
+			 <c:when test='${msg.lang=="zh"}'> 
+			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
+			</c:when>
+			<c:otherwise>
+				<script type="text/javascript" src="js/index_global_en.js"></script>
+			</c:otherwise>
+		</c:choose>
 		<style type="text/css">
        label.error{
         background: #fff6bf url(images/errorIcon.png) center no-repeat;
