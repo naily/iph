@@ -12,6 +12,6 @@ public class CreateTableTest extends DataSource{
 	public void createTab(){
 		//this.initDataSource() ;
 		
-		this.dao.create(Log.class, true) ;
+		this.dao.create(MetaData.class, true) ;
 	}
 }

@@ -59,6 +59,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;</td>
               </tr>
               <tr>
+                <td  class="table_td_fieldlab">&nbsp;上传缩略图:</td>
+                <td>&nbsp;<input id = "uploadpic" />
+                		  <input id ="thumbnailFilePath" name="thumbnailFilePath" type="hidden" />
+                </td>
+              </tr>
+              <tr>
                 <td align="left">&nbsp;标识信息</td>
                 <td>&nbsp; </td>
               </tr>
@@ -354,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="submit" name="保存" value="保存" style="height: 22px;" /> 
+                <input id="savebut"  type="submit" name="save" value=" 保   存 " style="height: 22px;" /> 
                 &nbsp;&nbsp;&nbsp;&nbsp; 
                 <!--  
                 <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> 

@@ -2,8 +2,14 @@ package cn.fam1452.action.bo;
 
 public class MetaDataBo {
 	private String ids ;
+	private String thumbnailFilePath ; //元数据缩略图文件路径
 	
-	
+	public String getThumbnailFilePath() {
+		return thumbnailFilePath;
+	}
+	public void setThumbnailFilePath(String thumbnailFilePath) {
+		this.thumbnailFilePath = thumbnailFilePath;
+	}
 	//---------------------------
 	public String getTpCat(){
 		return this.cateName + this.cateCode + this.cateStd ;

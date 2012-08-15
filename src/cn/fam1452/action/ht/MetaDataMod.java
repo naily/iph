@@ -93,10 +93,14 @@ public class MetaDataMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
 		try {
 			//姑且只有js验证
 			if(null != mdb){
 				String xmldir = "data/metadata/xml/" ;
+				String thumbnaildir = "data/metadata/thumbnail/" ;
 				
 				//freemarker 准备
 				Configuration cfg  = this.initFreeMarker( context) ;
@@ -136,6 +140,20 @@ public class MetaDataMod extends BaseMod{
 				med.setTitle(mdb.getResTitle()) ;
 				med.setKeyword(mdb.getKeyword()) ;
 				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
+				
+				//存储缩略图
+				File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
+				if(null != tf && tf.exists()){
+					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir ) ){
+						tf = fusu.getTargetFile() ;
+						if(null != tf){
+							med.setThumbnail(new SimpleBlob(tf)) ;
+							med.setThumbnailFilePath(thumbnaildir + fusu.getTargetFile().getName()) ;
+						}else{
+							log.error("This thumbnail file is null !") ;
+						}
+					}
+				}
 				
 				if(baseService.dao.fetch(med) == null){
 					baseService.dao.insert(med) ;
@@ -258,6 +276,35 @@ public class MetaDataMod extends BaseMod{
 		return ig ;
 	}
 	
-	
+	/**
+	 * 把元数据缩略图上传到临时文件夹,返回文件的相对路径
+	 * @param request
+	 * @param response
+	 * @param context
+	 * @return
+	 */
+	@At("/ht/uploadthumbnail")
+    @Ok("json")
+	public JSONObject uploadThumbnail(HttpServletRequest request, HttpServletResponse response , ServletContext context){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		try {
+			String path = fusu.defaultProcessFileUpload(request, true) ;
+			
+			//log.info(path) ;
+			json.put(Constant.INFO, path) ;
+			json.put(Constant.SUCCESS, true) ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
+		}
+		
+	}
 	
 }

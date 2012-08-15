@@ -12,38 +12,35 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("T_METADATA")
 public class MetaData {
 	
-	
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=11)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String mdId ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=50)
+    @ColDefine(type=ColType.VARCHAR, width=100)
 	private String title ;  //元数据标题
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=50)
+    @ColDefine(type=ColType.VARCHAR, width=100)
 	private String keyword ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=300)
+    @ColDefine(type=ColType.TEXT )
 	private String  summary; //元数据摘要原abstract ,s是java关键字 
 	
 	@Column
-	@ColDefine(customType="binary(2000)")
+	@ColDefine(customType="varbinary(MAX)")
 	private Blob thumbnail ; //元数据缩略图
 	
 	@Column
-    @ColDefine(customType="binary(2000)")
+    @ColDefine(customType="varbinary(MAX)")
 	private Blob fullContent ; //详细元数据XML
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=100)
 	private String fullContentFilePath ; //XML文件路径
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=100)
 	private String thumbnailFilePath ; //元数据缩略图文件路径
 	
 	@Column

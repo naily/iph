@@ -29,7 +29,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	// 上传文件的保存路径，相对于应用的根目录
 	public static final String UPLOAD_PIC_PATH = "/data/pgt_file/";
 	//临时目录
-	public static final String UPLOAD_PIC_PATH_TMP = "/data/pgt_file/tmp/"; 
+	public static final String UPLOAD_PIC_PATH_TMP = "/data/tmp/"; 
 
 	byte[] imgBufTemp = new byte[102401];
 
@@ -94,20 +94,49 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		String tmpfile = getContextRealPath() + UPLOAD_PIC_PATH_TMP +  tmpFileName ; 
 		File tf = new File(tmpfile) ;
 		
-		if(null != tf && tf.isFile()){
+		st = cloneTmpFile2Other(tf , otherDir) ;
+		
+		return st ;
+	}
+	private File targetFile  ;
+	public File getTargetFile(){
+		return this.targetFile ;
+	}
+	public boolean cloneTmpFile2Other(File src , String otherDir){
+		boolean st = false ;
+		
+		if(null != src && src.isFile()){
 			File ot = new File(otherDir) ;
 			if(ot.isDirectory()){
-				File f = new File(otherDir + tmpFileName) ;
-				if(!f.exists()){
-					st = tf.renameTo(f) ;
+				String suffix = this.getFileSuffix(src) ;
+				File dest = new File(otherDir + System.currentTimeMillis() + suffix ) ;
+				if(!dest.exists()){
+					st = src.renameTo(dest) ;
 				}else{
 					st = true ; //文件已经存在
-					
 				}
+				targetFile = dest ;
 			}
 		}
 		
 		return st ;
+	}
+	/**
+	 * 获取文件后缀名（带.）
+	 * @param f
+	 * @return
+	 */
+	public String getFileSuffix(File f){
+		String fn = "" ;
+		if(null != f && f.exists()){
+			fn = f.getName() ;
+			int i = fn.lastIndexOf(".") ;
+			if(-1 != i){
+				fn = fn.substring(i) ; //取到带点的扩展名
+			}
+		}
+		
+		return fn ;
 	}
 	
 	/**

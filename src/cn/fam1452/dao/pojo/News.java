@@ -22,7 +22,7 @@ public class News {
 	private String title ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=8000)
+    @ColDefine(type=ColType.TEXT, width=8000)
 	private String content ;
 	
 	@Column
