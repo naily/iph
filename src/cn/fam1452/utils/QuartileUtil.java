@@ -16,6 +16,7 @@ import org.nutz.dao.pager.Pager;
 
 import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.*;
 
@@ -214,10 +215,10 @@ public class QuartileUtil<T>{
 				PropertyUtils.setSimpleProperty(q2, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q2)))) ;
 				PropertyUtils.setSimpleProperty(q3, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q3)))) ;
 			}else{
-				PropertyUtils.setSimpleProperty(cnt, f, "") ;
-				PropertyUtils.setSimpleProperty(q1, f, "");
-				PropertyUtils.setSimpleProperty(q2, f, "") ;
-				PropertyUtils.setSimpleProperty(q3, f, "") ;
+				PropertyUtils.setSimpleProperty(cnt, f, "0") ;
+				PropertyUtils.setSimpleProperty(q1, f, "0");
+				PropertyUtils.setSimpleProperty(q2, f, "0") ;
+				PropertyUtils.setSimpleProperty(q3, f, "0") ;
 			}
 			
 			
@@ -254,28 +255,59 @@ public class QuartileUtil<T>{
 		
 	}
 	/**
-	 * 功能：返回电离月报四分位值
+	 * 功能：返回电离月报四分位值中的中位值
 	 * @param list ：1-31天的电力参数值
 	 * @param field ：排除的属性
 	 * @param headTitle ：四分位数的四个标题对应的bean属性
 	 * */
-	public List  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
-		//List rtList = list;//返回带四分位数的list
+	public ParameterMonthDateBo  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
 		QuartileBean quartBean = this.mianCallMe(list, field);
 		//为四分位数赋标题值
-		PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
-		PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
 		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
-		PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+		return (ParameterMonthDateBo) quartBean.getQ2();
 		
-		//quartBean.printQuartile();
-		//重新组装电离月报数据
-		list.add(quartBean.getQ1());
-		list.add(quartBean.getQ3());
-		list.add(quartBean.getQ2());
-		list.add(quartBean.getCnt());
-
-		return list;
+	}
+	/**
+	 * 功能：返回电离月报三个四分位值
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * */
+	public List  monthIonosphericMedDate(List<Object> list , String[] field,String headTitle,ParameteDataBo parameter) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+		List medList= new ArrayList();
+		QuartileBean quartBean = this.mianCallMe(list, field);
+		Map map = new HashMap();
+		
+		
+		
+		Field[] fields = quartBean.getQ1().getClass().getDeclaredFields();
+		String[] farray = QuartileUtil.filterFields(fields, field) ;
+		
+		 float[] lqValue = new float[farray.length];
+		 float[] medValue = new float[farray.length];
+		 float[] uqValue = new float[farray.length];
+		 Object lq,med,uq;
+		 for(int i=0;i<farray.length;i++){
+			String filedName =farray[i];
+			 lq = PropertyUtils.getSimpleProperty(quartBean.getQ1(), filedName) ;			
+			 lqValue[i]=Float.parseFloat(lq.toString());
+			 med = PropertyUtils.getSimpleProperty(quartBean.getQ2(), filedName) ;			
+			 medValue[i]=Float.parseFloat(med.toString());
+			 uq = PropertyUtils.getSimpleProperty(quartBean.getQ3(), filedName) ;			
+			 uqValue[i]=Float.parseFloat(uq.toString());
+		}
+		map.put("name", "LQ");
+		map.put("data", lqValue);
+		medList.add(map);
+	    map.put("name", "MED");
+		map.put("data", medValue);
+		medList.add(map);
+		map.put("name", "UQ");
+		map.put("data", uqValue);
+		medList.add(map);
+		//为四分位数赋标题值
+	
+		return medList;
 		
 	}
 	

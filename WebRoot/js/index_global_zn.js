@@ -53,10 +53,12 @@ parameter_omCombo_datasource2=[
 			           { text : 'M3000F1',  value : 'm3000F1'}, 
 			           { text : 'M3000F',   value : 'm3000F'},
 			           { text : 'foF2.foF1.foEs.foE',   value : "foF2,foF1,foEs,foE"},
-			           { text : "h'F2.h'Es.h'E.h'F1",   value : "hlF2,hlEs,hlE,hlF1"}
-			           
-			           
+			           { text : "h'F2.h'Es.h'E.h'F1",   value : "hlF2,hlEs,hlE,hlF1"}			           			           
 			           ]
+/*
+ * 电离曲线图的x轴数据列（小时序列）
+ * */			           
+parameter_chart_xAxis_hour=['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
 /**
  * 通过国家级联地区
  */
@@ -81,5 +83,22 @@ function getCityRecords() {
 	} else {
 		return [];
 	}
+/*根据参数类型，返回该参数的单位*/
+function getUnit(ptype){
+	var retValue;
+	var km="KM";
+	var mhz="MHZ";
+	var kmArry= ['hlF2','hlF1','hlF','hpF', 'hlE','hlEs']
+	var mhzArray=['foF2','foF1','foE','foEs','fbEs','fmin']
+	            // {'m3000F2', 'M1500F2','m3000F1','m3000F'}
+	if(kmArry.toString().indexOf(ptype) > -1){
+		retValue =km;
+	}else if(mhzArray.toString().indexOf(ptype) > -1){
+		retValue=mhz;
+	}else{
+		retValue='';
+	}
+
+}
 }
 

@@ -4,9 +4,12 @@
 package cn.fam1452.action.qt;
 
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -153,39 +157,94 @@ public class QTParameterMod extends BaseMod {
 	@At("/qt/loadParaChartData")
 	@Ok("json")
 	/**
-	 * 电离层曲线图生成*/
+	 * 电离层曲线图生成(单因子或者多因子电离图)
+	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
+	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
+	 * 
+	 * */
 	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
-		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())
-				&& StringUtil.checkNotNull(parameter.getMonth())) {
-			List<ParameterMonthDateBo> list = parameterService.parameterMonthReport(parameter);
-			//json.put(Constant.ROWS, JSONArray.fromObject(list));
+		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())&& StringUtil.checkNotNull(parameter.getMonth())) {
+			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
+			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
+			if(null!=parameter.getParaType()){
+				QuartileUtil quartUtil=null;
+				String[] filterFiled={"days"};//过滤非数据字段
+				ParameterMonthDateBo	pmb  =null;
+				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
+				if(paraAry.length==1){//单因子
+					parameter.setParaType(paraAry[0]);
+					list = parameterService.parameterMonthReport(parameter);
+					try {
+						medList=quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0],parameter);
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{//多因子
+					Map map =null;//用于存放单因子数据
+					for(String paraValue:paraAry){//遍历因子，并生成电离月报数据
+						 parameter.setParaType(paraValue);
+						 list = parameterService.parameterMonthReport(parameter);				
+						 quartUtil = new QuartileUtil();					
+						 float[] pValue = null;
+						
+						try {
+								pmb  =	quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0]);
+								if(null!=pmb){
+									 map =new HashMap();
+									Field[] field = pmb.getClass().getDeclaredFields();
+									String[] farray = QuartileUtil.filterFields(field, filterFiled) ;
+									 pValue = new float[farray.length];
+									for(int i=0;i<farray.length;i++){
+										String filedName =farray[i];
+										Object va = PropertyUtils.getSimpleProperty(pmb, filedName) ;
+										pValue[i]=Float.parseFloat(va.toString());
+									}
+									map.put("name",paraValue);
+									map.put("data", pValue);
+								}
+								
+								medList.add(map);	
+								
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoSuchMethodException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InstantiationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}	
+					}//end for
+				}
+				
 			
-			QuartileUtil quartUtil = new QuartileUtil();
-			String[] filterFiled={"days"};//过滤非数据字段
-			try {
-				list  =	quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0]);
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(null!=list && list.size()>0){
+			if(null!=list ){
 				json.put(Constant.SUCCESS, true);
-				//json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
-				json.put(Constant.ROWS, list);
-				json.put(Constant.TOTAL, list.size());
+				json.put(Constant.ROWS, medList);
+				//json.put("name", parameter.getParaType());
+				//json.put("data", null);
+				
 			}		
-		}	
+			}//end if
+			
 		log.info(json.toString());
 		return json;
 	}
