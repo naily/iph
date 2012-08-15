@@ -1,6 +1,6 @@
 $(document).ready(function(){
-	
-    $('#but-login').bind('click' , function(){
+	var statusLock = true ;  //防止在服务器未响应前重复请求
+	function loginaction(){
         
         var n = $(':input[name="username"]').val() ;
         var p = $(':input[name="mypassword"]').val() ;
@@ -27,6 +27,7 @@ $(document).ready(function(){
             url :'ht/login.do' ,
             params : {loginId:n , password:p ,code :c} ,
             callback :function(json){
+            	statusLock = true ;
                 if(json.success){
                     location.reload() ;
                 }else{
@@ -43,8 +44,27 @@ $(document).ready(function(){
             }
         }
         
-        ajaxpost(login);
-    });
+        if(statusLock){
+        	statusLock = false ;
+	        ajaxpost(login);
+        }else{
+        	$.omMessageTip.show({
+                type:'error',
+                title:'提醒',
+                timeout : 1000 ,
+                content :"稍安勿躁"
+            });
+            return  ;
+        }
+    }
+	
+	$("body").keydown(function(event) {  
+		if(event.keyCode==13){
+			loginaction() ;
+		}
+    }) ;
+	
+    $('#but-login').bind('click' , loginaction);
     
 });
 

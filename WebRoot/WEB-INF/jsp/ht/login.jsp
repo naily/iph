@@ -58,17 +58,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td height="10" colspan="4" align="center">&nbsp;</td>
 				    </tr>
 				  <tr>
-				    <td width="96" height="40" align="center">${msg['ht_login_username']}：</td>
+				    <td width="96" height="40" align="right" >${msg['ht_login_username']}：</td>
 				    <td colspan="3"><label>
 				      <input type="text" name="username" class="boxinput3" />
 				    </label></td>
 				    </tr>
 				  <tr>
-				    <td height="40" align="center">${msg['ht_login_password']}：</td>
+				    <td height="40" align="right" >${msg['ht_login_password']}：</td>
 				    <td colspan="3"><input name="mypassword" class="boxinput3" type="password"/></td>
 				    </tr>
 				  <tr>
-				    <td height="40" align="center">${msg['ht_login_code']}：</td>
+				    <td height="40" align="right" >${msg['ht_login_code']}：</td>
 				    <td width="95"><input type="text" name="code" class="boxinput4" /></td>
 				    <td width="84"> <div class="y_img"><img src="ht/logincode.do" width="100" height="22" border="0" id="vailcode"/></div></td>
 				    <td width="119" align="center"><a href="javascript:;" onclick="reloadimage();" class="a4">看不清 换一张</a></td>
