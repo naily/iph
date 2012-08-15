@@ -31,10 +31,10 @@ public class Station {
 	private String location ;
 	
 	@Column
-	private float longitude ;
+	private String longitude ;
 	
 	@Column
-	private float latitude ;
+	private String latitude ;
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=6)
@@ -99,19 +99,20 @@ public class Station {
 		this.location = location;
 	}
 
-	public float getLongitude() {
+
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
-	public float getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
