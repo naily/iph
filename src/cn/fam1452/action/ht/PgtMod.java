@@ -22,6 +22,8 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
@@ -31,6 +33,7 @@ import org.nutz.mvc.upload.UploadAdaptor;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -44,6 +47,7 @@ import cn.fam1452.utils.StringUtil;
  *
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class PgtMod extends BaseMod{
 	
 	@Inject("refer:baseService")

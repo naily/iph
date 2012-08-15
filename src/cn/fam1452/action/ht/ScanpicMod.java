@@ -15,6 +15,8 @@ import net.sf.json.JsonConfig;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
@@ -22,6 +24,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Scanpic;
@@ -41,6 +44,7 @@ import cn.fam1452.utils.StringUtil;
  * @version $Revision:1.0.0, $Date:Jun 24, 2012 5:06:09 PM $
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class ScanpicMod extends BaseMod{
 	
 	@At("/ht/sac")

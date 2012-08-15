@@ -23,6 +23,8 @@ import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
@@ -30,6 +32,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -46,6 +49,7 @@ import cn.fam1452.utils.StringUtil;
  * @version $Revision:1.0.0, $Date:Jun 24, 2012 10:04:31 AM $
  */
 @IocBean
+@Filters(@By(type=AdminFilter.class ))
 public class ParameterMod extends BaseMod{
 	
 	@At("/ht/pam")

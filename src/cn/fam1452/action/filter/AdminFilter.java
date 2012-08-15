@@ -21,11 +21,11 @@ import cn.fam1452.Constant;
  */
 public class AdminFilter implements ActionFilter{
 	//菜单栏
-	private final static String[] admin_menu_bar = {""} ;
+	//private final static String[] admin_menu_bar = {""} ;
 	//仅仅超级管理员可用的菜单
 	private final static String[] superadmin_menu = {"admins", "admindel","adminsave"} ;
 	private String loginpath = "/ht/index.do"; //默认登录地址
-	private String lackpath = "" ; //权限不足
+	private String lackpath = "/ht/warning.do" ; //权限不足
 	
 	public View match(ActionContext actionContext) {
 		// TODO Auto-generated method stub

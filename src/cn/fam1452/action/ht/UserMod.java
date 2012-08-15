@@ -49,6 +49,14 @@ public class UserMod  extends BaseMod{
 		
 	}
 	
+	/**
+	 * 权限不足 警告页面
+	 * @param req
+	 */
+	@At("/ht/warning")
+    @Ok("jsp:jsp.ht.warning")
+    public void warning(HttpServletRequest req){ }
+	
 	@At("/ht/lang/?")
 	@Ok("redirect:/ht/index.do") 
     public void lang(String lang , HttpSession session ){
