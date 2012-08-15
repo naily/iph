@@ -108,8 +108,9 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		if(null != src && src.isFile()){
 			File ot = new File(otherDir) ;
 			if(ot.isDirectory()){
-				String suffix = this.getFileSuffix(src) ;
-				File dest = new File(otherDir + System.currentTimeMillis() + suffix ) ;
+				//String suffix = this.getFileSuffix(src) ;
+				//File dest = new File(otherDir + System.currentTimeMillis() + suffix ) ;
+				File dest = new File(otherDir + src.getName() ) ;
 				if(!dest.exists()){
 					st = src.renameTo(dest) ;
 				}else{

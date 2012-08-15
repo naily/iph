@@ -4,11 +4,16 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'ID', name:'ID' ,   width:160},
+         colModel : [    {header:'ID', name:'ID' ,   width:100},
                          {header:'文件标题',name:'Title',  width:200  },
                          {header:'观测站',name:'stationName'  } ,
                          {header:'日期',name:'createDate',width:100 } ,
-                         {header:'文件名',name:'FileName', width:100,width:'autoExpand' } 
+                         {header:'文件名',name:'FileName', width:100,width:'autoExpand' } ,
+                         {header:'操作',name:'operation',width:60 ,align : 'center' ,
+	                         renderer: function(colValue, rowData, rowIndex){
+	                         	return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" >预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         }
+                         }
          ],
          dataSource : 'ht/saclist.do' 
      });
@@ -133,16 +138,25 @@ $(document).ready(function(){
      $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
-        optionField :'name' ,
-        value: 'WHA'
+        optionField :'name'  
     }) ;
     
     
     
     
     
-    
+    //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
     
 });
-
+function previewSac(path){
+	if(path){
+		$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 / >');
+		$( "#imagePreview").omDialog('open');
+	}
+}
 

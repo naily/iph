@@ -98,8 +98,7 @@ $(document).ready(function(){
      $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
-        optionField :'name' ,
-        value: 'WHA'
+        optionField :'name' 
     }) ;
     //频高徒类型下拉框
     $('#comboPgtType').omCombo({

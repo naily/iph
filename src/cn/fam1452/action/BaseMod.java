@@ -6,9 +6,13 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.nutz.mvc.Mvcs;
 
+import cn.fam1452.Constant;
+import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.utils.StringUtil;
 
 import freemarker.template.Configuration;
@@ -27,6 +31,22 @@ public class BaseMod {
 	//获取当前应用root/ 磁盘绝对路径
 	protected String getAppRealPath(ServletContext servletContext) {
 		return  servletContext.getRealPath("/");
+	}
+	
+	/**
+	 * 获取后台登陆用户的用户名
+	 * @return
+	 */
+	protected String getHTLoginUserName() {
+		HttpSession session = Mvcs.getHttpSession() ;
+		String name = "" ;
+		if(null != session){
+			Administrator admin = (Administrator)session.getAttribute(Constant.HT_USER_SESSION)  ;
+			if(null != admin){
+				name = admin.getLoginId() ;
+			}
+		}
+		return  name;
 	}
 	
 	/**

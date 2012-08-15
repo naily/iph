@@ -90,7 +90,7 @@ public class PgtMod extends BaseMod{
 							baseService.dao.insert(gram) ;
 							json.put(Constant.SUCCESS, true) ;
 							
-							dls.insert("01", tableName, "admin") ;
+							dls.insert("01", tableName, getHTLoginUserName()) ;
 						}else{
 							json.put(Constant.INFO, "该频高图文件已经存在") ;
 						}
@@ -186,7 +186,7 @@ public class PgtMod extends BaseMod{
 			if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
-					dls.insert("03", tableName, "admin") ;
+					dls.insert("03", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
@@ -212,7 +212,7 @@ public class PgtMod extends BaseMod{
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
 			
-			dls.insert("02", tableName, "admin") ;
+			dls.insert("02", tableName, getHTLoginUserName()) ;
 		}else{
 			json.put(Constant.INFO, error2) ;
 		}
@@ -263,7 +263,7 @@ public class PgtMod extends BaseMod{
 					baseService.dao.insert(ig) ;
 					json.put(Constant.SUCCESS, true) ;
 					
-					dls.insert("01", tableName, "admin") ;
+					dls.insert("01", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, "该频高图文件已经存在") ;
 					json.put("error", 2) ;

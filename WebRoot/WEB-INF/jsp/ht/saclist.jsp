@@ -30,6 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<p><a href="ht/sac.do" class="a3">报表扫描图上传</a></p>
     	<p>报表扫描图管理</p>
     </div>
+    <div id="imagePreview" title="图片预览"> </div> 
     <div id="center_right">
     	<!-- 右侧内容
     	<span id="toolbar" class="om-widget-header om-corner-all">
@@ -44,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     
     <div id="tab1">
-        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
+        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 			  <tr>
 			    <td height="10" colspan="3" align="center">&nbsp; </td>
 			    </tr>

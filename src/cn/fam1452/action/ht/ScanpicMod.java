@@ -104,7 +104,7 @@ public class ScanpicMod extends BaseMod{
 				if(baseService.dao.fetch(sp) == null){
 					baseService.dao.insert(sp) ;
 					json.put(Constant.SUCCESS, true) ;
-					dls.insert("03", tableName, "admin") ;
+					dls.insert("03", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, this.error4) ;
 					json.put("error", 2) ;
@@ -207,7 +207,7 @@ public class ScanpicMod extends BaseMod{
 			if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
 					json.put(Constant.SUCCESS, true) ;
-					dls.insert("03", tableName, "admin") ;
+					dls.insert("03", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
@@ -233,7 +233,7 @@ public class ScanpicMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getScanPicID()) && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
-			dls.insert("02", tableName, "admin") ;
+			dls.insert("02", tableName, getHTLoginUserName()) ;
 		}else{
 			json.put(Constant.INFO, error2) ;
 		}
@@ -256,15 +256,15 @@ public class ScanpicMod extends BaseMod{
 			if("savedata".equals(sac.getAction())){
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(sac.getScanPicFileName() )){
-					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + fusu.UPLOAD_PIC_PATH) ){
-						sac.setGramPath(fusu.UPLOAD_PIC_PATH + sac.getScanPicFileName()); 
+					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + Constant.sacnpicSavePath) ){
+						sac.setGramPath(Constant.sacnpicSavePath + fusu.getTargetFile().getName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						sac.setScanPicID(sac.getScanPicFileName().substring(0, sac.getScanPicFileName().lastIndexOf(".")))  ;
 						
 						if(baseService.dao.fetch(sac) == null){
 							baseService.dao.insert(sac) ;
 							json.put(Constant.SUCCESS, true) ;
-							dls.insert("03", tableName, "admin") ;
+							dls.insert("03", tableName, getHTLoginUserName()) ;
 						}else{
 							json.put(Constant.INFO, "该文件已经存在") ;
 						}

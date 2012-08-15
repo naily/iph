@@ -10,8 +10,7 @@ $(document).ready(function(){
     $('#comboStation').omCombo({
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
-        optionField :'name' ,
-        value: 'WHA'
+        optionField :'name' 
     }) ;
     //观测日期
     $('#actionDate').omCalendar();
