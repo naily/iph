@@ -16,6 +16,7 @@ import net.sf.json.JsonConfig;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.entity.Entity;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -71,9 +72,8 @@ public class DataLogMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getAdminId())) {
 			cri.where().and( "adminId", "=", params.getAdminId()) ;
 		}
+		cri.getOrderBy().desc("logDate") ;
 		
-		//log.info(cri.toString()) ;
-
 		List<Log>  list = baseService.dao.query(Log.class, cri, params.getNutzPager()) ;
 		
 		json.put(Constant.TOTAL, baseService.dao.count(Log.class)) ;

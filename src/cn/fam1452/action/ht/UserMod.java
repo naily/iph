@@ -81,7 +81,7 @@ public class UserMod  extends BaseMod{
 	public void logout(HttpSession session) {
 		session.removeAttribute(Constant.HT_USER_SESSION);
 		session.invalidate() ;
-		Mvcs.deposeSession(session) ;
+		//Mvcs.deposeSession(session) ;
 	}
 	
 	@At("/ht/login")

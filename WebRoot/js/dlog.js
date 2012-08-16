@@ -4,7 +4,9 @@ $(document).ready(function(){
          width : '99.8%',
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
-         //singleSelect : false, //出现checkbox列，可以选择同时多行记录
+		 onPageChange:function(type,newPage,event){
+	         //alert('will goto page '+newPage);
+	     },
          colModel : [    {header:'表名', name:'dataTable' ,  width:'autoExpand'},
                          {header:'操作类型',name:'actionType',  width:200  ,
 	                         renderer : function(val, rowData, rowIndex){

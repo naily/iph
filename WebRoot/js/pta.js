@@ -24,11 +24,11 @@ $(document).ready(function(){
 				$( "#createblock").omDialog("open") ;
 				//alert('code~~1');
 			}
-		},{
+		},/*{
 			label : '修改' ,
 			disabled : true ,
 			onClick:function(){ alert('code~~2') }
-		},{
+		}, */{
 			label : '删除' ,
 			onClick:function(){ 
 				var ss = $('#list0').omGrid('getSelections',true);

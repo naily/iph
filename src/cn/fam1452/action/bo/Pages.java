@@ -12,11 +12,13 @@ import org.nutz.dao.pager.Pager;
 public class Pages {
 
 	private int start = 1; //omGrid
-	private int limit ;    //omGrid
+	private int limit = 5; //omGrid
 	
 	public Pager getNutzPager(){
 		Pager p = new Pager();
-		p.setPageNumber(start <1 ? 1 : start) ;
+		if(this.getStart() >= this.getLimit() && this.getLimit() > 0){
+			p.setPageNumber( (this.getStart()/this.getLimit()) +1 ) ;
+		}
 		p.setPageSize(limit) ;
 		return p ;
 	}
