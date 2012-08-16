@@ -21,6 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/userRegist.js"></script>
 <script type="text/javascript" src="js/indexNews.js"></script>
 <script type="text/javascript" src="js/indexMetaData.js"></script>
+<script type="text/javascript">
+  // var isUserLogin =${sessionScope.qt_account.login};
+</script>
+<script type="text/javascript" src="js/index_usercomment.js"></script>
 </head>
 
 <body>
@@ -61,14 +65,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="rightbox2_4">
 <div class="title7">您的意见</div>
+<form name="userComment" action="qt/userComment.do" method="post" onSubmit="return userComment()"> 
 <table width="99%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="76%" height="70"><label>
-      <textarea name="textarea" rows="4" class="textarea1"></textarea>
+      <textarea name="content" id="userCommentContent"  rows="4" class="textarea1"></textarea>
     </label></td>
-    <td width="24%" valign="bottom"><a href="#"><img src="images/d10.jpg" width="48" height="21" border="0" /></a></td>
+    <td width="24%" valign="bottom"><input name="userCommentSubmit"  id="userCommentSubmit" type="image" value="" src="images/d10.jpg"/></a></td>
   </tr>
 </table>
+</form>
 </div>
 <!--rightbox2_4 结束-->
 </div><!--rightbox2 结束-->

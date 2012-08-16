@@ -8,6 +8,7 @@ import org.nutz.dao.impl.NutDao;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.MetaData;
 import cn.fam1452.dao.pojo.News;
+import cn.fam1452.dao.pojo.UserComment;
 
 public class DataSourceTest {
 	
@@ -25,9 +26,9 @@ public class DataSourceTest {
     	}*/
 		
 		//dao.create(MetaData.class, true) ;
-		
-		News n = dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
-		System.out.println(n.getTitle());
+		dao.create(UserComment.class, true) ;
+		/*News n = dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
+		System.out.println(n.getTitle());*/
 	}
 	
 	

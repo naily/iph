@@ -14,12 +14,11 @@ $(document).ready(function() {
 				},
 				callback : function(json) {
 					if (json.success) {
-						var loginName = $('#userLoginId').val();
+						//var loginName = $('#userLoginId').val();
 						$('#userLoginId').val('');
 						$('#loginPassword').val('');
-						$('#user_login_form')
-								.html('欢迎您：<a href="javascript:void(0)" onclick="getRegInfo()" class="a1">'
-										+ loginName
+						$('#user_login_form').html('欢迎您：<a href="javascript:void(0)" onclick="getRegInfo()" class="a1">'
+										+ loginId
 										+ '</a>&nbsp;&nbsp;<a href="qt/logout.do" class="a1">退出登录</a>');
 					} else {
 						$.omMessageTip.show({
