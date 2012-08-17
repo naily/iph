@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/indexNews.js"></script>
 <script type="text/javascript" src="js/indexMetaData.js"></script>
 <script type="text/javascript">
-  // var isUserLogin =${sessionScope.qt_account.login};
+ var isUserLogin=${sessionScope.qt_account.login==true}
 </script>
 <script type="text/javascript" src="js/index_usercomment.js"></script>
 </head>
@@ -65,13 +65,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="rightbox2_4">
 <div class="title7">您的意见</div>
-<form name="userComment" action="qt/userComment.do" method="post" onSubmit="return userComment()"> 
+
+<form id="userCommentForm" name="userCommentForm" action="qt/userComment.do" method="post" onSubmit="return userComment()"> 
 <table width="99%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="76%" height="70"><label>
       <textarea name="content" id="userCommentContent"  rows="4" class="textarea1"></textarea>
     </label></td>
-    <td width="24%" valign="bottom"><input name="userCommentSubmit"  id="userCommentSubmit" type="image" value="" src="images/d10.jpg"/></a></td>
+    <td width="24%" valign="bottom">
+    <c:choose>
+	    	<c:when test="${sessionScope.qt_account.login==true}" >
+	    	<a href="qt/userCommentList.do">[以往意见]</a> <br/><br/>
+	    	</c:when>
+	</c:choose>
+   <input name="userCommentSubmit"  id="userCommentSubmit" type="image" value="" src="images/d10.jpg"/></a></td>
   </tr>
 </table>
 </form>

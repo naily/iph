@@ -18,7 +18,7 @@ public class FeedBack {
 	private String id ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String commentId ;
 	
 	@Column
@@ -26,7 +26,7 @@ public class FeedBack {
 	private String feedback ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=12)
+    @ColDefine(type=ColType.VARCHAR, width=20)
 	private String adminId ;
 	
 	@Column

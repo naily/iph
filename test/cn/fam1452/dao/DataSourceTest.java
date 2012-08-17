@@ -5,6 +5,7 @@ import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.impl.NutDao;
 
+import cn.fam1452.dao.pojo.FeedBack;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.MetaData;
 import cn.fam1452.dao.pojo.News;
@@ -26,7 +27,7 @@ public class DataSourceTest {
     	}*/
 		
 		//dao.create(MetaData.class, true) ;
-		dao.create(UserComment.class, true) ;
+		dao.create(FeedBack.class, true) ;
 		/*News n = dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
 		System.out.println(n.getTitle());*/
 	}
