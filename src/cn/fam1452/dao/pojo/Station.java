@@ -37,7 +37,7 @@ public class Station {
 	private String latitude ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=6)
+    @ColDefine(type=ColType.VARCHAR, width=10)
 	private String timeZone ;
 	
 	@Column

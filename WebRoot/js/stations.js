@@ -1,6 +1,7 @@
+
 $(document).ready(function(){
     
-    /* */
+    /* 观测站管理*/
     $('#list0').omGrid({
         title : '观测站列表' ,
          //height : 250,
@@ -237,3 +238,44 @@ var save ={
     }
 } 
 
+var tzdatasource = [
+{text:"UTC-12                                         ", value:"UTC-12"},
+{text:"UTC-11                                         ", value:"UTC-11"},
+{text:"UTC-10(HST - 夏威夷－阿留申标准时间)               ", value:"UTC-10"},
+{text:"UTC-9:30                                       ", value:"UTC-9:30"},
+{text:"UTC-9(AKST - 阿拉斯加标准时间)                    ", value:"UTC-9"},
+{text:"UTC-8(PST - 太平洋标准时间)                       ", value:"UTC-8"},
+{text:"UTC-7(MST - 北美山区标准时间)                     ", value:"UTC-7"},
+{text:"UTC-6(CST - 北美中部标准时间)                     ", value:"UTC-6"},
+{text:"UTC-5(EST - 北美东部标准时间)                     ", value:"UTC-5"},
+{text:"UTC-4:30                                       ", value:"UTC-4:30"},
+{text:"UTC-4(AST - 大西洋标准时间)                       ", value:"UTC-4"},
+{text:"UTC-3:30(NST - 纽芬兰岛标准时间)                  ", value:"UTC-3:30"},
+{text:"UTC-3                                          ", value:"UTC-3"},
+{text:"UTC-2                                          ", value:"UTC-2"},
+{text:"UTC-1                                          ", value:"UTC-1"},
+{text:"UTC(WET - 欧洲西部时区，GMT - 格林尼治标准时间)",       value:"UTC"},
+{text:"UTC+1(CET - 欧洲中部时区)                      ", value:"UTC+1"},
+{text:"UTC+2(EET - 欧洲东部时区)                      ", value:"UTC+2"},
+{text:"UTC+3(MSK - 莫斯科时区)                        ", value:"UTC+3"},
+{text:"UTC+3:30                                       ", value:"UTC+3:30"},
+{text:"UTC+4                                          ", value:"UTC+4"},
+{text:"UTC+4:30                                       ", value:"UTC+4:30"},
+{text:"UTC+5                                          ", value:"UTC+5"},
+{text:"UTC+5:30                                       ", value:"UTC+5:30"},
+{text:"UTC+5:45                                       ", value:"UTC+5:45"},
+{text:"UTC+6                                          ", value:"UTC+6"},
+{text:"UTC+6:30                                       ", value:"UTC+6:30"},
+{text:"UTC+7                                          ", value:"UTC+7"},
+{text:"UTC+8(CST - 中国标准时间)                      ", value:"UTC+8"},
+{text:"UTC+9(KST- 韩国标准时间)                       ", value:"UTC+9"},
+{text:"UTC+9:30(ACST - 澳洲中部标准时间)              ", value:"UTC+9:30"},
+{text:"UTC+10(AEST - 澳洲东部标准时间)                ", value:"UTC+10"},
+{text:"UTC+10:30                                      ", value:"UTC+10:30"},
+{text:"UTC+11                                         ", value:"UTC+11"},
+{text:"UTC+11:30                                      ", value:"UTC+11:30"},
+{text:"UTC+12                                         ", value:"UTC+12"},
+{text:"UTC+12:45                                      ", value:"UTC+12:45"},
+{text:"UTC+13                                         ", value:"UTC+13"},
+{text:"UTC+14                                         ", value:"UTC+14"}
+] ;
