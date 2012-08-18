@@ -117,7 +117,10 @@ public class AdministratorMod extends BaseMod{
 		j.put(Constant.SUCCESS, false) ;
 		
 		if(null != admin && StringUtil.checkNotNull(admin.getLoginId())){
-			adminService.dao.delete(admin) ;
+			admin = adminService.dao.fetch(admin) ;
+			if(!admin.isSuper()){ //超级管理员不可删除
+				adminService.dao.delete(admin) ;
+			}
 			j.put(Constant.SUCCESS, true) ;
 		}else{
 			j.put(Constant.INFO, "参数错误") ;

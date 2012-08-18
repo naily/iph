@@ -75,7 +75,8 @@ public class MvcSetup implements Setup{
     	scans.init(context) ;
     	
 		List<Class<?>> list = scans.scanPackage("cn.fam1452.dao.pojo") ;
-		log.info("scanPackage size: "+list.size() ) ;
+		log.info("Scan Package: 'cn.fam1452.dao.pojo' ") ;
+		log.info("Scan pojo size: "+list.size() ) ;
   		Class [] remove = null;// {MenuInfo.class,Area.class , Chanpin.class};  //排除不创建的实体
 		if(null != dao && list.size() > 0){
 			for (Class cla : list) {
