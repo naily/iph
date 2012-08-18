@@ -11,7 +11,7 @@ $(document).ready(function(){
                          {header:'文件名',name:'FileName', width:100,width:'autoExpand' } ,
                          {header:'操作',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" >预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],

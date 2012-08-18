@@ -3,8 +3,10 @@
  */
 package cn.fam1452.action.ht;
 
+import java.io.File;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
@@ -12,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.util.blob.SimpleBlob;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -29,6 +32,7 @@ import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -51,13 +55,33 @@ public class StationMod extends BaseMod{
 	@At("/ht/stationsave")
 	@Ok("json")
 	@POST
-	public JSONObject save(@Param("..")Station obj , String action){
+	public JSONObject save(@Param("..")Station obj , String action , ServletContext context){
 		//log.info(action) ;
 		
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
 		obj.setStatus(1) ;
+		//存储观测站图片
+		if(StringUtil.checkNotNull(obj.getPicPath())){
+			String picpath = "/data/station/" ;
+			OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+			fusu.setServletContext(context) ;
+			//存储观测站图片
+			File tf = new File(this.getAppRealPath(context) + obj.getPicPath()) ; //临时图片
+			if(null != tf && tf.exists()){
+				if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + picpath ) ){
+					tf = fusu.getTargetFile() ;
+					if(null != tf){
+						obj.setPicPath( picpath + tf.getName() ) ;
+					}else{
+						log.error("This picture file is null !") ;
+					}
+				}
+			}
+		}
+		
+		//存到数据库
 		if("save".equals(action)){
 			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
 			if(StringUtil.checkNotNull(obj.getId())){

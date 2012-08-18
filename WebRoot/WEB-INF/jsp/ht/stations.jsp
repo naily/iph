@@ -20,6 +20,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	
 	<script type="text/javascript" src="js/Global.js"></script>
+	<script type="text/javascript">
+		var basepath = '<%=basePath%>' ;
+	</script>
 	<script type="text/javascript" src="js/stations.js"></script>
   </head>
   
@@ -37,21 +40,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<button id="updatebut">修改</button>
     	<button id="del">删除</button>
     	-->
-    	
+    	<div id="viewdetail"></div>
     	<table id="list0"></table>
     	
     	<div id="createblock">
-    	<p class="p_input_wid220">观测站编码:<input id="stId" />   </p>
-    	<p class="p_input_wid400">名称:<input id="mcId" /> 位置:<input id="wzId" /></p>
-    	<p class="p_input_wid400">单位:<input id="dwmcId" />  经度:<input id="jdId" /></p>
-    	<p class="p_input_wid400">通讯地址:<input id="txdzId" /> 纬度:<input id="wdId" /></p>
-    	<p class="p_input_wid400">联系电话:<input id="lxdhId" /> 时区:<input id="sqId" /></p>
-    	<p class="p_input_wid400">Email:<input id="emId" /> 主页:<input id="zyId" /></p>
-    	<p class="p_input_wid220">邮编:<input id="ybId" />   </p>
-    	<p class="p_input_wid400">介绍:<textarea id="jsId" rows="3" cols="48"></textarea> </p>
-    	<p><div id="info" class="errorMessages">&nbsp;</div></p>
-    	<p class="p_align"><button onclick="save.savedata()">保存</button>
-    	<button onclick="save.clear(); ">清空</button></p>
+    		<table width="480" border="0" style="float: left;">
+              <tr>
+                <td align="right">&nbsp;观测站编码:</td>
+                <td >&nbsp;<input id="stId" size="24"/><span class="red_asterisk">*</span></td>
+                <td align="center" colspan="2">&nbsp;提示：标有<span class="red_asterisk">*</span>的项为必填项</td>
+              </tr>
+              <tr>
+              	<td align="right">&nbsp;地理位置描述:</td>
+                <td colspan="3">&nbsp;<input id="wzId"  size="58"/><span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
+              	<td align="right">&nbsp;名称:</td>
+                <td>&nbsp;<input id="mcId" /><span class="red_asterisk">*</span></td>
+                <td align="right">&nbsp;单位:</td>
+                <td>&nbsp;<input id="dwmcId" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;经度:</td>
+                <td>&nbsp;<input id="jdId" /><span class="red_asterisk">*</span></td>
+                <td align="right">&nbsp;地址:</td>
+                <td>&nbsp;<input id="txdzId" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;维度:</td>
+                <td>&nbsp;<input id="wdId" /><span class="red_asterisk">*</span></td>
+                <td align="right">&nbsp;电话:</td>
+                <td>&nbsp;<input id="lxdhId" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;时区:</td>
+                <td>&nbsp;<input id="sqId" /><span class="red_asterisk">*</span></td>
+                <td align="right">&nbsp;Email:</td>
+                <td>&nbsp;<input id="emId" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;主页:</td>
+                <td>&nbsp;<input id="zyId" /></td>
+                <td align="right">&nbsp;邮编:</td>
+                <td>&nbsp;<input id="ybId" /></td>
+              </tr>
+              <!--  
+              <tr>
+                <td align="right">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              -->
+              <tr>
+              	<td align="right">&nbsp;简要介绍:</td>
+                <td colspan="3">&nbsp;<textarea id="jsId" rows="3" cols="48"></textarea></td>
+              </tr>
+              <tr>
+              	<td align="right">&nbsp;图片:</td>
+                <td colspan="2">&nbsp;
+                	<input id = "uploadpic" />
+             		<input id ="picPath" name="picPath" type="hidden" />
+                </td>
+                <td align="left"><img src="" border=0 id="minuploadpic" width="50"/> </td>
+              </tr>
+              <tr>
+              	<td align="right">&nbsp;<!-- 错误信息提示 --></td>
+                <td colspan="3"><div id="info" class="errorMessages">&nbsp;</div></td>
+              </tr>
+              <tr>
+              	<td >&nbsp;</td>
+                <td align="center">&nbsp;<input type="button" onclick="save.savedata();" value=" 保  存 " /></td>
+                <td align="center">&nbsp;<input type="button" onclick="save.clear();" value=" 清  空 " /></td>
+                <td>&nbsp;</td>
+           </table>
     	</div>
     </div>
     
