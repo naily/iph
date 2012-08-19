@@ -23,7 +23,32 @@ $('#reportGrid').omGrid({
                          }
                              ]
             });
-   }) ;
+           
+           
+     /**
+	 *提交用户评论
+	 */
+	$('#userCommentSubmit').bind('click', function(){
+		var userContent = $('#userCommentContent').val();
+		if (userComment()) {
+			var userCommentData = {
+				url : 'qt/userComment.do',
+				params : {
+					content : userContent
+				},
+				callback : function(json) {
+					if (json.success) {
+						 $('#userCommentContent').attr({value:' '});
+					} else {
+					
+					}
+				 }
+				}
+			ajaxpost(userCommentData);
+		}                    
+   });
+            
+});
 /** 
  * 用户评论
  * 1、必须登录，否则不能评论

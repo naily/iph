@@ -78,8 +78,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	<a href="qt/userCommentList.do">[以往意见]</a> <br/><br/>
 	    	</c:when>
 	</c:choose>
+	<a href="javascript:void(0)" id="userCommentSubmit"><img src="images/d10.jpg"  border="0"/></a>
+	<%--
    <input name="userCommentSubmit"  id="userCommentSubmit" type="image" value="" src="images/d10.jpg"/></a></td>
-  </tr>
+  --%></tr>
 </table>
 </form>
 </div>

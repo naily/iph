@@ -27,7 +27,8 @@ public class DataSourceTest {
     	}*/
 		
 		//dao.create(MetaData.class, true) ;
-		dao.create(FeedBack.class, true) ;
+		dao.create(UserComment.class, true) ;
+		//dao.create(FeedBack.class, true) ;
 		/*News n = dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
 		System.out.println(n.getTitle());*/
 	}
