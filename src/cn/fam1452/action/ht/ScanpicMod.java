@@ -104,7 +104,7 @@ public class ScanpicMod extends BaseMod{
 				if(baseService.dao.fetch(sp) == null){
 					baseService.dao.insert(sp) ;
 					json.put(Constant.SUCCESS, true) ;
-					dls.insert("03", tableName, getHTLoginUserName()) ;
+					dls.insert("01", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, this.error4) ;
 					json.put("error", 2) ;
@@ -264,7 +264,7 @@ public class ScanpicMod extends BaseMod{
 						if(baseService.dao.fetch(sac) == null){
 							baseService.dao.insert(sac) ;
 							json.put(Constant.SUCCESS, true) ;
-							dls.insert("03", tableName, getHTLoginUserName()) ;
+							dls.insert("01", tableName, getHTLoginUserName()) ;
 						}else{
 							json.put(Constant.INFO, "该文件已经存在") ;
 						}

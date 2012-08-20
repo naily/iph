@@ -15,7 +15,11 @@ $(document).ready(function(){
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID', name:'gramID' ,   width:100},
                          {header:'频高图标题',name:'gramTitle',  width:200  },
-                         {header:'观测站',name:'stationName'  } ,
+                         {header:'观测站',name:'stationName' , align : 'center' ,
+                         	renderer: function(colValue, rowData, rowIndex){
+	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         }
+	                     } ,
                          {header:'类型',name:'type',align : 'center', width:50,renderer:function(value,rowData,rowIndex){ 
                          	if('1' == value){
 	                         	return '<b> 手动 </b>'; 
@@ -34,7 +38,7 @@ $(document).ready(function(){
                          {header:'文件名',name:'gramFileName', width:100,width:'autoExpand' } ,
                          {header:'操作',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewPgt(\''+rowData.gramPath+'\');" >预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	return '<a href="javascript:previewPgt(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],
@@ -178,6 +182,14 @@ $(document).ready(function(){
 function previewPgt(path){
 	if(path){
 		$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 / >');
+		$( "#imagePreview").omDialog('open');
+	}
+}
+
+function previewStation(sid){
+	if(sid){
+		var ie = '<iframe width="760" height="600" align="center" frameborder="0" scrolling="1" src="ht/viewstation.do?sid=999"></iframe>' ;
+		$( "#imagePreview").html(ie.replace("999" , sid));
 		$( "#imagePreview").omDialog('open');
 	}
 }

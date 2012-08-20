@@ -198,4 +198,15 @@ public class StationMod extends BaseMod{
 		
 		return array ;
 	}
+	
+	@At("/ht/viewstation")
+	@Ok("jsp:jsp.ht.viewstation")
+	public Station getStationJsp(String sid){
+		Station st = new Station() ;
+		if(null != sid && StringUtil.checkNotNull(sid)){
+			st = baseService.dao.fetch(Station.class, sid) ;
+		}
+		
+		return st ;
+	}
 }

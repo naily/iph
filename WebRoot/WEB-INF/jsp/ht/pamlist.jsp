@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <jsp:include page="header.jsp" flush="true" />
-    
+    <div id="imagePreview"></div>
     <div id="pageleft">
     	<!-- 左侧菜单 -->
     	<p><a href="ht/pam.do" class="a3">参数录入</a></p>
@@ -42,58 +42,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<table id="list0"></table>
         
         <div id="tab1">
-        	<table width="400" border="0">
+            
+            <table width="520" border="0" style="float: left;">
               <tr>
                 <td align="right">&nbsp;所属观测站:</td>
-                <td>&nbsp;<input id = "comboStation" class="boxinput3"/></td>
+                <td>&nbsp;<input id = "comboStation" class="boxinput3"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
                 <td align="right">&nbsp;观测日期:</td>
-                <td>&nbsp;<input id="actionDate" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input id="actionDate" type="text" class="boxinput3" />
+                <span class="red_asterisk">*</span></td>
               </tr>
               <tr>
-                <td align="right">&nbsp;foF2:</td>
-                <td>&nbsp;<input id="ip1" type="text" name="" class="boxinput3" />(兆周/秒)</td>
+                <td align="right">&nbsp;F2层临界频率(foF2):</td>
+                <td>&nbsp;<input id="ip1" type="text" name="foF2" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;h1F2:</td>
-                <td>&nbsp;<input id="ip2" type="text" name="" class="boxinput3" />(公里)</td>
+                <td align="right">&nbsp;F2层最低虚高(hlF2):</td>
+                <td>&nbsp;<input id="ip2" type="text" name="hlF2" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;foF1:</td>
-                <td>&nbsp;<input id="ip3" type="text" name="" class="boxinput3" />(兆周/秒)</td>
+                <td align="right">&nbsp;F1层临界频率(foF1):</td>
+                <td>&nbsp;<input id="ip3" type="text" name="foF1" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;h1F1:</td>
-                <td>&nbsp;<input id="ip4" type="text" name="" class="boxinput3" />(公里)</td>
+                <td align="right">&nbsp;F1层最低虚高(hlF1):</td>
+                <td>&nbsp;<input id="ip4" type="text" name="hlF1" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;foF:</td>
-                <td>&nbsp;<input id="ip5" type="text" name="" class="boxinput3" />(兆周/秒)</td>
+                <td align="right">&nbsp;F层最低虚高(hlF):</td>
+                <td>&nbsp;<input id="ip5" type="text" name="hlF" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;h1F:</td>
-                <td>&nbsp;<input id="ip6" type="text" name="" class="boxinput3" />(公里)</td>
+                <td align="right">&nbsp;F层的真实高度估计(hpF):</td>
+                <td>&nbsp;<input id="ip6" type="text" name="hpF" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;foE:</td>
-                <td>&nbsp;<input id="ip7" type="text" name="" class="boxinput3" />(兆周/秒)</td>
+                <td align="right">&nbsp;E区临界频率(foE):</td>
+                <td>&nbsp;<input id="ip7" type="text" name="foE" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;h1E:</td>
-                <td>&nbsp;<input id="ip8" type="text" name="" class="boxinput3" />(公里)</td>
+                <td align="right">&nbsp;E层最低虚高(hlE):</td>
+                <td>&nbsp;<input id="ip8" type="text" name="hlE" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;foEs:</td>
-                <td>&nbsp;<input id="ip9" type="text" name="" class="boxinput3" />(兆周/秒)</td>
+                <td align="right">&nbsp;Es层寻常波的最高频率(foEs):</td>
+                <td>&nbsp;<input id="ip9" type="text" name="foEs" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;h1Es:</td>
-                <td>&nbsp;<input id="ip10" type="text" name="" class="boxinput3" />(公里)</td>
+                <td align="right">&nbsp;Es层最低虚高(hlEs):</td>
+                <td>&nbsp;<input id="ip10" type="text" name="hlEs" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;M3000F2:</td>
-                <td>&nbsp;<input id="ip11" type="text" name="" class="boxinput3" /> </td>
+                <td align="right">&nbsp;Es层遮蔽频率(fbEs):</td>
+                <td>&nbsp;<input id="ip101" type="text" name="fbEs" class="boxinput3" />(兆周/秒)</td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;记录到的最低频率(Fmin):</td>
+                <td>&nbsp;<input id="ip102" type="text" name="Fmin" class="boxinput3" />(兆周/秒)</td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;F2层3000公里传输因子(M3000F2):</td>
+                <td>&nbsp;<input id="ip11" type="text" name="M3000F2" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;F2层1500公里传输因子(M1500F2):</td>
+                <td>&nbsp;<input id="ip111" type="text" name="M1500F2" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;F1层3000公里传输因子(M3000F1):</td>
+                <td>&nbsp;<input id="ip112" type="text" name="M3000F1" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;F层3000公里传输因子(M3000F):</td>
+                <td>&nbsp;<input id="ip113" type="text" name="M3000F" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td align="right">&nbsp; </td>
@@ -101,11 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="button" name="保存" value="保存" style="height: 22px;" /> 
-                &nbsp;&nbsp;&nbsp;&nbsp; 
-                <!--  
-                <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> 
-                -->
+                <input id="savebut"  type="button" value="   保  存   " style="height: 22px;" />  
                 </td>
               </tr>
             </table>

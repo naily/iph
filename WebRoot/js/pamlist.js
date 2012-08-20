@@ -6,7 +6,11 @@ $(document).ready(function(){
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'ID',      name:'ID' , width:'autoExpand'},
-                         {header:'观测站',   name:'stationName'  ,width:80 } ,
+                         {header:'观测站',   name:'stationName'  ,align : 'center' ,
+                         	renderer: function(colValue, rowData, rowIndex){
+	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         }
+	                     } ,
                          {header:'日期',    name:'createDate',width:120} ,
                          {header:'foF2',   name:'foF2' ,width:30} ,
                          {header:'hlF2',   name:'hlF2' ,width:30} ,
@@ -100,17 +104,22 @@ $(document).ready(function(){
 					                                var cd = json.createDate ;
 					                                $('#actionDate').val( cd.substring(0,16) );
 						                            $('#comboStation').omCombo('value', json.stationID);
-						                            $('#ip1').val(json.foF2) ;
-                                                    $('#ip2').val(json.h1F2) ;
-                                                    $('#ip3').val(json.foF1) ;
-                                                    $('#ip4').val(json.h1F1) ;
-                                                    $('#ip5').val(json.hlF) ;
-                                                    $('#ip6').val(json.hpF) ;
-                                                    $('#ip7').val(json.foE) ;
-                                                    $('#ip8').val(json.hlE) ;
-                                                    $('#ip9').val(json.foEs) ;
-                                                    $('#ip10').val(json.hlEs) ;
-                                                    $('#ip11').val(json.M3000F2) ;
+						                            $("input[name='foF2']").val(json.foF2);
+													$("input[name='hlF2']").val(json.hlF2);
+													$("input[name='foF1']").val(json.foF1);
+													$("input[name='hlF1']").val(json.hlF1);
+													$("input[name='hlF']").val(json.hlF);
+													$("input[name='hpF']").val(json.hpF);
+													$("input[name='foE']").val(json.foE);
+													$("input[name='hlE']").val(json.hlE);
+													$("input[name='foEs']").val(json.foEs);
+													$("input[name='hlEs']").val(json.hlEs);
+													$("input[name='fbEs']").val(json.fbEs);
+													$("input[name='Fmin']").val(json.Fmin);
+													$("input[name='M3000F2']").val(json.M3000F2);
+													$("input[name='M1500F2']").val(json.M1500F2);
+													$("input[name='M3000F1']").val(json.M3000F1);
+													$("input[name='M3000F']").val(json.M3000F);
                                                     
 						                            $( "#tab1").omDialog('open');
 						                            
@@ -119,17 +128,22 @@ $(document).ready(function(){
 												     		json.createDate = $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd');
 								                            json.stationID = $('#comboStation').omCombo('value');
                                                             
-								                            json.foF2 = $('#ip1').val();
-                                                            json.h1F2 = $('#ip2').val();
-                                                            json.foF1 = $('#ip3').val();
-                                                            json.h1F1 = $('#ip4').val();
-                                                            json.hlF = $('#ip5').val();
-                                                            json.hpF = $('#ip6').val();
-                                                            json.foE = $('#ip7').val();
-                                                            json.hlE = $('#ip8').val();
-                                                            json.foEs = $('#ip9').val();
-                                                            json.hlEs = $('#ip10').val();
-                                                            json.M3000F2 = $('#ip11').val();
+								                            json.foF2 = $("input[name='foF2']").val();
+															json.hlF2 = $("input[name='hlF2']").val();
+															json.foF1 = $("input[name='foF1']").val();
+															json.hlF1 = $("input[name='hlF1']").val();
+															json.hlF = $("input[name='hlF']").val();
+															json.hpF = $("input[name='hpF']").val();
+															json.foE = $("input[name='foE']").val();
+															json.hlE = $("input[name='hlE']").val();
+															json.foEs = $("input[name='foEs']").val();
+															json.hlEs = $("input[name='hlEs']").val();
+															json.fbEs = $("input[name='fbEs']").val();
+															json.Fmin = $("input[name='Fmin']").val();
+															json.M3000F2 = $("input[name='M3000F2']").val();
+															json.M1500F2 = $("input[name='M1500F2']").val();
+															json.M3000F1 = $("input[name='M3000F1']").val();
+															json.M3000F  = $("input[name='M3000F']").val();
 								                            
 												     		var updatepgt = {
 													                        url : 'ht/pamupdate.do',
@@ -169,8 +183,19 @@ $(document).ready(function(){
             title:'修改电离层参数信息'
      });
     
-    
+    //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
     
 });
 
-
+function previewStation(sid){
+	if(sid){
+		var ie = '<iframe width="760" height="600" align="center" frameborder="0" scrolling="1" src="ht/viewstation.do?sid=999"></iframe>' ;
+		$( "#imagePreview").html(ie.replace("999" , sid));
+		$( "#imagePreview").omDialog('open');
+	}
+}
