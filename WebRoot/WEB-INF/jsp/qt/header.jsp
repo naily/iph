@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<!-- -->
-	<link href="images/1.css" type="text/css" rel="stylesheet" />
+	
 	<link rel="stylesheet" type="text/css" href="css/header.css" />
 	<link href="css/index.css" type="text/css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
@@ -20,9 +20,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	<c:choose>
 			 <c:when test='${msg.lang=="zh"}'> 
+			 	<link href="images/1.css" type="text/css" rel="stylesheet" />
 			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
 			</c:when>
 			<c:otherwise>
+				<link href="images/en.css" type="text/css" rel="stylesheet" />
 				<script type="text/javascript" src="js/index_global_en.js"></script>
 			</c:otherwise>
 	</c:choose>
@@ -124,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
     </div>
     <!-- 找回密码 start -->
-    <div id="getUserPassword"  title="${msg['qt_get_password']}">
+    <div id="getUserPassword"  title="${msg['qt_get_password']}" style="display: none;">
         <div >
 	    		<form id="getUserPasswordForm" name="getUserPasswordForm">
 	    		<table border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
@@ -170,22 +172,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="top_right" >
 <table width="518" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="508" height="35"  align="right" class="fontstyle1">
-   <div id="user_login_form">
-       <c:choose>
-	    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
-	    	${msg['qt_login_welcome']}：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">${msg['qt_login_out']}</a>
-	    	</c:when>
-	    	<c:otherwise><!-- 未登录 -->
-					        ${msg['qt_login_username']}<input type="text" id="userLoginId" name="userLoginId" class="boxinput1_1" />
-					        ${msg['qt_login_password']}<input type="password" id="loginPassword"  name="loginPassword" class="boxinput1_1" />
-                       <a href="javascript:void(0)" id="userLoginHref" class="a1">[${msg['qt_login_submit']}]</a>
-    	</c:otherwise>
-    	</c:choose>
-    </div>
+    <td width="350" height="35"  align="right" class="fontstyle1" valign="baseline">
+	   <div id="user_login_form">
+	       <c:choose>
+		    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
+		    		${msg['qt_login_welcome']}：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">${msg['qt_login_out']}</a>
+		    	</c:when>
+		    	<c:otherwise><!-- 未登录 -->
+			        ${msg['qt_login_username']}: <input type="text" id="userLoginId" name="userLoginId" class="boxinput1_1" />
+			        ${msg['qt_login_password']}: <input type="password" id="loginPassword"  name="loginPassword" class="boxinput1_1" />
+                    <a href="javascript:void(0)" id="userLoginHref" class="a1">[${msg['qt_login_submit']}]</a>
+	    		</c:otherwise>
+	    	</c:choose>
+	    </div>
     </td>
-    <td width="5"></td>
-    <td width="130"><a href="javascript:void(0)" id="userRegHref" class="a1">[${msg['qt_register']}]</a>&nbsp;<a href="javascript:void(0)" id="getUserPasswordHref" class="a1">${msg['qt_login_forget']}?</a>
+    <td width="5">&nbsp;</td>
+    <td width="160" height="35" align="left" class="fontstyle1" valign="baseline">
+    	<a href="javascript:void(0)" id="userRegHref" class="a1">[${msg['qt_register']}]</a><a href="javascript:void(0)" id="getUserPasswordHref" class="a1">${msg['qt_login_forget']} ?</a>
     </td>
   </tr>
   <tr>
@@ -205,8 +208,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </tr>
 </table>
 </div><!--top右侧结束-->
-<div class="top_language"><a href="qt/lang/zh_CN.do" class="a1">中文</a>   
-						  <a href="qt/lang/en_US.do" class="a1">English</a> </div>
+<div class="top_language"><a href="qt/lang/zh_CN.do" class="a3">中文</a>   
+						  <a href="qt/lang/en_US.do" class="a3">English</a> </div>
 </div><!--top结束-->
 
   </body>

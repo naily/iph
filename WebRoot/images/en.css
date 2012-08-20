@@ -69,10 +69,11 @@ float:right;
 .y_img{ width:80px; height:24px; background:#EFEFEF;}
 
 
-.nav{ width:380px;
+.nav{ width:400px;
 height:30px;
 float:right;
-font-size:17px; 
+font-family:Times, TimesNR, 'New Century Schoolbook', Georgia, 'New York', serif;
+font-size:16px; 
 font-weight:bold; 
 }
 .nav_float{ float:left; margin-right:25px;}
