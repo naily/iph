@@ -19,7 +19,7 @@ import cn.fam1452.Constant;
  * @author <a href="mailto:zhagndingding@cyanway.com">Derek</a>
  * @version $Revision:1.0.0, $Date:Aug 12, 2012 11:17:32 AM $
  */
-public class AdminFilter implements ActionFilter{
+public class AdminFilter extends BaseFilter implements ActionFilter{
 	//菜单栏
 	//private final static String[] admin_menu_bar = {""} ;
 	//仅仅超级管理员可用的菜单
@@ -29,34 +29,39 @@ public class AdminFilter implements ActionFilter{
 	
 	public View match(ActionContext actionContext) {
 		// TODO Auto-generated method stub
-		Object obj = Mvcs.getHttpSession().getAttribute(Constant.HT_USER_SESSION) ;
-		if(null == obj){
-			return new ServerRedirectView(loginpath) ;
+		String reqPath = actionContext.getPath() ;
+		if(this.searchRemoveMenuArray(reqPath)){
+			return null; //不登陆即可访问
 		}else{
-			String reqPath = actionContext.getPath() ;
-			try {
-				Object sp = PropertyUtils.getSimpleProperty(obj, "super") ;
-				if(null != sp && "true".equals(sp.toString())){
-					return null  ;
-				}else{
-					for (String sm : superadmin_menu) {
-						if(reqPath.endsWith(sm) ){
-							return new ServerRedirectView(lackpath) ;
+			
+			Object obj = Mvcs.getHttpSession().getAttribute(Constant.HT_USER_SESSION) ;
+			if(null == obj){
+				return new ServerRedirectView(loginpath) ;
+			}else{
+				try {
+					Object sp = PropertyUtils.getSimpleProperty(obj, "super") ;
+					if(null != sp && "true".equals(sp.toString())){
+						return null  ;
+					}else{
+						for (String sm : superadmin_menu) {
+							if(reqPath.endsWith(sm) ){
+								return new ServerRedirectView(lackpath) ;
+							}
 						}
 					}
+					
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			
 		}
 		
 		return null;
