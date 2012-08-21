@@ -84,7 +84,7 @@ public class ParameterService extends Base{
 	   sb.append("select ").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from t_parameter");
 	  if(StringUtil.checkNotNull(pdb.getStationID()) && StringUtil.checkNotNull(pdb.getYear()) && StringUtil.checkNotNull(pdb.getMonth())){
 		  sb.append(" where datepart(YY,createdate)='").append(pdb.getYear()).append("'");
-		  sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("'").append(" and stationID="+pdb.getStationID());
+		  sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("'").append(" and stationID='"+pdb.getStationID()).append("' ");
 	  }
 	   
 	   sb.append(") as a");
