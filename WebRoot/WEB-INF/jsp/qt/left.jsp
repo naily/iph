@@ -73,16 +73,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="title3">相关链接</div>
 <table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td height="30" class="fontstyle2"><a href="#" class="a3">...</a></td>
+    <td height="30" class="fontstyle2"><a href="http://www.igsnrr.ac.cn" title="中国科学院地理科学与资源研究所" target="_blank" class="a3">中国科学院地理科学...</a></td>
   </tr>
   <tr>
-    <td height="30" class="fontstyle2"><a href="#"  class="a3">...</a></td>
+    <td height="30" class="fontstyle2"><a href="http://www.most.gov.cn/" target="_blank" class="a3">国家科技部</a></td>
   </tr>
   <tr>
-    <td height="30" class="fontstyle2"><a href="#"  class="a3">...</a></td>
+    <td height="30" class="fontstyle2"><a href="http://www.mlr.gov.cn/" target="_blank" class="a3">国土资源部</a></td>
   </tr>
   <tr>
-    <td height="30" class="fontstyle2"><a href="#"  class="a3">...</a></td>
+    <td height="30" class="fontstyle2"><a href="http://www.cas.ac.cn/" target="_blank" class="a3">中国科学院</a></td>
+  </tr>
+  <tr>
+    <td height="30" class="fontstyle2"><a href="http://www.irsa.ac.cn/" target="_blank" class="a3">遥感应用研究所</a></td>
+  </tr>
+  <tr>
+    <td height="30" class="fontstyle2"><a href="http://www.rcees.ac.cn/" target="_blank" class="a3">生态环境研究中心</a></td>
   </tr>
 </table>
 </div>
