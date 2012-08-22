@@ -268,7 +268,21 @@ public class DateUtil {
 		
 		return 1000*60*minutes;
 	}
-	
+	/**
+	 * 根据月份的数值返回英文
+	 * @author gls
+	 * @date 2012-08-22
+	 * */
+	public static String getMonthEn(int idx){
+		String retV=null;
+		String[] monthEn = {"Jan","Feb","Mar","Apr", "May","Jun","Jui","Aug","Sept","Oct","Nov","Dec"};
+		if(idx>0){
+			retV=monthEn[idx-1];
+		}else{
+			retV="";
+		}
+		return retV;
+	}
 	public static void main(String[] args) {
 		StringUtil.print(getMillis4Str("2011-03-21 00:00:00")) ;
 		System.out.println(DateToString(getDate(getMillis4Str("2011-03-21 00:00:00")), pattern1));

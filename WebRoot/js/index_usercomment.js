@@ -1,11 +1,12 @@
 $(document).ready(function() {
 $('#reportGrid').omGrid({
                 title : '',
-                dataSource : 'qt/loadUserCommentList.do?userId=',
+                dataSource : 'qt/loadUserCommentList.do',
                 limit:20,
                 height:625,
-                showIndex : false,
-                colModel : [ {header:'内容',   name:'content', width:'150'}, 
+                method : 'POST' ,
+                //showIndex : false,
+                colModel : [ {header:'内容',   name:'content', width:'380'}, 
                               {header:'日期',   name:'commentDate',width:120 ,align : 'center' },
                          {header:'回复状态',   name:'cmtstatus',width:60 , renderer :function(val, rowData, rowIndex){
                                 if (val == 1) {
@@ -16,8 +17,13 @@ $('#reportGrid').omGrid({
                              }},
                          {header:'操作',name:'operation',width:150 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
-	                         	var id = rowData.id ;
-	                         	return '<a href="javascript:openCmtInfo(\''+id+'\');" >查看 </a>';
+	                         	if(rowData.cmtstatus){
+	                         	  var id = rowData.id ;
+	                         	  return '<a href="javascript:openCmtInfo(\''+id+'\');" >查看 </a>';
+	                         	}else{
+	                         	  return '';
+	                         	}
+	                         	
 	                         		  
 	                         }
                          }
@@ -39,8 +45,9 @@ $('#reportGrid').omGrid({
 				callback : function(json) {
 					if (json.success) {
 						 $('#userCommentContent').attr({value:' '});
+						 at({cont: '评论成功！' , type : 'alert'});
 					} else {
-					
+						at({cont: '评论失败！' , type : 'error'});
 					}
 				 }
 				}
@@ -69,6 +76,38 @@ function userComment() {
 	}
 
 }
+/**
+ * 打开评论回复窗口
+ * @param {评论ID} uid
+ */
+function openCmtInfo(uid) {
+	var data_1 = {
+		url : 'qt/getUserComment.do',
+		params : {id : uid},
+		callback : function(json) {
+			if (json.success) {
+			
+				/*var cid = json.obj.id ;
+				$('#cmtcontent').html(json.obj.content);//
+				$('#titinfo').html( '用户: '+ json.obj.userId + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP: " + json.obj.uerIP);
+				$('#cid').val(json.obj.id) ;
+                
+                if(json.feedbackarray){
+                    $('#cmtcontent').append('<p class="borderbg"> '+json.feedbackarray[0].adminId+'的回复： '+ json.feedbackarray[0].feedback+'</p>') ;
+                }
+                
+				$("#qtcm_feedback").omDialog('open');*/
+				 if(json.feedbackarray){
+					at({cont : json.feedbackarray[0].feedback,type : 'alert',title:'管理员回复'});
+				 }
+			} else {
+				
+				at({cont : '访问出现错误！',type : 'error'});
+			}
 
+		}
+	}
+	ajaxpost(data_1);
+}
 
 

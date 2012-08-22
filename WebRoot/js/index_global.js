@@ -88,3 +88,12 @@ function getUnit(ptype){
 	}
 	return retValue;
 }
+
+/*根据月份的数字，返回该月份的英文*/
+function getMonthEn(mdata){
+	var retValue;	
+	var monthArry= ['Jan','Feb','Mar','Apr', 'May','Jun','Jui','Aug','Sept','Oct','Nov','Dec'];
+    retValue =monthArry[mdata-1]
+	return retValue;
+}
+

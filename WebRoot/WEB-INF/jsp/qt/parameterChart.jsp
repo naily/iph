@@ -11,6 +11,8 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">		
 		<title>${msg['site_name']}</title>
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />

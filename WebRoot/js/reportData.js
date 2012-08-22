@@ -24,6 +24,7 @@ $(document).ready(function() {
                         url : 'ht/getstation.do',
                         params : {id: newValue}  ,
                         callback : function(json){
+                        	//alert(json.success);
                             if(json.success){  
                             	location=json.data.location;
                             	jingweidu=json.data.name+"("+json.data.longitude+"&nbsp;"+json.data.latitude+")";
@@ -56,7 +57,7 @@ $(document).ready(function() {
 		//value:1,
 		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
-			$('#month_year').html($('#year').val()+".&nbsp;"+newValue);
+			$('#month_year').html(getMonthEn(newValue)+"&nbsp;"+$('#year').val());
 		}
 	});
 
@@ -67,7 +68,7 @@ $(document).ready(function() {
 		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {
 			 $('input[name=parameter]').focus();
-			$('#para_unit').html(newValue);
+			$('#para_unit').html(newValue+getUnit(newValue));
 		}
 	});
 	

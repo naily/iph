@@ -39,7 +39,8 @@ function at(config){
 	if(true){
         $.omMessageBox.alert({
                 type: config.type ? config.type : 'alert',
-                title:'警告',
+               // title:'警告',
+                 title:config.title ? config.title :'警告',
                 content: config.cont 
             });
 	}

@@ -190,7 +190,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		   		cell.setCellStyle(setAlign(wb));
 		   		
 		   		cell = row.createCell(4); 
-		   		cell.setCellValue(months+"."+year);
+		   		cell.setCellValue(DateUtil.getMonthEn(Integer.parseInt(months))+"&nbsp;"+year);
 		   		cell.setCellStyle(setAlign(wb));
 		   		
 		   		cell = row.createCell(9); 

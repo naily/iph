@@ -12,7 +12,6 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
-import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -27,6 +26,8 @@ import cn.fam1452.dao.pojo.UserComment;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.GetIP;
+import cn.fam1452.utils.StringUtil;
+
 import org.apache.commons.beanutils.PropertyUtils;
 @IocBean
 public class QTUserComment extends BaseMod{
@@ -60,6 +61,10 @@ public class QTUserComment extends BaseMod{
 			log.info(dbComment.getId());
 			baseService.dao.insert(dbComment);
 			json.put(Constant.SUCCESS, true);
+			
+		}else{
+			
+			
 		}
 		
 		return json ;
@@ -68,7 +73,7 @@ public class QTUserComment extends BaseMod{
     @Ok("jsp:jsp.qt.usercomment")
     public void loadJsp(HttpServletRequest req){}
 	
-	@POST
+	//@POST
 	@At("/qt/loadUserCommentList")
 	@Ok("json")
 	public JSONObject list( @Param("..")UserComment params,HttpSession session){
@@ -77,8 +82,8 @@ public class QTUserComment extends BaseMod{
 		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
 			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
 		
-		List<UserComment>  list = baseService.dao.query(UserComment.class, Cnd.where("userId", "==", user.getLoginId()), params.getNutzPager()) ;		
-		json.put(Constant.TOTAL, baseService.dao.count(UserComment.class ,Cnd.where("userId", "==", user.getLoginId()))) ;
+		List<UserComment>  list = baseService.dao.query(UserComment.class, Cnd.where("userId", "=", user.getLoginId()), params.getNutzPager()) ;		
+		json.put(Constant.TOTAL, baseService.dao.count(UserComment.class ,Cnd.where("userId", "=", user.getLoginId()))) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] {  "commentDate"  }); 
@@ -98,7 +103,37 @@ public class QTUserComment extends BaseMod{
 		}
 		json.put(Constant.ROWS, array) ;
 		}
+		log.info(json.toString());
 		return json ;
 	}
-	
+	@At("/qt/getUserComment")
+	@Ok("json")
+	@POST
+	public JSONObject getComment(@Param("..")UserComment obj){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		if(null != obj && StringUtil.checkNotNull(obj.getId())){
+			UserComment u = baseService.dao.fetch(obj) ;
+			JsonConfig cfg = new JsonConfig(); 
+			cfg.setExcludes(new String[] {  "commentDate"  }); 
+			
+			json.put("obj", JSONObject.fromObject(u , cfg)) ;
+			if(StringUtil.checkNotNull(u.getId())){
+				List<FeedBack> list = baseService.dao.query(FeedBack.class, Cnd.where("commentId", "=", u.getId())) ;
+			
+				if(null != list && list.size() > 0){
+					JsonConfig cfg1 = new JsonConfig(); 
+					cfg1.setExcludes(new String[] {  "comment","admin","feedbackDate"  }); 
+					json.put("feedbackarray", JSONArray.fromObject(list , cfg1)) ;
+				}
+			}
+			
+			json.put(Constant.SUCCESS, true) ;
+		}else{
+			json.put(Constant.INFO, "参数错误") ;
+		}
+		
+		return json ;
+	} 
 }
