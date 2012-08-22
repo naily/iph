@@ -239,18 +239,21 @@ public class QuartileUtil<T>{
 		//List rtList = list;//返回带四分位数的list
 		QuartileBean quartBean = this.mianCallMe(list, field);
 		//为四分位数赋标题值
-		PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
-		PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
-		PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
-		PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
-		
-		//quartBean.printQuartile();
-		//重新组装电离月报数据
-		list.add(quartBean.getQ1());
-		list.add(quartBean.getQ3());
-		list.add(quartBean.getQ2());
-		list.add(quartBean.getCnt());
+		if(null!=quartBean){
+			PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
+			PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
+			PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
+			PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+			
+			//quartBean.printQuartile();
+			//重新组装电离月报数据
+			list.add(quartBean.getQ1());
+			list.add(quartBean.getQ3());
+			list.add(quartBean.getQ2());
+			list.add(quartBean.getCnt());
 
+		}
+		
 		return list;
 		
 	}
@@ -409,20 +412,29 @@ public class QuartileUtil<T>{
 		}
 		
 	}
-	public String getUnit(String ptype){
-		String retValue;
+	/*根据电离参数返回单位名称*/
+	public static String getUnit(String ptype){
+		String retValue="";
 		String km="(KM)";
 		String mhz="(MHZ)";
 		String[] kmArry= {"hlF2","hlF1","hlF","hpF", "hlE","hlEs"};
 		String[] mhzArray={"foF2","foF1","foE","foEs","fbEs","fmin"};
 		            // {'m3000F2', 'M1500F2','m3000F1','m3000F'}
-		if(kmArry.toString().indexOf(ptype) > -1){
-			retValue =km;
-		}else if(mhzArray.toString().indexOf(ptype) > -1){
-			retValue=mhz;
-		}else{
-			retValue="";
+		for(String ptype_:kmArry){
+			if(ptype.equals(ptype_)){
+				retValue=km;
+				break;
+			}
 		}
+		if(StringUtil.checkNull(retValue)){
+			for(String ptype_2:mhzArray){
+				if(ptype.equals(ptype_2)){
+					retValue=mhz;
+					break;
+				}
+			}
+		}
+		
 		return retValue;
 	}
 }

@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
-<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+<%--<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 <script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 <script type="text/javascript" src="js/Global.js"></script>
@@ -25,10 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  var isUserLogin=${sessionScope.qt_account.login==true}
 </script>
 <script type="text/javascript" src="js/index_usercomment.js"></script>
+--%>
 </head>
 
 <body>
 <jsp:include page="WEB-INF/jsp/qt/header.jsp" flush="true" />
+<script type="text/javascript" src="js/indexNews.js"></script>
+<script type="text/javascript" src="js/indexMetaData.js"></script>
+<script type="text/javascript" src="js/index_usercomment.js"></script>
 
 <div  id="right">
 <div class="rightbox1">

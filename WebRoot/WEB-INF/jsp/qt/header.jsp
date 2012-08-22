@@ -18,6 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+	<script type="text/javascript" src="js/index_global.js"></script>
 	<c:choose>
 			 <c:when test='${msg.lang=="zh"}'> 
 			 	<link href="images/1.css" type="text/css" rel="stylesheet" />
@@ -28,7 +29,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<script type="text/javascript" src="js/index_global_en.js"></script>
 			</c:otherwise>
 	</c:choose>
-	
+	<script type="text/javascript">
+ 		var isUserLogin=${sessionScope.qt_account.login==true}
+ 		/*funArray = new Array();
+		$(document).ready(function(){
+        	for(var i in funArray){
+           		funArray[i]();
+       		 }        
+    	})*/
+	</script>
 	<script type="text/javascript" src="js/userRegist.js"></script>
 	<title></title>
   </head>

@@ -1,4 +1,6 @@
-$(document).ready(function() {
+//funArray.push(
+$(document).ready(
+function() {
 	/**
 	 * 用户登录
 	 */
@@ -151,7 +153,10 @@ $(document).ready(function() {
 				}
 			});
 		//
-});
+}
+)
+
+//$(document).ready();
 function validateReg(){
     $('#userRegForm').validate({
 				rules : {

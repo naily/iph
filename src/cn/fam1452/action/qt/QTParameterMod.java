@@ -137,6 +137,7 @@ public class QTParameterMod extends BaseMod {
 				//byte[] buffer = IOUtils.toByteArray(bis);
 				//os.write(buffer);
 				wb.write(out) ;
+				out.close();
 			}
 			
 		}catch (Exception e) {

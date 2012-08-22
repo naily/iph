@@ -1,4 +1,4 @@
- $(document).ready(function() {
+$(document).ready(function() {
  	
  	   //选择月份
 	$('#monthForChart').omCombo({ // 初始化Combo

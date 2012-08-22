@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>${msg['site_name']}</title>
+		<title>${msg['site_name']}</title><%--
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
@@ -33,8 +33,10 @@
 	<script type="text/javascript">
     	var basepath = "<%=basePath%>" ;
     </script>
+	--%>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
+		<script type="text/javascript" src="js/index_usercomment.js"></script>
 		<div id="right">
 			<div class="title8">
 				${msg['qt_usercomment_title']}

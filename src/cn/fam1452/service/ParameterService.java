@@ -186,15 +186,15 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		   		row = sheet.createRow((short)rowSatrt+1);
 		   		
 		   		cell = row.createCell(0); 
-		   		cell.setCellValue(paraArys);
+		   		cell.setCellValue(paraArys+QuartileUtil.getUnit(paraArys));
 		   		cell.setCellStyle(setAlign(wb));
 		   		
 		   		cell = row.createCell(4); 
-		   		cell.setCellValue(DateUtil.getMonthEn(Integer.parseInt(months))+"&nbsp;"+year);
+		   		cell.setCellValue(DateUtil.getMonthEn(Integer.parseInt(months))+"  "+year);
 		   		cell.setCellStyle(setAlign(wb));
 		   		
 		   		cell = row.createCell(9); 
-		   		cell.setCellValue(station.getLocation());
+		   		cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
 		   		cell.setCellStyle(setAlign(wb));	
 		   		
 		   		cell = row.createCell(16); 
@@ -360,17 +360,22 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     public List<Parameter> parameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){
 		
 		Condition cnd;
+		String[] stationIDS =null;
 		if(StringUtil.checkNull(paraQuery.getOrderBy())){
 			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+		}
+		if(StringUtil.checkNotNull(params.getIds())){
+			stationIDS= params.getIds().split(",");
 		}
 		if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
 			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			cnd= Cnd.where("stationID", "in", params.getIds()).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
+			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
-		    cnd = Cnd.where("stationID", "in", params.getIds()).asc(paraQuery.getOrderBy());
+		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}	
-		//page.setLimit(Integer.parseInt(paraQuery.getPageSize()));		
+		//page.setLimit(Integer.parseInt(paraQuery.getPageSize()));	
+//		System.out.println(cnd.toString());
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
 		//System.out.println(page.getStart()+"__"+page.getLimit());
 		return list;

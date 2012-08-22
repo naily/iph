@@ -1,4 +1,4 @@
-var location,jingweidu;
+var locations,jingweidu;
 $(document).ready(function() {
 	// 观测站下拉列表
 	/*$('input[name=stationId]').omCombo({ // 初始化Combo
@@ -19,16 +19,15 @@ $(document).ready(function() {
         width : 120,
         onValueChange : function(target, newValue, oldValue, event) {
 			//$('input[name=year]').focus();
-        	//alert(newValue);
-        	var getSation = {
+          if(newValue){
+           var getSation = {
                         url : 'ht/getstation.do',
                         params : {id: newValue}  ,
-                        callback : function(json){
-                        	//alert(json.success);
+                        callback : function(json){                      
                             if(json.success){  
-                            	location=json.data.location;
+                            	locations=json.data.timeZone;//timeZone//location
                             	jingweidu=json.data.name+"("+json.data.longitude+"&nbsp;"+json.data.latitude+")";
-                            	$('#location').html(location);
+                            	$('#location').html(locations);
                                 $('#jingweidu').html(jingweidu);
                             }else{
                                 //at({cont: json.info , type : 'error'});
@@ -36,6 +35,9 @@ $(document).ready(function() {
                         }
                     }
                     ajaxpost(getSation);
+           	
+           }
+        	
         }
 		
     }) ;
