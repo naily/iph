@@ -265,6 +265,9 @@ public class ScanpicMod extends BaseMod{
 							baseService.dao.insert(sac) ;
 							json.put(Constant.SUCCESS, true) ;
 							dls.insert("01", tableName, getHTLoginUserName()) ;
+							
+							dls.insertNDY(tableName, sac.getStationID(), null, sac.getCreateDate()) ;
+							
 						}else{
 							json.put(Constant.INFO, "该文件已经存在") ;
 						}

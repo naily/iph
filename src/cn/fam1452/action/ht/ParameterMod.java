@@ -206,6 +206,7 @@ public class ParameterMod extends BaseMod{
 				json.put(Constant.SUCCESS, true ) ;
 				
 				dls.insert("01", tableName, getHTLoginUserName()) ;
+				dls.insertNDY(tableName, params.getStationID(), null, params.getCreateDate()) ;
 			}else{
 				json.put(Constant.INFO, error7) ;
 			}

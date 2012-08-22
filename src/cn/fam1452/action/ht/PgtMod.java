@@ -91,6 +91,7 @@ public class PgtMod extends BaseMod{
 							json.put(Constant.SUCCESS, true) ;
 							
 							dls.insert("01", tableName, getHTLoginUserName()) ;
+							dls.insertNDY(tableName, gram.getStationID(), null, gram.getCreateDate()) ;
 						}else{
 							json.put(Constant.INFO, "该频高图文件已经存在") ;
 						}
@@ -264,6 +265,7 @@ public class PgtMod extends BaseMod{
 					json.put(Constant.SUCCESS, true) ;
 					
 					dls.insert("01", tableName, getHTLoginUserName()) ;
+					dls.insertNDY(tableName, ig.getStationID(), null, ig.getCreateDate()) ;
 				}else{
 					json.put(Constant.INFO, "该频高图文件已经存在") ;
 					json.put("error", 2) ;

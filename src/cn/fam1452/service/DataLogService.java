@@ -1,5 +1,7 @@
 package cn.fam1452.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,9 +11,12 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.sql.Criteria;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.dao.pojo.Log;
+import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -32,6 +37,59 @@ public class DataLogService extends Base{
 			this.dao.insert(log) ;
 		}
 		
+	}
+	
+	public void insertNDY(NavDataYear n){
+		if(null != n && StringUtil.checkNotNull(n.getId())){
+			this.dao.insert(n) ;
+		}
+	}
+	
+	/**
+	 * 把数据的年份及观测站缓存起来
+	 * @param dataTable
+	 * @param stationId
+	 * @param stationName
+	 * @param year
+	 * @return
+	 */
+	public NavDataYear insertNDY(String dataTable , String stationId , String stationName , Date yearDate){
+		Calendar c = Calendar.getInstance() ;
+		c.setTime(yearDate) ;
+		String year = String.valueOf( c.get(Calendar.YEAR) ) ;
+		
+		return this.insertNDY(dataTable, stationId, stationName, year) ;
+	}
+	/**
+	 * 把数据的年份及观测站缓存起来
+	 * @param dataTable
+	 * @param stationId
+	 * @param stationName
+	 * @param year
+	 * @return
+	 */
+	public NavDataYear insertNDY(String dataTable , String stationId , String stationName , String year){
+		NavDataYear ndy = new NavDataYear() ;
+		
+		if(StringUtil.checkNotNull(dataTable) &&
+				StringUtil.checkNotNull(stationId) &&
+				StringUtil.checkNotNull(year) ){
+			
+			ndy.setId(String.valueOf(System.currentTimeMillis())) ;
+			ndy.setDataTable(dataTable) ;
+			ndy.setStationId(stationId) ;
+			ndy.setStationName(String.valueOf(stationName)) ;
+			ndy.setYear(year) ;
+			
+			Cnd cri = Cnd.where ("stationId", "=", stationId)
+			.and("dataTable", "=", dataTable)
+			.and("year", "=", year);
+			
+			if( 0 == this.dao.count(NavDataYear.class, cri) ){
+				this.insertNDY(ndy) ;
+			}
+		}
+		return ndy ;
 	}
 	
 	/**

@@ -12,6 +12,6 @@ public class CreateTableTest extends DataSource{
 	public void createTab(){
 		//this.initDataSource() ;
 		
-		this.dao.create(MetaData.class, true) ;
+		this.dao.create(NavDataYear.class, true) ;
 	}
 }
