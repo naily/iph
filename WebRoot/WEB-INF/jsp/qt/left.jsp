@@ -19,55 +19,17 @@
    <div  id="left">
 <div class="title1">数据导航</div>
 <div class="title2">电离层频高图</div>
-  <div id="main"  style="width:185px; height:100px; overflow:auto">
-   <ul id="mytree1"></ul>     
+  <div id="leftTree1"  style="width:185px; height:120px; overflow:auto">
+   <ul id="pgtTree"></ul>     
 </div> 
-
-<%--<table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="30" class="fontstyle2"><a href="#" class="a3">武汉站</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-     <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">...</a></td>
-  </tr>
-</table>
---%>
 <div class="title2">电离层参数</div>
-<table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="30" class="fontstyle2"><a href="#" class="a3">武汉站</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-     <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">...</a></td>
-  </tr>
-</table>
+<div id="leftTree2"  style="width:185px; height:120px; overflow:auto">
+   <ul id="paraTree"></ul>     
+</div> 
 <div class="title2">报表扫描图</div>
-<table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="30" class="fontstyle2"><a href="#" class="a3">武汉站</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-    <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">1946年</a></td>
-  </tr>
-  <tr>
-     <td height="30" align="right" class="fontstyle2"><a href="#"  class="a3">...</a></td>
-  </tr>
-</table>
+<div id="leftTree32"  style="width:185px; height:120px; overflow:auto">
+   <ul id="scanpicTree"></ul>     
+</div> 
 <div class="title3">相关链接</div>
 <table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

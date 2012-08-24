@@ -16,6 +16,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 public class FileDownload {
 	public static void main(String args[]) {
@@ -88,13 +89,10 @@ public class FileDownload {
 	public static String fileDownLoad(HttpServletRequest request,
 			HttpServletResponse response, String filepath) throws IOException {
 		response.setContentType(CONTENT_TYPE);
-		String downloadfile = filepath;
+		String downloadfile = request.getSession().getServletContext().getRealPath(filepath);
 		if (downloadfile != null && !downloadfile.equals("")) {
 			try {
-				// String filePath =
-				// request.getSession().getServletContext().getRealPath(downloadfile);
-				String filePath = downloadfile;
-				File file = new File(filepath);
+				File file = new File(downloadfile);
 				if (file.exists() && file.length() > 0) {
 					String filename = file.getName();
 					response.setContentType("application/x-msdownload");// 设置response的编码方式
@@ -117,6 +115,7 @@ public class FileDownload {
 					myout.flush();
 					myout.close();
 					fis.close();
+					return null;
 				} else {
 					System.err.print("file not find");
 					return "file not find";

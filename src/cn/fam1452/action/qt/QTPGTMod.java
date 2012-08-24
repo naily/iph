@@ -24,19 +24,21 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
-import cn.fam1452.dao.pojo.News;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.FileDownload;
+import cn.fam1452.utils.StringUtil;
 
 @IocBean
 public class QTPGTMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
-	@At("/qt/indexLeftPGT")
+	
+	
+	@At("/qt/indexLeftTree")
 	@Ok("json")
 	/**
-	 * 左侧导航-频高图之观测站及年份显示
+	 * 左侧导航-(频高图、电离参数、扫描图)之观测站及年份显示
 	 * @author gls
 	 * @date 2012-08-22 
 	 * 前台所需数据格式
@@ -50,7 +52,7 @@ public class QTPGTMod extends BaseMod{
 								}]
 					}];
 	 * */
-	public JSONObject loadLeftPgt(@Param("..")NavDataYear navData){
+	public JSONObject loadLeftTree(@Param("..")NavDataYear navData){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
 		List<Station> stationList = baseService.dao.query(Station.class, null);//查询观测站
@@ -61,9 +63,7 @@ public class QTPGTMod extends BaseMod{
 			List<Map<String, Object>> jsonAllList = new ArrayList<Map<String, Object>>();//
 			List<Map> yearList =null;
 			Map<String, Object> mapAll,mapYear;
-			//for(Station station:stationList){
-			
-			
+			//for(Station station:stationList){		
 			for(int i=0;i<listSize;i++){
 				Station station = (Station)stationList.get(i);
 				mapAll = new HashMap<String, Object>(); 
@@ -90,12 +90,17 @@ public class QTPGTMod extends BaseMod{
 	}
 	@At("/qt/listPGT")
 	@Ok("jsp:jsp.qt.pgtlist")
-	public void pgtList(@Param("..")NavDataYear navData,HttpSession session ,HttpServletRequest req,@Param("..")Pager page){
+	public void pgtList(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
-		//IronoGram is =baseService.dao.fetchLinks(baseService.dao.fetch(IronoGram.class), "station");		
-		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.orderBy().desc("createDate"), pager); 
-		List showList = new ArrayList();
+		//IronoGram is =baseService.dao.fetchLinks(baseService.dao.fetch(IronoGram.class), "station");	
+		String queryKey ="";
+		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
+			queryKey =irg.getGramTitle();
+		}
+		
+		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("gramTitle","like","%"+queryKey+"%").or("createDate","like","%"+queryKey+"%").desc("createDate"), pager); 
+		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
 		for(IronoGram iro:list){
 			id=iro.getStationID();
@@ -109,15 +114,46 @@ public class QTPGTMod extends BaseMod{
 		
 	}
 	
-	@At("/qt/downloadPGT")
+	@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.pgtlist")
-	public void downloadPGT(@Param("..")String ids,HttpSession session ,HttpServletRequest req,HttpServletResponse res){
-		IronoGram idd = baseService.dao.fetch(IronoGram.class, ids);
+	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
+		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
+		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
+		String queryKey ="";
+		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
+			queryKey =irg.getGramTitle();
+		}
+		
+		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("gramTitle","like","%"+queryKey+"%").or("createDate","like","%"+queryKey+"%").desc("createDate"), pager); 
+		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
+		String id=null;
+		for(IronoGram iro:list){
+			id=iro.getStationID();
+			Station station =baseService.dao.fetch(Station.class,id );
+			iro.setStation(station);			
+			showList.add(iro);
+		}
+		pager.setRecordCount(baseService.dao.count(IronoGram.class)); 
+		req.setAttribute("pgtlist", showList);
+		req.setAttribute("page", pager);
+		
+	}
+	@At("/qt/downloadPGT")
+	@Ok("json")
+	public JSONObject downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
+		//JSONObject json = new JSONObject();
+		//json.put(Constant.SUCCESS, false);
+		String gramID = irg.getGramID();
+		IronoGram idd = baseService.dao.fetch(IronoGram.class, gramID);
 		try {
 			FileDownload.fileDownLoad(req,res,idd.getGramPath());
+			
+			return null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//return json;
+		return null;
 	}
 }

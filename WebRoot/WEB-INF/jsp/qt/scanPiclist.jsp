@@ -11,16 +11,14 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>电离层专题数据库管理系统<%=request.getRequestURI()%></title>
-
+		<title>电离层专题数据库管理系统</title>
 	</head>
-
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
 		<script type="text/javascript" src="js/pgtlist.js"></script>
 		<div id="right">
 			<div class="title8">
-				频高图列表
+				报表扫描图列表
 			</div>
 			<div class="loginbox1">
 			 <div id="imagePreview" title="图片预览"> </div> 
@@ -38,19 +36,19 @@
         <tr><td></td></tr>
         <tr>
           <td width="44" height="35" align="center" bgcolor="#E8F7FF"><strong>序号</strong></td>
-          <td width="344" align="center" bgcolor="#E8F7FF"><strong>频高图名称</strong></td>
+          <td width="344" align="center" bgcolor="#E8F7FF"><strong>报表扫描图名称</strong></td>
           <td width="134" align="center" bgcolor="#E8F7FF"><strong>所属观测站</strong></td>
-          <td width="121" align="center" bgcolor="#E8F7FF"><strong>观测日期</strong></td>
+          <td width="121" align="center" bgcolor="#E8F7FF"><strong>日期</strong></td>
           <td colspan="2" align="center" bgcolor="#E8F7FF"><strong>操作</strong></td>
         </tr>
-        <c:forEach items="${pgtlist}" var="pgt" varStatus="varStatusPgt">	
+        <c:forEach items="${smtlist}" var="smt" varStatus="varStatusSmt">	
         <tr>
-          <td height="35" align="center" valign="middle" bgcolor="#FFFFFF">${varStatusPgt.index+1}</td>
-          <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.gramTitle}</td>
-          <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.station.name}</td>
-          <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${pgt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewPgt('${pgt.gramPath}');" class="a4">浏览</a></td>
-          <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadPGT.do?gramID=${pgt.gramID}" class="a4">下载</a></td>
+          <td height="35" align="center" valign="middle" bgcolor="#FFFFFF">${varStatusSmt.index+1}</td>
+          <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.scanPicTitle}</td>
+          <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.station.name}</td>
+          <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${smt.createDate}"   type="date" dateStyle="default" /></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewPgt('${smt.gramPath}');" class="a4">浏览</a></td>
+          <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">下载</a></td>
         </tr>
         </c:forEach>
         
@@ -59,10 +57,10 @@
     <tr>
       <td height="40" colspan="3" align="center">
       <div class="newspage">
-					<a href="qt/listPGT.do" class="a3">首页</a>
+					<a href="qt/listScanPic.do" class="a3">首页</a>
 					  <c:choose>
 				    	<c:when test="${requestScope.page.pageNumber>1}" >
-				    	  <a href="qt/listPGT.do?pageNumber=${ requestScope.page.pageNumber-1}" class="a3">上一页</a>
+				    	  <a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageNumber-1}" class="a3">上一页</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">上一页</a>	       
@@ -72,14 +70,14 @@
 					<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount}页
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >
-				    	  <a href="qt/listPGT.do?pageNumber=${ requestScope.page.pageNumber+1}" class="a3">下一页</a>
+				    	  <a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageNumber+1}" class="a3">下一页</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">下一页</a>	       
 			    		</c:otherwise>
 			    	</c:choose>
 					
-					<a href="qt/listPGT.do?pageNumber=${ requestScope.page.pageCount}" class="a3">末页</a>
+					<a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageCount}" class="a3">末页</a>
 				</div>
 	  </td>
       </tr>
