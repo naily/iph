@@ -102,9 +102,9 @@ public class ProtectDataMod extends BaseMod{
 			JSONObject item = new JSONObject();
 			
 			item = JSONObject.fromObject(g , cfg) ;
-			item.put("dataSDate", DateUtil.convertDateToString(g.getDataSDate()  , DateUtil.pattern0)) ;
-			item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
-			item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
+			item.put("dataSDate", null == g.getDataSDate() ? "" : DateUtil.convertDateToString(g.getDataSDate()  , DateUtil.pattern0)) ;
+			item.put("dataEDate", null == g.getDataEDate() ? "" : DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
+			item.put("publicDate", null == g.getPublicDate() ? "" : DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
 			
 			//获取观测站名
 			Station sa = new Station();

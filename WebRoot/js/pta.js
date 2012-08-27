@@ -103,14 +103,14 @@ $(document).ready(function(){
      	onClick : function(event){
      		var st = $('#comboStation').omCombo('value') ;
      		var tn = $('#comboTableName').omCombo("value") ;
-     		var sd = $.omCalendar.formatDate($('#sDate').omCalendar('getDate'), 'yy-mm-dd')  ;
-     		var ed = $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd')  ;
-     		var pd = $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd')  ;
      		
-     		if(!(st && tn && sd && ed && pd) ){
+     		var sd = $('#sDate').val() ? $.omCalendar.formatDate($('#sDate').omCalendar('getDate'), 'yy-mm-dd') : '' ;
+     		var ed = $('#eDate').val() ? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+     		var pd = $('#pubDate').val() ? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+     		
+     		if(!( tn && pd) ){
      			$('#errormsg').html(notempty).show() ;
      		}else{
-     			//alert(tn) ;
      			$('#errormsg').hide() ;
      			var save = {
 	                url :'ht/ptaSave.do' ,
@@ -130,13 +130,17 @@ $(document).ready(function(){
 	                            timeout : 3000 ,
 	                            content:'保存成功'
 	                        });
+	                        //清空值
+	                        $('#sDate').val('');
+	                        $('#eDate').val('') ;
+	                        $('#pubDate').val('');
 	                    }else{
 	                        $('#errormsg').html(json.info).show();
 	                    }
 	                    
 	                }
 	            }
-	            
+	            //alert(save.params.dataSDate) ;
 	            ajaxpost(save);
      		}
      	}

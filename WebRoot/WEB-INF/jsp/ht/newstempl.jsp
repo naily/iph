@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 -->
         <div class="newsbox" style="margin: auto;">
 			<div class="newstitle">${obj.title }</div>
-			<div class="newsinfo"><!--  作者：*** 来源：*** --> 日期： <fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
+			<div class="newsinfo"><!--  作者：*** 来源：*** --> 时间： <fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
 			<div class="newstext">
 			${obj.content }
 			</div>

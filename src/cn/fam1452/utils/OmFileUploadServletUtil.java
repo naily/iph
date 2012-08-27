@@ -123,6 +123,39 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		return st ;
 	}
 	/**
+	 * 
+	 * @param src 源文件
+	 * @param otherDir 目标目录
+	 * @param rename   是否重命名
+	 * @return         克隆成功返回true
+	 */
+	public boolean cloneTmpFile2Other(File src , String otherDir , boolean rename){
+		boolean st = false ;
+		
+		if(null != src && src.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File dest = null ;
+				if(rename){
+					String suffix = this.getFileSuffix(src) ;
+					dest = new File(otherDir + System.currentTimeMillis() + suffix ) ;
+					
+				}else{
+					
+					dest = new File(otherDir + src.getName() ) ;
+				}
+				if(!dest.exists()){
+					st = src.renameTo(dest) ;
+				}else{
+					st = true ; //文件已经存在
+				}
+				targetFile = dest ;
+			}
+		}
+		
+		return st ;
+	}
+	/**
 	 * 获取文件后缀名（带.）
 	 * @param f
 	 * @return

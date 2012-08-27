@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	<table width="400" border="0">
 	    		<tr>
                 <td align="right">&nbsp;选择数据表:</td>
-                <td>&nbsp;<input name="dataTable" id = "comboTableName" class="boxinput3"/></td>
+                <td>&nbsp;<input name="dataTable" id = "comboTableName" class="boxinput3"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
                 <td align="right">&nbsp;选择观测站:</td>
@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td align="right">&nbsp;开放日期:</td>
-                <td>&nbsp;<input name="publicDate" id="pubDate" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input name="publicDate" id="pubDate" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
               </tr>
               
               <tr>

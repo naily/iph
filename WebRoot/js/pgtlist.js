@@ -182,6 +182,8 @@ $(document).ready(function(){
 function previewPgt(path){
 	if(path){
 		$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 / >');
+		
+		$( "#imagePreview").omDialog({title:'频高图查看'});
 		$( "#imagePreview").omDialog('open');
 	}
 }
@@ -190,6 +192,8 @@ function previewStation(sid){
 	if(sid){
 		var ie = '<iframe width="760" height="600" align="center" frameborder="0" scrolling="1" src="ht/viewstation.do?sid=999"></iframe>' ;
 		$( "#imagePreview").html(ie.replace("999" , sid));
+		
+		$( "#imagePreview").omDialog({title:'观测站信息查看'});
 		$( "#imagePreview").omDialog('open');
 	}
 }

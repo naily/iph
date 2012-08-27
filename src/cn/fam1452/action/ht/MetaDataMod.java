@@ -144,7 +144,7 @@ public class MetaDataMod extends BaseMod{
 				//存储缩略图
 				File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
 				if(null != tf && tf.exists()){
-					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir ) ){
+					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir , true) ){
 						tf = fusu.getTargetFile() ;
 						if(null != tf){
 							med.setThumbnail(new SimpleBlob(tf)) ;
