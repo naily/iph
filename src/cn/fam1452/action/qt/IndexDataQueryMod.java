@@ -169,4 +169,22 @@ public class IndexDataQueryMod extends BaseMod{
 		return json;
 		
 	}
+	
+	/**
+	 * 更新访问量
+	 * @author gls
+	 * @date 2012-08-27
+	 * */
+	@At("/qt/updateVisitNum")
+	@Ok("json")
+	public JSONObject updateVisitNum(){
+		JSONObject json= new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		Sql sql =Sqls.create("update T_visit set visitNum=visitNum+1");
+		sql.setCallback(Sqls.callback.entities());
+		sql.setEntity(baseService.dao.getEntity(Log.class));
+		baseService.dao.execute(sql) ;				
+		return json;
+		
+	}
 }

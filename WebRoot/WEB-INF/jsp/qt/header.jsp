@@ -39,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	})*/
 	</script>
 	<script type="text/javascript" src="js/userRegist.js"></script>
+	<script type="text/javascript" src="js/visitNum.js"></script>
 	<title></title>
   </head>
   

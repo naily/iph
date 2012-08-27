@@ -129,5 +129,49 @@ public class FileDownload {
 		return "success";
 
 	}
+	public static long fileDownLoads(HttpServletRequest request,
+			HttpServletResponse response, String filepath) throws IOException {
+		response.setContentType(CONTENT_TYPE);
+		String downloadfile = request.getSession().getServletContext().getRealPath(filepath);
+		long k = 0;// 该值用于计算当前实际下载了多少字节
+		if (downloadfile != null && !downloadfile.equals("")) {
+			try {
+				File file = new File(downloadfile);
+				if (file.exists() && file.length() > 0) {
+					String filename = file.getName();
+					response.setContentType("application/x-msdownload");// 设置response的编码方式
+					response.setContentLength((int) file.length());// 写明要下载的文件的大小
+					response.setHeader("Content-Disposition",
+							"attachment;filename=" + filename);// 设置附加文件名
+					FileInputStream fis = new FileInputStream(file);// 读出文件到i/o流
+					BufferedInputStream buff = new BufferedInputStream(fis);
+					byte[] b = new byte[1024];// 相当于我们的缓存
+					//long k = 0;// 该值用于计算当前实际下载了多少字节
+					OutputStream myout = response.getOutputStream();// 从response对象中得到输出流,准备下载
+					// 开始循环下载
+					while (k < file.length()) {
+						int j = buff.read(b, 0, 1024);
+						k += j;
+						// 将b中的数据写到客户端的内存
+						myout.write(b, 0, j);
+					}
+					// 将写入到客户端的内存的数据,刷新到磁盘
+					myout.flush();
+					myout.close();
+					fis.close();
+					
+				} else {
+					System.err.print("file not find");
+					//return "file not find";
+				}
+			} catch (IOException e) {
+				// e.printStackTrace();
+				System.err.print("download excepion");
+				//return "download excepion";
+			}
+		}
+		return k;
+
+	}
 }
 

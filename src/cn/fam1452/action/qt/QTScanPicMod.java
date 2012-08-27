@@ -63,7 +63,8 @@ public class QTScanPicMod extends BaseMod{
 		String scanPicID = scp.getScanPicID();
 		Scanpic spic = baseService.dao.fetch(Scanpic.class, scanPicID);
 		try {
-			FileDownload.fileDownLoad(req,res,spic.getGramPath());
+			long fileSize =FileDownload.fileDownLoads(req,res,spic.getGramPath());//byte
+			
 			
 			return null;
 		} catch (IOException e) {
