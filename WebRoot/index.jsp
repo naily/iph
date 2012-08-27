@@ -33,6 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/indexNews.js"></script>
 <script type="text/javascript" src="js/indexMetaData.js"></script>
 <script type="text/javascript" src="js/index_usercomment.js"></script>
+<script type="text/javascript" src="js/index_right_data_query.js"></script>
 
 <div  id="right">
 <div class="rightbox1">
@@ -47,23 +48,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div><!--rightbox2_1 结束-->
 <div class="rightbox2_2">
 <div class="title6">最新数据更新</div>
-<div class="rightbox2_2_text">
-<a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
+<div class="rightbox2_2_text" id="lastDataUpdate">
+<%--<a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a>
-</div>
+--%></div>
 </div><!--rightbox2_2 结束-->
 
 <div class="rightbox2_3">
 <div class="title6" style="margin-top:1px;">数据访问统计</div>
 <div class="rightbox2_3_text">
-注册用户：152588<br />
-网站访问量：8586<br />
-数据查询次数：5858<br />
-数据下载次数：8859<br />
-数据下载数量：
+注册用户：<span id="regUserNum"></span><br />
+网站访问量：<span id="visitNum"></span><br />
+数据查询次数：<span id="queryNum"></span><br />
+数据下载次数：<span id="downloadNum"></span><br />
+数据下载数量：<span id="downloadAmount"></span>
 </div>
 </div><!--rightbox2_3 结束-->
 
@@ -150,7 +151,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </div>
 </div>
-<!--right 结束-->
+		<!--right 结束-->
 		<jsp:include page="WEB-INF/jsp/qt/left.jsp" flush="true" />
 		<!--left 结束-->
 <div id="bottom">
