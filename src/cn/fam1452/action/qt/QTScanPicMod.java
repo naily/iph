@@ -22,14 +22,20 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
+import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataVisitService;
 import cn.fam1452.utils.FileDownload;
+import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
 public class QTScanPicMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dvs ;
 
 	@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.scanPiclist")
@@ -57,21 +63,23 @@ public class QTScanPicMod extends BaseMod{
 	}
 	@At("/qt/downloadScanpic")
 	@Ok("json")
-	public JSONObject downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")Scanpic scp){
+	public void downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")Scanpic scp){
 		//JSONObject json = new JSONObject();
 		//json.put(Constant.SUCCESS, false);
 		String scanPicID = scp.getScanPicID();
 		Scanpic spic = baseService.dao.fetch(Scanpic.class, scanPicID);
 		try {
-			long fileSize =FileDownload.fileDownLoads(req,res,spic.getGramPath());//byte
-			
-			
-			return null;
+			float fileSize =FileDownload.fileDownLoads(req,res,spic.getGramPath());//byte
+			if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+				User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
+				dvs.insert("T_SCANPIC", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSize);
+			}
+			//return null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//return json;
-		return null;
+		//return null;
 	}
 }

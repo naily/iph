@@ -25,8 +25,11 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.dao.pojo.Station;
+import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataVisitService;
 import cn.fam1452.utils.FileDownload;
+import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
@@ -34,6 +37,8 @@ public class QTPGTMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
 	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dvs ;
 	
 	@At("/qt/indexLeftTree")
 	@Ok("json")
@@ -114,7 +119,7 @@ public class QTPGTMod extends BaseMod{
 		
 	}
 	
-	@At("/qt/listScanPic")
+	/*@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.pgtlist")
 	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
@@ -137,7 +142,7 @@ public class QTPGTMod extends BaseMod{
 		req.setAttribute("pgtlist", showList);
 		req.setAttribute("page", pager);
 		
-	}
+	}*/
 	@At("/qt/downloadPGT")
 	@Ok("json")
 	public JSONObject downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
@@ -146,8 +151,12 @@ public class QTPGTMod extends BaseMod{
 		String gramID = irg.getGramID();
 		IronoGram idd = baseService.dao.fetch(IronoGram.class, gramID);
 		try {
-			FileDownload.fileDownLoad(req,res,idd.getGramPath());
-			
+			float fileSize =	FileDownload.fileDownLoads(req,res,idd.getGramPath());
+			float fileSizeM =fileSize/(1024*1024);
+			if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
+				User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
+				//dvs.insert("T_IRONOGRAM", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSizeM);
+			}
 			return null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

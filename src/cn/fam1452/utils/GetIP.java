@@ -1,7 +1,9 @@
 package cn.fam1452.utils;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * 获取用户IP
+ * */
 public class GetIP {
 	public static String getIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");

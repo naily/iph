@@ -9,8 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -129,11 +131,12 @@ public class FileDownload {
 		return "success";
 
 	}
-	public static long fileDownLoads(HttpServletRequest request,
+	public static float fileDownLoads(HttpServletRequest request,
 			HttpServletResponse response, String filepath) throws IOException {
 		response.setContentType(CONTENT_TYPE);
 		String downloadfile = request.getSession().getServletContext().getRealPath(filepath);
 		long k = 0;// 该值用于计算当前实际下载了多少字节
+		float fizeSize=0.0f;
 		if (downloadfile != null && !downloadfile.equals("")) {
 			try {
 				File file = new File(downloadfile);
@@ -156,6 +159,7 @@ public class FileDownload {
 						myout.write(b, 0, j);
 					}
 					// 将写入到客户端的内存的数据,刷新到磁盘
+					fizeSize= getFileSize(k);
 					myout.flush();
 					myout.close();
 					fis.close();
@@ -170,8 +174,32 @@ public class FileDownload {
 				//return "download excepion";
 			}
 		}
-		return k;
+		return fizeSize;
 
+	}
+	/**
+	 * 获取文件大小（单位M）保留两位小数
+	 * */
+	public static float getFileSize(long filebytes){
+		if(filebytes>0){
+			//float   fileSize     =   filebytes/(1024*1024); //byte>M
+			float   fileSize     =   filebytes/1024; //byte>K
+			/*
+			 * 方法1：
+			 * DecimalFormat fnum   =   new   DecimalFormat( "##0.00 "); 
+			String   dd=fnum.format(fileSize);     
+			return Float.parseFloat(dd);*/
+			
+			//方法2:
+			BigDecimal  bigDec =new   BigDecimal(fileSize); 
+			float   fileSizeM   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();
+			//bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP)   表明四舍五入，保留两位小数 
+			return fileSizeM;
+		}else{
+			return 0.0f;
+		}
+
+		
 	}
 }
 

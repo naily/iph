@@ -152,14 +152,14 @@ public class IndexDataQueryMod extends BaseMod{
 	    //log.info("查询次数："+ds.getResultNum1());
 		
 		//4、数据下载次数
-		Sql sql4 =Sqls.create("SELECT count(resultNum3) as resultNum3,sum(resultAmount) as resultAmount FROM T_DATASERVICE where actionType='03'");
+		Sql sql4 =Sqls.create("SELECT sum(resultNum3) as resultNum3,sum(resultAmount) as resultAmount FROM T_DATASERVICE where actionType='03'");
 		sql4.setCallback(Sqls.callback.entities());
 		sql4.setEntity(baseService.dao.getEntity(DataService.class));
 		baseService.dao.execute(sql4) ;
 		ds = sql4.getObject(DataService.class);
 		if(null!=ds){
-	    	json.put("downloadNum", ds.getResultNum1());
-	    	json.put("downloadAmount",ds.getResultAmount());
+	    	json.put("downloadNum", ds.getResultNum3());
+	    	json.put("downloadAmount",ds.getResultAmount()/1024);
 	    }else{
 	    	json.put("downloadNum", 0);
 	    	json.put("downloadAmount",0);
