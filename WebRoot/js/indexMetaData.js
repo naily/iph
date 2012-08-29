@@ -16,7 +16,12 @@ $(document).ready(function() {
 											+ item_.mdId
 											+ '" class="a3">'
 											+ item_.title + '</a>');
-							$('#metaData_img' + idx_).html('');
+							if(item_.thumbnailFilePath){
+							    $('#metaData_img' + idx_).html('<img src="'+item_.thumbnailFilePath+'" width="120" height="90"/>');
+							}else{
+								 $('#metaData_img' + idx_).html('');
+							}
+							
 							$('#metaData_Summary' + idx_).html(item_.summary);
 						});
 

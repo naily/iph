@@ -53,7 +53,7 @@ public class ParameterService extends Base{
    public String getQuerySQL(ParameteDataBo pdb){
 	   String returnStr=null;
 	   StringBuffer sb = new StringBuffer();
-	   //sb.append("select days,stationID");
+	   sb.append("select d.days,b.* from t_days  d left join(");// 2012-08-29 add by gls for show 1-31
 	   sb.append("select days");
 	   sb.append(",max(case a.hours when '0'  then ").append(pdb.getParaType()).append(" else ' ' end) 'h00'");
 	   sb.append(",max(case a.hours when '1'  then ").append(pdb.getParaType()).append(" else ' ' end) 'h01'");
@@ -89,7 +89,8 @@ public class ParameterService extends Base{
 	   
 	   sb.append(") as a");
 	   sb.append(" group by a.days");//,a.stationID
-	    
+	   
+	   sb.append(" ) as b on d.days=b.days");// add by 2012-08-29
 	   returnStr= sb.toString();
 //	   System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);

@@ -22,7 +22,10 @@ margin-right:8px;
 #right{ width:802px;
 height:818px;
 float:right;
-margin:0px;}
+margin:0px;
+height:auto;
+min-height:818px;
+}
 
 .top_language{
 width:90px;
@@ -101,7 +104,7 @@ font-weight:bold;
 
 .rightbox2_3{ width:288px; height:140px;  border:1px solid #e7e7e7; margin-bottom:10px;}
 .rightbox2_3_text{ width:150px; height:130px; margin-left:10px; overflow:hidden; float:left; color:#004171; }
-
+.rightbox2_3_text1{margin-left:10px; float:left; color:#004171; }
 .rightbox2_4{ width:288px; height:136px;  border:1px solid #e7e7e7;  }
 
 .rightbox3_1{ width:498px; height:132px; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative; overflow: hidden; margin-bottom:10px;}

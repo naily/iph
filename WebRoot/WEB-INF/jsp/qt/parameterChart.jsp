@@ -42,11 +42,11 @@
     </script>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<div id="right">
+		<div id="right" style="height:auto;">
 			<div class="title8">
 				电离层参数变化曲线图
 			</div>
-			<div class="reportbox">
+			<div class="reportbox" id="rightChartContent" style="min-height:760px;">
 					<table height="290" class="report_table" align="center">
 						<tr>
 						   
@@ -87,7 +87,9 @@
 						</tr>								
 					</table>
 					<br/>
-					<div id="paraDataChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+					<div id="topChart" style="min-width: 400px;  margin: 0 auto"></div><!-- height: 250px; -->
+					<br/>
+					<div id="paraDataChart" style="min-width: 400px; margin: 0 auto"></div><!--  height: 300px; -->
 					
 				</div>
 		   <!-- </div> -->

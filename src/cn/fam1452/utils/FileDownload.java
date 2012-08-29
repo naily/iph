@@ -191,9 +191,11 @@ public class FileDownload {
 			return Float.parseFloat(dd);*/
 			
 			//方法2:
-			BigDecimal  bigDec =new   BigDecimal(fileSize); 
-			float   fileSizeM   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();
+			/*BigDecimal  bigDec =new   BigDecimal(fileSize); 
+			float   fileSizeM   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();*/
 			//bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP)   表明四舍五入，保留两位小数 
+			
+			float   fileSizeM   = getFloatNum(fileSize);
 			return fileSizeM;
 		}else{
 			return 0.0f;
@@ -201,5 +203,13 @@ public class FileDownload {
 
 		
 	}
+	/**
+	 * 返回float数据，保留两位小数
+	 * */
+	public static float getFloatNum(float s){
+		BigDecimal  bigDec =new   BigDecimal(s); 
+		float   rs   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();		
+		return rs;
+	   }
 }
 

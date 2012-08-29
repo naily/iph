@@ -16,7 +16,9 @@ import org.nutz.mvc.Setup;
 import org.nutz.resource.Scans;
 
 import cn.fam1452.dao.pojo.Administrator;
+import cn.fam1452.dao.pojo.DayList;
 import cn.fam1452.dao.pojo.IronoGram;
+import cn.fam1452.dao.pojo.Visit;
 
 public class MvcSetup implements Setup{
 	private Logger log = Logger.getLogger(this.getClass()) ;
@@ -59,6 +61,18 @@ public class MvcSetup implements Setup{
     		admin.setName("superadmin") ;
     		admin.setSuper(true) ;
     		dao.insert(admin) ;
+    		
+    		//初始化网站访问量
+    		Visit visit = new Visit();
+    		visit.setVisitNum(0l);
+    		dao.insert(visit) ;
+    		//月的天数列表（所有月都按1-31号排列）
+    		DayList daylist = new DayList();
+    		for(int i=1;i<=31;i++){
+    			daylist.setDays(i);
+    			dao.insert(daylist) ;
+    		} 		
+    		
     	}
     	
     }

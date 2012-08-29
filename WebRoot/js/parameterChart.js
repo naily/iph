@@ -71,8 +71,71 @@ $(document).ready(function() {
 								paraType:parameter
 							},
 							callback : function(json) {											
-								if (json.success) {									
-									   var chart;									  
+								if (json.success) {		
+								    $("#topChart").html('');								
+									$("#paraDataChart").html('');									
+									  //===========================================================================
+										if(json.isTop){	
+											$("#topChart").height(250); //.css(height,250);
+											$("#rightChartContent").height(870);
+											var topChart;												
+										    topChart = new Highcharts.Chart({
+											chart: {
+												renderTo: 'topChart',
+												type: 'line',
+												marginRight: 120,
+												marginBottom: 25
+											},
+											title: {
+												text: json.chartTitle,
+												x: -20 //center
+											},
+											subtitle: {
+												text: year+'.'+month+'  '+locations+'     '+jingweidu,
+												x: -20
+											},
+											xAxis: {
+												categories: parameter_chart_xAxis_hour
+											},
+											yAxis: {
+												title: {
+													text: '&nbsp; '//json.yAxis+getUnit(json.paraName)
+												},
+												plotLines: [{
+													value: 0,
+													width: 1,
+													color: '#808080'
+												}]
+											},
+											tooltip: {
+												formatter: function() {
+														return '<b>'+ this.series.name +'</b><br/>'+
+														this.x +': '+ this.y ;
+												}
+											},
+											legend: {
+												layout: 'vertical',
+												align: 'right',
+												verticalAlign: 'top',
+												x: -10,
+												y: 100,
+												borderWidth: 0
+											},
+											series: json.topChart
+											/*series: [{
+												name: 'foF2',
+												data: ["7.0", "6.9", "9.5", "14.5"]
+											}]*/
+										});
+										  
+										}else{
+										    $("#topChart").height(0);
+										    $("#rightChartContent").height(670);										   										    
+										}
+									//=======================主曲线图=============================================
+									 if(json.rows){
+									  $("#paraDataChart").height(300);
+									  var chart;									  
 										chart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'paraDataChart',
@@ -85,7 +148,7 @@ $(document).ready(function() {
 												x: -20 //center
 											},
 											subtitle: {
-												text: year+'.'+month+'&nbsp;&nbsp;'+location+'&nbsp;&nbsp;'+jingweidu,
+												text: year+'.'+month+'  '+locations+'     '+jingweidu,
 												x: -20
 											},
 											xAxis: {
@@ -121,6 +184,13 @@ $(document).ready(function() {
 												data: ["7.0", "6.9", "9.5", "14.5"]
 											}]*/
 										});
+									 }else{
+									  $("#paraDataChart").height(0);
+									 }
+									   
+										
+										
+										  //=========================================================================
 								} else {
 									at({cont:'没有数据！' , type : 'error'});
 								}

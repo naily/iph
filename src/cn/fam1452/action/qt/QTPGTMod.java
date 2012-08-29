@@ -118,31 +118,6 @@ public class QTPGTMod extends BaseMod{
 		req.setAttribute("page", pager);
 		
 	}
-	
-	/*@At("/qt/listScanPic")
-	@Ok("jsp:jsp.qt.pgtlist")
-	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
-		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
-		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
-		String queryKey ="";
-		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
-			queryKey =irg.getGramTitle();
-		}
-		
-		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("gramTitle","like","%"+queryKey+"%").or("createDate","like","%"+queryKey+"%").desc("createDate"), pager); 
-		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
-		String id=null;
-		for(IronoGram iro:list){
-			id=iro.getStationID();
-			Station station =baseService.dao.fetch(Station.class,id );
-			iro.setStation(station);			
-			showList.add(iro);
-		}
-		pager.setRecordCount(baseService.dao.count(IronoGram.class)); 
-		req.setAttribute("pgtlist", showList);
-		req.setAttribute("page", pager);
-		
-	}*/
 	@At("/qt/downloadPGT")
 	@Ok("json")
 	public JSONObject downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
@@ -151,11 +126,10 @@ public class QTPGTMod extends BaseMod{
 		String gramID = irg.getGramID();
 		IronoGram idd = baseService.dao.fetch(IronoGram.class, gramID);
 		try {
-			float fileSize =	FileDownload.fileDownLoads(req,res,idd.getGramPath());
-			float fileSizeM =fileSize/(1024*1024);
+			float fileSize =	FileDownload.fileDownLoads(req,res,idd.getGramPath());			
 			if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
 				User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
-				//dvs.insert("T_IRONOGRAM", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSizeM);
+				dvs.insert("T_IRONOGRAM", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSize);
 			}
 			return null;
 		} catch (IOException e) {

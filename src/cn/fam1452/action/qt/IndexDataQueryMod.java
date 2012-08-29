@@ -23,6 +23,7 @@ import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.Visit;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.FileDownload;
 
 /**
  * 首页最新数据更新查询
@@ -158,13 +159,17 @@ public class IndexDataQueryMod extends BaseMod{
 		baseService.dao.execute(sql4) ;
 		ds = sql4.getObject(DataService.class);
 		if(null!=ds){
+			float filesize =FileDownload.getFloatNum(ds.getResultAmount()/1024);
+			log.info("filesize="+filesize);
+			log.info("filesize.tostring="+String.valueOf(filesize));
+			
 	    	json.put("downloadNum", ds.getResultNum3());
-	    	json.put("downloadAmount",ds.getResultAmount()/1024);
+	    	json.put("downloadAmount",filesize);//k->M
 	    }else{
 	    	json.put("downloadNum", 0);
 	    	json.put("downloadAmount",0);
 		}
-		//log.info("下载次数："+ds.getResultNum3()+",下载量:"+ds.getResultAmount());
+		log.info("下载次数："+ds.getResultNum3()+",下载量:"+FileDownload.getFloatNum(ds.getResultAmount()/1024));
 		
 		return json;
 		

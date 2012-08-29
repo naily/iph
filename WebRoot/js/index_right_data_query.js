@@ -27,12 +27,16 @@ $(document).ready(function() {
 		params : {
 			
 		},
-		callback : function(json) {		
+		callback : function(json) {	
+		
+			var downloadAmount =json.downloadAmount;
+			downloadAmount=downloadAmount.toFixed(2);
+			//if(downloadAmount)downloadAmount =Math.round(json.downloadAmount*100)/100;
 			$('#regUserNum').html(json.regUserNum);
 			$('#visitNum').html(json.visitNum);
 			$('#queryNum').html(json.queryNum);
 			$('#downloadNum').html(json.downloadNum);
-			$('#downloadAmount').html(json.downloadAmount);
+			$('#downloadAmount').html(downloadAmount);
 		}
 	}
 	ajaxpost(indexVisterData);

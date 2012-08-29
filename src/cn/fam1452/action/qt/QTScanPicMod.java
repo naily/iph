@@ -7,9 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONObject;
-
 import org.nutz.dao.Cnd;
 import org.nutz.dao.pager.Pager;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -17,7 +14,6 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
-
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Scanpic;
@@ -28,6 +24,10 @@ import cn.fam1452.service.DataVisitService;
 import cn.fam1452.utils.FileDownload;
 import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
+
+/**
+ * 报表扫描图操作：列表显示，扫描图浏览，扫描图下载
+ * */
 
 @IocBean
 public class QTScanPicMod extends BaseMod{
@@ -61,6 +61,9 @@ public class QTScanPicMod extends BaseMod{
 		req.setAttribute("page", pager);
 		
 	}
+	/**
+	 * 下载报表扫描图
+	 * */
 	@At("/qt/downloadScanpic")
 	@Ok("json")
 	public void downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")Scanpic scp){

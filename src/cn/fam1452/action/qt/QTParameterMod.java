@@ -136,6 +136,7 @@ public class QTParameterMod extends BaseMod {
 				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
 				//byte[] buffer = IOUtils.toByteArray(bis);
 				//os.write(buffer);
+				
 				wb.write(out) ;
 				out.close();
 			}
@@ -159,7 +160,7 @@ public class QTParameterMod extends BaseMod {
 	 * 电离层曲线图生成(单因子或者多因子电离图)
 	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
 	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
-	 * 
+	 *   两种多因子组合  foF2.foF1.foEs.foE    h'F2.h'Es.h'E.h'F1
 	 * */
 	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
 		JSONObject json = new JSONObject();
@@ -186,6 +187,23 @@ public class QTParameterMod extends BaseMod {
 					json.put("yAxis", "Frequency ");
 					json.put("paraName", paraAry[0]);
 					Map map =null;
+					if("foF2".equals(paraAry[0])){//根据多因子数组的首因子判断是何种组合，从而生成主曲线图上方的曲线图，如M3000F2图
+						 parameter.setParaType("M3000F2");
+						 list = parameterService.parameterMonthReport(parameter);
+						 if(null!=list && list.size()>0){
+							 quartUtil = new QuartileUtil();	
+							 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+						 }
+						 
+						 map.put("name", "M3000F2");
+						 medList.add(map);
+						 json.put("topChart", medList);
+						 medList.remove(map);
+						 
+						 json.put("isTop", true);
+					}else{
+						 json.put("isTop", false);
+					}				
 					for(String paraValue:paraAry){//遍历因子，通过生成的单因子电离月报数据，计算单因子四分位数
 						 parameter.setParaType(paraValue);						 
 						 list = parameterService.parameterMonthReport(parameter);	
