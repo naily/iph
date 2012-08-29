@@ -9,23 +9,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>电离层专题数据库管理系统</title>
+<title>${msg['site_name']}</title>
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
-<%--<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
-<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
-<script type="text/javascript" src="js/Global.js"></script>
-<script type="text/javascript" src="js/index_global_zn.js"></script>
-<script type="text/javascript" src="js/userRegist.js"></script>
-<script type="text/javascript" src="js/indexNews.js"></script>
-<script type="text/javascript" src="js/indexMetaData.js"></script>
-<script type="text/javascript">
- var isUserLogin=${sessionScope.qt_account.login==true}
-</script>
-<script type="text/javascript" src="js/index_usercomment.js"></script>
---%>
 </head>
 
 <body>
@@ -37,17 +24,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div  id="right">
 <div class="rightbox1">
-<div class="title4">项目简介</div>
+<div class="title4">${msg['index_project_description']}</div>
 由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。我国南极中山站（69°22′S，76°23′E，不变磁纬74.5°，L=13.9）白天处于磁层极隙区，晚上处于极盖区，可以观测到丰富的日地能量传输过程的电离层征兆和极光现象，是开展高空大气物理观测研究的理想之地。通过与日本、澳大利亚等的国际合作，自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。该系统由电离层、极光、地磁等方面的8台观测仪器组成。自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。</div>
 <!--rightbox1 项目简介 结束-->
 <div class="rightbox2">
 <div class="rightbox2_1">
 <div class="rightbox2_1_img" id="indexRightNewsImg"></div>
-<div class="title5">图片新闻</div>
+<div class="title5">${msg['index_pic_news']}</div>
 <div class="rightbox2_1_text"><a href="javascript:void(0)" id="showPicNews" class="a2"><div id="newsBrief"></div></a></div>
 </div><!--rightbox2_1 结束-->
 <div class="rightbox2_2">
-<div class="title6">最新数据更新</div>
+<div class="title6">${msg['index_laster_data']}</div>
 <div class="rightbox2_2_text" id="lastDataUpdate">
 <%--<a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
 <a href="#" class="a2">电离层专题数据库管理系统数据更新</a><br />
@@ -58,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div><!--rightbox2_2 结束-->
 
 <div class="rightbox2_3">
-<div class="title6" style="margin-top:1px;">数据访问统计</div>
+<div class="title6" style="margin-top:1px;">${msg['index_Data_Access_Statistics']}</div>
 <div class="rightbox2_3_text">
 注册用户：<span id="regUserNum"></span><br />
 网站访问量：<span id="visitNum"></span><br />
