@@ -13,6 +13,7 @@ import org.nutz.mvc.Mvcs;
 
 import cn.fam1452.Constant;
 import cn.fam1452.dao.pojo.Administrator;
+import cn.fam1452.dao.pojo.User;
 import cn.fam1452.utils.StringUtil;
 
 import freemarker.template.Configuration;
@@ -48,7 +49,22 @@ public class BaseMod {
 		}
 		return  name;
 	}
-	
+	/**
+	 * 获取前台登陆用户的用户id
+	 * @return
+	 */
+	protected String getQTLoginUserID() {
+		HttpSession session = Mvcs.getHttpSession() ;
+		String userId = "" ;
+		if(null != session){
+
+			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
+			if(null != user){
+				userId = user.getLoginId() ;
+			}
+		}
+		return  userId;
+	}
 	/**
 	 * 初始化freemarker
 	 * @param context

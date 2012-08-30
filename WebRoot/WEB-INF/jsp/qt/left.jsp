@@ -1,5 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <html>
   <head>   
     <title></title>   
@@ -11,6 +15,9 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<script type="text/javascript">
+    	var basepath = "<%=basePath%>" ;
+    </script>
 	<script type="text/javascript" src="js/index_left.js"></script>
 
   </head>

@@ -126,10 +126,9 @@ public class QTPGTMod extends BaseMod{
 		String gramID = irg.getGramID();
 		IronoGram idd = baseService.dao.fetch(IronoGram.class, gramID);
 		try {
-			float fileSize =	FileDownload.fileDownLoads(req,res,idd.getGramPath());			
-			if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
-				User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
-				dvs.insert("T_IRONOGRAM", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSize);
+			float fileSize =	FileDownload.fileDownLoads(req,res,idd.getGramPath());	
+			if(!"".equals(getQTLoginUserID())){
+				dvs.insert("T_IRONOGRAM", "03", 1, getQTLoginUserID(), GetIP.getIpAddr(req), fileSize);
 			}
 			return null;
 		} catch (IOException e) {

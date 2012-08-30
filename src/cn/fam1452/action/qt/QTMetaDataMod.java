@@ -64,9 +64,8 @@ public class QTMetaDataMod extends BaseMod{
     public MetaData metaDataPriview(HttpServletRequest req,HttpSession session,String mdId){
 		MetaData metaData = new MetaData();
 		metaData = baseService.dao.fetch(MetaData.class, mdId);
-		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
-			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
-			dvs.insertMetaData("01", 1, user.getLoginId(),GetIP.getIpAddr(req),0f);
+		if(!"".equals(getQTLoginUserID())){
+			dvs.insertMetaData("01", 1, getQTLoginUserID(),GetIP.getIpAddr(req),0f);
 		}
 		return metaData;	
 	}
@@ -85,11 +84,9 @@ public class QTMetaDataMod extends BaseMod{
 		
 		
 		int records = list.size();
-		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
-			User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
-			dvs.insertMetaData("01", records, user.getLoginId(),GetIP.getIpAddr(req),0f);
+		if(!"".equals(getQTLoginUserID())){
+			dvs.insertMetaData("01", records, getQTLoginUserID(),GetIP.getIpAddr(req),0f);
 		}
-		
 		
 	}	
 }

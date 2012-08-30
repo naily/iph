@@ -24,6 +24,7 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.dao.pojo.Parameter;
+import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.QuartileUtil;
@@ -381,6 +382,12 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		//System.out.println(page.getStart()+"__"+page.getLimit());
 		return list;
 	}
-    
-
+    /**
+     * 根据表名查询改表的数据保护期（可能包含多个时间段）
+     * */
+    public List getProtectDate(String dataTable){
+    	List<ProtectDate> list=null;
+    	list = this.dao.query(ProtectDate.class, Cnd.where("dataTable","=",dataTable));
+    	return list;
+    }
 }

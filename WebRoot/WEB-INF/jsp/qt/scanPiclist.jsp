@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<script type="text/javascript" src="js/pgtlist.js"></script>
+		<script type="text/javascript" src="js/saclist.js"></script>
 		<div id="right">
 			<div class="title8">
 				报表扫描图列表
@@ -31,7 +31,7 @@
       <td width="226"><input type="submit" name="Submit" value="查询" /></td>
     </tr>
     --%><tr>
-      <td height="40" colspan="3" align="right"><a href="qt/listPGT.do"  class="a2">显示所有>></a><br>
+      <td height="40" colspan="3" align="right"><a href="qt/listScanPic.do"  class="a2">显示所有>></a><br>
       <table width="730" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#CEE7FF">
         <tr><td></td></tr>
         <tr>

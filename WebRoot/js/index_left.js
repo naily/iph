@@ -34,11 +34,11 @@ function loadLeftTree(paraName, domID) {
 						showIcon : false,
 						onClick : function(node, event) {							
 							if(paraName=='T_IRONOGRAM'){//频高图
-								location.href = 'qt/listPGT.do?gramTitle='+ node.text;
+								location.href = basepath+'qt/listPGT.do?gramTitle='+ node.text;
 							}else if(paraName=='T_PARAMETER'){//电离参数
-								location.href = 'qt/paraDataQuery.do';
+								location.href = basepath+'qt/paraDataQuery.do';
 							}else{//报表扫描图
-								location.href = 'qt/listScanPic.do?gramTitle='+ node.text;
+								location.href = basepath+'qt/listScanPic.do?gramTitle='+ node.text;
 							}
 							
 						}

@@ -73,9 +73,8 @@ public class QTScanPicMod extends BaseMod{
 		Scanpic spic = baseService.dao.fetch(Scanpic.class, scanPicID);
 		try {
 			float fileSize =FileDownload.fileDownLoads(req,res,spic.getGramPath());//byte
-			if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
-				User user = (User)session.getAttribute(Constant.QT_USER_SESSION);
-				dvs.insert("T_SCANPIC", "03", 1, user.getLoginId(), GetIP.getIpAddr(req), fileSize);
+			if(!"".equals(getQTLoginUserID())){
+				dvs.insert("T_SCANPIC", "03", 1, getQTLoginUserID(), GetIP.getIpAddr(req), fileSize);
 			}
 			//return null;
 		} catch (IOException e) {
