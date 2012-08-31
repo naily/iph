@@ -19,12 +19,12 @@ float:left;
 margin-right:8px;
 }
 
-#right{ width:802px;
-height:818px;
-float:right;
-margin:0px;
-height:auto;
-min-height:818px;
+#right{ 
+	width:800px;
+	float:right;
+	margin:0px;
+	height:100%;
+
 }
 
 .top_language{
@@ -118,10 +118,10 @@ font-weight:bold;
 
 /*����ҳ��*/
 .title8{ width:772px; height:28px;padding-left:30px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171; border-bottom: #004171 3px solid; margin-bottom:20px;}
-.newsbox{ width:770px;  height:700px; padding-left:20px;  border:1px solid #e7e7e7; margin:10px; padding-top:15px; padding-bottom:15px;}
+.newsbox{ width:770px;  height:100%; padding-left:20px;  border:1px solid #e7e7e7; margin:10px; padding-top:15px; padding-bottom:15px;}
 .newsbox li{ list-style:none; line-height:35px; border-bottom:#E7E7E7 1px dashed; padding-top:7px; padding-left:10px; font-size:14px; }
 .newspage{ width:700px; height:20px; text-align:right;  padding-top:18px; font-size:14px; color:#004171;}
-.newstext{  width:760px; height:600px; list-style:none; line-height:28px; padding-top:7px; padding-left:10px; font-size:14px; text-align:left; text-indent:2em;}
+.newstext{  width:760px; height:auto; list-style:none; line-height:28px; padding-top:7px; padding-left:10px; font-size:14px; text-align:left; text-indent:2em;}
 .newstitle{  width:760px; height:20px; text-align:center; font-size:18px;  font-weight:bold; color:#000000; }
 .newsinfo{  width:760px; height:20px; text-align:center; font-size:13px; margin-top:10px; margin-bottom:10px; color:#004173;  }
 .news3text{ width:565px; height:110px; margin:10px;  border:1px solid #e7e7e7; text-indent:2em; padding:5px; overflow: hidden; }
@@ -154,7 +154,7 @@ float:right;
 .select1{ width:220px; height:26px; border:1px #cccccc solid; }
 
 
-.userregtd{width:120px;height:30px;text-align:center;}
+.userregtd{width:120px;height:30px;text-align:right;}
 .userregtd_img{width:100px;text-align:left;}
 .redcolor{color:red;}
 

@@ -45,15 +45,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
  <!-- 用户注册 start -->
-<div id="userRegDialog"  title="${msg['qt_regist_title']}">
+<div id="userRegDialog"  title="${msg['qt_regist_title']}" style="display: none;">
         <div >
 	    		<form id="userRegForm"  name="userRegForm">
-	    		<table   border="0" align="center" cellpadding="0" cellspacing="0"  class="loginbox_bor">
+	    		<table   border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
 				    <td height="10" colspan="3" align="center">&nbsp;</td>
 				    </tr>
 				  <tr>
-				    <td class="userregtd">${msg['qt_regist_username']}：</td>
+				    <td class="userregtd" >${msg['qt_regist_username']}：</td>
 				    <td class="userregtd2"><input name="loginId" id="loginId" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    

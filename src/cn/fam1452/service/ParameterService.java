@@ -89,9 +89,9 @@ public class ParameterService extends Base{
 	  }
 	   
 	   sb.append(") as a");
-	   sb.append(" group by a.days");//,a.stationID
+	   sb.append(" group by a.days ");//,a.stationID
 	   
-	   sb.append(" ) as b on d.days=b.days");// add by 2012-08-29
+	   sb.append(" ) as b on d.days=b.days order by d.days ASC");// add by 2012-08-29
 	   returnStr= sb.toString();
 //	   System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);

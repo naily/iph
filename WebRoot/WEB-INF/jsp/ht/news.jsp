@@ -54,9 +54,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <div id="tab1" style="height: 800px;">
         <form action="#" id="savenewsfm" method="post">
-        	<table width="790" border="0">
+        	<table width="840" border="0" style="border:#bfd0e1 2px solid">
         	<tr>
-                <td align="left">&nbsp; </td>
+                <td align="left">&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="submit" name="保存" value="保存" style="height: 22px;" /> 
+                <input id="savebut"  type="submit" value=" 保  存 " /> 
                 &nbsp;&nbsp;&nbsp;&nbsp; 
                 <!--  
                 <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> 

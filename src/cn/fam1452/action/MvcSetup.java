@@ -55,23 +55,37 @@ public class MvcSetup implements Setup{
     		NutDao dao = ioc.get(NutDao.class, "dao");
         	
         	initAppTables(web , dao) ;
-    		Administrator admin = new Administrator();
-    		admin.setLoginId("admin") ;
-    		admin.setPassword("123456") ;
-    		admin.setName("superadmin") ;
-    		admin.setSuper(true) ;
-    		dao.insert(admin) ;
+        	
+        	if (dao.exists("T_ADMINISTRATOR")) {
+        		
+        		Administrator admin = new Administrator();
+        		admin.setLoginId("admin") ;
+        		admin.setPassword("123456") ;
+        		admin.setName("superadmin") ;
+        		admin.setSuper(true) ;
+        		dao.insert(admin) ;
+        	}
     		
-    		//初始化网站访问量
-    		Visit visit = new Visit();
-    		visit.setVisitNum(0l);
-    		dao.insert(visit) ;
-    		//月的天数列表（所有月都按1-31号排列）
-    		DayList daylist = new DayList();
-    		for(int i=1;i<=31;i++){
-    			daylist.setDays(i);
-    			dao.insert(daylist) ;
-    		} 		
+        	if (dao.exists("T_Visit")) {
+        		//初始化网站访问量
+        		Visit visit = new Visit();
+        		visit.setId(String.valueOf(System.currentTimeMillis())) ;
+        		visit.setVisitNum(0l);
+        		dao.insert(visit) ;
+        		
+        	}
+        	
+        	if (dao.exists("T_DAYS")) {
+        		//月的天数列表（所有月都按1-31号排列）
+        		DayList dl = null;
+        		for(int i=1;i<=31;i++){
+        			dl = new DayList();
+        			dl.setDays(i);
+        			dl.setId(String.valueOf(i)) ;
+        			dao.insert(dl) ;
+        		} 		
+        		
+        	}
     		
     	}
     	
