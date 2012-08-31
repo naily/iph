@@ -409,23 +409,32 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		this.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;  
 		return list;
+		
 	}
     	/**
     	 * 查询保护期内的电离层参数（前50条数据）
     	 * */
      public String getQueryParameterSQL(Parameter params,ParameteDataBo paraQuery){
     	 int shownums =Constant.PROTECTDATA_SHOWNUM;//默认显示记录数
-    	// String[] stationIDS =null;//观测站数组
+    	 String[] stationIDS =null;//观测站数组
   		 if(StringUtil.checkNull(paraQuery.getOrderBy())){
   			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
   		 }
-  		 /*if(StringUtil.checkNotNull(params.getIds())){
+  		 if(StringUtil.checkNotNull(params.getIds())){
   			stationIDS= params.getIds().split(",");
-  		 }*/
+  		 }
+  		 String queryStationArry="";
+  		 for(String s:stationIDS){
+  			if(!"".equals(queryStationArry)){
+  				queryStationArry+=",";
+  			 }
+  			 queryStationArry+="\'"+s+"\'";
+  		 }
+  		 log.info("stationIDS=="+stationIDS.toString());
     	 StringBuffer sb = new StringBuffer("select top "); 
     	 sb.append(shownums);
     	 sb.append(" * from T_PARAMETER");
-    	 sb.append(" where stationID in (").append(params.getIds()).append(")");
+    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
     	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){//前台查询日期区间
   			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
   			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
