@@ -133,7 +133,7 @@ public class NewsMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
 
-		List<News>  list = baseService.dao.query(News.class, null, page.getNutzPager()) ;
+		List<News>  list = baseService.dao.query(News.class, Cnd.orderBy().desc("publishDate"), page.getNutzPager()) ;
 		
 		json.put(Constant.TOTAL, baseService.dao.count(News.class)) ;
 		
