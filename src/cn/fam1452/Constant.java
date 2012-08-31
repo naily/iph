@@ -36,4 +36,6 @@ public class Constant {
 	 * 后台报表扫描图存放路径
 	 */
 	public static final String sacnpicSavePath = "/data/sac_file/" ;
+	
+	public static int PROTECTDATA_SHOWNUM=2;//数据保护期内，显示的数据条数
 }
