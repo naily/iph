@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.pager.Pager;
@@ -22,12 +24,16 @@ import org.nutz.mvc.annotation.Param;
 
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
+import cn.fam1452.action.bo.Pages;
+import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.dao.pojo.Station;
-import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataVisitService;
+import cn.fam1452.service.PGTService;
+import cn.fam1452.service.ParameterService;
+import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.FileDownload;
 import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
@@ -39,6 +45,12 @@ public class QTPGTMod extends BaseMod{
 	
 	@Inject("refer:dataVisitService")
 	private DataVisitService dvs ;
+	
+	@Inject("refer:parameterService")
+	private ParameterService parameterService;
+	
+	@Inject("refer:pgtService")
+	private PGTService pgtService ;
 	
 	@At("/qt/indexLeftTree")
 	@Ok("json")
@@ -95,6 +107,9 @@ public class QTPGTMod extends BaseMod{
 	}
 	@At("/qt/listPGT")
 	@Ok("jsp:jsp.qt.pgtlist")
+	/**
+	 * 导航频高图查询
+	 * */
 	public void pgtList(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
@@ -116,6 +131,53 @@ public class QTPGTMod extends BaseMod{
 		pager.setRecordCount(baseService.dao.count(IronoGram.class)); 
 		req.setAttribute("pgtlist", showList);
 		req.setAttribute("page", pager);
+		
+	}
+	
+	@At("/qt/queryPGT")
+	@Ok("json")
+	/**
+	 * 找数据：频高图查询，根据观测站及日期查询
+	 * */
+	public JSONObject querytList(@Param("..")IronoGram irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
+		JSONObject json = new JSONObject();
+		JsonConfig cfg = new JsonConfig();  				
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	
+			List<IronoGram> list =null;
+			int total =0;
+			if(parameterService.isProtectDate("T_IRONOGRAM")){//判断频高图表是否设置了保护期
+				list=pgtService.top50PGTDataList(irg, page, paraQuery);
+				if(null!=list && list.size()>0)total=list.size();
+			}else{
+				 list = pgtService.pgtDataList(irg,page,paraQuery);
+				 total =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQuery(irg, paraQuery));
+			}	
+			
+		
+				List<IronoGram> showList = new ArrayList<IronoGram>();
+				String id=null;
+				for(IronoGram iro:list){
+					id=iro.getStationID();
+					Station station =baseService.dao.fetch(Station.class,id );
+					iro.setStation(station);			
+					showList.add(iro);
+				}
+				if(null!=showList && showList.size()>0){
+					json.put(Constant.SUCCESS, true);
+					json.put(Constant.ROWS, JSONArray.fromObject(showList, cfg));
+					json.put(Constant.TOTAL, total);//list.size()
+				}else{
+					json.put(Constant.ROWS, "[]");
+					json.put(Constant.TOTAL, 0);
+				}						
+		}else{
+			json.put(Constant.ROWS, "[]");
+			json.put(Constant.TOTAL, 0);
+		}
+		log.info(json.toString());
+		return json;
 		
 	}
 	@At("/qt/downloadPGT")

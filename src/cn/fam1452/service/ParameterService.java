@@ -29,6 +29,13 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
+/**
+ * 电离参数相关操作
+ * 
+ * Class ParameterService
+ *
+ *
+ */
 
 @IocBean(name = "parameterService")
 public class ParameterService extends Base{
@@ -375,7 +382,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
 			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
+			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=","'"+start+"'").and("createDate","<=","'"+end+"'").asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}	
@@ -430,7 +437,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
   			 }
   			 queryStationArry+="\'"+s+"\'";
   		 }
-  		 log.info("stationIDS=="+stationIDS.toString());
+  		// log.info("stationIDS=="+stationIDS.toString());
     	 StringBuffer sb = new StringBuffer("select top "); 
     	 sb.append(shownums);
     	 sb.append(" * from T_PARAMETER");
@@ -438,7 +445,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){//前台查询日期区间
   			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
   			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-  			 sb.append(" and createDate >=").append(start).append(" and createDate <=").append(end);
+  			 sb.append(" and createDate >='").append(start).append("' and createDate <='").append(end).append("'");
   		 }
     	 List<ProtectDate> protectDateList = getProtectDate("T_PARAMETER");
     	 if(null!=protectDateList && protectDateList.size()>0){

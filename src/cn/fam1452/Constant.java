@@ -37,5 +37,5 @@ public class Constant {
 	 */
 	public static final String sacnpicSavePath = "/data/sac_file/" ;
 	
-	public static int PROTECTDATA_SHOWNUM=2;//数据保护期内，显示的数据条数
+	public static int PROTECTDATA_SHOWNUM=50;//数据保护期内，显示的数据条数
 }

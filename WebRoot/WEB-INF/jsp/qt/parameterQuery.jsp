@@ -62,6 +62,7 @@
 							</td>
 							<td>
 							  <table width="100%">
+							     <tr><td align="right">查询类型：</td><td><input id="selectDataType" name="selectDataType" class="boxinput_report"/></td></tr>
 							     <tr><td width="100" align="right">${msg['qt_parameter_select_date']}：</td><td><input id="allDate" type="checkbox" name="allDate" />${msg['qt_parameter_selectAlldate']}</td></tr>
 							     <tr><td align="right">${msg['qt_parameter_start_date']}：</td><td><input id="startDate" name="startDate" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_end_date']}：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>

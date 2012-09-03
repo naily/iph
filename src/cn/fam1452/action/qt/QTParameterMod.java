@@ -265,6 +265,7 @@ public class QTParameterMod extends BaseMod {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
+		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list =null;
 			int total =0;
