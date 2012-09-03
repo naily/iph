@@ -359,8 +359,11 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	cellStyle.setFont(setFont(wb));//字体
     	return cellStyle;
     }
+    /**
+     * 电离参数查询
+     * */
     public List<Parameter> parameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){
-		
+   	
 		Condition cnd;
 		String[] stationIDS =null;
 		if(StringUtil.checkNull(paraQuery.getOrderBy())){
@@ -376,18 +379,83 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		}else{//不选择日期区间时，查询所有日期的数据
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}	
-		//page.setLimit(Integer.parseInt(paraQuery.getPageSize()));	
-//		System.out.println(cnd.toString());
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
-		//System.out.println(page.getStart()+"__"+page.getLimit());
 		return list;
 	}
     /**
      * 根据表名查询改表的数据保护期（可能包含多个时间段）
      * */
-    public List getProtectDate(String dataTable){
+    public List<ProtectDate> getProtectDate(String dataTable){
     	List<ProtectDate> list=null;
     	list = this.dao.query(ProtectDate.class, Cnd.where("dataTable","=",dataTable));
     	return list;
     }
+    /**
+     * 查询某个表是否设置了保护期
+     * */
+    public boolean isProtectDate(String dataTable){
+    	List<ProtectDate> list=getProtectDate(dataTable);
+    	if(null!=list && list.size()>0)
+    		return true;
+    	return false;
+    }
+    	/**
+    	 * 有保护期的数据查询
+    	 * */
+     public List<Parameter> top50ParameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){	
+    	Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
+		sql.setCallback(Sqls.callback.entities());
+		sql.setEntity(dao.getEntity(Parameter.class));
+		this.dao.execute(sql) ;		
+		List<Parameter> list = sql.getList(Parameter.class) ;  
+		return list;
+		
+	}
+    	/**
+    	 * 查询保护期内的电离层参数（前50条数据）
+    	 * */
+     public String getQueryParameterSQL(Parameter params,ParameteDataBo paraQuery){
+    	 int shownums =Constant.PROTECTDATA_SHOWNUM;//默认显示记录数
+    	 String[] stationIDS =null;//观测站数组
+  		 if(StringUtil.checkNull(paraQuery.getOrderBy())){
+  			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+  		 }
+  		 if(StringUtil.checkNotNull(params.getIds())){
+  			stationIDS= params.getIds().split(",");
+  		 }
+  		 String queryStationArry="";
+  		 for(String s:stationIDS){
+  			if(!"".equals(queryStationArry)){
+  				queryStationArry+=",";
+  			 }
+  			 queryStationArry+="\'"+s+"\'";
+  		 }
+  		 log.info("stationIDS=="+stationIDS.toString());
+    	 StringBuffer sb = new StringBuffer("select top "); 
+    	 sb.append(shownums);
+    	 sb.append(" * from T_PARAMETER");
+    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
+    	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){//前台查询日期区间
+  			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+  			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+  			 sb.append(" and createDate >=").append(start).append(" and createDate <=").append(end);
+  		 }
+    	 List<ProtectDate> protectDateList = getProtectDate("T_PARAMETER");
+    	 if(null!=protectDateList && protectDateList.size()>0){
+    		 sb.append(" and ( ");
+//    		 for(ProtectDate proDate:protectDateList){
+    		 for(int i=0;i<protectDateList.size();i++){
+    			 ProtectDate proDate =(ProtectDate)protectDateList.get(i);
+    			 if(null!=proDate.getDataSDate() && null!=proDate.getDataEDate()){
+    				
+    				if(i>0)sb.append(" or ");
+    				sb.append(" createDate between '").append(DateUtil.convertDateToString(proDate.getDataSDate())).append("' and '").append(DateUtil.convertDateToString(proDate.getDataEDate())).append("' "); 
+    			 }
+    		 }
+    		 sb.append(" ) ");
+    	 }
+    	 sb.append(" order by ").append(paraQuery.getOrderBy());
+         log.info(sb.toString());
+    	 return sb.toString();
+     }
 }

@@ -266,8 +266,16 @@ public class QTParameterMod extends BaseMod {
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
-			List<Parameter> list = parameterService.parameterDataList(parameter,page,paraQuery);
-			int total =this.baseService.dao.count(Parameter.class);
+			List<Parameter> list =null;
+			int total =0;
+			if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
+				list=parameterService.top50ParameterDataList(parameter,page,paraQuery);
+				if(null!=list && list.size()>0)total=list.size();
+			}else{
+				list = parameterService.parameterDataList(parameter,page,paraQuery);
+				 total =this.baseService.dao.count(Parameter.class);
+			}
+		
 			List<Parameter> listD= new ArrayList<Parameter>();
 			for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
