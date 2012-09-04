@@ -64,15 +64,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <a href="ht/sac.do" title="报表扫描图管理维护">报表扫描图管理</a> 
 	      <a href="ht/med.do" title="元数据录入与管理维护">元数据管理</a>
 	    </div></div>
+	    
+	<div class="menutext1"><a href="ht/pta.do" class="a3">数据权限管理</a></div>
+	
 	<div class="menutext"><a href="javascript:;" class="a3" id="M2">用户管理</a>
 		<div class="menu_body">
 	      <a href="ht/qtum.do" title="用户管理与统计">用户管理</a>
 	      <a href="ht/qtcm.do" title="查看用户反馈，对用户反馈进行回复或删除清理">用户反馈</a>
 	    </div>
 	</div>
-	<div class="menutext1"><a href="ht/pta.do" class="a3">访问权限管理</a></div>
+	
 	<div class="menutext"><a href="ht/dlog.do" class="a3">管理日志</a></div>
-	<div class="menutext"><a href="ht/dstats.do" class="a3">数据服务</a></div>
+	<div class="menutext"><a href="ht/dstats.do" class="a3">访问统计</a></div>
 	<div class="menutext"><a href="ht/news.do" class="a3">新闻管理</a></div>
   </div>
   
