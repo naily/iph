@@ -27,8 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p>管理员列表</p>
-    	<p><a href="javascript:modifpass.open();" class="a3">修改密码</a></p>
+    	<div class="left2_1">管理员列表</div>
+    	<div class="left2_1"><a href="javascript:modifpass.open();" class="a3">修改密码</a></div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容 -->

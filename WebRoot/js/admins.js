@@ -6,14 +6,14 @@ $(document).ready(function(){
          width : '99.8%',
          limit : 5, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'登录名',name:'loginId',  align : 'center' ,width:'autoExpand'},
-                         {header:'名称',name:'name', width:250, align : 'left',wrap:true},
-                         {header:'角色',name:'super',width:100, renderer:function(value,rowData,rowIndex){ 
+         colModel : [    {header:'<b>登录名</b>',name:'loginId',  align : 'center' ,width:'autoExpand'},
+                         {header:'<b>名称</b>',name:'name', width:250, align : 'center',wrap:true},
+                         {header:'<b>角色</b>',name:'super',width:100, align : 'center', renderer:function(value,rowData,rowIndex){ 
                             var str = '管理员' ;
                             if(value ){
                                 str = '超级管理员' ;
                             } 
-                         return '<b>'+str+'</b>'; }}
+                         return '<i>'+str+'</i>'; }}
          ],
          dataSource : 'ht/adminlist.do' //后台取数的URL
      });

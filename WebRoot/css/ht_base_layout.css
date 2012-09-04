@@ -1,15 +1,19 @@
 @charset "utf-8";
 /* CSS Document */
-
+body{
+	height:494px;
+}
 #pageleft{
-	width: 15%;
-	height:100%;
 	float:left;
+	overflow:hidden ;
+	width: 15%;
 	border:0px solid red; 
+	border-right:0px #9ebde3 solid; background:#eff7ff;
+	height:100%;
 }
 
 #pageleft p{
-	margin-left: 50px;	
+	padding-left: 40px;
 }
 
 #center_right{
