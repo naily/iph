@@ -27,8 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="imagePreview"></div>
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p><a href="ht/pam.do" class="a3">参数录入</a></p>
-    	<p>参数管理</p>
+    	<div class="left2_1"><a href="ht/pam.do" class="a3">参数录入</a></div>
+    	<div class="left2_1">参数管理</div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容

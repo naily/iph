@@ -40,8 +40,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p>元数据录入</p>
-    	<p><a href="ht/medlist.do" class="a3">元数据管理</a></p>
+    	<div class="left2_1">元数据录入</div>
+    	<div class="left2_1"><a href="ht/medlist.do" class="a3">元数据管理</a></div>
     </div>
     <div id="center_right" >
     	<!-- 右侧内容

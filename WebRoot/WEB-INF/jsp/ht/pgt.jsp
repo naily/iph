@@ -29,11 +29,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p>频高图录入</p>
-    	<p><a href="./ht/pgtlist.do" class="a3">频高图管理</a></p>
+    	<div class="left2_1">频高图录入</div>
+    	<div class="left2_1"><a href="./ht/pgtlist.do" class="a3">频高图管理</a></div>
     </div>
     
-    <div id="imagePreview" title="图片预览"> </div> 
+    <div id="imagePreview" title="图片预览"> </div>
     
     <div id="center_right">
     	<div id="make-tab" style="margin: auto;">

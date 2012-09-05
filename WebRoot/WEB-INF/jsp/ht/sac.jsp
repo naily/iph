@@ -28,8 +28,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p>报表扫描图上传</p>
-    	<p><a href="ht/saclist.do" class="a3">报表扫描图管理</a></p>
+    	<div class="left2_1">报表扫描图上传</div>
+    	<div class="left2_1"><a href="ht/saclist.do" class="a3">报表扫描图管理</a></div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容 -->

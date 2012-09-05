@@ -25,17 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<p><a href="./ht/pgt.do" class="a3">频高图录入</a></p>
-    	<p>频高图管理</p>
+    	<div class="left2_1"><a href="./ht/pgt.do" class="a3">频高图录入</a></div>
+    	<div class="left2_1">频高图管理</div>
     </div>
     
     <div id="imagePreview" title="图片预览"> </div> 
     
     <div id="center_right" >
-    	<span id="toolbar" class="om-widget-header om-corner-all">
-	        <a id="updatebut"  href="javascript:void(0)">修改</a>
-	        <a id="deletebut"  href="javascript:void(0)">删除</a>
-    	</span>
+    	<div id="buttonbar"></div>
     	
     	<table id="list0"></table>
     </div>
