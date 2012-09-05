@@ -47,7 +47,7 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.scanPicTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${smt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewPgt('${smt.gramPath}');" class="a4">浏览</a></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewSac('${smt.gramPath}');" class="a4">浏览</a></td>
           <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">下载</a></td>
         </tr>
         </c:forEach>

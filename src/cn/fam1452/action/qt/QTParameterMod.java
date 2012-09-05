@@ -269,7 +269,8 @@ public class QTParameterMod extends BaseMod {
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list =null;
 			int total =0;
-			if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
+			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
+			if(!parameterService.isProtectDateOpen("T_PARAMETER",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
 				list=parameterService.top50ParameterDataList(parameter,page,paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{

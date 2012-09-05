@@ -68,7 +68,7 @@ $(document).ready(function() {
 	$('#startDate').omCalendar();
 	// 截止时间
 	$('#endDate').omCalendar();
-	// 页面显示记录
+	// 排序方式选择
 	$('#orderCol').omCombo({
 				dataSource : [{
 							text : '观测站',
@@ -154,7 +154,7 @@ $(document).ready(function() {
 			 
 			//$('#paraQueryGrid').omGrid('setData', dUrl);
 
-		} else { // 有查询条件，显示查询数据
+	    	} else { // 有查询条件，显示查询数据
 
 			at({
 						cont : '请选择条件！',
@@ -189,7 +189,7 @@ $(document).ready(function() {
 					container[i + 2] = {
 						header : paraCol[i],
 						name : paraCol[i],
-						width : 50
+						width : 40
 					}
 				}
 			container[paraCol.length+2]={

@@ -1,7 +1,7 @@
 package cn.fam1452.service;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -382,7 +382,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
 			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=","'"+start+"'").and("createDate","<=","'"+end+"'").asc(paraQuery.getOrderBy());
+			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}	
@@ -418,7 +418,56 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		return list;
 		
 	}
-    	/**
+     /**
+      * 保护期判断
+      * isProtectDateOpen(数据表名，查询开始日期，查询结束日期)
+      * 1、根据数据表名查询数据是否有保护期
+      * 2、通过当前日期与开放日期的比较，判断保护期是否有效
+      * 3、若保护期无效或没有保护期则正常查询并分页显示数据
+      * 4、若保护期有效且与页面查询日期区间有重叠则按保护期规则显示数据，如只显示前50条数据等，若查询时间段与保护期没有重叠亦正常查询并显示数据
+      * 5、返回值true表示保护期已开放，返回值false表示当前数据有保护期
+      * */
+     public boolean isProtectDateOpen(String dataTable,String startDate,String endDate){
+     	List<ProtectDate> list=getProtectDate(dataTable);
+     	
+     	if(null!=list && list.size()>0){
+     		Date today = (Date) DateUtil.getCurrentDate();//当前日期
+     		if(StringUtil.checkNull(startDate) && StringUtil.checkNull(endDate)){//都为空时，表示查询所有数据
+     			for(ProtectDate protect:list){
+         			if(protect.getPublicDate().getTime()>today.getTime()){//查询所有数据时，只要有保护期则查询受限       			
+         				return false;
+         			}
+         		}
+	     	}else{
+	     		Date queryStart = (Date) DateUtil.convertStringToDate(startDate, "yyyy-MM-dd");
+	     		Date queryEnd  =  (Date) DateUtil.convertStringToDate(endDate, "yyyy-MM-dd");
+	     		for(ProtectDate protect:list){
+	     			if(protect.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
+	     				if(dateCompare(queryStart,protect.getDataSDate(),protect.getDataEDate()) || dateCompare(queryEnd,protect.getDataSDate(),protect.getDataEDate())){//查询区间与保护期有重叠
+	     					return false;
+	     				}
+	     			}
+	     		}	
+	     	}// end 查询区间
+     	}
+     		
+     	return true;
+     }
+     /**
+      * inputDate  待比较的日期
+      * startDate  比较区间下限
+      * endDate    比较区间上限
+      * */
+     public boolean dateCompare(Date date,Date startDate,Date endDate){
+    	 if(date.getTime()>=startDate.getTime() && date.getTime()<=endDate.getTime()){
+    		 return true; 
+    	 }else{
+    		 return false; 
+    	 }
+    	
+     }
+     
+     /**
     	 * 查询保护期内的电离层参数（前50条数据）
     	 * */
      public String getQueryParameterSQL(Parameter params,ParameteDataBo paraQuery){
@@ -442,12 +491,12 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 sb.append(shownums);
     	 sb.append(" * from T_PARAMETER");
     	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
-    	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){//前台查询日期区间
+    	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){//前台查询日期区间
   			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
   			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
   			 sb.append(" and createDate >='").append(start).append("' and createDate <='").append(end).append("'");
   		 }
-    	 List<ProtectDate> protectDateList = getProtectDate("T_PARAMETER");
+    	/* List<ProtectDate> protectDateList = getProtectDate("T_PARAMETER");
     	 if(null!=protectDateList && protectDateList.size()>0){
     		 sb.append(" and ( ");
 //    		 for(ProtectDate proDate:protectDateList){
@@ -460,7 +509,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     			 }
     		 }
     		 sb.append(" ) ");
-    	 }
+    	 }*/
     	 sb.append(" order by ").append(paraQuery.getOrderBy());
          log.info(sb.toString());
     	 return sb.toString();

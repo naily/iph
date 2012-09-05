@@ -41,10 +41,10 @@ public class ScanPicService extends Base{
 			if(StringUtil.checkNotNull(irg.getIds())){
 				stationIDS= irg.getIds().split(",");
 			}
-			if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
+			if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){
 				Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 				Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-				cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=","'"+start+"'").and("createDate","<=","'"+end+"'").asc(paraQuery.getOrderBy());
+				cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 			}else{//不选择日期区间时，查询所有日期的数据
 			    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 			}
@@ -92,7 +92,7 @@ public class ScanPicService extends Base{
 			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			 sb.append(" and createDate >='").append(start).append("' and createDate <='").append(end).append("'");
 		 }
-	 List<ProtectDate> protectDateList = parameterService.getProtectDate("T_SCANPIC");
+	/* List<ProtectDate> protectDateList = parameterService.getProtectDate("T_SCANPIC");
 	 if(null!=protectDateList && protectDateList.size()>0){
 		 sb.append(" and ( ");
 //		 for(ProtectDate proDate:protectDateList){
@@ -105,7 +105,7 @@ public class ScanPicService extends Base{
 			 }
 		 }
 		 sb.append(" ) ");
-	 }
+	 }*/
 	 sb.append(" order by ").append(paraQuery.getOrderBy());
      log.info(sb.toString());
 	 return sb.toString();

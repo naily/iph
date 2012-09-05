@@ -44,7 +44,7 @@
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
 			<div class="title8">
-				${msg['qt_parameter_query_title']}
+				${msg['qt_data_query_title']}
 			</div>
 			<div class="reportbox">
 					<table height="400" class="report_table" align="center">
