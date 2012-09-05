@@ -10,7 +10,7 @@ $(document).ready(function() {
 		},
 		callback : function(json) {		
 			//var json=eval("("+jsonStr+")");//转换为json对象 
-			var divstart='<div class="rightbox3_1_text">';
+			var divstart='<div class="rightbox3_1_text_">';
 			var divend='</div>';
 			var divstr='';
 			 divstr+=divstart;
@@ -19,14 +19,14 @@ $(document).ready(function() {
 				/*if(idx==0){ 
 				 return true;
 			     } */			
-			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>';
-			     if(idx<4 || (idx>4 && idx<9)){
+			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;'+item.publishDate;
+			 /*    if(idx<4 || (idx>4 && idx<9)){
 			      divstr+='<br />';
 			     }			    
 			   	if(idx==4){			   
 			   		divstr+=divend;
 			   		divstr+=divstart;
-			   	}		   			   
+			   	}	*/	   			   
 			
 			}) 
 			    divstr+=divend;				   

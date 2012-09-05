@@ -19,6 +19,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.News;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
@@ -84,10 +85,11 @@ public class QTNewsMod extends BaseMod{
     public JSONObject newsListss(){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		List newslist = baseService.dao.query(News.class, Cnd.orderBy().desc("newsId"),baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
+		List<News> newslist = baseService.dao.query(News.class, Cnd.orderBy().desc("newsId"),baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.setExcludes(new String[] { "content", "publishDate" , "picture"  }); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.setExcludes(new String[] { "content","picture"  }); // "publishDate" , 
 		
 		JSONArray jsonAry = JSONArray.fromObject(newslist , cfg);
 
