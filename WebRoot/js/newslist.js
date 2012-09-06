@@ -5,8 +5,8 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'标题',      name:'title',width:380},
-                         {header:'图片新闻',   name:'picNews' ,width:80 ,
+         colModel : [    {header:'<b>标题</b>', align : 'center',     name:'title',width:380},
+                         {header:'<b>图片新闻</b>',align : 'center',   name:'picNews' ,width:80 ,
                          renderer : function(colValue, rowData, rowIndex){
                          	if (colValue) {
                                  return '<span style="color:green;"><b>是</b></span>';
@@ -14,8 +14,8 @@ $(document).ready(function(){
                                  return '<span style="color:red;"><b>否</b></span>';
                              }
                          }} ,
-                         {header:'日期',    name:'publishDate', width:'autoExpand'}  ,
-                         {header:'操作',    name:'operation', width:130 ,renderer: function(colValue, rowData, rowIndex){
+                         {header:'<b>日期</b>',  align : 'center',  name:'publishDate', width:'autoExpand'}  ,
+                         {header:'<b>操作</b>', align : 'center',   name:'operation', width:130 ,renderer: function(colValue, rowData, rowIndex){
                          	return '<a href="./ht/preview.do?nid='+rowData.newsId+'" target="_blank">预览 </a>' ;
                          }}
          ],

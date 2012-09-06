@@ -7,10 +7,10 @@ $(document).ready(function(){
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    
-                         {header:'标题',		name:'title'  ,width:150} ,
-                         {header:'关键词',   name:'keyword' ,width:200} ,
-                         {header:'摘要',    name:'summary' ,width:200} ,
-                         {header:'创建日期', name:'mdDate',width:"autoExpand" } 
+                         {header:'<b>标题</b>',	align : 'center',	name:'title'  ,width:150} ,
+                         {header:'<b>关键词</b>', align : 'center',  name:'keyword' ,width:200} ,
+                         {header:'<b>摘要</b>',  align : 'center',  name:'summary' ,width:200} ,
+                         {header:'<b>创建日期</b>',align : 'center', name:'mdDate',width:"autoExpand" } 
          ],
          dataSource : 'ht/medlist.do' 
      });

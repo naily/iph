@@ -4,16 +4,16 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'ID', name:'ID' ,   width:100},
-                         {header:'文件标题',name:'Title',  width:200  },
-                         {header:'观测站',name:'stationName' ,align : 'center' ,
+         colModel : [    {header:'<b>ID</b>',align : 'center', name:'ID' ,   width:100},
+                         {header:'<b>文件标题</b>',align : 'center',name:'Title',  width:200  },
+                         {header:'<b>观测站</b>',align : 'center',name:'stationName' ,align : 'center' ,
                          	renderer: function(colValue, rowData, rowIndex){
 	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
 	                     } ,
-                         {header:'日期',name:'createDate',width:100 } ,
-                         {header:'文件名',name:'FileName', width:100,width:'autoExpand' } ,
-                         {header:'操作',name:'operation',width:60 ,align : 'center' ,
+                         {header:'<b>日期</b>',align : 'center',name:'createDate',width:100 } ,
+                         {header:'<b>文件名</b>',align : 'center',name:'FileName', width:100,width:'autoExpand' } ,
+                         {header:'<b>操作</b>',align : 'center',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
 	                         	return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }

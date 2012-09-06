@@ -5,23 +5,23 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'ID',      name:'ID' , width:'autoExpand'},
-                         {header:'观测站',   name:'stationName'  ,align : 'center' ,
+         colModel : [    {header:'<b>ID</b>',    align : 'center',  name:'ID' , width:'autoExpand'},
+                         {header:'<b>观测站</b>',   name:'stationName'  ,align : 'center' ,
                          	renderer: function(colValue, rowData, rowIndex){
 	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
 	                     } ,
-                         {header:'日期',    name:'createDate',width:120} ,
-                         {header:'foF2',   name:'foF2' ,width:30} ,
-                         {header:'hlF2',   name:'hlF2' ,width:30} ,
-                         {header:'foF1',   name:'foF1' ,width:30} ,
-                         {header:'hlF1',   name:'hlF1' ,width:30} ,
-                         {header:'hlF',   name:'hlF' ,width:30} ,
-                         {header:'hpF',   name:'hpF' ,width:30} ,
-                         {header:'foE',   name:'foE' ,width:30} ,
-                         {header:'hlE',   name:'hlE' ,width:30} ,
-                         {header:'foEs',   name:'foEs' ,width:30} ,
-                         {header:'hlEs',   name:'hlEs' ,width:30} //,
+                         {header:'<b>日期</b>',  align : 'center',  name:'createDate',width:120} ,
+                         {header:'<b>foF2</b>', align : 'center',  name:'foF2' ,width:30} ,
+                         {header:'<b>hlF2</b>', align : 'center', name:'hlF2' ,width:30} ,
+                         {header:'<b>foF1</b>', align : 'center',  name:'foF1' ,width:30} ,
+                         {header:'<b>hlF1</b>', align : 'center',  name:'hlF1' ,width:30} ,
+                         {header:'<b>hlF</b>',  align : 'center', name:'hlF' ,width:30} ,
+                         {header:'<b>hpF</b>',  align : 'center', name:'hpF' ,width:30} ,
+                         {header:'<b>foE</b>',  align : 'center', name:'foE' ,width:30} ,
+                         {header:'<b>hlE</b>',  align : 'center', name:'hlE' ,width:30} ,
+                         {header:'<b>foEs</b>', align : 'center',  name:'foEs' ,width:30} ,
+                         {header:'<b>hlEs</b>', align : 'center',  name:'hlEs' ,width:30} //,
                          //{header:'fbEs',   name:'fbEs' } ,
                          //{header:'Fmin',   name:'Fmin' } 
          ],
