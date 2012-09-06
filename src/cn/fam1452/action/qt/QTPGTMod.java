@@ -1,7 +1,11 @@
 package cn.fam1452.action.qt;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,7 @@ import cn.fam1452.service.DataVisitService;
 import cn.fam1452.service.PGTService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
+import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.FileDownload;
 import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
@@ -201,4 +206,35 @@ public class QTPGTMod extends BaseMod{
 		//return json;
 		return null;
 	}
+	/**
+	 * 频高图查看
+	 *  根据观测站及日期查询电离层频高图
+	 * **/
+	@At("/qt/showPGT")
+	@Ok("json")
+	public JSONObject showPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
+		JSONObject json = new JSONObject();
+		JsonConfig cfg = new JsonConfig();
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.setExcludes(new String[] {"station"}); 
+		json.put(Constant.SUCCESS, false);
+		Date createDate =null;	
+		String inputDate=null;
+		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
+			inputDate = irg.getGramTitle().substring(0,8);
+			createDate = DateUtil.convertStringToDate(inputDate, "yyyyMMdd");	
+		}else{
+			createDate= DateUtil.getCurrentDate();
+		}
+			
+		IronoGram idd = baseService.dao.fetch(IronoGram.class, Cnd.where("stationID","=",irg.getStationID()).and("createDate","=",createDate));
+		
+		if(null!=idd){
+			json.put(Constant.SUCCESS, true);
+			json.put("data", JSONObject.fromObject(idd,cfg)) ;
+		}
+		log.info(json.toString());
+		return json;
+	}
+	
 }

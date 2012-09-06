@@ -2,6 +2,7 @@ package cn.fam1452.action.qt;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -30,6 +32,7 @@ import cn.fam1452.service.DataVisitService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.service.ScanPicService;
 import cn.fam1452.utils.DateJsonValueProcessor;
+import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.FileDownload;
 import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
@@ -146,5 +149,33 @@ public class QTScanPicMod extends BaseMod{
 		}
 		//return json;
 		//return null;
+	}
+	/**
+	 * 扫描图查看
+	 *  根据观测站及日期查询报表扫描图
+	 * **/
+	@At("/qt/showScanpic")
+	@Ok("json")
+	public JSONObject showPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")Scanpic scp){
+		JSONObject json = new JSONObject();
+		JsonConfig cfg = new JsonConfig();
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.setExcludes(new String[] {"station"}); 
+		json.put(Constant.SUCCESS, false);
+		Date createDate =null;	
+		String inputDate=null;
+		if(null!=scp && StringUtil.checkNotNull(scp.getScanPicTitle())){
+			inputDate = scp.getScanPicTitle().substring(0,8);
+			createDate = DateUtil.convertStringToDate(inputDate, "yyyyMMdd");	
+		}else{
+			createDate= DateUtil.getCurrentDate();
+		}			
+		Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",scp.getStationID()).and("createDate","=",createDate));		
+		if(null!=idd){
+			json.put(Constant.SUCCESS, true);
+			json.put("data", JSONObject.fromObject(idd,cfg)) ;
+		}
+		//log.info(json.toString());
+		return json;
 	}
 }

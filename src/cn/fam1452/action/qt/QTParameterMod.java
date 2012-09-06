@@ -19,6 +19,8 @@ import net.sf.json.JsonConfig;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -35,6 +37,7 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
+import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -299,4 +302,33 @@ public class QTParameterMod extends BaseMod {
 		log.info(json.toString());
 		return json;
 	}
+	
+	@At("/qt/showParaData")
+	@Ok("json")
+	/**
+	 * 找数据模块：电离层参数查询
+	 * */
+	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
+		JSONObject json = new JSONObject();
+		JsonConfig cfg = new JsonConfig();
+		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
+		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+	    log.info(parameter.getCreateDate());
+	    log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
+	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
+	    String startTime =createDate+" 00:00";
+	    String endTime =createDate+" 23:59";
+		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
+		log.info(sql.toString());
+		
+		sql.setCallback(Sqls.callback.entities());
+		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
+		sql.setEntity(baseService.dao.getEntity(Parameter.class));
+		baseService.dao.execute(sql) ;		
+		List<Parameter> list = sql.getList(Parameter.class) ;
+		json.put("data", list);
+		log.info(json.toString());
+		return json;
+	}
+	
 }

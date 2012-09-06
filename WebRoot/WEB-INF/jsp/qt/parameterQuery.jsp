@@ -76,7 +76,7 @@
 					</table>
 					<br/>
 					<table id="paraQueryGrid"></table>
-					
+					<div id="imagePreview" title="图片预览"> </div> 
 				</div>
 		   <!-- </div> -->
 		</div>

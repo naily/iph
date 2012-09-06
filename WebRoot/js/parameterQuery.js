@@ -196,7 +196,7 @@ $(document).ready(function() {
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">电离频高图</a>'   ;
+	                         	return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
 	                         },
 						width : 150
 			 }
@@ -210,9 +210,9 @@ $(document).ready(function() {
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewStation(\'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:previewStation(\'\');" class="a3">电离层参数</a>'   ;
+	                         	return '<a href="javascript:previewPgt_(\''+rowData.gramPath+'\');" class="a3">查看频高图</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
 	                         },
-						width : 150
+						width : 200
 			 }
 		}else{//报表扫描图
 		
@@ -225,9 +225,9 @@ $(document).ready(function() {
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewStation(\'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewStation(\'\');" class="a3">电离频高图</a>'   ;
+	                         	return '<a href="javascript:previewScanPic_(\''+rowData.gramPath+'\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
 	                         },
-						width : 150
+						width : 200
 			 }
 		}
 		
@@ -236,3 +236,114 @@ $(document).ready(function() {
 	}
 
 });
+/**
+ * 频高图显示列表，查看频高图
+ * */
+function previewPgt_(path){
+	if(path){
+		$( "#imagePreview").html('<img src=".'+ path +'" border=0 / >');
+		
+		$( "#imagePreview").omDialog({title:'频高图查看'});
+		$( "#imagePreview").omDialog('open');
+	}
+}
+/**
+ * 在电离参数或扫描图列表中，关联查看频高图
+ * */
+function previewPgt(stationId,createDate){
+	if(stationId && createDate){
+		var data = {
+		url : 'qt/showPGT.do',
+		params : {
+			gramTitle:createDate,
+			stationID:stationId
+		},
+		callback : function(json) {
+			if (json.success) {						
+				if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
+					$( "#imagePreview").omDialog({title:'频高图查看'});
+					$( "#imagePreview").omDialog('open');
+				}
+			} else {
+				at({
+						cont : '没有找到对应的电离频高图！',
+						type : 'alert'
+					});
+			}
+		}
+	}
+	ajaxpost(data);
+	}
+}
+
+/**
+ * 在电离参数或频高图列表中，关联查看报表扫描图
+ * */
+function previewScanpic(stationId,createDate){
+	if(stationId && createDate){
+		var data = {
+		url : 'qt/showScanpic.do',
+		params : {
+			scanPicTitle:createDate,
+			stationID:stationId
+		},
+		callback : function(json) {
+			if (json.success) {						
+				if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
+					$( "#imagePreview").omDialog({title:'扫描图查看'});
+					$( "#imagePreview").omDialog('open');
+				}
+			} else {
+				at({
+						cont : '没有找到对应的报表扫描图！',
+						type : 'alert'
+					});
+			}
+		}
+	}
+	ajaxpost(data);
+	}
+}
+/**
+ * 扫描图列表，查看扫描图
+ * */
+function previewScanPic_(path){
+	if(path){	
+	    $( "#imagePreview").html('<img src=".'+ path +'" border=0  / >');		
+		$( "#imagePreview").omDialog({title:'扫描图查看'});
+		$( "#imagePreview").omDialog('open');
+	}
+}
+
+/**
+ * 在电离频高图或报表扫描图列表中，关联查看电离层参数
+ * */
+function showParaData(stationId,createDate){
+	if(stationId && createDate){
+		var data = {
+		url : 'qt/showParaData.do',
+		params : {
+			createDate:createDate,
+			stationID:stationId
+		},
+		callback : function(json) {
+			if (json.success) {						
+				if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
+					$( "#imagePreview").omDialog({title:'扫描图查看'});
+					$( "#imagePreview").omDialog('open');
+				}
+			} else {
+				at({
+						cont : '没有找到对应的报表扫描图！',
+						type : 'alert'
+					});
+			}
+		}
+	}
+	ajaxpost(data);
+	}
+}
+
