@@ -204,7 +204,7 @@ $(document).ready(function() {
 				container[2] = {
 						header : '电离层频高图名称',
 						name : 'gramTitle',
-						width : 100
+						width : 360
 					}
 			  container[3]={
 		           header : '操作',
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		      container[2] = {
 						header : '报表扫描图名称',
 						name : 'scanPicTitle',
-						width : 100
+						width : 360
 					}
 			container[3]={
 		           header : '操作',
@@ -253,7 +253,7 @@ function previewPgt_(path){
 function previewPgt(stationId,createDate){
 	if(stationId && createDate){
 		var data = {
-		url : 'qt/showPGT.do',
+		url :  basepath+'qt/showPGT.do',
 		params : {
 			gramTitle:createDate,
 			stationID:stationId
@@ -283,12 +283,12 @@ function previewPgt(stationId,createDate){
 function previewScanpic(stationId,createDate){
 	if(stationId && createDate){
 		var data = {
-		url : 'qt/showScanpic.do',
+		url : basepath+'qt/showScanpic.do',
 		params : {
 			scanPicTitle:createDate,
 			stationID:stationId
 		},
-		callback : function(json) {
+		callback : function(json) {			
 			if (json.success) {						
 				if(json.data.gramPath){
 					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
@@ -323,18 +323,31 @@ function previewScanPic_(path){
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
 		var data = {
-		url : 'qt/showParaData.do',
+		url :  basepath+'qt/showParaData.do',
 		params : {
 			createDate:createDate,
 			stationID:stationId
 		},
 		callback : function(json) {
 			if (json.success) {						
-				if(json.data.gramPath){
-					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
-					$( "#imagePreview").omDialog({title:'扫描图查看'});
+				
+					
+					var tableCols,datasourceUrl;			
+					tableCols=getColmModel(1,parameter_array);
+					datasourceUrl='/qt/showParaData?stationID='+stationId+'&createDate='+createDate;	
+					//$( "#imagePreview").html('<table id="paraQueryGrid2"></table>');	
+					$('#paraQueryGrid2').omGrid({
+						//title : '电离层参数查询',
+					 	dataSource :datasourceUrl,
+					 	 limit:0, 
+					 	height : 325, 
+					 	showIndex : false,
+					 	colModel :tableCols
+					 	});
+									
+					$( "#imagePreview").omDialog({title:'电离层参数查看'});
 					$( "#imagePreview").omDialog('open');
-				}
+				
 			} else {
 				at({
 						cont : '没有找到对应的报表扫描图！',

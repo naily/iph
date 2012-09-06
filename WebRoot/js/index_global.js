@@ -67,6 +67,7 @@ parameter_omCombo_datasource2=[
 			           { text : 'foF2.foF1.foEs.foE',   value : "foF2,foF1,foEs,foE"},
 			           { text : "h'F2.h'Es.h'E.h'F1",   value : "hlF2,hlEs,hlE,hlF1"}			           			           
 			           ]
+ parameter_array=['foF2','hlF2','foF1','hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']			         
 /*
  * 电离曲线图的x轴数据列（小时序列）
  * */			           

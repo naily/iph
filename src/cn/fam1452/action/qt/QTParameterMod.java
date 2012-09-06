@@ -311,8 +311,8 @@ public class QTParameterMod extends BaseMod {
 	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
-		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
-		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
+		cfg.setExcludes(new String[] {"station","address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 	    log.info(parameter.getCreateDate());
 	    log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
 	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
@@ -326,7 +326,13 @@ public class QTParameterMod extends BaseMod {
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
-		json.put("data", list);
+		if(null!=list && list.size()>0){
+			json.put(Constant.SUCCESS, true);
+			json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+		}else{
+			json.put(Constant.SUCCESS, false);
+		}
+		
 		log.info(json.toString());
 		return json;
 	}
