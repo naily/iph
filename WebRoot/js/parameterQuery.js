@@ -95,7 +95,7 @@ $(document).ready(function() {
 						}]
 			});
 
-	var colModel_ = [{
+/*	var colModel_ = [{
 				header : '观测站',
 				name : 'station.name',
 				width : 80
@@ -104,7 +104,7 @@ $(document).ready(function() {
 				name : 'createDate',
 				align : 'center',
 				width : 80
-			}];
+			}];*/
 
 	// 电离参数列表显示
 
@@ -322,41 +322,46 @@ function previewScanPic_(path){
  * */
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
-		var data = {
-		url :  basepath+'qt/showParaData.do',
-		params : {
-			createDate:createDate,
-			stationID:stationId
-		},
-		callback : function(json) {
-			if (json.success) {						
-				
-					
-					var tableCols,datasourceUrl;			
-					tableCols=getColmModel(1,parameter_array);
-					datasourceUrl='/qt/showParaData?stationID='+stationId+'&createDate='+createDate;	
+			var tableCols_,datasourceUrl_;	
+					tableCols_=getParaColmModel(1,parameter_array);					
+					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$( "#imagePreview").html('<table id="paraQueryGrid2"></table>');	
 					$('#paraQueryGrid2').omGrid({
 						//title : '电离层参数查询',
-					 	dataSource :datasourceUrl,
-					 	 limit:0, 
+					 	dataSource :datasourceUrl_,
+					 	limit:0, 
 					 	height : 325, 
 					 	showIndex : false,
-					 	colModel :tableCols
+					 	colModel :tableCols_
 					 	});
 									
-					$( "#imagePreview").omDialog({title:'电离层参数查看'});
+					$( "#imagePreview").omDialog({title:'电离层参数查看',height:400,width:900});
 					$( "#imagePreview").omDialog('open');
-				
-			} else {
-				at({
-						cont : '没有找到对应的报表扫描图！',
-						type : 'alert'
-					});
-			}
-		}
-	}
-	ajaxpost(data);
 	}
 }
-
+	function getParaColmModel(queryType,paraCol_) {
+		var container_ = new Array();//数据表格的表头数据
+		container_[0] = {
+			header : '所属观测站',
+			name : 'station.name',
+			width : 80
+		}
+		container_[1] = {
+			header : '观测日期',
+			name : 'createDate',
+			width : 80
+		}
+		//if(queryType==1){//电离参数
+		   if(paraCol_){
+		   	 //alert(paraCol_);
+				var str = new Array();
+				for (i = 0; i < paraCol_.length; i++) {
+					container_[i + 2] = {
+						header : paraCol_[i],
+						name : paraCol_[i],
+						width : 40
+					}
+				}
+		}
+		return container_;
+}

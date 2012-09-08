@@ -312,8 +312,8 @@ public class QTParameterMod extends BaseMod {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
-		cfg.setExcludes(new String[] {"station","address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
-	    log.info(parameter.getCreateDate());
+		cfg.setExcludes(new String[] {"address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+	    log.info(parameter.getCreateDate());//"station",
 	    log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
 	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
 	    String startTime =createDate+" 00:00";
@@ -326,9 +326,16 @@ public class QTParameterMod extends BaseMod {
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
-		if(null!=list && list.size()>0){
+		List<Parameter> listV = new ArrayList();
+		for(Parameter para:list){
+			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+			para.setStation(station);
+			listV.add(para);
+		}
+		if(null!=listV && listV.size()>0){
 			json.put(Constant.SUCCESS, true);
-			json.put(Constant.ROWS, JSONArray.fromObject(list, cfg));
+			json.put(Constant.ROWS, JSONArray.fromObject(listV, cfg));
+			json.put(Constant.TOTAL, 0);
 		}else{
 			json.put(Constant.SUCCESS, false);
 		}
