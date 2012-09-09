@@ -153,7 +153,7 @@ $(document).ready(function() {
 			 	});
 			 
 			//$('#paraQueryGrid').omGrid('setData', dUrl);
-
+			$("#downloadParaData").show();
 	    	} else { // 有查询条件，显示查询数据
 
 			at({
@@ -164,6 +164,24 @@ $(document).ready(function() {
 		}
 
 			// alert($('#parameter').val());
+	});
+	$("#downloadParaData").click(function() {
+		var stationId = $('#selectorStation').omItemSelector('value');
+		var parameter = $('#selectorParaS').omItemSelector('value');
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		var allDate = '';
+		if ($("#allDate").attr("checked")) {
+			allDate = 'all';
+		}
+		var pageSize = $('#showNum').val();
+		var orderBy = $('#orderCol').val();
+		var queryDataType =$('#selectDataType').val();
+		 datasourceUrl='qt/downloadParaData.do?ids=' + stationId + '&startDate='+ startDate + '&endDate=' + endDate + '&selectAllDate='+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
+		window.open(basepath + datasourceUrl)
+		
+		
+		
 	});
   /**
    * 根据查询类型，组装查询数据的表头

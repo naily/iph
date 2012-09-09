@@ -23,6 +23,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
+import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Station;
@@ -98,9 +99,9 @@ public class ParameterService extends Base{
 	   sb.append(") as a");
 	   sb.append(" group by a.days ");//,a.stationID
 	   
-	   sb.append(" ) as b on d.days=b.days order by d.days ASC");// add by 2012-08-29
+	   sb.append(" ) as b on d.days=b.days order by CAST(d.days AS int) ASC");// add by 2012-08-29
 	   returnStr= sb.toString();
-//	   System.out.println("sql="+returnStr);
+	   //System.out.println("sql="+returnStr);
 	   sb.delete(0,sb.length()-1);
 	   return returnStr;
    }
@@ -514,4 +515,70 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
          log.info(sb.toString());
     	 return sb.toString();
      }
+     
+     /**
+      *电离参数生成excel 
+      *
+      * */
+     @SuppressWarnings("unchecked")
+  public Workbook exportParaDataToHSSFWorkbook(List<Parameter> list){
+  	   
+  	    String[] paraAry=Constant.paraAry;;
+  	   
+            HSSFWorkbook wb = new HSSFWorkbook();// 创建新的Excel 工作簿     	
+     		CreationHelper createHelper = wb.getCreationHelper();	
+     		Sheet sheet = wb.createSheet("ParameterData");//在Excel工作簿中建一工作表
+     		Row  row;//定义行
+     		Cell cell;//定义单元格
+     		int rowSatrt=0;//开始行
+
+    		sheet.setColumnWidth( 0,   15*256) ;//.autoSizeColumn(0 ); // 调整第一列宽度  
+            sheet.setColumnWidth( 1  , 17*256);  
+            sheet.setColumnWidth( 3  , 17*256);  
+            sheet.autoSizeColumn( 2 );
+     		row = sheet.createRow((short)rowSatrt);
+     		cell=row.createCell(0);
+     		//遍历参数
+    	    cell.setCellValue("所属观测站");
+    	    row.createCell(1).setCellValue("观测日期");
+    	    int paraDataCellNum=2;
+    	    for(String paras:paraAry){
+    	    	row.createCell(paraDataCellNum).setCellValue(paras);
+    	    	paraDataCellNum++;
+    	    }
+    	
+    	   
+    	    if(null != list && list.size() > 0){
+    	    	Row rw ;
+    	    	for (int i = 0 ; i < list.size() ; i++) {
+    	    		Parameter parat = list.get(i) ;
+    	    		rw = sheet.createRow(i+2);  //向后偏移2行
+    	    		rw.createCell(0).setCellValue(parat.getStation().getName()) ;
+    	    		rw.createCell(1).setCellValue(DateUtil.convertDateToString(parat.getCreateDate()  , "yyyyMMDDHH")) ;//DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)
+    	    		rw.createCell(2).setCellValue(parat.getFoF2()) ;
+    	    		rw.createCell(3).setCellValue(parat.getHlF2()) ;
+    	    		rw.createCell(4).setCellValue(parat.getFoF1()) ;
+    	    		rw.createCell(5).setCellValue(parat.getHlF1()) ;
+    	    		rw.createCell(6).setCellValue(parat.getHlF()) ;
+    	    		rw.createCell(7).setCellValue(parat.getHpF()) ;
+    	    		rw.createCell(8).setCellValue(parat.getFoE()) ;
+    	    		rw.createCell(9).setCellValue(parat.getHlE()) ;
+    	    		rw.createCell(10).setCellValue(parat.getFoEs()) ;
+    	    		rw.createCell(11).setCellValue(parat.getFmin()) ;
+    	    		rw.createCell(12).setCellValue(parat.getM3000F2()) ;
+    	    		rw.createCell(13).setCellValue(parat.getM1500F2()) ;
+    	    		rw.createCell(14).setCellValue(parat.getM3000F1()) ;
+    	    		rw.createCell(15).setCellValue(parat.getM3000F()) ;
+    	    		rw.createCell(16).setCellValue(parat.getHlEs()) ;
+    	    		rw.createCell(17).setCellValue(parat.getFbEs());    	    		
+    	    		
+    	    	}
+    	    	
+    	    }else{
+    	    	Row r1 = sheet.createRow((short)2);
+    	    	r1.createCell(0).setCellValue(createHelper.createRichTextString("查询数据为空")) ;
+    	    }
+    		
+    	    return wb ;
+  	}
 }

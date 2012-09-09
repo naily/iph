@@ -74,7 +74,11 @@
 							</td>
 						</tr>
 					</table>
-					<br/>
+					
+					<table id="showPages" style="display:none;"><tr><td>共 <span id="pagesNum"></span> 页&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Previous()">上一页</a>&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Next()">下一页</a>&nbsp;&nbsp;</td></tr></table>
+					<input type="hidden" id="parameterIndex"/>
+					<input type="hidden" id="monthIndex" value="0"/>
+					
 					 <table id="reportGrid"></table>					
 					
 				</div>

@@ -112,11 +112,11 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.TOTAL, list.size());
 			}		
 		}	
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadReportData")
-	@Ok("jsp:jsp.qt.parameter")
+	@Ok("raw")
 	/**
 	 * 电离层参数报表下载
 	 * 1、根据传入的观测站、年份、月份、电离参数等条件生成报表导出到excel文件中供用户下载
@@ -343,5 +343,51 @@ public class QTParameterMod extends BaseMod {
 		log.info(json.toString());
 		return json;
 	}
-	
+	@At("/qt/downloadParaData")
+	@Ok("raw")
+	/**
+	 * 找数据：电离层参数导出excel
+	 * */
+	public void exportParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response){
+		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
+			page.setLimit(Constant.PAGE_SIZE);
+			List<Parameter> list =null;
+			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
+			if(!parameterService.isProtectDateOpen("T_PARAMETER",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
+				list=parameterService.top50ParameterDataList(parameter,page,paraQuery);				
+			}else{
+				list = parameterService.parameterDataList(parameter,page,paraQuery);
+			}		
+			List<Parameter> listD= new ArrayList<Parameter>();
+			for(Parameter para:list){
+				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+				para.setStation(station);
+				listD.add(para);
+			}
+			Workbook wb = parameterService.exportParaDataToHSSFWorkbook(listD) ;
+			
+			try {
+				if(null != wb){
+					OutputStream out = response.getOutputStream();
+					response.setContentType("application/x-msdownload");
+					
+					StringBuffer fileName = new StringBuffer().append("parameter_data.xls") ;
+					response.setHeader("Content-Disposition", "attachment; filename=" + new String( fileName.toString().getBytes("GBK"), "ISO8859-1" ));
+					
+					//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
+					//byte[] buffer = IOUtils.toByteArray(bis);
+					//os.write(buffer);
+					
+					wb.write(out) ;
+					out.close();
+				}
+				
+			}catch (Exception e) {
+				// TODO: handle exception
+				log.error(e, e) ;
+			}
+		}
+		
+		
+	}
 }

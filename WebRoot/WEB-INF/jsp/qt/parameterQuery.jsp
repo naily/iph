@@ -62,14 +62,14 @@
 							</td>
 							<td>
 							  <table width="100%">
-							     <tr><td align="right">查询类型：</td><td><input id="selectDataType" name="selectDataType" class="boxinput_report"/></td></tr>
+							     <tr><td align="right">${msg['qt_query_data_type']}：</td><td><input id="selectDataType" name="selectDataType" class="boxinput_report"/></td></tr>
 							     <tr><td width="100" align="right">${msg['qt_parameter_select_date']}：</td><td><input id="allDate" type="checkbox" name="allDate" />${msg['qt_parameter_selectAlldate']}</td></tr>
 							     <tr><td align="right">${msg['qt_parameter_start_date']}：</td><td><input id="startDate" name="startDate" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_end_date']}：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_orderby']}：</td><td><input id="orderCol" name="orderCol" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_pagesize']}：</td><td><input id="showNum" name="showNum" class="boxinput_report"/></td></tr>
-							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="${msg['qt_query_button']}"/> 
-								</td></tr>
+							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="${msg['qt_query_button']}"/></td></tr>								
+							     <tr><td colspan="2" height="100" align="center"><input type="button" style="display:none;" id="downloadParaData" value="${msg['qt_download_para_excel']}"/></td></tr>								
 							   </table>	
 							</td>
 						</tr>								

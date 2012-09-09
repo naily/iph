@@ -109,13 +109,35 @@ $(document).ready(function() {
                              
                              ]
             });
-
+		/**
+		 * 电离月报生成（单月月报生成、所有参数及所有月份报表生成）
+		 * 选择所有时，遍历参数逐个显示
+		 * */
          $("#loadReportData").click(function(){
                var stationId=$('#stationId').val();
 			   var year=$('#year').val();
 			   var month=$('#month').val();
-			   var parameter=$('#parameter').val();		  
+			   var parameter=$('#parameter').val();	
+			   var showPageTbale=false;
+			   var totalPages=1;
+			   if(isMonthSelectAll()){
+			   	  totalPages=12;
+			   	  month=month_array[0];
+			   	  setTitleAndParaVaule(0,-1);// 
+			   	  showPageTbale=true;
+			   }
+ 			   if(isParaSelectAll()){
+ 			   	  totalPages*=16;
+ 			      parameter=parameter_array[0];
+ 			       setTitleAndParaVaule(-1,0);// 
+ 			       showPageTbale=true;
+ 			   }
+ 			  
                 if(stationId && year && month && parameter){
+                	 if(showPageTbale){
+		 			   	$("#pagesNum").html(totalPages);
+		 			   	$("#showPages").show();
+		 			   }
                       $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
                 }else{ //有查询条件，显示查询数据  
                 	at({cont:'请选择条件！' , type : 'error'});
@@ -145,6 +167,132 @@ $(document).ready(function() {
             });
 
 });
+/**
+ * 是否全选电离参数
+ */
 
+ function isParaSelectAll(){
+  if($("#allPara").attr("checked")){
+  	 return true;
+  }else{
+  	 return false;
+  }
+ }
+ /**
+ * 是否全选月份
+ */
+
+ function isMonthSelectAll(){
+  if($("#allMonth").attr("checked")){
+  	 return true;
+  }else{
+  	 return false;
+  }
+ }
+/**
+ * setTitleAndParaVaule（月份数组下标，电离参数数组下标）
+ * 1、设置月报表头（电离参数和月份）
+ * 2、设置电离参数及月份数组的下标（用于全选参数或月份时的分页）
+ *   说明：当页面选择了某一参数或某一月份时，则不遍历相应的数值，参数传递时传入-1
+ * */
+  function setTitleAndParaVaule(monthIdx,paraIdx){
+  	alert('monthIdx='+monthIdx+',paraIdx='+paraIdx);
+  	if(monthIdx!='-1' && monthIdx!=-1){
+	  	$('#month_year').html(getMonthEn(month_array[monthIdx])+"&nbsp;"+$('#year').val());//月份显示 	
+	  	$("#monthIndex").val(monthIdx); //月份下标显示
+  	}   
+  	if(paraIdx!='-1' && paraIdx!=-1){
+	  	$('#para_unit').html(parameter_array[paraIdx]+getUnit(parameter_array[paraIdx]));//参数显示
+	  	$("#parameterIndex").val(paraIdx);//电离参数下标设置
+  	}
+  }
+  /**
+   * 下个月报显示
+   *   需要判断是否全选了参数或者月份
+   * */
+  function Next(){ 	
+  	var parameterIndex=-1,monthIndex=-1;
+  	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
+	  	    parameterIndex=$("#parameterIndex").val();
+	  	    monthIndex=$("#monthIndex").val();
+	  	    monthIndex=parseInt(monthIndex)+1;
+	  	    if(monthIndex>11){
+	  	      monthIndex=0;
+	  	      parameterIndex=parseInt(parameterIndex)+1;
+	  	    }	  	   
+  	}
+     if(isMonthSelectAll() && !isParaSelectAll()){//全选月份,参数固定
+  	        monthIndex=$("#monthIndex").val();
+	  	    monthIndex=parseInt(monthIndex)+1;
+	  	    if(monthIndex>11){
+	  	      monthIndex=0;	  	     
+	  	    }	  	  
+	     	
+  	}
+  	 if(isMonthSelectAll()==false && isParaSelectAll()==true){//全选参数,月份固定
+  	        parameterIndex=$("#parameterIndex").val();
+	  	    parameterIndex=parseInt(parameterIndex)+1;	  	  
+	     	
+  	}
+  	
+  	setTitleAndParaVaule(monthIndex,parameterIndex);
+  	showParameterMonth();
+  	
+  }
+  /**
+   * 上个月报显示
+   * */
+  function Previous(){
+   	var parameterIndex=-1,monthIndex=-1;
+  	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
+	  	    parameterIndex=$("#parameterIndex").val();
+	  	    monthIndex=$("#monthIndex").val();
+	  	    monthIndex=parseInt(monthIndex)-1;
+	  	    if(monthIndex<0){
+	  	      monthIndex=11;
+	  	      parameterIndex=parseInt(parameterIndex)-1;
+	  	    }	  	   
+  	}
+     if(isMonthSelectAll() && !isParaSelectAll()){//全选月份,参数固定
+  	        monthIndex=$("#monthIndex").val();
+	  	    monthIndex=parseInt(monthIndex)-1;
+	  	    if(monthIndex<0){
+	  	      monthIndex=11;	  	     
+	  	    }	  	  
+	     	
+  	}
+  	 if(isMonthSelectAll()==false && isParaSelectAll()==true){//全选参数,月份固定
+  	        parameterIndex=$("#parameterIndex").val();
+	  	    parameterIndex=parseInt(parameterIndex)-1;	  	  
+	     	
+  	}
+  	
+  	setTitleAndParaVaule(monthIndex,parameterIndex);
+  	showParameterMonth();
+		
+  }
+  /**
+   * 月报生成
+   * */
+  function showParameterMonth(){
+  	 var stationId=$('#stationId').val();
+	 var year=$('#year').val();
+	 var month,parameter;
+	 
+	 if(isMonthSelectAll()){
+	 	month=month_array[$("#monthIndex").val()];
+	 }else{
+		month=$('#month').val();
+	 }
+	 if(isParaSelectAll()){
+	 	parameter=parameter_array[$("#parameterIndex").val()];	
+	 }else{
+		parameter=$('#parameter').val();
+	 }				  
+     if(stationId && year && month && parameter){       
+              $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+     }
+  
+  }
 
 
