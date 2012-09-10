@@ -46,7 +46,7 @@
 			<div class="title8">
 				电离层参数变化曲线图
 			</div>
-			<div class="reportbox" id="rightChartContent" style="min-height:760px;">
+			<div class="reportbox_chart" id="rightChartContent" ><!-- style="min-height:760px;" -->
 					<table height="290" class="report_table" align="center">
 						<tr>
 						   
@@ -90,7 +90,8 @@
 					<div id="topChart" style="min-width: 400px;  margin: 0 auto"></div><!-- height: 250px; -->
 					<br/>
 					<div id="paraDataChart" style="min-width: 400px; margin: 0 auto"></div><!--  height: 300px; -->
-					
+					<br/>
+					<div id="downChart" style="min-width: 400px; margin: 0 auto"></div><!--  height: 300px; -->					
 				</div>
 		   <!-- </div> -->
 		</div>

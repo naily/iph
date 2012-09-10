@@ -73,21 +73,22 @@ $(document).ready(function() {
 							callback : function(json) {											
 								if (json.success) {		
 								    $("#topChart").html('');								
-									$("#paraDataChart").html('');									
-									  //===========================================================================
-										if(json.isTop){	
+									$("#paraDataChart").html('');
+									$("#downChart").html('');
+									  //====================多因子组合时，上方的曲线图（如：M3000F2曲线图）=======================================================
+										if(json.topChart){	
 											$("#topChart").height(250); //.css(height,250);
-											$("#rightChartContent").height(870);
+											$("#rightChartContent").height(970);
 											var topChart;												
 										    topChart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'topChart',
 												type: 'line',
-												marginRight: 120,
+												marginRight: 100,
 												marginBottom: 25
 											},
 											title: {
-												text: json.chartTitle,
+												text: json.top_chartTitle,
 												x: -20 //center
 											},
 											subtitle: {
@@ -99,7 +100,7 @@ $(document).ready(function() {
 											},
 											yAxis: {
 												title: {
-													text: '&nbsp; '//json.yAxis+getUnit(json.paraName)
+													text: json.top_yAxis+getUnit(json.top_paraName)//json.yAxis+getUnit(json.paraName)
 												},
 												plotLines: [{
 													value: 0,
@@ -132,23 +133,23 @@ $(document).ready(function() {
 										    $("#topChart").height(0);
 										    $("#rightChartContent").height(670);										   										    
 										}
-									//=======================主曲线图=============================================
+									//=======================主曲线图（单因子曲线显示，多因子时下方多因子曲线图）=============================================
 									 if(json.rows){
-									  $("#paraDataChart").height(300);
-									  var chart;									  
+									   $("#paraDataChart").height(300);
+									   var chart;									  
 										chart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'paraDataChart',
 												type: 'line',
-												marginRight: 120,
+												marginRight: 100,
 												marginBottom: 25
 											},
 											title: {
-												text: json.chartTitle,
+												text: '',//json.chartTitle
 												x: -20 //center
 											},
 											subtitle: {
-												text: year+'.'+month+'  '+locations+'     '+jingweidu,
+												text: '',//year+'.'+month+'  '+locations+'     '+jingweidu
 												x: -20
 											},
 											xAxis: {
@@ -185,9 +186,74 @@ $(document).ready(function() {
 											}]*/
 										});
 									 }else{
-									  $("#paraDataChart").height(0);
+									 	 $("#paraDataChart").height(0);
 									 }
-									   
+									  
+									  if(json.downChart){
+									   	 $("#downChart").height(200);
+									   	 $("#rightChartContent").height(870);	
+									   		chart = new Highcharts.Chart({
+								            chart: {
+								                renderTo: 'downChart',
+								                type: 'column',
+								               // margin: [ 30, 100, 50, 50]
+								                marginRight: 100,
+												marginBottom: 25
+								            },
+								            title: {
+								                text: ''
+								            },
+								            xAxis: {
+								                categories: parameter_chart_xAxis_hour
+								                /*labels: {
+								                    rotation: -45,
+								                    align: 'right',
+								                    style: {
+								                        fontSize: '13px',
+								                        fontFamily: 'Verdana, sans-serif'
+								                    }
+								                }*/
+								            },
+								            yAxis: {
+								                min: 0,
+								                title: {
+								                    text: 'Population (millions)'
+								                }
+								            },
+								            legend: {
+								                enabled: false
+								            },
+								            tooltip: {
+								                formatter: function() {
+								                    return '<b>'+ this.x +': '+ this.y;
+								                }
+								            },
+								            series:json.downChart
+								          /*     series: [{
+								                name: "h'Es",
+								                data: [1, 0, 0, 0, 0, 0, 0, 0, 18,1, 16, 15, 14, 14, 13, 12, 12, 11,11, 11,2,2,3,4],
+								                    //data:json.downChart.data,
+								                dataLabels: {
+								                    enabled: true,
+								                    rotation: -90,
+								                    color: '#FFFFFF',
+								                    align: 'right',
+								                    x: -3,
+								                    y: 10,
+								                    formatter: function() {
+								                        return this.y;
+								                    },
+								                    style: {
+								                        fontSize: '13px',
+								                        fontFamily: 'Verdana, sans-serif'
+								                    }
+								                }
+								            }]*/
+								        });
+ 
+									   }else{
+									      $("#downChart").height(0);
+									   }
 										
 										
 										  //=========================================================================

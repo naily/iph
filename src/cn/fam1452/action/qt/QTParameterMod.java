@@ -6,6 +6,7 @@ package cn.fam1452.action.qt;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.QuartileBean;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -172,58 +174,130 @@ public class QTParameterMod extends BaseMod {
 			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
 			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
 			if(null!=parameter.getParaType()){
+				log.info("parameter.getParaType()="+parameter.getParaType());
 				QuartileUtil quartUtil=null;
 				String[] filterFiled={"days"};//过滤非数据字段
 				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
-				if(paraAry.length==1){//单因子
-					json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
-					json.put("yAxis", "Critical Frequency ");
-					json.put("paraName", paraAry[0]);
-					quartUtil = new QuartileUtil();	
-					parameter.setParaType(paraAry[0]);
-					list = parameterService.parameterMonthReport(parameter);
-					if(null!=list && list.size()>0){
-						medList=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
-					}									
-				}else{//多因子
-					json.put("chartTitle", "Monthly ionospheric data plot");
-					json.put("yAxis", "Frequency ");
-					json.put("paraName", paraAry[0]);
+				if(paraAry.length==1){//单因子				
+						json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+						json.put("yAxis", "Critical Frequency ");
+						json.put("paraName", paraAry[0]);
+						quartUtil = new QuartileUtil();	
+						parameter.setParaType(paraAry[0]);
+						list = parameterService.parameterMonthReport(parameter);
+						if(null!=list && list.size()>0){
+							medList=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
+						}									
+										
+				}else{//多因子：两种组合 组合1：（foF2,foF1,foEs,foE），组合2：（M3000F2,P(foEs),hiEs）
 					Map map =null;
-					if("foF2".equals(paraAry[0])){//根据多因子数组的首因子判断是何种组合，从而生成主曲线图上方的曲线图，如M3000F2图
-						 parameter.setParaType("M3000F2");
-						 list = parameterService.parameterMonthReport(parameter);
-						 if(null!=list && list.size()>0){
-							 quartUtil = new QuartileUtil();	
-							 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
-						 }
-						 
-						 map.put("name", "M3000F2");
-						 medList.add(map);
+					//根据多因子数组的首因子判断是何种组合，从而生成主曲线图上方的曲线图
+					if("foF2".equals(paraAry[0])){//多因子组合1：
+						//======上方曲线图（h'E,h'F2,h'F1）============hlE,hlF2,hlF1
+						json.put("top_chartTitle", "Monthly ionospheric data plot");
+						json.put("top_yAxis", "Virtual Height(Km)");
+						json.put("top_paraName", "hlE");
+						String[] topPara ={"hlF2","hlF1","hlE"};
+						for(String topP:topPara){
+							 parameter.setParaType(topP);
+							 list = parameterService.parameterMonthReport(parameter);
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();	
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }						 
+							 map.put("name", topP);
+							 medList.add(map);
+						}
 						 json.put("topChart", medList);
-						 medList.remove(map);
-						 
-						 json.put("isTop", true);
-					}else{
-						 json.put("isTop", false);
-					}				
-					for(String paraValue:paraAry){//遍历因子，通过生成的单因子电离月报数据，计算单因子四分位数
-						 parameter.setParaType(paraValue);						 
-						 list = parameterService.parameterMonthReport(parameter);	
-						 if(null!=list && list.size()>0){
-							 quartUtil = new QuartileUtil();	
-							 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
-						 }
-						 map.put("name", paraValue);
-						 medList.add(map);														
-					 }	
-					}//end for
-				}
+						 medList.clear();
+						//======下方曲线图(foF2,foF1,foEs,foE)============
+						json.put("chartTitle", "Monthly ionospheric data plot");
+						json.put("yAxis", "Critical Frequency(Km)");
+						json.put("paraName", paraAry[0]);
+						
+						for(String paraValue:paraAry){//遍历因子，通过生成的单因子电离月报数据，计算单因子四分位数
+							 parameter.setParaType(paraValue);						 
+							 list = parameterService.parameterMonthReport(parameter);	
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }
+							 map.put("name", paraValue);
+							 medList.add(map);								 
+						 }	
+						}else{//组合2
+						  //==============上方曲线（M3000F2）==================
+							json.put("top_chartTitle", "Monthly ionospheric data plot");
+							json.put("top_yAxis", "");
+							json.put("top_paraName", "M3000F2");
+							parameter.setParaType("M3000F2");
+							list = parameterService.parameterMonthReport(parameter);
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();	
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }
+							 
+							 map.put("name", "M3000F2");
+							 medList.add(map);
+							 json.put("topChart", medList);
+							 medList.clear();
+						  
+						  //==============下方柱图（h'Es）==================
+							  //Map<String,String> mapCnt = new HashMap();
+							    parameter.setParaType("hlEs");
+								list = parameterService.parameterMonthReport(parameter);
+								 if(null!=list && list.size()>0){
+									 quartUtil = new QuartileUtil();																			 
+									 map =quartUtil.monthIonosphericCntDate(list, filterFiled, filterFiled[0]);																		
+								 }							 
+								 map.put("name", "h'Es");
+								 medList.add(map);
+								 json.put("downChart", medList);
+								 medList.clear();
+							 
+						  //==============中间曲线（P（foEs））==================
+								json.put("chartTitle", "Monthly ionospheric data plot");
+								json.put("yAxis", "P(foEs)");
+								json.put("paraName", "P(foEs)");
+								 parameter.setParaType("foEs");
+								 list = parameterService.parameterMonthReport(parameter);
+									 if(null!=list && list.size()>0){
+										 quartUtil = new QuartileUtil();																			 
+										 try {
+											map =quartUtil.getPFoEs(list, 3);
+											map.put("name", "P(foEs>3)");
+											medList.add(map);
+											map =quartUtil.getPFoEs(list, 5);
+											map.put("name", "P(foEs>5)");
+											medList.add(map);
+											map =quartUtil.getPFoEs(list, 7);
+											map.put("name", "P(foEs>7)");
+											medList.add(map);
+										} catch (IllegalAccessException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (InvocationTargetException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (NoSuchMethodException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}																		
+									 }							 
+								/* map.put("name", "h'Es");
+								 medList.add(map);
+								 json.put("downChart", medList);*/
+									
+							
+						 }//end 组合2				
+					
+					}//end 多因子
+				}//end  if(null!=parameter.getParaType()){
 							
 			if(null!=medList ){
 				json.put(Constant.SUCCESS, true);
 				json.put(Constant.ROWS, medList);
-			}		
+			  }		
 			}//end if
 			
 		log.info(json.toString());

@@ -65,8 +65,8 @@ parameter_omCombo_datasource2=[
 			           { text : 'M3000F1',  value : 'm3000F1'}, 
 			           { text : 'M3000F',   value : 'm3000F'},
 			           { text : 'foF2.foF1.foEs.foE',   value : "foF2,foF1,foEs,foE"},
-			           { text : "h'F2.h'Es.h'E.h'F1",   value : "hlF2,hlEs,hlE,hlF1"},
-			           { text : 'P(foEs)',value:'P(foEs)'}
+			           { text : "P（foEs）.h'Es",   value : "M3000F2,P（foEs）,hiEs"}
+			         
 			           
 			           ]
  parameter_array=['foF2','hlF2','foF1','hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']			         

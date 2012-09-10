@@ -3,6 +3,7 @@ package cn.fam1452.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,7 +64,31 @@ public class QuartileUtil<T>{
 		}
 		return map ;
 	}
-	
+	/**
+	 * 统计出T中属性(有效值)的个数
+	 * @Author Derek
+	 * @Date Aug 8, 2012
+	 * @param list
+	 */
+	public Map<String, String> getCNTStr(List<T> list) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+		Object o = list.get(0) ;
+		Field[] fs = getFields(o) ;
+		Map<String, String> map = new HashMap<String, String> () ;
+		
+		for (Field f : fs) {
+			String fn = f.getName() ;
+			int ct = 0 ;
+			for (T t : list) {
+				//Object tmp = PropertyUtils.getSimpleProperty(t, f.getName()) ;
+				if(null != PropertyUtils.getSimpleProperty(t, f.getName())){
+					ct++ ;
+				}
+			}
+			map.put(fn, String.valueOf(ct)) ;
+			
+		}
+		return map ;
+	}
 	public static String[] filterFields(Field[] fa , String[] ft){
 		if(null == fa || fa.length ==0){
 			return null ;
@@ -436,5 +461,144 @@ public class QuartileUtil<T>{
 		}
 		
 		return retValue;
+	}
+	/**
+	 * 功能：P(foEs) 函数值 foEs>3MHz、foEs>5MHz、foEs>7MHz
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * h'Es ( KM )出现的次数， 即h'Es表格中的的CNT（CNT含义参见问题1）。
+	 * */
+	public Map  pfoes(List<Object> list , String[] field,String headTitle) {
+		QuartileBean quartBean = null;
+		Map map =null;
+		int[] pValue = null;
+		try {
+			quartBean = this.mianCallMe(list, field);
+			//PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+			
+					if(null!=quartBean){
+					    map = new HashMap();
+						Field[] fields = quartBean.getCnt().getClass().getDeclaredFields();
+						String[] farray = QuartileUtil.filterFields(fields, field) ;
+						pValue = new int[farray.length];
+						for(int i=0;i<farray.length;i++){
+							String filedName =farray[i];
+							Object va = PropertyUtils.getSimpleProperty(quartBean.getCnt(), filedName) ;
+							pValue[i]=Integer.parseInt(va.toString());
+						}
+						//map.put("name",paraValue);
+						map.put("data", pValue);
+					}							
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//为四分位数赋标题值
+		
+		return map;
+		
+	}
+	/**
+	 * 功能：P(foEs) 函数值 foEs>3MHz、foEs>5MHz、foEs>7MHz
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * h'Es ( KM )出现的次数， 即h'Es表格中的的CNT。
+	 * */
+	public Map<String, String> getPFoEs(List<T> list,int values) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+		Object o = list.get(0) ;//获取list中的对象
+		Field[] fs = getFields(o) ;//获取对象字段（属性）
+		Map<String, String> map = new HashMap<String, String> () ;
+		
+		int greatThen;//大于比较值的数量
+		int totalNum;//有效值总数
+		float ratioValue=0;//比值结果百分比(greatThen/totalNum)*100
+		
+		for (Field f : fs) {//遍历属性
+			String fn = f.getName() ;
+		    totalNum = 0 ;
+			greatThen=0;
+			float paraValue;
+			for (T t : list) {
+				
+				if(null != PropertyUtils.getSimpleProperty(t, f.getName()) && !"".equals(PropertyUtils.getSimpleProperty(t, f.getName())) && !" ".equals(PropertyUtils.getSimpleProperty(t, f.getName()))){
+					totalNum++ ;
+					//System.out.println("PropertyUtils.getSimpleProperty(t, f.getName()="+PropertyUtils.getSimpleProperty(t, f.getName()));
+					paraValue=Float.parseFloat(PropertyUtils.getSimpleProperty(t, f.getName()).toString());
+					if(paraValue>values){
+						greatThen++;
+					}					
+				}				
+			}
+			if(totalNum>0){
+				ratioValue=getFloatNum(greatThen/totalNum)*100;
+			}
+			map.put(fn, String.valueOf(ratioValue)) ;
+			
+		}
+		return map ;
+	}
+	/**
+	 * 返回float数据，保留两位小数
+	 * */
+	public static float getFloatNum(float s){
+		BigDecimal  bigDec =new   BigDecimal(s); 
+		float   rs   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();		
+		return rs;
+	   }
+	/**
+	 * 功能：返回电离月报四分位值中的CNT
+	 * @param list ：1-31天的电力参数值
+	 * @param field ：排除的属性
+	 * @param headTitle ：四分位数的四个标题对应的bean属性
+	 * */
+	public Map  monthIonosphericCntDate(List<Object> list , String[] field,String headTitle) {
+		QuartileBean quartBean = null;
+		Map map =null;
+		int[] pValue = null;
+		try {
+			quartBean = this.mianCallMe(list, field);
+			PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
+			
+					if(null!=quartBean){
+					    map = new HashMap();
+						Field[] fields = quartBean.getCnt().getClass().getDeclaredFields();
+						String[] farray = QuartileUtil.filterFields(fields, field) ;
+						pValue = new int[farray.length];
+						for(int i=0;i<farray.length;i++){
+							String filedName =farray[i];
+							Object va = PropertyUtils.getSimpleProperty(quartBean.getCnt(), filedName) ;
+							pValue[i]=Integer.parseInt(va.toString());
+						}
+						//map.put("name",paraValue);
+						map.put("data", pValue);
+					}							
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//为四分位数赋标题值
+		
+		return map;
+		
 	}
 }
