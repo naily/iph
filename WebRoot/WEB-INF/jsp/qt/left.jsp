@@ -24,20 +24,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
    <div  id="left">
-<div class="title1">数据导航</div>
-<div class="title2">电离层频高图</div>
+<div class="title1">${msg['qt_data_navigation']}</div>
+<div class="title2">${msg['qt_Ionospheric_ionogram']}</div>
   <div id="leftTree1"  style="width:185px; height:120px; overflow:auto">
    <ul id="pgtTree"></ul>     
 </div> 
-<div class="title2">电离层参数</div>
+<div class="title2">${msg['qt_Ionospheric_parameters']}</div>
 <div id="leftTree2"  style="width:185px; height:120px; overflow:auto">
    <ul id="paraTree"></ul>     
 </div> 
-<div class="title2">报表扫描图</div>
+<div class="title2">${msg['qt_Report_scan']}</div>
 <div id="leftTree32"  style="width:185px; height:120px; overflow:auto">
    <ul id="scanpicTree"></ul>     
 </div> 
-<div class="title3">相关链接</div>
+<div class="title3">${msg['qt_links']}</div>
 <table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="30" class="fontstyle2"><a href="http://www.igsnrr.ac.cn" title="中国科学院地理科学与资源研究所" target="_blank" class="a3">中国科学院地理科学...</a></td>

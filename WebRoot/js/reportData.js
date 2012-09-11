@@ -44,7 +44,7 @@ $(document).ready(function() {
 
 	// 年份
 	$('input[name=year]').omCombo({ // 初始化Combo
-		dataSource :year_omCombo_datasource,
+		dataSource :'qt/yearList.do',//year_omCombo_datasource,
 		width : 100,
 		//value:2012,
 		onValueChange : function() {

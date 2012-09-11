@@ -47,16 +47,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="rightbox2_3">
 <div class="title6" style="margin-top:1px;">${msg['index_Data_Access_Statistics']}</div>
 <div class="rightbox2_3_text">
-注册用户：<span id="regUserNum"></span><br />
-网站访问量：<span id="visitNum"></span><br />
-数据查询次数：<span id="queryNum"></span><br />
-数据下载次数：<span id="downloadNum"></span><br />
-数据下载数量：<span id="downloadAmount"></span>
+${msg['qt_reg_user_num']}：<span id="regUserNum"></span><br />
+${msg['qt_site_visit_num']}：<span id="visitNum"></span><br />
+${msg['qt_data_query_num']}：<span id="queryNum"></span><br />
+${msg['qt_data_download_num']}：<span id="downloadNum"></span><br />
+${msg['qt_data_download_quantity']}：<span id="downloadAmount"></span>
 </div>
 </div><!--rightbox2_3 结束-->
 
 <div class="rightbox2_4">
-<div class="title7">您的意见</div>
+<div class="title7">${msg['qt_your_comments']}</div>
 
 <form id="userCommentForm" name="userCommentForm" action="qt/userComment.do" method="post" onSubmit="return userComment()"> 
 <table width="99%" border="0" cellspacing="0" cellpadding="0">
@@ -67,10 +67,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <td width="24%" valign="bottom">
     <c:choose>
 	    	<c:when test="${sessionScope.qt_account.login==true}" >
-	    	<a href="qt/userCommentList.do">[以往意见]</a> <br/><br/>
+	    	<a href="qt/userCommentList.do">[${msg['qt_your_comments_old']}]</a> <br/><br/>
 	    	</c:when>
 	</c:choose>
-	<a href="javascript:void(0)" id="userCommentSubmit"><img src="images/d10.jpg"  border="0"/></a>
+	<a href="javascript:void(0)" id="userCommentSubmit">
+	  <img 
+	   <c:choose>
+		<c:when test='${msg.lang=="zh"}'>  src="images/d10.jpg"</c:when>		
+		<c:otherwise> src="images/d12.jpg"</c:otherwise>
+	  </c:choose>
+	  border="0"/></a>
 	<%--
    <input name="userCommentSubmit"  id="userCommentSubmit" type="image" value="" src="images/d10.jpg"/></a></td>
   --%></tr>
@@ -101,11 +107,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <table width="99%" border="0" cellspacing="0" cellpadding="0" class="rightbox3_2_m">
     <tr>
       <td width="46" height="34" align="right" class="fontstyle2" ><img src="images/d09.jpg" width="41" height="34" /></td>
-      <td width="88" align="left" class="fontstyle2" >元数据搜索</td>
+      <td width="88" align="left" class="fontstyle2" >${msg['qt_metadata_search']}</td>
       <td width="301"><label></label>
       	
           <input type="text" name="title" id="metaDataKeyword" class="boxinput2" /></td>
-      <td width="67"> <input name="metaSubmit"  id="metaSubmit" type="image" value="" src="images/d08.jpg" /><%--<img src="images/d08.jpg" width="67" height="28" border="0" /></td>--%>
+      <td width="67"> 
+      
+      <input name="metaSubmit"  id="metaSubmit" type="image" value="" 
+      <c:choose>
+		<c:when test='${msg.lang=="zh"}'>  src="images/d08.jpg"</c:when>		
+		<c:otherwise> src="images/d11.jpg"</c:otherwise>
+	  </c:choose>
+     
+      
+       />
+      
+      <%--<img src="images/d08.jpg" width="67" height="28" border="0" />--%>
+      </td>
     </tr>
   </table>
   </form>
@@ -141,10 +159,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!--right 结束-->
 		<jsp:include page="WEB-INF/jsp/qt/left.jsp" flush="true" />
 		<!--left 结束-->
-<div id="bottom">
+		<jsp:include page="WEB-INF/jsp/ht/footer.jsp" flush="true" />
+<%--<div id="bottom">
 版权所有：中国科学院地理科学与资源研究所-科技基础性工作专项重点项目 &nbsp;&nbsp; 
 <a href="ht/index.do" class="a1" target="blank">[管理员]</a><br />
 联系电话：010-51888888  &nbsp;&nbsp; 通讯地址：  邮编： 
 </div>
-</body>
+--%></body>
 </html>

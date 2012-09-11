@@ -19,4 +19,10 @@ public class HomeMod extends BaseMod{
 		Mvcs.setLocalizationKey(lang) ;
 		return  ;
 	}
+	
+	
+	@At("/qt/about")
+	@Ok("jsp:jsp.qt.about") 
+    public void about(){
+	}
 }
