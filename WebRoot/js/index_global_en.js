@@ -42,4 +42,3 @@ function getCityRecords() {
 		return [];
 	}
 }
-

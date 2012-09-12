@@ -12,7 +12,7 @@
 	<head>
 		<base href="<%=basePath%>">
 		<title>${msg['site_name']}</title>
-		<%--
+
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
@@ -28,8 +28,8 @@
 				<script type="text/javascript" src="js/index_global_en.js"></script>
 			</c:otherwise>
 		</c:choose>	
-		<script type="text/javascript" src="js/reportData.js"></script>
-	--%>
+		
+
 	</head>
 	<script type="text/javascript">
     	var basepath = "<%=basePath%>" ;

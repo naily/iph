@@ -4,8 +4,11 @@ body{ margin:0 auto !important;
 padding:0 ;
 width:1003px;
 background:#ffffff;
-font-size:12px;
+//font-size:12px;
+font:9pt arial, helvetica, sans-serif;
 }
+
+
 
 #top{ width:1003px;
 height:130px;
@@ -81,13 +84,13 @@ font-weight:bold;
 }
 .nav_float{ float:left; margin-right:25px;}
 
-.title1{ width:120px; height:30px; background:url(d03.jpg) no-repeat;padding-left:72px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171;text-indent:0em;}
-.title2{ width:180px; height:30px; background:url(d04.jpg) repeat-x;padding-left:10px; padding-top:13px; font-size:16px; font-weight:bold; margin-bottom:8px; }
-.title3{ width:120px; height:30px; background:url(d05.jpg) no-repeat;padding-left:72px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171; }
-.title4{ width:105px; height:30px; background:url(d06.jpg) no-repeat; padding-left:65px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171;margin-left:10px; margin-bottom:5px; float:right; text-indent:0em;}
+.title1{ width:130px; height:30px; background:url(d03.jpg) no-repeat;padding-left:70px; padding-top:12px; font-size:16px; font-weight:bold; color:#004171;text-indent:0em;}
+.title2{ width:180px; height:30px; background:url(d04.jpg) repeat-x;padding-left:10px; padding-top:13px; font-size:14px; font-weight:bold; margin-bottom:8px; }
+.title3{ width:120px; height:30px; background:url(d05.jpg) no-repeat;padding-left:72px; padding-top:12px; font-size:16px; font-weight:bold; color:#004171; }
+.title4{ width:105px; height:30px; background:url(d06.jpg) no-repeat; padding-left:65px; padding-top:12px; font-size:16px; font-weight:bold; color:#004171;margin-left:10px; margin-bottom:5px; float:right; text-indent:0em;}
 .title5{ width:84px; height:28px; background:#f3f3f3; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; margin:1px 0px 10px 1px; }
 .title6{ width:120px; height:28px; background:#f3f3f3; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; float:right; margin-top:1px; margin-right:1px;}
-.title7{ width:120px; height:20px; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; margin:1px 1px 10px 0px; }
+.title7{ width:130px; height:20px; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; margin:1px 1px 10px 0px; }
 
 
 
@@ -142,7 +145,7 @@ float:right;
 
 #content{ width:1003px; height:653px; background:#F6F6F6;}
 .loginbox{ width:1003px; height:400px; padding-top:150px; }
-.loginbox1{ width:1003px; height:400px; padding-top:80px; }
+.loginbox1{ width:1003px; height:400px; padding-top:20px; }
 .loginbox_bor{ border:#bfd0e1 3px solid; background:#ffffff; font-size:14px; width:400px; }
 .loginbox_bor2{ border:#bfd0e1 3px solid; background:#ffffff; font-size:14px; width:480px; }
 

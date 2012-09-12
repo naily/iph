@@ -31,5 +31,8 @@ function getCityRecords() {
 		return [];
 	}
 }
+var select_station='选择观测站'
+var select_parameter='选择参数'
+var select_type_parameter='电离层参数'
 
 

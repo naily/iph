@@ -196,7 +196,7 @@ $(document).ready(function() {
  *   说明：当页面选择了某一参数或某一月份时，则不遍历相应的数值，参数传递时传入-1
  * */
   function setTitleAndParaVaule(monthIdx,paraIdx){
-  	alert('monthIdx='+monthIdx+',paraIdx='+paraIdx);
+  	//alert('monthIdx='+monthIdx+',paraIdx='+paraIdx);
   	if(monthIdx!='-1' && monthIdx!=-1){
 	  	$('#month_year').html(getMonthEn(month_array[monthIdx])+"&nbsp;"+$('#year').val());//月份显示 	
 	  	$("#monthIndex").val(monthIdx); //月份下标显示

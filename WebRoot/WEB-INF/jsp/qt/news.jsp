@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>电离层专题数据库管理系统</title>
+		<title>${msg['site_name']}</title>
 		<!--
 	-->
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
@@ -28,10 +28,10 @@
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
 		<div  id="right">
-			<div class="title8">新闻内容</div>
+			<div class="title8">${msg['qt_news_title']}</div>
 			<div class="newsbox">
 				<div class="newstitle">${obj.title }</div>
-				<div class="newsinfo">时间：<fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
+				<div class="newsinfo">${msg['qt_news_time']}：<fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
 				<div class="newstext">${obj.content }</div>
 			</div>
 		</div>

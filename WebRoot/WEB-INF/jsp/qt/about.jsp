@@ -28,7 +28,7 @@
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
 		<div  id="right">
-			<div class="title8">关于我们</div>
+			<div class="title8">${msg['qt_mu_me']}</div>
 			<div class="newsbox">
 				
 				<div class="newstext">关于我们的内容</div>
