@@ -1,8 +1,8 @@
 $(document).ready(function() {
 	// 选择观测站
 	$('#selectorStation').omItemSelector({
-				availableTitle : '选择观测站',
-				selectedTitle : '已选观测站',
+				availableTitle : select_station,
+				selectedTitle : selected_station,
 				dataSource : 'qt/listAllStation.do',
 				// value:[],
 				/*onItemSelect : function(itemDatas, event) {
@@ -25,8 +25,8 @@ $(document).ready(function() {
 
 	// 选择电离参数
 	$('#selectorParaS').omItemSelector({
-				availableTitle : '选择参数',
-				selectedTitle : '已选择参数',
+				availableTitle : select_parameter,
+				selectedTitle : selected_parameter,
 				dataSource : parameter_omCombo_datasource,
 				// value:[],
 			/*	onItemSelect : function(itemDatas1, event) {
@@ -48,14 +48,14 @@ $(document).ready(function() {
 	// 选择查询数据类型
 	$('#selectDataType').omCombo({
 				dataSource:[
-                {text:'电离层参数',value:'1'},
-                {text:'电离层频高图',value:'2'},
-                {text:'报表扫描图',value:'3'}             
+                {text:select_type_parameter,value:'1'},
+                {text:'select_type_ionogram',value:'2'},
+                {text:'select_type_Report_scan',value:'3'}             
 		        ],
 		       /* optionField:function(data,index){
 		            return '<font color="red">'+index+'：</font>'+data.text+'('+data.value+')';
 		        },*/
-		        emptyText:'选择查询类型',
+		        emptyText:select_query_type,
 		      //  value:'1',
 		     //   editable:false,
 		      //  lazyLoad:true,
@@ -71,10 +71,10 @@ $(document).ready(function() {
 	// 排序方式选择
 	$('#orderCol').omCombo({
 				dataSource : [{
-							text : '观测站',
+							text : order_by_station,
 							value : 'stationID'
 						}, {
-							text : '观测日期',
+							text : order_by_date,
 							value : 'createDate'
 						}]
 			});

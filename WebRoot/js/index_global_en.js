@@ -42,3 +42,13 @@ function getCityRecords() {
 		return [];
 	}
 }
+    var select_station='Station'
+	var selected_station="Selected"
+	var select_parameter='Parameter'
+	var selected_parameter='Selected'
+	var select_type_parameter='parameters'
+	var select_type_ionogram='ionogram'
+	var select_type_Report_scan='Report scan'
+	var select_query_type='select type'
+	var order_by_station='Station'
+	var order_by_date='Date'

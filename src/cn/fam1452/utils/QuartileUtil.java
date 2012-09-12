@@ -515,26 +515,32 @@ public class QuartileUtil<T>{
 	 * @param headTitle ：四分位数的四个标题对应的bean属性
 	 * h'Es ( KM )出现的次数， 即h'Es表格中的的CNT。
 	 * */
-	public Map<String, String> getPFoEs(List<T> list,int values) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+	public Map getPFoEs(List<T> list,int values) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
 		Object o = list.get(0) ;//获取list中的对象
 		Field[] fs = getFields(o) ;//获取对象字段（属性）
-		Map<String, String> map = new HashMap<String, String> () ;
+		Map map = new HashMap() ;
 		
 		int greatThen;//大于比较值的数量
 		int totalNum;//有效值总数
 		float ratioValue=0;//比值结果百分比(greatThen/totalNum)*100
-		
-		for (Field f : fs) {//遍历属性
+		int[] pValue = null;
+		pValue = new int[fs.length-1];//排除days属性
+		for (int i=1;i<fs.length;i++) {//遍历属性
+			//for (Field f : fs) {//遍历属性
+			Field f =fs[i];
+			System.out.println(f.getName());
 			String fn = f.getName() ;
-		    totalNum = 0 ;
-			greatThen=0;
-			float paraValue;
+		   
+		if(StringUtil.checkNotNull(fn) && !"days".endsWith(fn)){
+			    totalNum = 0 ;
+				greatThen=0;
+				float paraValue;
 			for (T t : list) {
 				
-				if(null != PropertyUtils.getSimpleProperty(t, f.getName()) && !"".equals(PropertyUtils.getSimpleProperty(t, f.getName())) && !" ".equals(PropertyUtils.getSimpleProperty(t, f.getName()))){
+				if(null != PropertyUtils.getSimpleProperty(t, fn) && !"".equals(PropertyUtils.getSimpleProperty(t, fn)) && !" ".equals(PropertyUtils.getSimpleProperty(t, fn)) && !"days".equals(PropertyUtils.getSimpleProperty(t,fn))){
 					totalNum++ ;
 					//System.out.println("PropertyUtils.getSimpleProperty(t, f.getName()="+PropertyUtils.getSimpleProperty(t, f.getName()));
-					paraValue=Float.parseFloat(PropertyUtils.getSimpleProperty(t, f.getName()).toString());
+					paraValue=Float.parseFloat(PropertyUtils.getSimpleProperty(t, fn).toString());
 					if(paraValue>values){
 						greatThen++;
 					}					
@@ -542,10 +548,18 @@ public class QuartileUtil<T>{
 			}
 			if(totalNum>0){
 				ratioValue=getFloatNum(greatThen/totalNum)*100;
+				
+			}else{
+				ratioValue=0;
 			}
-			map.put(fn, String.valueOf(ratioValue)) ;
+			int intV =(int)ratioValue;
+			pValue[i-1]=intV;
+		}
+			
+			//map.put(fn, String.valueOf(ratioValue)) ;
 			
 		}
+		map.put("data", pValue);
 		return map ;
 	}
 	/**

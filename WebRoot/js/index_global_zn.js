@@ -32,7 +32,15 @@ function getCityRecords() {
 	}
 }
 var select_station='选择观测站'
+var selected_station="已选观测站"
 var select_parameter='选择参数'
+var selected_parameter='已选参数'
 var select_type_parameter='电离层参数'
+var select_type_ionogram='电离层频高图'
+var select_type_Report_scan='报表扫描图'
+var select_query_type='选择查询类型'
+var order_by_station='观测站'
+var order_by_date='观测日期'
+
 
 

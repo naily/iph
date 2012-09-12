@@ -15,8 +15,8 @@ $(document).ready(function() {
  	 * 一次只选择一个单因子或者一组多因子，不允许多选
  	 * */
        var sss=$('#selectorPara').omItemSelector({
-                availableTitle : '可选择参数',
-                selectedTitle : '已选择参数',
+                availableTitle : select_parameter,
+                selectedTitle : selected_parameter,
                 dataSource : parameter_omCombo_datasource2,
                 value:[],
                 onBeforeItemSelect:function(itemDatas, event){
