@@ -32,7 +32,7 @@ var save ={
         $( "#createblock").omDialog({
             autoOpen: false,
             resizable: false ,
-            width : 500 ,
+            width : 540 ,
             closeOnEscape : true ,
             draggable : false ,
             title:'观测站' 
@@ -46,48 +46,55 @@ var save ={
             //draggable : false ,
             title:'观测站' 
          });
-         
-          $('a#createbut').omButton({
-            onClick : this.open
-          })  ;
-          $('a#updatebut').omButton({
-            onClick : this.modif
-          })  ;
-          $('a#del').omButton({
-            onClick : function(){
-                var dels = $('#list0').omGrid('getSelections' , true);
-                if(dels.length < 1 ){
-                    at({cont:'请选择删除的记录！' , type : 'error'});
-                    return;
-                }else{
-                    var delt = {
-                        url : 'ht/stationdel.do',
-                        params : {id: dels[0].id}  ,
-                        callback : function(json){
-                            if(json.success){
-                                $('#list0').omGrid('reload');
-                            }else{
-                                at({cont: json.info , type : 'error'});
-                            }
-                        }
-                    }
-                    //提示
-                    $.omMessageBox.confirm({
-                        title:'确认删除',
-                        content:'删除观测站,你确定要删除吗?',
-                        onClose:function(value){
-                            if(value){
-                                ajaxpost(delt);
-                            }
-                        }
-                    });
+         $('#buttonbar').omButtonbar({
+         		height : 40 ,
+            	btns : [{	 label :'添加' ,
+	            		     id:"button1" ,
+	            	 		 onClick: this.open
+            			},
+            	        {
+	            			 id:"button3",
+	            			 label :'修改',
+	            	 		 onClick: this.modif
+            	        },
+            	        {
+            	        	id:"button4" ,
+            	        	label :'删除' ,
+            	        	onClick:function(){
+								var dels = $('#list0').omGrid('getSelections' , true);
+				                if(dels.length < 1 ){
+				                    at({cont:'请选择删除的记录！' , type : 'error'});
+				                    return;
+				                }else{
+				                    var delt = {
+				                        url : 'ht/stationdel.do',
+				                        params : {id: dels[0].id}  ,
+				                        callback : function(json){
+				                            if(json.success){
+				                                $('#list0').omGrid('reload');
+				                            }else{
+				                                at({cont: json.info , type : 'error'});
+				                            }
+				                        }
+				                    }
+				                    //提示
+				                    $.omMessageBox.confirm({
+				                        title:'确认删除',
+				                        content:'删除观测站,你确定要删除吗?',
+				                        onClose:function(value){
+				                            if(value){
+				                                ajaxpost(delt);
+				                            }
+				                        }
+				                    });
+				
+				                }
+							}
+            	        }
+            	]
+            });
 
-                }
-        }
-          })  
-        //$("#createbut").click(this.open) ;
-        //$("#updatebut").click(this.modif) ;
-        //$("#savebut").click(this.savedata);
+        
         $('#sqId').omCombo({
                dataSource :tzdatasource ,
                editable : false,

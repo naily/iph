@@ -24,27 +24,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var basepath = '<%=basePath%>' ;
 	</script>
 	<script type="text/javascript" src="js/stations.js"></script>
+	
+	
   </head>
   
   <body>
     <jsp:include page="header.jsp" flush="true" />
     
     <div id="center" >
-    	<span id="toolbar" class="om-widget-header om-corner-all">
-	        <a id="createbut" href="javascript:void(0)">添加</a>
-	        <a id="updatebut"  href="javascript:void(0)">修改</a>
-	        <a id="del"  href="javascript:void(0)">删除</a>
-    	</span>
-		<!--  
-    	<button id="createbut">添加</button>
-    	<button id="updatebut">修改</button>
-    	<button id="del">删除</button>
-    	-->
+    	<div id="buttonbar"></div>
+    	
     	<div id="viewdetail"></div>
     	<table id="list0"></table>
     	
-    	<div id="createblock">
-    		<table width="480" border="0" style="float: left;">
+    	<div id="createblock" style="display: none;">
+    		<table width="520" border="0" style="float: left;">
               <tr>
                 <td align="right">&nbsp;观测站编码:</td>
                 <td >&nbsp;<input id="stId" size="24"/><span class="red_asterisk">*</span></td>
@@ -52,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
               	<td align="right">&nbsp;地理位置描述:</td>
-                <td colspan="3">&nbsp;<input id="wzId"  size="58"/><span class="red_asterisk">*</span></td>
+                <td colspan="3">&nbsp;<input id="wzId"  size="64"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
               	<td align="right">&nbsp;名称:</td>
@@ -108,8 +102,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
               	<td >&nbsp;</td>
-                <td align="center">&nbsp;<input type="button" onclick="save.savedata();" value=" 保  存 " /></td>
-                <td align="center">&nbsp;<input type="button" onclick="save.clear();" value=" 清  空 " /></td>
+                <td align="center">&nbsp;<input type="image" onclick="save.savedata();"  src = "images/baocun.png" /></td>
+                <td align="center">&nbsp;<input type="image" onclick="save.clear();" src="images/chongzhi.png" /></td>
                 <td>&nbsp;</td>
            </table>
     	</div>
