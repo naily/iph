@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="#tab1">单个录入</a></li>
             <li><a href="#tab2">批量导入</a></li>
         </ul>
-        <div id="tab2">
+        <div id="tab2" >
         	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
 	        	<tr>
 	        	<td> 
@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	</table>
         </div>
         
-        <div id="tab1">
+        <div id="tab1" >
         	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
 			  <tr>
 			    <td height="10" colspan="3" align="center">&nbsp; </td>
@@ -108,9 +108,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </tr>
 			  <tr>
 			    <td height="60" colspan="3" align="center">
-			      <input id="reset" type="button" name="重置" value="重置" style="height: 22px;" />&nbsp;&nbsp;
-			      <input id="save"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
-				  <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>
+			      <input id="reset" type="image" name="重置" src="images/qingkong.png" value="重置" style="height: 22px;" />&nbsp;&nbsp;
+			      <input id="save"  type="image" src="images/baocun.png" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
+				  <input id="preview" type="image" src="images/yulan.png" name="预览" value="预览" style="height: 22px;"/>
 			    </td>
 			  </tr>
 		</table>

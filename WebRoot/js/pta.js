@@ -108,6 +108,15 @@ $(document).ready(function(){
      		var ed = $('#eDate').val() ? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
      		var pd = $('#pubDate').val() ? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
      		
+     		if($('#sDate').val() || $('#eDate').val()){
+     			if( $('#sDate').omCalendar('getDate') >= $('#eDate').omCalendar('getDate') ){
+     				$('#errormsg').html('开始日期必须小于结束日期!').show() ;
+     			}
+     			
+     		}else{
+     			$('#errormsg').html('开始日期和结束日期不能同时为空').show() ;
+     		}
+     		
      		if(!( tn && pd) ){
      			$('#errormsg').html(notempty).show() ;
      		}else{

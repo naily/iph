@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <tr>
               	<td >&nbsp;</td>
                 <td align="center">&nbsp;<input type="image" onclick="save.savedata();"  src = "images/baocun.png" /></td>
-                <td align="center">&nbsp;<input type="image" onclick="save.clear();" src="images/chongzhi.png" /></td>
+                <td align="center">&nbsp;<input type="image" onclick="save.clear();" src="images/qingkong.png" /></td>
                 <td>&nbsp;</td>
            </table>
     	</div>

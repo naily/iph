@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	
     	<table id="list0"></table>
     </div>
-    <div id="tab1">
+    <div id="tab1" style="display: none;">
         	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 			  <tr>
 			    <td height="10" colspan="3" align="center">&nbsp; </td>
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </tr>
 			  <tr>
 			    <td height="60" colspan="3" align="center">
-			      <input id="updatesavebut"  type="button" name="保存" value="保存" style="height: 22px;" />&nbsp;&nbsp;
+			      <input id="updatesavebut"  type="button" src="images/baocun.png" value="保存" />&nbsp;&nbsp;
 				 <!-- <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>  -->
 			    </td>
 			  </tr>

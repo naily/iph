@@ -63,9 +63,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="button" name="保存" value="保存" style="height: 22px;" /> &nbsp;&nbsp;&nbsp;&nbsp; 
-                <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> &nbsp;&nbsp;&nbsp;&nbsp; 
-                <input id="preview" type="button" name="预览" value="预览" style="height: 22px;"/>
+                <input id="savebut"  type="image" src="images/baocun.png" name="保存" value="保存"  /> &nbsp;&nbsp;&nbsp;&nbsp; 
+                <input id="clearbut"  type="image" src="images/qingkong.png" name="清空" value="清空"   /> &nbsp;&nbsp;&nbsp;&nbsp; 
+                <input id="preview" type="image" src="images/yulan.png" name="预览" value="预览"  />
                 </td>
               </tr>
             </table>

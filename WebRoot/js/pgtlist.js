@@ -120,6 +120,7 @@ $(document).ready(function(){
 					                            $( "#tab1").omDialog('open');
 					                            
 					                            $('#updatesavebut').omButton({
+					                            	
 											     	onClick : function(){
 											     		json.createDate = $.omCalendar.formatDate($('#actionDateId').omCalendar('getDate'), 'yy-mm-dd');
 							                            json.stationID = $('#comboStation').omCombo('value');
