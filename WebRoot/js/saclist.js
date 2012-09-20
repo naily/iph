@@ -15,7 +15,9 @@ $(document).ready(function(){
                          {header:'<b>文件名</b>',align : 'center',name:'FileName', width:100,width:'autoExpand' } ,
                          {header:'<b>操作</b>',align : 'center',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	
+	                         	//return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],

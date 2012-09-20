@@ -18,6 +18,7 @@ $(document).ready(function(){
                          {header:'<b>观测站</b>',name:'stationName' , align : 'center' ,
                          	renderer: function(colValue, rowData, rowIndex){
 	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	//return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramPath\',\'观测站查看\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
 	                     } ,
                          {header:'<b>类型</b>',name:'type',align : 'center', width:50,renderer:function(value,rowData,rowIndex){ 
@@ -38,7 +39,8 @@ $(document).ready(function(){
                          {header:'<b>文件名</b>',name:'gramFileName',align : 'center', width:100,width:'autoExpand' } ,
                          {header:'<b>操作</b>',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewPgt(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	//传参：当前grid的ID，rowIndex
+	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],
@@ -196,13 +198,55 @@ $(document).ready(function(){
      
 });
 
-function previewPgt(path){
-	if(path){
-		$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 / >');
+function previewPgt(gridId , i, fidldName,title ){
+	if(gridId && i > -1){
+		var store = $(gridId).omGrid('getData');
 		
-		$( "#imagePreview").omDialog({title:'频高图查看'});
-		$( "#imagePreview").omDialog('open');
+		if( i < store.rows.length){
+			//当前图片
+			var gpath = (store.rows)[i].gramPath ;
+			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=500 / >' +
+				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
+		
+			$( "#imagePreview").omDialog({title:'频高图查看'});
+			$( "#imagePreview").omDialog('open');
+			
+			//绑定事件
+			$("#but1").one("click", function(){
+				previewPgt(gridId , i-1) ;
+			});
+			$("#but4").one("click", function(){
+				previewPgt(gridId , i+1) ;
+			});
+			
+			$("#but2").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w*1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h*1.2);
+				}
+			});
+			$("#but3").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w/1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h/1.2);
+				}
+			});
+		}else{
+			alert('没有下一张了' ) ;
+		}
+	}else{
+		alert('没有上一张了' ) ;
+	
 	}
+	
 }
 
 function previewStation(sid){
