@@ -80,3 +80,20 @@ function previewImage(gridId , i , fidldName,title_){
 	}
 	
 }
+
+
+function parseXML(xmlpath){
+	//1.JAVASCRIPT中的创建对象
+	var xmlDoc = new ActiveXObject("Microsoft.XMLDOM") ;
+	xmlDoc.async = false;
+	xmlDoc.load(xmlpath);
+	
+	/**
+	 * async 属性可规定 XML 文件的下载是否应当被同步处理。True 意味着 load() 方法可在下载完成之前向调用程序返回控制权。False 意味着在调用程序取回控制权之前必须完成下载
+	 */
+	if(xmlDoc){
+		var items = xmlDoc.getElementsByTagName("metadata");
+		var name = items[0].childNodes[0].nodeValue; alert(name) ;
+		
+	}
+}

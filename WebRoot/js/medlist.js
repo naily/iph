@@ -60,18 +60,17 @@ $(document).ready(function(){
 								}
             	 		 	}
             			},
-            			{label:""  ,
-            		     id   :"button2" ,
-            	 		 onClick:function(){
-            	 		 	return false ;
+            			{	label:"修改"  ,
+            		     	id   :"button2" ,
+            	 		 	onClick:function(){
             	 		 		var ss = $('#list0').omGrid('getSelections',true);
 					     		if(ss.length != 1 ){
 								    at({cont:'请选择一条记录修改！' , type : 'error'});
 								    return;
 								}else{
-									var igid = ss[0].ID ;
+									var igid = ss[0].mdId ;
 									var getpgt = {
-						                        url : 'ht/pamget.do',
+						                        url : 'ht/medget.do',
 						                        params : {id : igid }  ,
 						                        callback : function(json){
 						                            if(json.success){
@@ -79,8 +78,10 @@ $(document).ready(function(){
 						                            }else{
 						                               	//at({cont: json.info , type : 'error'});
 						                            }
-					                                var cd = json.createDate ;
-					                                $('#actionDate').val( cd.substring(0,11) );
+					                                var cd = json.title ; 
+					                                alert(json.fullContentFilePath) ;
+					                                parseXML(json.fullContentFilePath);
+					                                /*$('#actionDate').val( );
 						                            
 						                            $('#ip1').val(json.foF2) ;
                                                     $('#ip2').val(json.h1F2) ;
@@ -131,7 +132,7 @@ $(document).ready(function(){
 												     		}
 												     		ajaxpost(updatepgt);
 												     	}
-												     })
+												     })*/
 						                        }
 					                }
 					                ajaxpost(getpgt);
@@ -139,7 +140,7 @@ $(document).ready(function(){
             	 		 	}
             			}
             			
-            			]
+            ]
     });
     
     $( "#tab1").omDialog({
