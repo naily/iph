@@ -175,6 +175,96 @@ public class MetaDataMod extends BaseMod{
 	}
 	
 	@POST
+	@At("/ht/medUpdate")
+    @Ok("json")
+	public JSONObject update(@Param("..")MetaDataBo mdb  ,HttpServletRequest request, HttpServletResponse response , ServletContext context){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		//OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		//fusu.setServletContext(context) ;
+		
+		try {
+			//姑且只有js验证
+			if(null != mdb){
+				String xmldir = "data/metadata/xml/" ;
+				String thumbnaildir = "data/metadata/thumbnail/" ;
+				
+				//freemarker 准备
+				Configuration cfg  = this.initFreeMarker( context) ;
+				Template t = cfg.getTemplate("MetaDataXMLTemplates.ftl") ;
+				t.setEncoding(StringUtil.UTF_8) ;
+				
+				MetaData med = new MetaData() ;
+				
+				//创建一个空的xml文件
+				String fileName = System.currentTimeMillis() + ".xml" ;
+				File medxml = new File(this.getAppRealPath(context) + xmldir + fileName) ;
+				OutputStream outFile = new FileOutputStream(medxml ) ;
+				
+				//通过ftl模板输出xml文件
+				Writer out = new OutputStreamWriter(outFile , StringUtil.UTF_8) ;
+				t.process(mdb, out) ;
+				out.flush() ;
+
+				//存储
+				SimpleBlob sb = new SimpleBlob(medxml);
+				med.setFullContent(sb) ; 
+				med.setFullContentFilePath(xmldir + fileName) ;
+				med.setMdDate(DateUtil.getCurrentDate()) ;
+				String dateStr = DateUtil.convertDateToString(med.getMdDate(), DateUtil.pattern3) ;
+				
+				/*
+				 * //构造ID
+				int ct = baseService.dao.count(MetaData.class, Cnd.where("mdId", "like", dateStr+"%" ) ) ;
+				StringBuilder id = new StringBuilder();
+				id.append(dateStr );
+				
+				String patt = "00" ;
+				DecimalFormat nf  =  new DecimalFormat(patt);
+				id.append(nf.format(ct)) ;
+				*/
+				
+				//存值
+				med.setMdId(mdb.getId()) ;
+				med.setTitle(mdb.getResTitle()) ;
+				med.setKeyword(mdb.getKeyword()) ;
+				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
+				
+				//存储缩略图
+				/*File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
+				if(null != tf && tf.exists()){
+					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir , true) ){
+						tf = fusu.getTargetFile() ;
+						if(null != tf){
+							med.setThumbnail(new SimpleBlob(tf)) ;
+							med.setThumbnailFilePath(thumbnaildir + fusu.getTargetFile().getName()) ;
+						}else{
+							log.error("This thumbnail file is null !") ;
+						}
+					}
+				}*/
+				
+				if(baseService.dao.fetch(med) != null){
+					baseService.dao.update(med) ;
+					json.put(Constant.SUCCESS, true) ;
+				}else{
+					json.put(Constant.INFO, "该记录不存在") ;
+				}
+			}else{
+				json.put(Constant.INFO, "参数为空") ;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
+		}
+	}
+	
+	@POST
 	@At("/ht/medlist")
     @Ok("json")
 	public JSONObject list(@Param("..")Pages page){

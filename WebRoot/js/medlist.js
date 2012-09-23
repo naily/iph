@@ -79,8 +79,13 @@ $(document).ready(function(){
 						                               	//at({cont: json.info , type : 'error'});
 						                            }
 					                                var cd = json.title ; 
-					                                alert(json.fullContentFilePath) ;
+                                                    
 					                                parseXML(json.fullContentFilePath);
+                                                    
+                                                    $('textarea[name="abstract1"]' ).val(json.summary);
+                                                    $('#mdid' ).val(json.mdId);
+                                                    $( "#tab1").omDialog('open');
+                                                    
 					                                /*$('#actionDate').val( );
 						                            
 						                            $('#ip1').val(json.foF2) ;
@@ -155,3 +160,83 @@ $(document).ready(function(){
 });
 
 
+function parseXML(xmlpath){
+    //1.JAVASCRIPT中的创建对象
+    var xmlhttp ;
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp =new XMLHttpRequest();
+    }else{// code for IE6, IE5
+      xmlhttp =new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    
+    if(xmlhttp){
+        xmlhttp.open("GET", xmlpath,false);
+        xmlhttp.send();
+        
+        var xmlDoc=xmlhttp.responseXML;  
+        
+        var items = xmlDoc.getElementsByTagName("metadata");
+        
+        if(hasChild(items[0]) ){
+           //traverseDOM(items);
+           //alert(Sarissa.getText(items , true) );
+	       /* for(var i=0 ; i< items[0].childNodes[0].childNodes.length ;i++ ){
+	            var node = (items[0].childNodes[0]).childNodes[i] ;
+	            var name = node.nodeName ;
+	            var lname = "metadata/IdInfo/"+name ;
+	            alert(lname);
+	            alert(Sarissa.getText(node , false) );
+	            
+	        }*/
+            var cn =  (items[0]);
+            traverseDOM(cn);
+            //alert(array.length) ;
+            //alert(array.join("\r\n") ) ;
+            
+            //alert(cn.nodeName + ' : ' +  cn.text );
+        } 
+        
+
+        
+    }
+}
+var array = new Array() ;
+//遍历节点
+function traverseDOM(node){
+    if(hasChild(node) ){
+        //alert(1) ;alert('length : '+node.childNodes.length) ;
+        for(var k=0; k< node.childNodes.length ; k++){
+	        traverseDOM(node.childNodes[k]);
+        }
+    }else{
+        
+        //alert(2) ;
+        if(node){
+            /*if(node.nodeType == 1){ //元素节点
+                array.push(node.nodeName) ;
+            }else */
+            
+            //只关注有值的节点
+            if(node.nodeType == 3){ //文本节点
+	            //var s = node.parentNode.nodeName + ' : '+ node.nodeValue ; 
+	            //array.push(s) ;
+                
+                var nn = node.parentNode.nodeName ;
+                $('input[name="xxx"]'.replace('xxx' , nn)).val(node.nodeValue);
+            }
+	        //alert(Sarissa.getText(node , false) );
+        }
+    }
+    return ;
+}
+
+//检查是否有子节点
+function hasChild(obj){
+    
+    if( obj && obj.childNodes && obj.childNodes.length > 0){
+        return true ;
+    }else{
+        return false ;
+    }
+}

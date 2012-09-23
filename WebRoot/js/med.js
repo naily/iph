@@ -162,8 +162,15 @@ $(document).ready(function(){
         submitHandler : function(){
         	//$(this)[0].currentForm.action = "./ht/medSave.do" ;
         	//alert($(this)[0].currentForm.action) ;
+            var posturl = './ht/medSave.do' ;
+            var mdid = $('#mdid').val()  ;
+            if( mdid ){
+                posturl = './ht/medUpdate.do' ;
+            }
+            
+            alert(posturl + mdid) ;
         	$("#savemetadata").omAjaxSubmit({
-        		url : './ht/medSave.do' ,
+        		url : posturl ,
         		method:'POST' ,
         		resetForm: true ,
         		dataType :'json' ,
@@ -180,6 +187,10 @@ $(document).ready(function(){
 			                timeout : 3000 ,
 			                content:s
 			        });
+                    if( mdid ){
+                        $("#errormsg").html('').hide();
+		                 $( "#tab1").omDialog('close');
+		            }
         		}
         	}) ;
         	return false;

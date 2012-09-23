@@ -1,6 +1,7 @@
 package cn.fam1452.action.bo;
 
 public class MetaDataBo {
+	private String id ;
 	private String ids ;
 	private String thumbnailFilePath ; //元数据缩略图文件路径
 	
@@ -668,6 +669,12 @@ public class MetaDataBo {
 	}
 	public void setTpCat(String tpCat) {
 		this.tpCat = tpCat;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 
