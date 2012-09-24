@@ -336,7 +336,7 @@ public class MetaDataMod extends BaseMod{
 		return json ;
 	}
 	
-	@POST
+	/*@POST
 	@At("/ht/medupdate")
     @Ok("json")
 	public JSONObject updatemed(@Param("..")MetaData params){
@@ -350,7 +350,7 @@ public class MetaDataMod extends BaseMod{
 			json.put(Constant.INFO, error2) ;
 		}
 		return json ;
-	}
+	}*/
 	
 	
 	

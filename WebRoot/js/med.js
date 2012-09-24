@@ -168,7 +168,7 @@ $(document).ready(function(){
                 posturl = './ht/medUpdate.do' ;
             }
             
-            alert(posturl + mdid) ;
+            
         	$("#savemetadata").omAjaxSubmit({
         		url : posturl ,
         		method:'POST' ,

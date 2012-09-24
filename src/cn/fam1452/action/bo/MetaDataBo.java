@@ -71,6 +71,7 @@ public class MetaDataBo {
 	private String instID ;
 	private String instName ;
 	private String instCat ;
+	private String instSpec ;
 	private String instContact ;
 	
 	private String prcMethod ;
@@ -675,6 +676,12 @@ public class MetaDataBo {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getInstSpec() {
+		return instSpec;
+	}
+	public void setInstSpec(String instSpec) {
+		this.instSpec = instSpec;
 	}
 	
 
