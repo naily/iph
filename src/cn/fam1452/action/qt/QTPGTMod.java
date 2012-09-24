@@ -23,6 +23,8 @@ import org.nutz.dao.pager.Pager;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
@@ -30,6 +32,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
+import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.dao.pojo.Station;
@@ -44,6 +47,7 @@ import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
+@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class QTPGTMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;

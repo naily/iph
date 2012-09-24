@@ -25,6 +25,8 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
@@ -33,6 +35,7 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
+import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -44,6 +47,7 @@ import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
 @IocBean
+@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class QTParameterMod extends BaseMod {
 
 	@Inject("refer:baseService")

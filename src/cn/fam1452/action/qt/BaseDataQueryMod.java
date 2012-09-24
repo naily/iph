@@ -13,15 +13,20 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.By;
+import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 
 import cn.fam1452.Constant;
+import cn.fam1452.action.filter.AdminFilter;
+import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.service.BaseService;
 
 
 @IocBean
+@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class BaseDataQueryMod {
 	@Inject("refer:baseService")
 	private BaseService baseService ;

@@ -5,6 +5,8 @@ import org.nutz.mvc.ActionFilter;
 import org.nutz.mvc.View;
 import org.nutz.mvc.filter.CheckSession;
 
+import cn.fam1452.Constant;
+
 /**
  * 前台用户权限过滤器
  * Class UserFilter
@@ -14,8 +16,12 @@ import org.nutz.mvc.filter.CheckSession;
  */
 public class UserFilter extends CheckSession{
 
-	public UserFilter(String name, String path) {
-		super(name, path);
+	/**
+	 * 
+	 * @param path : seesion检查失败的跳转路径
+	 */
+	public UserFilter(String path) {
+		super(Constant.QT_USER_SESSION , path);
 		// TODO Auto-generated constructor stub
 	}
 
