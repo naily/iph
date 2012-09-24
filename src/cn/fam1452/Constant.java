@@ -12,6 +12,8 @@ package cn.fam1452;
 
 public class Constant {
 	
+	public static String INDEXPAGE = "../index.jsp" ;
+	
 	public static String HT_USER_SESSION = "ht_account" ;
 	
 	public static final String LOGIN_VALIDATE_STRING="LOGIN_VALIDATE_STRING" ; //验证码的Key

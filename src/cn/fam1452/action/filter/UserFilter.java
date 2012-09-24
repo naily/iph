@@ -21,7 +21,7 @@ public class UserFilter extends CheckSession{
 	 * @param path : seesion检查失败的跳转路径
 	 */
 	public UserFilter(String path) {
-		super(Constant.QT_USER_SESSION , path);
+		super(Constant.QT_USER_SESSION , Constant.INDEXPAGE);
 		// TODO Auto-generated constructor stub
 	}
 

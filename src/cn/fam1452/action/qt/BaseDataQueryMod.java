@@ -26,7 +26,6 @@ import cn.fam1452.service.BaseService;
 
 
 @IocBean
-@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class BaseDataQueryMod {
 	@Inject("refer:baseService")
 	private BaseService baseService ;
