@@ -271,7 +271,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;服务类型:</td>
-                <td>&nbsp;<input id="serviceType" name="serviceType" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="serviceType" name="serviceType" type="text" class="boxinput3" /><span class="red_asterisk">*</span>
+                <p id="serviceLink"></p></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;服务参数名:</td>

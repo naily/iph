@@ -44,7 +44,14 @@ $(document).ready(function(){
                                {text : '离线服务', value :  '02'},
                                {text : '其他', value :  '99'}] ,
                editable : false,
-               emptyText : '选择数据服务类型' 
+               emptyText : '选择数据服务类型' ,
+               onValueChange:function(target,newValue,oldValue,event){
+               		if('01' == newValue || '0103' == newValue){
+               			$('#serviceLink').html('地址:<input name="serviceLink" type="text" class="boxinput3" />');
+               		}else{
+               			$('#serviceLink').html('');
+               		}
+               }
      });
      $('#accessClass').omCombo({
                 dataSource : [ {text : '公开级', value : '001'},
