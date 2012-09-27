@@ -45,7 +45,7 @@ import cn.fam1452.utils.StringUtil;
  * */
 
 @IocBean
-@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
+//@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class QTScanPicMod extends BaseMod{
 	@Inject("refer:baseService")
 	private BaseService baseService ;
