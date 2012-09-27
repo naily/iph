@@ -35,7 +35,7 @@ import cn.fam1452.utils.GetIP;
  *
  */
 @IocBean
-@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
+//@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 public class QTMetaDataMod extends BaseMod{
 	
 	@Inject("refer:baseService")

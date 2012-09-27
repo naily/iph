@@ -90,6 +90,8 @@ public class MetaDataBo {
 	private String formatVersion ;
 	private String serviceInfo ;
 	private String serviceType ;
+	private String serviceLink ;
+	
 	private String serviceParas ;
 	private String paraName ;
 	private String paraValue  ;
@@ -682,6 +684,12 @@ public class MetaDataBo {
 	}
 	public void setInstSpec(String instSpec) {
 		this.instSpec = instSpec;
+	}
+	public String getServiceLink() {
+		return serviceLink;
+	}
+	public void setServiceLink(String serviceLink) {
+		this.serviceLink = serviceLink;
 	}
 	
 

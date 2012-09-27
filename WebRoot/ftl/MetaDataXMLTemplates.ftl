@@ -92,6 +92,7 @@
 		</dataStorage>
 		<serviceInfo>
 			<serviceType>${serviceType!}</serviceType>
+			<serviceLink>${serviceLink!}</serviceLink>
 			<serviceParas>
 				<paraName>${paraName!}</paraName>
 				<paraValue>${paraValue!}</paraValue>
