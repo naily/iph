@@ -83,7 +83,7 @@
 			
 			<tr>
 					<td height="35"  colspan="2">					
-							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="650" scrolling="no" width="800"></iframe>
+							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="1600" scrolling="no" width="800"></iframe>
 					
 					</td>
 				</tr>
