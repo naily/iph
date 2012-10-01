@@ -8,8 +8,9 @@
 				<script type="text/javascript" src="../../../js/library/jquery-1.7.1.min.js"></script>
 				<script>
 				    $(document).ready(function() {     
+				           /*
 				           //加载时隐藏子菜单       
-				       $('li ul').hide();       
+				          $('li ul').hide();       
 				            //不包含子菜单时鼠标指针和项目图标  
 				            $('li').css({'cursor': 'default', 'list-style-image': 'none',' font-weight':'normal' });        
 				              $('li:not(:has(ul))').css({'cursor': 'default', 'list-style-image': 'none' });  
@@ -25,16 +26,34 @@
 				                          }   
 				                   }
 				                   })
+				           */
+				           //加载时显示子菜单            
+				            //不包含子菜单时鼠标指针和项目图标  
+				            $('li').css({'cursor': 'default', 'list-style-image': 'none',' font-weight':'normal' });        
+				              $('li:not(:has(ul))').css({'cursor': 'default', 'list-style-image': 'none' });  
+				           //包含子菜单时鼠标指针和项目图标 
+				              $('li:has(ul)').css({ 'cursor': 'pointer', 'list-style-image': 'url(../../../images/minus.gif)' }); 
+				              //单击含子菜单的项   
+				          $('li:has(ul)').click(function (event) {       
+				                   if (this == event.target) {           
+				                            if ($(this).children().is(':hidden')) {                                                                     
+				                                $(this).css('list-style-image', 'url(../../../images/minus.gif)').children().show();                            
+									      } else {  
+						                    $(this).css('list-style-image', 'url(../../../images/plus.gif)').children().hide();  
+				                          }   
+				                   }
+				                   })
 				          })
+				          
+				     
     </script>
     <style>
-     .li_no_img{height:30px;list-style-type:none;}
-     .metaTitle{font-weight:bold; width:100px;}
+     .li_no_img{height:20px;list-style-type:none;}
+     .metaTitle{height:20px;font-weight:bold; width:110px;}
     </style>
 			</head>
 			<body style="bgcolor:red;">
-							<li> 元数据标识信息
-								<ul>
+							<li style="line-height:15px">元数据标识信息<ul>
 									<li class="li_no_img">
 										<span class="metaTitle">数据集标识符:</span>
 										<xsl:value-of select="metadata/IdInfo/datId" />
@@ -56,11 +75,9 @@
 									<li class="li_no_img">
 										<span class="metaTitle">关键词:</span>
 										<xsl:value-of select="metadata/IdInfo/keyword" />
-									</li>
-									
+									</li>									
 								</ul>
-							</li>
-							
+							</li>						
 							<li>元数据内容信息
 								<ul>
 									<li class="li_no_img">
@@ -119,11 +136,8 @@
 												<span class="metaTitle">垂向最小值:</span>
 												<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altCov/lowVer" />
 												</li>
-											</ul>
-											
-										</li>
-										
-										
+											</ul>											
+										</li>																		
 										</ul>
 									</li>
 									<li>时间范围
@@ -148,8 +162,7 @@
 									</li>
 								</ul>
 							
-							</li>
-							
+							</li>							
 							<li>来源信息
 								<ul>
 									<li class="li_no_img">
@@ -265,6 +278,17 @@
 												<span class="metaTitle">服务类型:</span>
 												<xsl:value-of select="metadata/DissInfo/serviceInfo/serviceType" />
 											</li>
+											<li class="li_no_img">
+												<span class="metaTitle">服务地址:</span>
+												<span id="serviceLinkText" style="display:none;"><xsl:value-of select="metadata/DissInfo/serviceInfo/serviceLink"/></span>
+												
+												<a  id="serviceLinkHref" target="_blank">浏览</a>
+												<script>
+												    if($("#serviceLinkText").html()){
+												      $("#serviceLinkHref").attr("href",$("#serviceLinkText").html());
+												    }
+												</script>
+											</li>										
 											<li>服务参数
 												<ul>
 												
