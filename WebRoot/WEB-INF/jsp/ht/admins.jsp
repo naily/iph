@@ -38,21 +38,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <a id="del"  href="javascript:void(0)">删除</a>
 	    	</span>
     		
-    		<div id="createadmin">
+    		<div id="createadmin" class="hidediv">
     			<p>登录名:<input id="dlmId" empt="登录名不能为空"/></p>
     			<p> 密码 :&nbsp;&nbsp;<input id="mmId" type="password" empt="密码不能为空"/> </p>
     			<p> 姓名 :&nbsp;&nbsp;<input id="xmId" empt="姓名不能为空"/></p>
     			<p> 角色 :&nbsp;&nbsp;<input id="jsId" /> </p>
     			<p><div id="info" class="errorMessages">&nbsp;</div></p>
-    			<p class="p_align"><button onclick="savedata();">保存</button></p>
+    			<p class="p_align"><input align="middle" src="images/baocun.png" type="image" title="保存" onclick="savedata();" /></p>
     			
     		</div>
-    		<div id="modifPassword">
+    		<div id="modifPassword" class="hidediv">
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   原密码 : <input id="oldpass" type="password" empt="密码不能为空"/></p>
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   新密码 : <input id="newpass" type="password" empt="新密码不能为空"/> </p>
     			<p>新密码确认 : <input id="newpass2" type="password" empt="确认新密码"/></p>
     			<p><div id="info_modif" class="errorMessages">&nbsp;</div></p>
-    			<p class="p_align"><button onclick="modifpass.submit() ;">修改</button></p>
+    			<p class="p_align"><input align="middle" src="images/xiugai.png" type="image" title="修改" onclick="modifpass.submit();" /></p>
     			
     		</div>
     		

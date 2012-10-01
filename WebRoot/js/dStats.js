@@ -98,17 +98,14 @@ $(document).ready(function(){
      
      
      
-     $('#searchbut').omButton({
-        width : 100,
-        label : '查询' ,
-        onClick : function(){
+     $('#searchbut').bind('click', function(){
             //var admin = $('#comboAdmin').omCombo('value') ;
             var act = $('#comboActionType').omCombo('value') ;
             
             $('#list0').omGrid({extraData: { actionType:act}}) ;
             $('#list0').omGrid('reload') ;
         }
-     });
+     );
      
      $('#list2').omGrid({
          width : '99.8%',

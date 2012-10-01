@@ -56,10 +56,7 @@ $(document).ready(function(){
     var dateselect = false ;
     $('#comboActionType').omCalendar({onSelect : function(date,event) {dateselect = true ;}});
      
-     $('#searchbut').omButton({
-        width : 100,
-        label : '查询' ,
-        onClick : function(){
+     $('#searchbut').bind('click' ,  function(){
             var un = $('#comboAdmin').omCombo('value') ;
             var act = $('#comboActionType').omCalendar('getDate') ;
             if(dateselect){
@@ -72,7 +69,7 @@ $(document).ready(function(){
             $('#list0').omGrid({extraData: { name : un ,regDate:act }}) ;
             $('#list0').omGrid('reload') ;
         }
-     });
+    );
      
      
      $( "#qtum_update").omDialog({

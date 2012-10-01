@@ -56,9 +56,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </ul>
 	        
 	        <div id="tab1">
-	        	<div><input id = "comboActionType" />
+	        	<div class="butBottom"><input id = "comboActionType" />
 		    			<!--  <input id = "comboAdmin" /> -->
-		    			<input id="searchbut"  type="button" value="查询" style="height: 22px;" />
+		    			<input id="searchbut" align="middle" src="images/chaxun.png"  type="image" title="查询" />
 		 		</div>
 				<div id="buttonbar"></div>
 		    	<table id="list0"></table>

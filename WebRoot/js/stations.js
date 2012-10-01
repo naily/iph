@@ -254,7 +254,7 @@ var save ={
     	
     	$('#zyId').val('') ;
         $('#sqId').omCombo("value","");
-        $("#minuploadpic").attr("src" , '')  ;
+        $("#minuploadpic").attr("src" , 'images/s.gif')  ;
         $("#picPath").val('') ;
         //$('#stId').val('').attr('readonly' , false) ;
     	

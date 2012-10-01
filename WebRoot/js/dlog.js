@@ -88,17 +88,14 @@ $(document).ready(function(){
      
      var notempty = "不能为空" ;
      
-     $('#searchbut').omButton({
-        width : 100,
-        label : '查询' ,
-        onClick : function(){
+     $('#searchbut').bind('click', function(){
             var admin = $('#comboAdmin').omCombo('value') ;
             var act = $('#comboActionType').omCombo('value') ;
             
             $('#list0').omGrid({extraData: { adminId : admin ,actionType:act}}) ;
             $('#list0').omGrid('reload') ;
         }
-     });
+     );
      
 });
 

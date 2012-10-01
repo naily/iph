@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="viewdetail"></div>
     	<table id="list0"></table>
     	
-    	<div id="createblock" style="display: none;">
+    	<div id="createblock" class="hidediv">
     		<table width="520" border="0" style="float: left;">
               <tr>
                 <td align="right">&nbsp;观测站编码:</td>
@@ -94,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	<input id = "uploadpic" />
              		<input id ="picPath" name="picPath" type="hidden" />
                 </td>
-                <td align="left"><img src="" border=0 id="minuploadpic" width="50"/> </td>
+                <td align="left"><img src="/images/s.gif" border="0" id="minuploadpic" width="50"/> </td>
               </tr>
               <tr>
               	<td align="right">&nbsp;<!-- 错误信息提示 --></td>
