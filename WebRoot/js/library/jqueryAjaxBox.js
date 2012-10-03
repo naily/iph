@@ -16,7 +16,7 @@ function ajaxpost(config){
  * @param {} s
  * @return {Boolean}
  */
-var pageslimit = 10 ; //grid每页显示条数
+var pageslimit = 15 ; //grid每页显示条数
 
 function notEmpty(s){
     if(''!= s && null != s && undefined != s){

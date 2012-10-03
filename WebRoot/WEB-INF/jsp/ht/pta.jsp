@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="buttonbar"></div>
     	<table id="list0"></table>
     	
-    	<div id="createblock">
+    	<div id="createblock" class="hidediv">
 	    	<table width="400" border="0">
 	    		<tr>
                 <td align="right">&nbsp;选择数据表:</td>
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="submit" name="保存" value="保存" style="height: 22px;" /> 
+                <input id="savebut"  src="images/baocun.png" type="image" title="保存" /> 
                 &nbsp;&nbsp;&nbsp;&nbsp; 
                 <!--  
                 <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> 

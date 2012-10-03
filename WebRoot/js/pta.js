@@ -98,9 +98,7 @@ $(document).ready(function(){
      
      var notempty = "不能为空" ;
      
-     $('#savebut').omButton({
-     
-     	onClick : function(event){
+     $('#savebut').bind("click" , function(event){
      		var st = $('#comboStation').omCombo('value') ;
      		var tn = $('#comboTableName').omCombo("value") ;
      		
@@ -153,7 +151,7 @@ $(document).ready(function(){
 	            ajaxpost(save);
      		}
      	}
-     }) ;
+     ) ;
 });
 
 

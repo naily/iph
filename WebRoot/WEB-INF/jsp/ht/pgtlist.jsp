@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	
     	<table id="list0"></table>
     </div>
-    <div id="tab1" style="display: none;">
+    <div id="tab1" class="hidediv">
         	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 			  <tr>
 			    <td height="10" colspan="3" align="center">&nbsp; </td>

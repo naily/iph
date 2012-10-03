@@ -34,6 +34,7 @@ import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
+import cn.fam1452.utils.StationUtil;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -87,9 +88,9 @@ public class ScanpicMod extends BaseMod{
 				String fno = filepath.substring(i+1 , filepath.lastIndexOf("."))  ; 
 				
 				//解析出观测站（【示例数据】前5位是观测站）,
-				String st = filepath.substring(i+1 , i+6)  ; 
+				//String st = filepath.substring(i+1 , i+6)  ; 
 				//解析出日期，【示例数据】文件名包含下划线
-				String da = filepath.substring(i+7)  ; 
+				//String da = filepath.substring(i+7)  ; 
 				
 				Scanpic sp = new Scanpic() ;
 				sp.setScanPicID(fno) ; //用文件名作为数据库ID，去扩展名
@@ -97,8 +98,8 @@ public class ScanpicMod extends BaseMod{
 				sp.setGramPath(filepath) ; //文件路径
 				sp.setScanPicTitle(fn) ;   //全文件名做标题
 				
-				sp.setCreateDate( DateUtil.convertStringToDate(da, DateUtil.pattern4) ) ;
-				sp.setStationID(st) ;
+				sp.setCreateDate( StationUtil.getSacDate(fn) ) ;
+				sp.setStationID(StationUtil.getStationId(fn)) ;
 				json.put("filename", fn) ;
 				
 				if(baseService.dao.fetch(sp) == null){
@@ -170,7 +171,7 @@ public class ScanpicMod extends BaseMod{
 			item.put("ID", g.getScanPicID()) ;
 			item.put("Title", g.getScanPicTitle()) ;
 			item.put("stationID", g.getStationID()) ;
-			item.put("createDate",  DateUtil.convertDateToString(g.getCreateDate())) ;
+			item.put("createDate",  null == g.getCreateDate() ? "" : DateUtil.convertDateToString(g.getCreateDate())) ;
 			item.put("FileName", g.getScanPicFileName()) ;
 			
 			item.put("gramPath", g.getGramPath()) ;

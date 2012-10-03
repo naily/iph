@@ -40,6 +40,7 @@ import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
+import cn.fam1452.utils.StationUtil;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -151,7 +152,7 @@ public class PgtMod extends BaseMod{
 			item.put("gramTitle", g.getGramTitle()) ;
 			item.put("stationID", g.getStationID()) ;
 			item.put("type", g.getType()) ;
-			item.put("createDate",  DateUtil.convertDateToString(g.getCreateDate())) ;
+			item.put("createDate",  null == g.getCreateDate() ? "" :DateUtil.convertDateToString(g.getCreateDate())) ;
 			item.put("gramFileName", g.getGramFileName()) ;
 			
 			item.put("gramPath", g.getGramPath()) ;
@@ -241,13 +242,15 @@ public class PgtMod extends BaseMod{
 				int i = filepath.lastIndexOf("/") ;
 				//文件名
 				String fn = filepath.substring(i+1) ; 
+				//log.info(fn) ;
 				//去掉扩展名
 				String fno = filepath.substring(i+1 , filepath.lastIndexOf("."))  ; 
 				
 				//解析出观测站
 				String st = filepath.substring(i+1 , i+3)  ; 
+				st = StationUtil.getStationId(fn) ;
 				//解析出日期
-				String da = filepath.substring(i+3 , i+11)  ; 
+				//String da = filepath.substring(i+3 , i+11)  ; 
 				
 				IronoGram ig = new IronoGram() ;
 				ig.setGramID(fno) ;
@@ -255,8 +258,8 @@ public class PgtMod extends BaseMod{
 				ig.setGramPath(filepath) ;
 				ig.setGramTitle(fn) ;
 				
-				ig.setType("1") ;
-				ig.setCreateDate( DateUtil.convertStringToDate(da, DateUtil.pattern3) ) ;
+				ig.setCreateDate( StationUtil.getObserveDate(fn) ) ;
+				ig.setType(StationUtil.getPgtType(ig.getCreateDate())) ;
 				ig.setStationID(st) ;
 				json.put("filename", fn) ;
 				

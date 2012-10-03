@@ -30,5 +30,11 @@ public class AppUtil {
 		System.out.println("longValue");
 		System.out.println(f1.longValue());
 		System.out.println(f2.longValue());
+		
+		
+		String fileName = "WU430_195801010330.bmp" ;
+		int i =  6 ;
+		int l = fileName.lastIndexOf(".") ;
+		System.out.println("K "+ fileName.substring(i, l));
 	}
 }

@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <li><a href="#tab1">单记录录入</a></li>
 	            <li><a href="#tab2">批量导入</a></li>
 	        </ul>
-	        <div id="tab1">
+	        <div id="tab1" class="hidediv">
         	<table width="400" border="0">
         	<tr>
                 <td align="right">&nbsp;选择文件:</td>
@@ -72,11 +72,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div id="imagePreview" title="图片预览"> </div> 
         </div>
         <!-- 导入 -->
-        <div id="tab2">
-        	<table height="400" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
+        <div id="tab2" class="hidediv">
+        	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
+	        	<tr>
+		        	<td align="center">&nbsp;<span class="fontgreen">温馨提示: 单次上传文件请不要超过20个，选择太多文件可能导致长时间无响应或浏览器崩溃！
+		        		<br/>上传文件的速度，取决于你电脑配置及运行速度！</span>
+		        	</td>
+	        	</tr>
 	        	<tr>
 	        	<td> 
-		        	<div style="height:360px;overflow-y:scroll; border: red solid 0px; ">
+		        	<div style="height:260px;overflow-y:scroll; border: red solid 0px; ">
 		        		<div style="width:100px; float:left;  margin-top: 6px;">选择文件:</div>
 		        		<input type="file" name="file_upload" id="file_upload_more" /> 
 		        	</div>
@@ -84,15 +89,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</tr>
 	        	<tr>
 		        	<td align="center">
-		        		<span id="errormsg2" ></span>
+		        		<div id="msgtable" class="hidediv">
+		        			<table style="BORDER-COLLAPSE: collapse" borderColor=#000000 height=40 cellPadding=1 width=200 align=center border=1 >
+		        				<tr><td align="right">提交文件总数</td><td width="30%"><span id="ce1"></span></td></tr>
+		        				<tr><td align="right">成功</td><td width="30%">       <span id="ce2"></span></td></tr>
+		        				<tr><td align="right">失败</td><td width="30%">       <span id="ce3"></span></td></tr>
+		        				<tr><td align="center" bgcolor="red" colspan="2">失败原因：</td></tr>
+		        				<tr><td align="right">文件已存在</td><td width="30%">  <span id="ce4"></span></td></tr>
+		        				<tr><td align="right">文件名无法解析</td><td width="30%"><span id="ce5"></span></td></tr>
+		        				<tr><td align="right">程序异常</td><td width="30%">     <span id="ce6"></span></td></tr>
+		        			</table>
+		        		</div>
 		        	</td>
 	        	</tr>
 	        	<tr>
-		        	<td align="center">
-		        	<!--  
-		        		<input id="save_more"  type="button" name="保存" value="保存" style="height: 22px;" /> 
-		        	--> 
-		        	</td>
+		        	<td align="center">&nbsp;</td>
 	        	</tr>
         	</table>
         </div>

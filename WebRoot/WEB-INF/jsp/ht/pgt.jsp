@@ -18,6 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
+	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/pgt.js"></script>
   </head>
   
@@ -27,22 +28,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	-->
     <jsp:include page="header.jsp" flush="true" />
     
-    <div id="pageleft">
+    <div id="pageleft" >
     	<!-- 左侧菜单 -->
     	<div class="left2_1">频高图录入</div>
     	<div class="left2_1"><a href="./ht/pgtlist.do" class="a3">频高图管理</a></div>
     </div>
     
-    <div id="imagePreview" title="图片预览"> </div>
+    <div id="imagePreview" title="图片预览" class="hidediv"> </div>
     
     <div id="center_right">
-    	<div id="make-tab" style="margin: auto;">
+    	<div id="make-tab" style="margin: auto;" >
         <ul>
             <li><a href="#tab1">单个录入</a></li>
             <li><a href="#tab2">批量导入</a></li>
         </ul>
-        <div id="tab2" >
-        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
+        <div id="tab2" class="hidediv">
+        	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
+	        	<tr>
+		        	<td align="center">&nbsp;<span class="fontgreen">温馨提示: 单次上传文件请不要超过20个，选择太多文件可能导致长时间无响应或浏览器崩溃！
+		        	<br/>上传文件的速度，取决于你电脑配置及运行速度！</span>
+		        	</td>
+	        	</tr>
 	        	<tr>
 	        	<td> 
 		        	<div style="height:260px;overflow-y:scroll; border: red solid 0px; ">
@@ -58,17 +64,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</tr>
 	        	<tr>
 		        	<td align="center">
-		        		<!--  
-		        		<input id="save_more"  type="button" name="保存" value="保存" style="height: 22px;" /> 
-		        		-->
-		        		<span id="msgtip"></span>
+		        		<div id="msgtable" class="hidediv">
+		        			<table style="BORDER-COLLAPSE: collapse" borderColor=#000000 height=40 cellPadding=1 width=200 align=center border=1 >
+		        				<tr><td align="right">提交文件总数</td><td width="30%"><span id="ce1"></span></td></tr>
+		        				<tr><td align="right">成功</td><td width="30%">       <span id="ce2"></span></td></tr>
+		        				<tr><td align="right">失败</td><td width="30%">       <span id="ce3"></span></td></tr>
+		        				<tr><td align="center" bgcolor="red" colspan="2">失败原因：</td></tr>
+		        				<tr><td align="right">文件已存在</td><td width="30%">  <span id="ce4"></span></td></tr>
+		        				<tr><td align="right">文件名无法解析</td><td width="30%"><span id="ce5"></span></td></tr>
+		        				<tr><td align="right">程序异常</td><td width="30%">     <span id="ce6"></span></td></tr>
+		        			</table>
+		        		</div>
 		        	</td>
+	        	</tr>
+	        	<tr>
+		        	<td align="center">&nbsp;</td>
 	        	</tr>
         	</table>
         </div>
         
-        <div id="tab1" >
-        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" class="loginbox_bor2" style="width:600px;">
+        <div id="tab1" class="hidediv">
+        	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 			  <tr>
 			    <td height="10" colspan="3" align="center">&nbsp; </td>
 			    </tr>

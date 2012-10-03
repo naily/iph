@@ -25,8 +25,8 @@ $(document).ready(function(){
     var tmp ;
     //初始化多文件上传 
     $('#file_upload_more').omFileUpload({
-        action : '../ht/sacmulti.do',
-        swf : 'swf/om-fileupload.swf',
+        action : '../ht/sacmulti.do' + "?timestamp=" + new Date().getTime() ,
+        swf : 'swf/om-fileupload.swf'+ "?timestamp=" + new Date().getTime() ,
         fileExt  : '*.jpg;*.bmp',
         fileDesc : 'Image Files(*.jpg,*.bmp)' ,
         method   : 'POST',
@@ -52,9 +52,17 @@ $(document).ready(function(){
             
         },
         onAllComplete:function(data,event){
-           var s = "<p>提交文件总数：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) + ', 成功:'+tmp.ok +', 失败：'+(tmp.err2 +tmp.err3 +tmp.err4) 
-           + '</p><p>失败原因：文件已存在['+tmp.err2+ '], 文件名无法解析[' + tmp.err3 +'], 程序异常['+tmp.err4 + ']</p>'; 
-           $('#errormsg2').html(s) ;
+           /*var s = "<p>提交文件总数：" + (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) + ', 成功:'+tmp.ok +', 失败：'+(tmp.err2 +tmp.err3 +tmp.err4) 
+           + '</p><p>失败原因：文件已存在['+tmp.err2+ '], 文件名无法解析[' + tmp.err3 +'], 程序异常['+tmp.err4 + ']</p>'; */
+           //$('#errormsg2').html(s) ;
+           
+           $('#ce1').html( (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) ) ;
+           $('#ce2').html( tmp.ok ) ;
+           $('#ce3').html( (tmp.err2 +tmp.err3 +tmp.err4)  ) ;
+           $('#ce4').html( tmp.err2 ) ;
+           $('#ce5').html( tmp.err3 ) ;
+           $('#ce6').html( tmp.err4 ) ;
+           $('#msgtable').show() ;
         } ,
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
@@ -72,8 +80,8 @@ $(document).ready(function(){
     });
     
     $('#file_upload').omFileUpload({
-        action : '../ht/sacsingsave.do',
-        swf : 'swf/om-fileupload.swf',
+        action : '../ht/sacsingsave.do'+ "?timestamp=" + new Date().getTime() ,
+        swf : 'swf/om-fileupload.swf'  + "?timestamp=" + new Date().getTime() ,
 	  	fileExt  : '*.jpg;*.bmp',
 	  	fileDesc : 'Image Files(*.jpg,*.bmp)' ,
 	  	method   : 'POST',
@@ -86,7 +94,9 @@ $(document).ready(function(){
             if(fileName && fileName.length >= 10){
                 $('#comboStation').omCombo('value', fileName.substring(0,5) )  ;
                 $('#sacTitleId').val( fileName ) ;
-                $('#actionDate').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(6,18) , "yymmddHi") , "yy-mm-dd H:i") );  
+               
+                //$('#actionDate').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(6,18) , "yymmddHi") , "yy-mm-dd H:i") ); 
+                $('#actionDate').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(0,8) , "yymmdd") , "yy-mm-dd") );
             }
         },
         onError :function(ID, fileObj, errorObj, event){

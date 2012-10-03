@@ -11,7 +11,7 @@ $(document).ready(function(){
          //height : 250,
          width : '99.8%',
          method : 'POST' ,
-         limit : pageslimit, //分页显示，每页显示8条
+         limit : pageslimit, 
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'<b>ID</b>', name:'gramID' , align : 'center',  width:100},
                          {header:'<b>频高图标题</b>',name:'gramTitle',align : 'center',  width:200  },
