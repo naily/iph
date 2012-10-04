@@ -19,6 +19,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -232,7 +233,7 @@ public class ParameterMod extends BaseMod{
 			String mdb = fusu.defaultProcessFileUpload(request, this.getAppRealPath(context) + "data/access/") ;
 			
 			//Connection con = new AccessUtil(mdb).getConnection() ;
-			log.info(mdb) ;
+			//log.info(mdb) ;
 			json.put(Constant.INFO, mdb) ;
 			json.put(Constant.SUCCESS, true) ;
 		} catch (Exception e) {
@@ -244,36 +245,82 @@ public class ParameterMod extends BaseMod{
 		}
 	}
 	
-	private List<Parameter> loadAccessFileData(Connection con){
-		List<Parameter> list = null;
+	@POST
+	@At("/ht/savepamdata")
+    @Ok("json")
+	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		log.info("tableName:"+ mdbTableName + " timefield:" + dateField + " station:" +stationId) ;
 		
-		if (null != con) {
-			try {
-
-				Statement s = con.createStatement();
-				s.execute("select * from wio ");
-				ResultSet rs = s.getResultSet();
+		try {
+			long start = System.currentTimeMillis() ;
+			AccessUtil au = new AccessUtil(mdbPath) ;
+			Connection con = au.getConnection() ;
+			
+			Statement stat = con.createStatement(); 
+			long total = au.getTotalRowNumber(stat, mdbTableName) ;
+			
+			long pageTotal = au.getTotalPageNumber(total)  ;
+			
+			long insertdb  = 0 ;
+			String tmpl = "select top PAGESPEED * from TABLENAME where ID >(select top 1 max(ID) from (select top BEFOREROW ID from TABLENAME order by ID)) " ;
+			tmpl = tmpl.replaceAll("ID", dateField).replaceAll("PAGESPEED", String.valueOf(au.pageSpeed)).replaceAll("TABLENAME", mdbTableName) ;
+			for(int i = 1 ; i <= pageTotal ; i++){
+				int ii = (i-1)* au.pageSpeed ;
+				String sql = tmpl.replaceAll("BEFOREROW", String.valueOf(ii)) ;
 				
-				if (rs != null) {
-		        	ResultSetMetaData md =  rs.getMetaData() ;
-		        	int cc = md.getColumnCount() ; 
-		        	
-		        	while (rs.next()) {
-		        		
-		        	}
+				if(i == 1){
+					sql = sql.substring(0 , sql.indexOf("where")) ;
 				}
 				
-				
-				rs.close();
-				s.close();
-				con.close();
-				System.gc();
-
-			} catch (Exception e) {
-				e.printStackTrace();
+				ResultSet rset = au.execSQL(stat , sql ) ;
+				if(null != rset){
+					//把当前结果集中存在的fieldsName找出来
+					List<String> available = new ArrayList<String>() ;
+					List<String> list = au.getAllColumnName(rset.getMetaData()) ;
+					for (String str : au.fieldsName) {
+						if(au.isExistString(list, str) ){
+							available.add(str) ;
+						}
+					}
+					
+					List<Parameter> data = new ArrayList<Parameter>() ;
+					while (rset.next()) {
+						Parameter p = new Parameter() ;
+						String time = rset.getString(dateField) ;
+						p.setParameterID(time+ "/" + System.currentTimeMillis()) ;
+						p.setCreateDate(DateUtil.convertStringToDate(time, DateUtil.pattern5)) ;
+						p.setStationID(stationId) ;
+						//StringBuilder ss = new StringBuilder(rset.getString("mytime")).append("\t");
+						for (String fn : available) {
+							//ss.append(rset.getString(fn)).append("\t") ;
+							BeanUtils.setProperty(p, fn, String.valueOf(rset.getString(fn))) ;
+						}
+						//System.out.println(ss.toString());
+						
+						dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
+						data.add(p) ;
+					}
+					//log.info("得到: " + data.size()) ;
+					insertdb += data.size() ;
+					baseService.dao.insert(data) ;
+					dls.insert("01", tableName, getHTLoginUserName()) ;
+				}
 			}
+			//log.info("共得到: " + insertdb) ;
+			long end = System.currentTimeMillis() ;
+			
+			json.put(Constant.SUCCESS, true) ;
+			json.put("usetime", (end-start)/1000 + " 秒" ) ;
+			json.put("insertRow", insertdb + " 条") ;
+			log.info(json.get("usetime")) ;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
 		}
-		
-		return list;
 	}
+	
 }

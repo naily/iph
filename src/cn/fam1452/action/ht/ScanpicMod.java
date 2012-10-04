@@ -105,7 +105,9 @@ public class ScanpicMod extends BaseMod{
 				if(baseService.dao.fetch(sp) == null){
 					baseService.dao.insert(sp) ;
 					json.put(Constant.SUCCESS, true) ;
+					
 					dls.insert("01", tableName, getHTLoginUserName()) ;
+					dls.insertNDY(tableName, sp.getStationID(), null, sp.getCreateDate()) ;
 				}else{
 					json.put(Constant.INFO, this.error4) ;
 					json.put("error", 2) ;

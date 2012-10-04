@@ -28,87 +28,87 @@ public class Parameter {
 	private Date createDate ;
 	
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String foF2 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hlF2 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String foF1 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hlF1 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hlF ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hpF ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String foE ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hlE ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String foEs ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hlEs ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String fbEs ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String Fmin ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String M3000F2 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String M1500F2 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String M3000F1 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String M3000F ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para20 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para21 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para22 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para23 ;
 
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=8)
+	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para24 ;
 
 	public String getParameterID() {

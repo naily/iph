@@ -20,15 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/pam.js"></script>
 	
-	<style type="text/css">
-		#fieldsInfo{
-			float: right; 
-			width : 260px;
-			height : 100%  ;
-			border:#FFDFFF solid 1px; 
-			word-wrap:break-word;
-		}
-	</style>
   </head>
   
   <body>
@@ -46,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <li><a href="#tab1">单记录录入</a></li>
 	            <li><a href="#tab2">批量导入</a></li>
 	        </ul>
-	        <div id="tab1">
+	        <div id="tab1" class="hidediv">
 	        
         	<table width="520" border="0" style="float: left;">
               <tr>
@@ -161,24 +152,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
         </div>
         <!-- 导入 -->
-        <div id="tab2">
-        	<table height="400" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
-	        	<tr>
-	        	<td> 
-		        	<div style="height:360px;overflow-y:scroll; border: red solid 0px; ">
-		        		<div style="width:100px; float:left;  margin-top: 6px;">选择数据文件:</div>
-		        		<input type="file" name="file_upload_access" id="file_upload_access" /> 
+        <div id="tab2" class="hidediv">
+        	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
+	        	<tr><td align="right" colspan="2">&nbsp;</td> </tr>
+	          <tr>
+                <td align="right">&nbsp;观测站:</td>
+                <td>&nbsp;<input id="mdbStation" type="text" name="st" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;mdb数据表名:</td>
+                <td>&nbsp;<input id="mdbtn" type="text" name="M3000F" class="boxinput3" /> <span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;mdb数据日期字段名:</td>
+                <td>&nbsp;<input id="datefield" type="text" name="M3000F" class="boxinput3" /> <span class="red_asterisk">*</span></td>
+              </tr>
+              <tr><td align="right" colspan="2">&nbsp;</td> </tr>
+              <tr>
+                <td align="right" valign="top">&nbsp;<br>选择数据文件:</td>
+	        	<td valign="top"> 
+		        	<div style="height:100px;overflow-y:scroll; border: red solid 0px; ">
+		        		<input type="file" name="file_upload_access" id="file_upload_access" />
+		        		<input type="hidden" id="mdbpath" name="mdbpath"/>
 		        	</div>
 	        	</td>
 	        	</tr>
 	        	<tr>
-		        	<td align="center">
+		        	<td align="center" colspan="2">
 		        		<span id="errormsg2" class="errorMessages"></span>
 		        	</td>
 	        	</tr>
 	        	<tr>
-		        	<td align="center">
-		        		<input id="save_more"  type="button" name="保存" value="保存" style="height: 22px;" /> 
+		        	<td align="center" colspan="2">
+		        		<input id="saveMdbFile"  src="images/baocun.png" type="image" title="保存" /> 
 		        	</td>
 	        	</tr>
         	</table>

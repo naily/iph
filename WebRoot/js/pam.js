@@ -11,6 +11,12 @@ $(document).ready(function(){
         valueField : 'id' ,
         optionField :'name' 
     }) ;
+    $('#mdbStation').omCombo({
+        width : 222 ,
+        dataSource:'ht/stationlistall.do' ,
+        valueField : 'id' ,
+        optionField :'name' 
+    }) ;
     //观测日期
     $('#actionDate').omCalendar({showTime : true});
     
@@ -27,17 +33,17 @@ $(document).ready(function(){
     
     //上传批量导入的数据文件
     $('#file_upload_access').omFileUpload({
-        action : '../ht/uploadaccessdata.do',
-        swf : 'swf/om-fileupload.swf',
+        action : '../ht/uploadaccessdata.do'+ "?timestamp=" + new Date().getTime() ,
+        swf : 'swf/om-fileupload.swf'+ "?timestamp=" + new Date().getTime() ,
         fileExt  : '*.mdb',
         fileDesc : 'Microsoft Access Database(*.mdb)' ,
         method   : 'POST',
         onComplete : function(ID,fileObj,response,data,event){
             //alert('文件'+fileObj.name+'上传完毕');
-            //上传完毕才可以预览
             var json = eval("("+response+")");
             if(json.success){
-            	$("#errormsg2").html("上传Access成功<br\> 文件路径: "+ json.info).show() ;
+            	$("#errormsg2").html("上传Access完毕" ).show() ;
+                $("#mdbpath").val(json.info ) ;
             }else{
             	$("#errormsg2").html("上传失败<br\> Info: "+ json.info).show() ;
             }
@@ -124,6 +130,45 @@ $(document).ready(function(){
 				$("input[name='"+ arry[fn] +"']").val('');
 			}
 	}
+    
+    $("#saveMdbFile").bind("click" , function(){
+    
+        var mdbst = $('#mdbStation').omCombo('value') ;
+        var tn =    $("#mdbtn").val() ;
+        var df =    $("#datefield").val() ;
+        var mdb =   $("#mdbpath").val() ;
+        if(!mdbst){
+            alert("请选择观测站") ;
+            return ;
+        }
+        if(!tn){
+            alert("请输入mdb数据表名") ;
+            return ;
+        }
+        if(!df){
+            alert("请输入mdb数据日期字段名") ;
+            return ;
+        }
+        
+        if(!mdb){
+            alert("请上传mdb文件") ;
+            return ;
+        }
+        
+        var save = {
+            url : "ht/savepamdata.do" ,
+            params : {mdbPath : mdb ,stationId : mdbst,mdbTableName: tn,dateField : df} ,
+            callback :function(json){
+                if(json.success){
+                    $("#errormsg2").html("读取成功<br>记录数： "+json.insertRow +"<br>用时： " +json.usetime).show() ;
+                }else{
+                    $("#errormsg2").html(json.info).show() ;
+                }
+            }
+        }
+        $("#errormsg2").removeClass().html("").hide() ;
+        ajaxpost(save) ;
+    });
 	
 });
 
