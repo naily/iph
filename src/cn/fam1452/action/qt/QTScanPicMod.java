@@ -58,6 +58,7 @@ public class QTScanPicMod extends BaseMod{
 	
 	@Inject("refer:scanPicService")
 	private ScanPicService scanPicService;
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.scanPiclist")
 	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")Scanpic scp){

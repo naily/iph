@@ -8,6 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -141,6 +142,12 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
    	    List listData =null;//参数list
    	    ParameterMonthDateBo para =null;//参数bean
    		int rowSatrt=0;//开始行
+   		
+   		
+   		CellStyle styleAlign = setAlign(wb); 
+   		CellStyle styleHead =setHeadStyle(wb);
+   		CellStyle styleContent =setContentStyle(wb);
+   		
    		//遍历参数
 	    for(String paraArys:paraAry){
 	    	rowSatrt=0;
@@ -186,7 +193,8 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	    		row = sheet.createRow((short)rowSatrt);// 在索引0的位置创建行（最顶端的行）
 	    		cell = row.createCell(0);
 	    		cell.setCellValue(defaultTitle);
-	    		cell.setCellStyle(setAlign(wb));
+	    		//cell.setCellStyle(setAlign(wb));
+	    		cell.setCellStyle(styleAlign);
 	    		//报表基础参数行（第二行）合并为四列	    		
 	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,0,3));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)
 		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,4,8));
@@ -197,19 +205,21 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		   		
 		   		cell = row.createCell(0); 
 		   		cell.setCellValue(paraArys+QuartileUtil.getUnit(paraArys));
-		   		cell.setCellStyle(setAlign(wb));
+		   		//cell.setCellStyle(setAlign(wb));
+		   		cell.setCellStyle(styleAlign);
 		   		
 		   		cell = row.createCell(4); 
 		   		cell.setCellValue(DateUtil.getMonthEn(Integer.parseInt(months))+"  "+year);
-		   		cell.setCellStyle(setAlign(wb));
+		   		//cell.setCellStyle(setAlign(wb));
+		   		cell.setCellStyle(styleAlign);
 		   		
 		   		cell = row.createCell(9); 
 		   		cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
-		   		cell.setCellStyle(setAlign(wb));	
+		   		cell.setCellStyle(styleAlign);	
 		   		
 		   		cell = row.createCell(16); 
 		   		cell.setCellValue(station.getName()+"("+station.getLongitude()+"  "+station.getLatitude()+")");
-		   		cell.setCellStyle(setAlign(wb));
+		   		cell.setCellStyle(styleAlign);
 		   		//设置单元格宽度
 		   		sheet.setColumnWidth( 0,10*256);//.autoSizeColumn(0 )
 		   		for(int col=1;col<=25;col++){
@@ -219,7 +229,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		        row = sheet.createRow((short)rowSatrt+2);
 		   	    cell = row.createCell(0); 		   	    
 		   	    cell.setCellValue("Day\\Month");//此处应该设为斜线，暂未解决
-		   	    cell.setCellStyle(setHeadStyle(wb));
+		   	    cell.setCellStyle(styleHead);
 		   	    for(int col1=0;col1<=24;col1++){
 		   	    	cell=row.createCell(col1+1);
 		   	    	 if(col1<10){
@@ -227,7 +237,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		   	    	   }else{
 		   	    		cell.setCellValue(col1);
 		   	    	  }
-		   	    	 	cell.setCellStyle(setHeadStyle(wb));	   	   
+		   	    	 	cell.setCellStyle(styleHead);	   	   
 		   	    }
 		   	    //参数报表内容开始（第四行）-------------------------------------------------------------------------
 		   	    				   	    
@@ -242,7 +252,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 						    	    	}else{
 						    	    		cell.setCellValue(getParaValue(para,col2));
 						    	    	}
-						    	    	cell.setCellStyle(setContentStyle(wb));
+						    	    	cell.setCellStyle(styleContent);
 						    	    }
 					    		  rowSatrt++;
 					    	}

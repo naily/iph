@@ -49,8 +49,8 @@ $(document).ready(function() {
 	$('#selectDataType').omCombo({
 				dataSource:[
                 {text:select_type_parameter,value:'1'},
-                {text:'select_type_ionogram',value:'2'},
-                {text:'select_type_Report_scan',value:'3'}             
+                {text:select_type_ionogram,value:'2'},
+                {text:select_type_Report_scan,value:'3'}             
 		        ],
 		       /* optionField:function(data,index){
 		            return '<font color="red">'+index+'：</font>'+data.text+'('+data.value+')';
@@ -228,7 +228,8 @@ $(document).ready(function() {
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewPgt_(\''+rowData.gramPath+'\');" class="a3">查看频高图</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
+	                         	//return '<a href="javascript:previewPgt_(\''+rowData.gramPath+'\');" class="a3">查看频高图</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
 	                         },
 						width : 200
 			 }
@@ -243,7 +244,8 @@ $(document).ready(function() {
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewScanPic_(\''+rowData.gramPath+'\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         //	return '<a href="javascript:previewScanPic_(\''+rowData.gramPath+'\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
 	                         },
 						width : 200
 			 }

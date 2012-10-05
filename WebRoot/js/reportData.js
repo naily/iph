@@ -137,6 +137,9 @@ $(document).ready(function() {
                 	 if(showPageTbale){
 		 			   	$("#pagesNum").html(totalPages);
 		 			   	$("#showPages").show();
+		 			   }else{
+		 			     $("#pagesNum").html('');
+		 			   	 $("#showPages").hide();
 		 			   }
                       $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
                 }else{ //有查询条件，显示查询数据  

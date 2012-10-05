@@ -307,7 +307,7 @@ public class QTParameterMod extends BaseMod {
 		log.info(json.toString());
 		return json;
 	}
-	
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/paraDataQuery")
 	@Ok("jsp:jsp.qt.parameterQuery")
 	/**

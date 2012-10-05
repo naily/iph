@@ -72,7 +72,7 @@
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_prepage']}</a>	       
 			    		</c:otherwise>
 			    	</c:choose>
-					 {msg['qt_page_local']}
+					 ${msg['qt_page_local']}
 					<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount} ${msg['qt_page_unit']}
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >

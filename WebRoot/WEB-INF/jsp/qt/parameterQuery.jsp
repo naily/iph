@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="js/library/highcharts225/modules/exporting.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/themes/grid.js"></script>
 		<script type="text/javascript" src="js/index_global.js"></script>
+		<script type="text/javascript" src="js/Global.js"></script>
 		<c:choose>
 			 <c:when test='${msg.lang=="zh"}'> 
 			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
