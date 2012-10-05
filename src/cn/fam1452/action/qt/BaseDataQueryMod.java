@@ -1,10 +1,7 @@
 package cn.fam1452.action.qt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -13,14 +10,7 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.By;
-import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
-
-import cn.fam1452.Constant;
-import cn.fam1452.action.filter.AdminFilter;
-import cn.fam1452.action.filter.UserFilter;
-import cn.fam1452.dao.pojo.Log;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.service.BaseService;
 

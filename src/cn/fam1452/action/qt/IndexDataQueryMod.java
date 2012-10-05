@@ -41,6 +41,7 @@ public class IndexDataQueryMod extends BaseMod{
 	 * @author gls
 	 * @date 2012-08-27
 	 * */
+	@SuppressWarnings("unchecked")
 	@At("/qt/latestDataUpdate")
 	@Ok("json")
 	public JSONObject latestData(){
@@ -160,8 +161,8 @@ public class IndexDataQueryMod extends BaseMod{
 		ds = sql4.getObject(DataService.class);
 		if(null!=ds){
 			float filesize =FileDownload.getFloatNum(ds.getResultAmount()/1024);
-			log.info("filesize="+filesize);
-			log.info("filesize.tostring="+String.valueOf(filesize));
+			//log.info("filesize="+filesize);
+			//log.info("filesize.tostring="+String.valueOf(filesize));
 			
 	    	json.put("downloadNum", ds.getResultNum3());
 	    	json.put("downloadAmount",filesize);//k->M
@@ -169,7 +170,7 @@ public class IndexDataQueryMod extends BaseMod{
 	    	json.put("downloadNum", 0);
 	    	json.put("downloadAmount",0);
 		}
-		log.info("下载次数："+ds.getResultNum3()+",下载量:"+FileDownload.getFloatNum(ds.getResultAmount()/1024));
+		//log.info("下载次数："+ds.getResultNum3()+",下载量:"+FileDownload.getFloatNum(ds.getResultAmount()/1024));
 		
 		return json;
 		

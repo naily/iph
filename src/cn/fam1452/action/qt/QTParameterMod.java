@@ -6,7 +6,6 @@ package cn.fam1452.action.qt;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,6 @@ import cn.fam1452.service.BaseService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.DateUtil;
-import cn.fam1452.utils.QuartileBean;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -178,7 +176,7 @@ public class QTParameterMod extends BaseMod {
 			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
 			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
 			if(null!=parameter.getParaType()){
-				log.info("parameter.getParaType()="+parameter.getParaType());
+				//log.info("parameter.getParaType()="+parameter.getParaType());
 				QuartileUtil quartUtil=null;
 				String[] filterFiled={"days"};//过滤非数据字段
 				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
@@ -304,7 +302,7 @@ public class QTParameterMod extends BaseMod {
 			  }		
 			}//end if
 			
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
@@ -391,20 +389,20 @@ public class QTParameterMod extends BaseMod {
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		cfg.setExcludes(new String[] {"address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
-	    log.info(parameter.getCreateDate());//"station",
-	    log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
+	    //log.info(parameter.getCreateDate());//"station",
+	    //log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
 	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
 	    String startTime =createDate+" 00:00";
 	    String endTime =createDate+" 23:59";
 		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
-		log.info(sql.toString());
+		//log.info(sql.toString());
 		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
-		List<Parameter> listV = new ArrayList();
+		List<Parameter> listV = new ArrayList<Parameter>();
 		for(Parameter para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
 			para.setStation(station);
@@ -418,7 +416,7 @@ public class QTParameterMod extends BaseMod {
 			json.put(Constant.SUCCESS, false);
 		}
 		
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadParaData")
