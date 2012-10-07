@@ -147,7 +147,7 @@ public class QuartileUtil<T>{
 			
 			if(va instanceof String){
 				String s = StringUtil.replaceLetter(va.toString()) ;
-				if(StringUtil.checkNotNull(s) && !".".equals(s)){
+				if(StringUtil.checkNotNull(s) ){
 					arry.add(Double.parseDouble(s) );
 				}
 			}else if(va instanceof Number){
@@ -540,7 +540,8 @@ public class QuartileUtil<T>{
 				if(null != PropertyUtils.getSimpleProperty(t, fn) && !"".equals(PropertyUtils.getSimpleProperty(t, fn)) && !" ".equals(PropertyUtils.getSimpleProperty(t, fn)) && !"days".equals(PropertyUtils.getSimpleProperty(t,fn))){
 					totalNum++ ;
 					//System.out.println("PropertyUtils.getSimpleProperty(t, f.getName()="+PropertyUtils.getSimpleProperty(t, f.getName()));
-					paraValue=Float.parseFloat(PropertyUtils.getSimpleProperty(t, fn).toString());
+					String sf = StringUtil.replaceLetter(String.valueOf(PropertyUtils.getSimpleProperty(t, fn)) ) ;
+					paraValue=Float.parseFloat( sf );
 					if(paraValue>values){
 						greatThen++;
 					}					

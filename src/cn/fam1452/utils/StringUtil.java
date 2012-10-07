@@ -1435,6 +1435,12 @@ public class StringUtil
 		 }else{
 			 outputValue= "";
 		 }		 
+		 
+		 //如果以点开头，去掉
+		 if(outputValue.startsWith(".")){
+			 outputValue = outputValue.substring(1) ;
+		 }
+		 
 	     return outputValue;  
 	    } 
 	/**

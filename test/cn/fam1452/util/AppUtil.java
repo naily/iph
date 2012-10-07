@@ -36,5 +36,12 @@ public class AppUtil {
 		int i =  6 ;
 		int l = fileName.lastIndexOf(".") ;
 		System.out.println("K "+ fileName.substring(i, l));
+		
+		
+		
+		
+		String dot = "." ;
+		System.out.println(dot);
+		System.out.println("dot: "+dot.substring(1));
 	}
 }
