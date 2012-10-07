@@ -147,7 +147,7 @@ public class QuartileUtil<T>{
 			
 			if(va instanceof String){
 				String s = StringUtil.replaceLetter(va.toString()) ;
-				if(StringUtil.checkNotNull(s)){
+				if(StringUtil.checkNotNull(s) && !".".equals(s)){
 					arry.add(Double.parseDouble(s) );
 				}
 			}else if(va instanceof Number){
