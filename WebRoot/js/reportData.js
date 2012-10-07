@@ -120,6 +120,7 @@ $(document).ready(function() {
 			   var parameter=$('#parameter').val();	
 			   var showPageTbale=false;
 			   var totalPages=1;
+			   var pageNumber=1;
 			   if(isMonthSelectAll()){
 			   	  totalPages=12;
 			   	  month=month_array[0];
@@ -136,9 +137,11 @@ $(document).ready(function() {
                 if(stationId && year && month && parameter){
                 	 if(showPageTbale){
 		 			   	$("#pagesNum").html(totalPages);
+		 			   	$("#pageNumber").html(pageNumber);
 		 			   	$("#showPages").show();
 		 			   }else{
 		 			     $("#pagesNum").html('');
+		 			     $("#pageNumber").html('');
 		 			   	 $("#showPages").hide();
 		 			   }
                       $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
@@ -215,6 +218,14 @@ $(document).ready(function() {
    * */
   function Next(){ 	
   	var parameterIndex=-1,monthIndex=-1;
+  	var pageNumber = $("#pageNumber").html();
+  	var totalPages =$("#pagesNum").html();
+  	pageNumber = parseInt(pageNumber);
+  	pageNumber=pageNumber+1
+  	if(pageNumber>=parseInt(totalPages)){
+  	  pageNumber=totalPages;
+  	}
+  	$("#pageNumber").html(pageNumber);
   	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
 	  	    parameterIndex=$("#parameterIndex").val();
 	  	    monthIndex=$("#monthIndex").val();
@@ -247,6 +258,13 @@ $(document).ready(function() {
    * */
   function Previous(){
    	var parameterIndex=-1,monthIndex=-1;
+   	var pageNumber = $("#pageNumber").html();
+  	pageNumber = parseInt(pageNumber);
+  	pageNumber=pageNumber-1
+  	if(pageNumber<=0){
+  	  pageNumber=1
+  	}
+  	$("#pageNumber").html(pageNumber);
   	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
 	  	    parameterIndex=$("#parameterIndex").val();
 	  	    monthIndex=$("#monthIndex").val();

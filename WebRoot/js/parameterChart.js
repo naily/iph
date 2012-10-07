@@ -51,16 +51,17 @@ $(document).ready(function() {
        $("#pressParaChart").click(function(){
                var stationId=$('#stationId').val();
 			   var year=$('#year').val();
+			   var parameter=$('#parameter').val();	
 			   var chk_value =[];    
 				  $('input[name="months"]:checked').each(function(){    
 				     chk_value.push($(this).val());    
 				  });    
-
-			  // var month=$('#monthForChart').val();
-			   var month=chk_value.toString();
-			   month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份
-			   var parameter=$('#parameter').val();	
-			   	
+			   var month=chk_value.toString();		
+			   //month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份	
+			   if(chk_value.length>1 && (parameter=='foF2,foF1,foEs,foE' || parameter=='M3000F2,P（foEs）,hiEs') ){
+			    at({cont:'查看多因子曲线图时，只能选择一个月份！' , type : 'error'});
+			    return;
+			   }
                 if(stationId && year && month && parameter){
                      var data = {
 								url : 'qt/loadParaChartData.do',
@@ -71,20 +72,97 @@ $(document).ready(function() {
 								paraType:parameter
 							},
 							callback : function(json) {											
-								if (json.success) {		
-								    $("#topChart").html('');								
-									$("#paraDataChart").html('');
+								if (json.success) {	
+									
+									/**
+									 * 清除页面曲线图位置节点中的内容
+									 * */
+								    $("#topChart").html('');
+								    $("#topChart").height(0);
+								    for(var ind=0;ind<12;ind++){
+								      $("#paraDataChart"+ind).html('');
+								      $("#paraDataChart"+ind).height(0);								      
+								    }									
 									$("#downChart").html('');
-									  //====================多因子组合时，上方的曲线图（如：M3000F2曲线图）=======================================================
-										if(json.topChart){	
+									$("#downChart").height(0);
+									 $("#rightChartContent").height(670);
+									 var chart;	
+									/**
+									 * 单因子曲线图生成（支持多月份选择）
+									 * */
+									//=======================单因子曲线图（单因子曲线显示）=============================================
+									if(json.paraFlag==1){									  
+									   $("#rightChartContent").height(220*json.SingleFactor.length+300);
+									 	$.each( json.SingleFactor, function (i, object) {
+									            // alert("text:" + object.text );
+									           /* $.each( object.text, function (i, o1) {
+									             alert("text:" + o1.name + ", value:"  + o1.data);
+									             
+												});*/								
+									 		$("#paraDataChart"+i).height(200);
+									 		$("#paraDataChart"+i).width(700);
+									 		$("#paraDataChart"+i).css({"margin-top":"10px"})
+									 		chart = new Highcharts.Chart({
+											chart: {
+												renderTo: 'paraDataChart'+i,
+												type: 'line',
+												marginRight: 90,
+												marginBottom: 25
+											},
+											title: {
+												text: '',//json.chartTitle
+												x: -20 //center
+											},
+											subtitle: {
+												text: '',//year+'.'+month+'  '+locations+'     '+jingweidu
+												x: -20
+											},
+											xAxis: {
+												categories: parameter_chart_xAxis_hour
+											},
+											yAxis: {
+												title: {
+													text: json.yAxis+getUnit(json.paraName)
+												},
+												plotLines: [{
+													value: 0,
+													width: 1,
+													color: '#808080'
+												}]
+											},
+											tooltip: {
+												formatter: function() {
+														return '<b>'+ this.series.name +'</b><br/>'+
+														this.x +': '+ this.y ;
+												}
+											},
+											legend: {
+												layout: 'vertical',
+												align: 'right',
+												verticalAlign: 'top',
+												x: -10,
+												y: 100,
+												borderWidth: 0
+											},
+											series: object.mutiMonth
+											/*series: [{
+												name: 'foF2',
+												data: ["7.0", "6.9", "9.5", "14.5"]
+											}]*/
+										});
+									 		
+											});									 																	   								  										
+									 }else{//===============================多因子======================================
 											$("#topChart").height(250); //.css(height,250);
-											$("#rightChartContent").height(970);
+											$("#topChart").width(700);
+									 	 //====================组合1，2共用曲线，最上方的曲线=========================================
+										if(json.topChart){																							
 											var topChart;												
 										    topChart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'topChart',
 												type: 'line',
-												marginRight: 100,
+												marginRight: 90,
 												marginBottom: 25
 											},
 											title: {
@@ -123,25 +201,21 @@ $(document).ready(function() {
 												borderWidth: 0
 											},
 											series: json.topChart
-											/*series: [{
-												name: 'foF2',
-												data: ["7.0", "6.9", "9.5", "14.5"]
-											}]*/
 										});
 										  
-										}else{
-										    $("#topChart").height(0);
-										    $("#rightChartContent").height(670);										   										    
-										}
-									//=======================主曲线图（单因子曲线显示，多因子时下方多因子曲线图）=============================================
-									 if(json.rows){
-									   $("#paraDataChart").height(300);
-									   var chart;									  
-										chart = new Highcharts.Chart({
+										}								
+											//=======================组合1，下方的曲线=============================================
+									 if(json.MultiFactor1){									 	
+									        $("#rightChartContent").height(870);
+									        
+									 		$("#paraDataChart0").height(250);
+									 		$("#paraDataChart0").css({"margin-top":"10px"})
+									 		$("#paraDataChart0").width(700);
+									 		chart = new Highcharts.Chart({
 											chart: {
-												renderTo: 'paraDataChart',
+												renderTo: 'paraDataChart0',
 												type: 'line',
-												marginRight: 100,
+												marginRight: 90,
 												marginBottom: 25
 											},
 											title: {
@@ -179,25 +253,78 @@ $(document).ready(function() {
 												y: 100,
 												borderWidth: 0
 											},
-											series: json.rows
+											series: json.MultiFactor1
 											/*series: [{
 												name: 'foF2',
 												data: ["7.0", "6.9", "9.5", "14.5"]
 											}]*/
-										});
-									 }else{
-									 	 $("#paraDataChart").height(0);
+										});							   								  									
 									 }
-									  
-									  if(json.downChart){
-									   	 $("#downChart").height(200);
-									   	 $("#rightChartContent").height(870);	
+									 						
+										 if(json.MultiFactor2){
+									        $("#rightChartContent").height(970);									 	
+									 		$("#paraDataChart0").height(200);
+									 		$("#paraDataChart0").width(700);
+									 		$("#paraDataChart0").css({"margin-top":"10px"})
+									 		chart = new Highcharts.Chart({
+											chart: {
+												renderTo: 'paraDataChart0',
+												type: 'line',
+												marginRight: 90,
+												marginBottom: 25
+											},
+											title: {
+												text: '',//json.chartTitle
+												x: -20 //center
+											},
+											subtitle: {
+												text: '',//year+'.'+month+'  '+locations+'     '+jingweidu
+												x: -20
+											},
+											xAxis: {
+												categories: parameter_chart_xAxis_hour
+											},
+											yAxis: {
+												title: {
+													text: json.yAxis+getUnit(json.paraName)
+												},
+												plotLines: [{
+													value: 0,
+													width: 1,
+													color: '#808080'
+												}]
+											},
+											tooltip: {
+												formatter: function() {
+														return '<b>'+ this.series.name +'</b><br/>'+
+														this.x +': '+ this.y ;
+												}
+											},
+											legend: {
+												layout: 'vertical',
+												align: 'right',
+												verticalAlign: 'top',
+												x: -10,
+												y: 100,
+												borderWidth: 0
+											},
+											series: json.MultiFactor2
+											/*series: [{
+												name: 'foF2',
+												data: ["7.0", "6.9", "9.5", "14.5"]
+											}]*/
+										});							   								  									
+									 }
+										if(json.downChart){									
+									   	 $("#downChart").height(200);	
+									   	  $("#downChart").width(700);
+									   	  $("#downChart").css({"margin-top":"10px"})
 									   		chart = new Highcharts.Chart({
 								            chart: {
 								                renderTo: 'downChart',
 								                type: 'column',
 								               // margin: [ 30, 100, 50, 50]
-								                marginRight: 100,
+								                marginRight: 90,
 												marginBottom: 25
 								            },
 								            title: {
@@ -251,11 +378,12 @@ $(document).ready(function() {
 								            }]*/
 								        });
  
-									   }else{
-									      $("#downChart").height(0);
 									   }
+									}
+									
 										
-										
+								
+									 
 										  //=========================================================================
 								} else {
 									at({cont:'没有数据！' , type : 'error'});

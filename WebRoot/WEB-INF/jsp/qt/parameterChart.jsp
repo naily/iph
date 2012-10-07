@@ -87,11 +87,35 @@
 						</tr>								
 					</table>
 					<br/>
-					<div id="topChart" style="min-width: 400px;  margin: 0 auto"></div><!-- height: 250px; -->
-					<br/>
-					<div id="paraDataChart" style="min-width: 400px; margin: 0 auto"></div><!--  height: 300px; -->
-					<br/>
-					<div id="downChart" style="min-width: 400px; margin: 0 auto"></div><!--  height: 300px; -->					
+					<div id="topChart" style="min-width: 400px;  margin: 0 auto"></div><!-- height: 250px; -->				
+					
+					<div id="paraDataChart0" style="min-width: 400px; margin: 0 auto;"></div>
+					
+					<div id="paraDataChart1" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart2" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart3" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart4" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart5" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart6" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart7" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart8" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart9" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="paraDataChart10" style="min-width: 400px; margin: 0 auto"></div>
+							
+					<div id="paraDataChart11" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<div id="downChart" style="min-width: 400px; margin: 0 auto"></div>
+					
+					<!--  height: 300px; -->					
 				</div>
 		   <!-- </div> -->
 		</div>

@@ -6,6 +6,7 @@ package cn.fam1452.action.qt;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +181,167 @@ public class QTParameterMod extends BaseMod {
 				QuartileUtil quartUtil=null;
 				String[] filterFiled={"days"};//过滤非数据字段
 				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
+				int[]  monthAry =StringUtil.getIntArrayBySplitString(parameter.getMonth(),",");
+				if(paraAry.length==1){//单因子
+						json.put("paraFlag", 1);//曲线图类型：单因子
+						json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+						json.put("yAxis", "Critical Frequency ");
+						json.put("paraName", paraAry[0]);
+						quartUtil = new QuartileUtil();	
+						parameter.setParaType(paraAry[0]);
+						if(monthAry.length>0){
+						  List medListOne = new ArrayList();
+						  Map map ;
+						  for(int m:monthAry){
+							map = new HashMap();
+							parameter.setMonth(String.valueOf(m));			
+							list = parameterService.parameterMonthReport(parameter);
+							if(null!=list && list.size()>0){
+								medListOne=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
+							}
+							map.put("mutiMonth", medListOne);
+							medList.add(map);
+						  }
+						}
+						json.put("SingleFactor", medList);//单因子
+										
+				}else{//多因子：两种组合 组合1：（foF2,foF1,foEs,foE），组合2：（M3000F2,P(foEs),hiEs）
+					Map map =null;
+					//根据多因子数组的首因子判断是何种组合，从而生成主曲线图上方的曲线图
+					if("foF2".equals(paraAry[0])){//多因子组合1：
+						//======上方曲线图（h'E,h'F2,h'F1）============hlE,hlF2,hlF1
+						json.put("paraFlag", 2);//曲线图类型：多因子组合1
+						json.put("top_chartTitle", "Monthly ionospheric data plot");
+						json.put("top_yAxis", "Virtual Height(Km)");
+						json.put("top_paraName", "hlE");
+						String[] topPara ={"hlF2","hlF1","hlE"};
+						for(String topP:topPara){
+							 parameter.setParaType(topP);
+							 list = parameterService.parameterMonthReport(parameter);
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();	
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }						 
+							 map.put("name", topP);
+							 medList.add(map);
+						}
+						 json.put("topChart", medList);
+						 medList.clear();
+						//======下方曲线图(foF2,foF1,foEs,foE)============
+						json.put("chartTitle", "Monthly ionospheric data plot");
+						json.put("yAxis", "Critical Frequency(Km)");
+						json.put("paraName", paraAry[0]);
+						
+						for(String paraValue:paraAry){//遍历因子，通过生成的单因子电离月报数据，计算单因子四分位数
+							 parameter.setParaType(paraValue);						 
+							 list = parameterService.parameterMonthReport(parameter);	
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }
+							 map.put("name", paraValue);
+							 medList.add(map);								 
+						 }	
+						  json.put("MultiFactor1", medList);//
+						}else{//组合2
+						  //==============上方曲线（M3000F2）==================
+							json.put("paraFlag", 3);//曲线图类型：多因子组合2
+							json.put("top_chartTitle", "Monthly ionospheric data plot");
+							json.put("top_yAxis", "");
+							json.put("top_paraName", "M3000F2");
+							parameter.setParaType("M3000F2");
+							list = parameterService.parameterMonthReport(parameter);
+							 if(null!=list && list.size()>0){
+								 quartUtil = new QuartileUtil();	
+								 map=quartUtil.monthIonosphericMedDate(list, filterFiled, filterFiled[0]);//
+							 }
+							 
+							 map.put("name", "M3000F2");
+							 medList.add(map);
+							 json.put("topChart", medList);
+							 medList.clear();
+						  
+						  //==============下方柱图（h'Es）==================
+							  //Map<String,String> mapCnt = new HashMap();
+							    parameter.setParaType("hlEs");
+								list = parameterService.parameterMonthReport(parameter);
+								 if(null!=list && list.size()>0){
+									 quartUtil = new QuartileUtil();																			 
+									 map =quartUtil.monthIonosphericCntDate(list, filterFiled, filterFiled[0]);																		
+								 }							 
+								 map.put("name", "h'Es");
+								 medList.add(map);
+								 json.put("downChart", medList);
+								 medList.clear();
+							 
+						  //==============中间曲线（P（foEs））==================
+								json.put("chartTitle", "Monthly ionospheric data plot");
+								json.put("yAxis", "P(foEs)");
+								json.put("paraName", "P(foEs)");
+								 parameter.setParaType("foEs");
+								 list = parameterService.parameterMonthReport(parameter);
+									 if(null!=list && list.size()>0){
+										 quartUtil = new QuartileUtil();																			 
+										 try {
+											map =quartUtil.getPFoEs(list, 3);
+											map.put("name", "P(foEs>3)");
+											medList.add(map);
+											map =quartUtil.getPFoEs(list, 5);
+											map.put("name", "P(foEs>5)");
+											medList.add(map);
+											map =quartUtil.getPFoEs(list, 7);
+											map.put("name", "P(foEs>7)");
+											medList.add(map);
+										} catch (IllegalAccessException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (InvocationTargetException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										} catch (NoSuchMethodException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}																		
+									 }							 
+								/* map.put("name", "h'Es");
+								 medList.add(map);
+								 json.put("downChart", medList);*/
+									
+							json.put("MultiFactor2", medList);//
+						 }//end 组合2				
+					
+					}//end 多因子
+				}//end  if(null!=parameter.getParaType()){
+							
+			if(null!=medList ){
+				json.put(Constant.SUCCESS, true);
+			  }		
+			}//end if
+			
+		log.info(json.toString());
+		return json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@At("/qt/loadParaChartData_bak")
+	@Ok("json")
+	/**
+	 * 电离层曲线图生成(单因子或者多因子电离图)
+	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
+	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
+	 *   两种多因子组合  foF2.foF1.foEs.foE    h'F2.h'Es.h'E.h'F1
+	 * */
+	public JSONObject loadParaData_Bak(@Param("..")ParameteDataBo parameter) {
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())&& StringUtil.checkNotNull(parameter.getMonth())) {
+			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
+			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
+			if(null!=parameter.getParaType()){
+				//log.info("parameter.getParaType()="+parameter.getParaType());
+				QuartileUtil quartUtil=null;
+				String[] filterFiled={"days"};//过滤非数据字段
+				String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
 				if(paraAry.length==1){//单因子				
 						json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
 						json.put("yAxis", "Critical Frequency ");
@@ -305,6 +467,8 @@ public class QTParameterMod extends BaseMod {
 		//log.info(json.toString());
 		return json;
 	}
+	
+	
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/paraDataQuery")
 	@Ok("jsp:jsp.qt.parameterQuery")
@@ -375,7 +539,7 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
 		}
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	

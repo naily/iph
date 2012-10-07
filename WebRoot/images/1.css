@@ -170,4 +170,4 @@ float:right;
 .boxinput_report{ width:90px; height:20px; padding-top:3px; border:1px #cccccc solid; font-size:14px; background:#ffffff;}	
 .report_table_td{ width:25px; font-size:14px; background:#ffffff;text-align:center;}
 
-.reportbox_chart{ width:796px;   padding-left:0px;  border:1px solid #e7e7e7; margin:3px; padding-top:5px; padding-bottom:15px;}  	
+.reportbox_chart{ width:796px; height:750px;  padding-left:0px;  border:1px solid #e7e7e7; margin:3px; padding-top:5px; padding-bottom:15px;}  	

@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
@@ -1048,7 +1049,7 @@ public class StringUtil
 		//		System.out.println(bbb);
 		//		Object aa = null;
 		//		String bb = "  aaaa  ";
-		System.out.println(StringUtil.getWSURL()); ;
+		//System.out.println(StringUtil.getWSURL()); ;
 		try
 		{
 			//			System.out.println(getNotNullStr(aa));
@@ -1064,6 +1065,11 @@ public class StringUtil
 			}
 			//System.out.println(num);
 			//System.out.println(toFloatNumber("5.2"));
+			String monthStr="1,7,2,6,3,8,4,9,5,10,6,11,12";
+			int[] ss =getIntArrayBySplitString(monthStr,",");
+			for(int s:ss){
+				System.out.println(s);
+			}
 		}
 		catch (Exception e)
 		{
@@ -1431,5 +1437,30 @@ public class StringUtil
 		 }		 
 	     return outputValue;  
 	    } 
-
+	/**
+	 * 通过分隔符将字符分割成数组
+	 * */
+   public static String[] getArrayBySplitString(String sourceStr,String splitChar){
+	   String[] stringarray=null;
+	   if(null!=sourceStr && sourceStr.length()>0 ){
+		   stringarray=sourceStr.split(splitChar);  	
+		   Arrays.sort(stringarray);  //进行排序
+	   }
+	    return  stringarray;
+   }
+	/**
+	 * 通过分隔符将字符分割成数组
+	 * */
+  public static int[] getIntArrayBySplitString(String sourceStr,String splitChar){
+	   int[] intarray=null;
+	   if(null!=sourceStr && sourceStr.length()>0 ){
+		  String[] stringarray=sourceStr.split(splitChar);  
+		  intarray = new int[stringarray.length];
+		  for(int i=0;i<stringarray.length;i++){
+			  intarray[i]=Integer.parseInt(stringarray[i]);
+		  }
+		   Arrays.sort(intarray);  //进行排序
+	   }
+	    return  intarray;
+  }
 }
