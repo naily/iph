@@ -160,13 +160,16 @@ $(document).ready(function(){
             params : {mdbPath : mdb ,stationId : mdbst,mdbTableName: tn,dateField : df} ,
             callback :function(json){
                 if(json.success){
-                    $("#errormsg2").html("读取成功<br>记录数： "+json.insertRow +"<br>用时： " +json.usetime).show() ;
+                    $("#errormsg2").html("导入成功<br>记录数： "+json.insertRow +"<br>用时： " +json.usetime).show() ;
                 }else{
                     $("#errormsg2").html(json.info).show() ;
                 }
+                $("#saveMdbFile").removeAttr("disabled" );
             }
         }
-        $("#errormsg2").removeClass().html("").hide() ;
+        $("#errormsg2").removeClass().html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").show() ;
+        $("#saveMdbFile").attr("disabled" , "disabled"); //禁用提交按钮
+        
         ajaxpost(save) ;
     });
 	
