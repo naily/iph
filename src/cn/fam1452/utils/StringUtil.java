@@ -1441,6 +1441,10 @@ public class StringUtil
 			 outputValue = outputValue.substring(1) ;
 		 }
 		 
+		 if(outputValue.endsWith(".")){
+			 outputValue = outputValue.substring(0 , outputValue.length() - 1) ;
+		 }
+		 
 	     return outputValue;  
 	    } 
 	/**

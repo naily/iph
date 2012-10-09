@@ -2,6 +2,8 @@ package cn.fam1452.util;
 
 import org.junit.Test;
 
+import cn.fam1452.utils.StringUtil;
+
 public class AppUtil {
 
 	@Test
@@ -40,8 +42,9 @@ public class AppUtil {
 		
 		
 		
-		String dot = "." ;
+		String dot = "2.3." ;
 		System.out.println(dot);
-		System.out.println("dot: "+dot.substring(1));
+		System.out.println("dot: "+ StringUtil.replaceLetter(dot));
+		
 	}
 }

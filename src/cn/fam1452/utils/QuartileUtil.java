@@ -528,7 +528,7 @@ public class QuartileUtil<T>{
 		for (int i=1;i<fs.length;i++) {//遍历属性
 			//for (Field f : fs) {//遍历属性
 			Field f =fs[i];
-			System.out.println(f.getName());
+			//System.out.println(f.getName());
 			String fn = f.getName() ;
 		   
 		if(StringUtil.checkNotNull(fn) && !"days".endsWith(fn)){
@@ -541,8 +541,18 @@ public class QuartileUtil<T>{
 					totalNum++ ;
 					//System.out.println("PropertyUtils.getSimpleProperty(t, f.getName()="+PropertyUtils.getSimpleProperty(t, f.getName()));
 					String sf = StringUtil.replaceLetter(String.valueOf(PropertyUtils.getSimpleProperty(t, fn)) ) ;
-					paraValue=Float.parseFloat( sf );
-					if(paraValue>values){
+					if(StringUtil.checkNotNull(sf)){
+						try{
+							paraValue = Float.parseFloat( sf );
+						}catch(java.lang.NumberFormatException e){
+							//System.out.println(sf);
+							//e.printStackTrace() ;
+							paraValue = 0 ;
+						}
+					}else{
+						paraValue = 0 ;
+					}
+					if(paraValue > values){
 						greatThen++;
 					}					
 				}				
