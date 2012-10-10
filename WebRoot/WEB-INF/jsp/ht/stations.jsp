@@ -40,13 +40,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="createblock" class="hidediv">
     		<table width="520" border="0" style="float: left;">
               <tr>
-                <td align="right">&nbsp;观测站编码:</td>
-                <td >&nbsp;<input id="stId" size="24"/><span class="red_asterisk">*</span></td>
+                <td align="right" width="17%">&nbsp;观测站编码:</td>
+                <td >&nbsp;<input id="stId" size="20"/><span class="red_asterisk">*</span></td>
                 <td align="center" colspan="2">&nbsp;提示：标有<span class="red_asterisk">*</span>的项为必填项</td>
               </tr>
               <tr>
               	<td align="right">&nbsp;地理位置描述:</td>
-                <td colspan="3">&nbsp;<input id="wzId"  size="64"/><span class="red_asterisk">*</span></td>
+                <td colspan="3">&nbsp;<input id="wzId"  size="59"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
               	<td align="right">&nbsp;名称:</td>

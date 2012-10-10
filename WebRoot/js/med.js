@@ -35,19 +35,28 @@ $(document).ready(function(){
                emptyText : '选择数据来源' 
      });
     $('#serviceType').omCombo({
-                dataSource : [ {text : '在线服务', value : '01'},
+                /*dataSource : [ {text : '在线服务', value : '01'},
                 			   {text : '文件下载', value :  '0101'},
                                {text : '数据查询', value :  '0102'},
                                {text : 'FTP下载', value :  '0103'},
                                {text : '数据访问接口', value :  '0104'},
                                {text : '在线其他服务', value :  '0199'},
                                {text : '离线服务', value :  '02'},
-                               {text : '其他', value :  '99'}] ,
+                               {text : '其他', value :  '99'}] ,*/
+                               
+               dataSource : [ {text : '在线服务', value : '在线服务'},
+                			   {text : '文件下载', value :  '文件下载'},
+                               {text : '数据查询', value :  '数据查询'},
+                               {text : 'FTP下载', value :  'FTP下载'},
+                               {text : '数据访问接口', value :  '数据访问接口'},
+                               {text : '在线其他服务', value :  '在线其他服务'},
+                               {text : '离线服务', value :  '离线服务'},
+                               {text : '其他', value :  '其他'}] ,
                editable : false,
                emptyText : '选择数据服务类型' ,
                onValueChange:function(target,newValue,oldValue,event){
-               		if('01' == newValue || '0103' == newValue){
-               			$('#serviceLink').html('地址:<input name="serviceLink" type="text" class="boxinput3" />');
+               		if('在线服务' == newValue || '文件下载' == newValue || 'FTP下载' == newValue){
+               			$('#serviceLink').html('地址:<input name="serviceLink" type="text" class="boxinput3" /> e.g:http://www.baidu.com');
                		}else{
                			$('#serviceLink').html('');
                		}
@@ -169,6 +178,7 @@ $(document).ready(function(){
         submitHandler : function(){
         	//$(this)[0].currentForm.action = "./ht/medSave.do" ;
         	//alert($(this)[0].currentForm.action) ;
+        	$("#savebut").attr("disabled" , "disabled"); //禁用提交按钮
             var posturl = './ht/medSave.do' ;
             var mdid = $('#mdid').val()  ;
             if( mdid ){
@@ -196,8 +206,10 @@ $(document).ready(function(){
 			        });
                     if( mdid ){
                         $("#errormsg").html('').hide();
-		                 $( "#tab1").omDialog('close');
+		                $( "#tab1").omDialog('close');
 		            }
+		            
+		            $("#savebut").removeAttr("disabled" );
         		}
         	}) ;
         	return false;
