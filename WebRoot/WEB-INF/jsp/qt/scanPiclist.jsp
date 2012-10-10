@@ -21,7 +21,18 @@
 	</head>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<script type="text/javascript" src="js/saclist.js"></script>
+		<!-- <script type="text/javascript" src="js/saclist.js"></script> -->
+		<script type="text/javascript">
+		function previewSac(path){
+			if(path){
+				$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 width=600  / >');
+				
+				$( "#imagePreview").omDialog({title:'报表扫描图查看',height: 'auto' ,width :'auto'});
+				$( "#imagePreview").omDialog('open');
+			}
+		}
+		</script>
+		
 		<div id="right">
 			<div class="title8">
 				${msg['qt_smt_list_title']}

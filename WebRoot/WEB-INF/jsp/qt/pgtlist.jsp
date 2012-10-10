@@ -22,12 +22,24 @@
 
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<script type="text/javascript" src="js/pgtlist.js"></script>
+		<!--<script type="text/javascript" src="js/pgtlist.js"></script> -->
+			<script type="text/javascript">
+		function previewPgt(path){
+			  
+			if(path){
+				$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 width=600 / >');
+				//$( "#imagePreview").width(600);
+				//$( "#imagePreview").height(400);
+				$( "#imagePreview").omDialog({title:'电离层频高图查看',height: 'auto' ,width :'auto'});
+				$( "#imagePreview").omDialog('open');
+			}
+		}
+		</script>
 		<div id="right">
 			<div class="title8">
 				${msg['qt_pgt_list_title']}
 			</div>
-			<div id="imagePreview" title="图片预览"> </div> 
+			
 			<div class="loginbox1">
 			 
   <table width="800" border="0" align="left" cellpadding="0" cellspacing="0" class="fontstyle4">
@@ -92,7 +104,7 @@
   </table>
   </div>
 </div>
-
+<div id="imagePreview" title="图片预览"> </div> 
 		<!--right 结束-->
 		<jsp:include page="left.jsp" flush="true" />
 		<!--left 结束-->

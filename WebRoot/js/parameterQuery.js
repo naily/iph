@@ -355,8 +355,8 @@ function showParaData(stationId,createDate){
 					 	colModel :tableCols_
 					 	});
 									
-					$( "#imagePreview").omDialog({title:'电离层参数查看',height:400,width:900});
-					$( "#imagePreview").omDialog('open');
+					$( "#paraQueryGrid2").omDialog({title:'电离层参数查看',height:'auto',width:'auto'});
+					$( "#paraQueryGrid2").omDialog('open');
 	}
 }
 	function getParaColmModel(queryType,paraCol_) {
