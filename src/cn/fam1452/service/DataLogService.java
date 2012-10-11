@@ -46,6 +46,17 @@ public class DataLogService extends Base{
 	}
 	
 	/**
+	 * 
+	 * @param sid 观测站ID
+	 */
+	public void deleteNDYByStation(String sid){
+		List<NavDataYear> list = this.dao.query(NavDataYear.class, Cnd.where("stationId", "=", sid)) ;
+		if(null != list && list.size() > 0){
+			this.dao.delete(list) ;
+		}
+	}
+	
+	/**
 	 * 把数据的年份及观测站缓存起来
 	 * @param dataTable
 	 * @param stationId

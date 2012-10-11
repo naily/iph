@@ -31,6 +31,7 @@ import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataLogService;
 import cn.fam1452.service.UserService;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
@@ -47,6 +48,9 @@ public class StationMod extends BaseMod{
 	
 	@Inject("refer:baseService")
 	private BaseService baseService ;
+	
+	@Inject("refer:dataLogService")
+	private DataLogService dls ;
 	
 	@At("/ht/stationload")
     @Ok("jsp:jsp.ht.stations")
@@ -153,6 +157,8 @@ public class StationMod extends BaseMod{
 			
 			baseService.dao.update(obj);
 			json.put(Constant.SUCCESS, true) ;
+			
+			dls.deleteNDYByStation(obj.getId()) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
 		}
