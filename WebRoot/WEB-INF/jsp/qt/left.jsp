@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div  id="left">
 <div class="title1">${msg['qt_data_navigation']}</div>
 <div class="title2">${msg['qt_Ionospheric_ionogram']}</div>
-  <div id="leftTree1"  style="width:185px; height:120px; overflow:auto">
+  <div id="leftTree1"  style="margin_top:0px;width:185px; height:120px; overflow:auto">
    <ul id="pgtTree"></ul>     
 </div> 
 <div class="title2">${msg['qt_Ionospheric_parameters']}</div>

@@ -38,7 +38,7 @@ function previewImage(gridId , i , fidldName,title_){
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=500 / >' +
 				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
 			
-			$( "#imagePreview").omDialog({title:title_});
+			$( "#imagePreview").omDialog({title:title_ ,height: 'auto' ,width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
 				$( "#imagePreview").omDialog('open');
 			}

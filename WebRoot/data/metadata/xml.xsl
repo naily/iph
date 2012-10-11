@@ -54,6 +54,17 @@
 			</head>
 			<body style="bgcolor:red;">
 							<li style="line-height:15px">元数据标识信息<ul>
+							       <li class="li_no_img">
+												<span class="metaTitle">服务地址:</span>
+												<span id="serviceLinkText" style="display:none;"><xsl:value-of select="metadata/DissInfo/serviceInfo/serviceLink"/></span>
+												
+												<a  id="serviceLinkHref" target="_blank">浏览</a>
+												<script>
+												    if($("#serviceLinkText").html()){
+												      $("#serviceLinkHref").attr("href",$("#serviceLinkText").html());
+												    }
+												</script>
+									</li>			
 									<li class="li_no_img">
 										<span class="metaTitle">数据集标识符:</span>
 										<xsl:value-of select="metadata/IdInfo/datId" />
@@ -278,17 +289,7 @@
 												<span class="metaTitle">服务类型:</span>
 												<xsl:value-of select="metadata/DissInfo/serviceInfo/serviceType" />
 											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">服务地址:</span>
-												<span id="serviceLinkText" style="display:none;"><xsl:value-of select="metadata/DissInfo/serviceInfo/serviceLink"/></span>
-												
-												<a  id="serviceLinkHref" target="_blank">浏览</a>
-												<script>
-												    if($("#serviceLinkText").html()){
-												      $("#serviceLinkHref").attr("href",$("#serviceLinkText").html());
-												    }
-												</script>
-											</li>										
+																		
 											<li>服务参数
 												<ul>
 												
