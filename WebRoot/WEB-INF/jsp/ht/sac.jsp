@@ -89,6 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</tr>
 	        	<tr>
 		        	<td align="center">
+		        		<div id="errorfilename" style="display: none;"></div>
 		        		<div id="msgtable" class="hidediv">
 		        			<table style="BORDER-COLLAPSE: collapse" borderColor=#000000 height=40 cellPadding=1 width=200 align=center border=1 >
 		        				<tr><td align="right">提交文件总数</td><td width="30%"><span id="ce1"></span></td></tr>

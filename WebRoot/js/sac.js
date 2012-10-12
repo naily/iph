@@ -18,9 +18,9 @@ $(document).ready(function(){
     
     function multiinfo() {
         this.ok = 0; //成功
-        this.err2 = 0 ;//文件已存在
-        this.err3 = 0 ;//文件名无法解析
-        this.err4 = 0 ; //程序异常
+        this.err2 = new Array() ;//文件已存在
+        this.err3 = new Array() ;//文件名无法解析
+        this.err4 = new Array() ; //程序异常
     }
     var tmp ;
     //初始化多文件上传 
@@ -40,13 +40,16 @@ $(document).ready(function(){
             }else{
 	            //alert(jsonData.info);
                 if(jsonData.error ==2){
-                    tmp.err2 += 1 ;
+                    //tmp.err2 += 1 ;
+                	tmp.err2.push(fileObj.name) ;
                 }
                 if(jsonData.error ==3){
-                    tmp.err3 += 1 ;
+                    //tmp.err3 += 1 ;
+                    tmp.err3.push(fileObj.name) ;
                 }
                 if(jsonData.error ==4){
-                    tmp.err4 += 1 ;
+                    //tmp.err4 += 1 ;
+                    tmp.err4.push(fileObj.name) ;
                 }
             }
             
@@ -56,13 +59,22 @@ $(document).ready(function(){
            + '</p><p>失败原因：文件已存在['+tmp.err2+ '], 文件名无法解析[' + tmp.err3 +'], 程序异常['+tmp.err4 + ']</p>'; */
            //$('#errormsg2').html(s) ;
            
-           $('#ce1').html( (tmp.ok +tmp.err2 +tmp.err3 +tmp.err4) ) ;
+           $('#ce1').html( (tmp.ok +tmp.err2.length +tmp.err3.length +tmp.err4.length) ) ;
            $('#ce2').html( tmp.ok ) ;
-           $('#ce3').html( (tmp.err2 +tmp.err3 +tmp.err4)  ) ;
-           $('#ce4').html( tmp.err2 ) ;
-           $('#ce5').html( tmp.err3 ) ;
-           $('#ce6').html( tmp.err4 ) ;
+           $('#ce3').html( (tmp.err2.length +tmp.err3.length +tmp.err4.length)  ) ; 
+           $('#ce4').html( tmp.err2.length + (tmp.err2.length > 0 ? "&nbsp;<a href='javascript:openMultiinfo()'>详细</a>" : "")) ;
+           $('#ce5').html( tmp.err3.length + (tmp.err3.length > 0 ? "&nbsp;<a href='javascript:openMultiinfo()'>详细</a>" : "" )) ;
+           $('#ce6').html( tmp.err4.length + (tmp.err4.length > 0 ? "&nbsp;<a href='javascript:openMultiinfo()'>详细</a>" : "" )) ;
            $('#msgtable').show() ;
+           if(tmp.err2.length > 0){
+           	$('#errorfilename').append("<p>文件已存在<br/>"+tmp.err2.join("<br />") +"</p>") ;
+           }
+           if(tmp.err3.length > 0){
+           	$('#errorfilename').append("<p>文件名无法解析<br/>"+tmp.err3.join("<br />") +"</p>") ;
+           }
+           if(tmp.err4.length > 0){
+           	$('#errorfilename').append("<p>程序异常<br/>"+tmp.err4.join("<br />") +"</p>") ;
+           }
         } ,
         onError :function(ID, fileObj, errorObj, event){
             alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
@@ -71,6 +83,7 @@ $(document).ready(function(){
             //alert('你选择了文件：'+fileObj.name);
             //选择文件后立即上传
             $('#errormsg2').html('') ;
+            $('#errorfilename').html('') ;
             tmp = new multiinfo() ;
         },
         //actionData : { 'action' :'fileupload' } ,
@@ -177,7 +190,20 @@ $(document).ready(function(){
     });
     
     
-    
+    //错误的文件名
+    $( "#errorfilename" ).omDialog({
+            autoOpen : false, 
+            resizable: false,
+            height:200,
+            title : '上传失败的文件' ,
+            modal: false,
+            buttons: [{
+                text : "关闭", 
+                click : function () {
+                    $("#errorfilename" ).omDialog("close");
+                }
+            }]
+    }) ;
     
     
     
@@ -189,4 +215,6 @@ $(document).ready(function(){
     
 });
 
-
+var openMultiinfo = function(){
+	$("#errorfilename" ).omDialog("open");
+}

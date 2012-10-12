@@ -289,18 +289,21 @@ public class ParameterMod extends BaseMod{
 					while (rset.next()) {
 						Parameter p = new Parameter() ;
 						String time = rset.getString(dateField) ;
-						p.setParameterID(time+ "/" + System.currentTimeMillis()) ;
+						p.setParameterID(rset.getString(dateField)) ;
 						p.setCreateDate(DateUtil.convertStringToDate(time, DateUtil.pattern5)) ;
 						p.setStationID(stationId) ;
 						//StringBuilder ss = new StringBuilder(rset.getString("mytime")).append("\t");
+						//遍历全部字段并存到java object 中
 						for (String fn : available) {
 							//ss.append(rset.getString(fn)).append("\t") ;
 							BeanUtils.setProperty(p, fn, String.valueOf(rset.getString(fn))) ;
 						}
 						//System.out.println(ss.toString());
 						
-						dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
-						data.add(p) ;
+						if(baseService.dao.fetch(p) == null){
+							data.add(p) ;
+							dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
+						}
 					}
 					//log.info("得到: " + data.size()) ;
 					insertdb += data.size() ;
