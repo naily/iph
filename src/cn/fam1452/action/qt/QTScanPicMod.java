@@ -97,7 +97,7 @@ public class QTScanPicMod extends BaseMod{
 			List<Scanpic> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
-			if(parameterService.isProtectDateOpen("T_SCANPIC",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+			if(!parameterService.isProtectDateOpen("T_SCANPIC",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 				list=scanPicService.top50ScanpicDataList(irg, page, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{

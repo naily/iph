@@ -345,7 +345,7 @@ function showParaData(stationId,createDate){
 			var tableCols_,datasourceUrl_;	
 					tableCols_=getParaColmModel(1,parameter_array);					
 					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
-					//$( "#imagePreview").html('<table id="paraQueryGrid2"></table>');	
+					$("#imagePreview").html('<table id="paraQueryGrid2"></table>');	
 					$('#paraQueryGrid2').omGrid({
 						//title : '电离层参数查询',
 					 	dataSource :datasourceUrl_,
@@ -355,8 +355,8 @@ function showParaData(stationId,createDate){
 					 	colModel :tableCols_
 					 	});
 									
-					$( "#paraQueryGrid2").omDialog({title:'电离层参数查看',height:'auto',width:'auto'});
-					$( "#paraQueryGrid2").omDialog('open');
+					$( "#imagePreview").omDialog({title:'电离层参数查看',height:'auto',width:'auto'});
+					$( "#imagePreview").omDialog('open');
 	}
 }
 	function getParaColmModel(queryType,paraCol_) {

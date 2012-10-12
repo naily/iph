@@ -155,7 +155,7 @@ public class QTPGTMod extends BaseMod{
 			List<IronoGram> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_IRONOGRAM")){//判断频高图表是否设置了保护期
-			if(parameterService.isProtectDateOpen("T_IRONOGRAM",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+			if(!parameterService.isProtectDateOpen("T_IRONOGRAM",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 				list=pgtService.top50PGTDataList(irg, page, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
