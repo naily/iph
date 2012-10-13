@@ -507,7 +507,8 @@ public class QTParameterMod extends BaseMod {
 	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
+		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:MM:SS"));
 		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list =null;
@@ -518,7 +519,9 @@ public class QTParameterMod extends BaseMod {
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
-				 total =this.baseService.dao.count(Parameter.class);
+				
+				 //total =this.baseService.dao.count(Parameter.class);
+				 total =this.baseService.dao.count(Parameter.class,parameterService.getParamenterCnd(parameter, paraQuery));
 			}
 		
 			List<Parameter> listD= new ArrayList<Parameter>();

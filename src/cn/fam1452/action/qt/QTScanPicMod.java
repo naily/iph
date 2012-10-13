@@ -91,7 +91,7 @@ public class QTScanPicMod extends BaseMod{
 	public JSONObject queryScanpicList(@Param("..")Scanpic irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
 		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	
 			List<Scanpic> list =null;
@@ -101,6 +101,8 @@ public class QTScanPicMod extends BaseMod{
 				list=scanPicService.top50ScanpicDataList(irg, page, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
+				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
+					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
 				 list = scanPicService.ScanpicDataList(irg,page,paraQuery);
 				 total =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQuery(irg, paraQuery));
 			}	
@@ -169,11 +171,13 @@ public class QTScanPicMod extends BaseMod{
 		Date createDate =null;	
 		String inputDate=null;
 		if(null!=scp && StringUtil.checkNotNull(scp.getScanPicTitle())){
-			inputDate = scp.getScanPicTitle().substring(0,8);
-			createDate = DateUtil.convertStringToDate(inputDate, "yyyyMMdd");	
+			//inputDate = scp.getScanPicTitle().substring(0,8);
+			inputDate = scp.getScanPicTitle();
+			createDate = DateUtil.convertStringToDate(inputDate, "yyyy-MM-dd");	
 		}else{
 			createDate= DateUtil.getCurrentDate();
-		}			
+		}	
+		log.info(createDate);
 		Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",scp.getStationID()).and("createDate","=",createDate));		
 		if(null!=idd){
 			json.put(Constant.SUCCESS, true);

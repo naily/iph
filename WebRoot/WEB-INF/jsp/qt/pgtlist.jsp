@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+		<script type="text/javascript" src="js/Global.js"></script>
 	</head>
 
 	<body>
@@ -67,7 +68,7 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.gramTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${pgt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewPgt('${pgt.gramPath}');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageForScanpic('${pgt.gramPath}','频高图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
           <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadPGT.do?gramID=${pgt.gramID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>

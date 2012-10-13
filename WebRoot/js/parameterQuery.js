@@ -130,6 +130,9 @@ $(document).ready(function() {
 			allDate = 'all';
 		}
 		var pageSize = $('#showNum').val();
+		if(pageSize){
+		  pageslimit=pageSize;
+		}
 		var orderBy = $('#orderCol').val();
 		var queryDataType =$('#selectDataType').val();
 	    
@@ -148,6 +151,7 @@ $(document).ready(function() {
 				//title : '电离层参数查询',
 			 	dataSource :datasourceUrl, // limit:0, 
 			 	height : 325, 
+			 	limit:pageslimit,
 			 	showIndex : false,
 			 	colModel :tableCols
 			 	});
@@ -180,7 +184,12 @@ $(document).ready(function() {
 		 datasourceUrl='qt/downloadParaData.do?ids=' + stationId + '&startDate='+ startDate + '&endDate=' + endDate + '&selectAllDate='+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
 		window.open(basepath + datasourceUrl)
 		
-		
+		   //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
 		
 	});
   /**
@@ -196,7 +205,7 @@ $(document).ready(function() {
 		container[1] = {
 			header : '观测日期',
 			name : 'createDate',
-			width : 80
+			width : 140
 		}
 		if(queryType==1){//电离参数
 				var str = new Array();
@@ -222,13 +231,13 @@ $(document).ready(function() {
 				container[2] = {
 						header : '电离层频高图名称',
 						name : 'gramTitle',
-						width : 360
+						width : 300
 					}
 			  container[3]={
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	//return '<a href="javascript:previewPgt_(\''+rowData.gramPath+'\');" class="a3">查看频高图</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
+	                         
 	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
 	                         },
 						width : 200
@@ -238,13 +247,13 @@ $(document).ready(function() {
 		      container[2] = {
 						header : '报表扫描图名称',
 						name : 'scanPicTitle',
-						width : 360
+						width : 300
 					}
 			container[3]={
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         //	return '<a href="javascript:previewScanPic_(\''+rowData.gramPath+'\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         
 	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
 	                         },
 						width : 200
@@ -256,21 +265,11 @@ $(document).ready(function() {
 	}
 
 });
-/**
- * 频高图显示列表，查看频高图
- * */
-function previewPgt_(path){
-	if(path){
-		$( "#imagePreview").html('<img src=".'+ path +'" border=0 / >');
-		
-		$( "#imagePreview").omDialog({title:'频高图查看'});
-		$( "#imagePreview").omDialog('open');
-	}
-}
+
 /**
  * 在电离参数或扫描图列表中，关联查看频高图
  * */
-function previewPgt(stationId,createDate){
+/*function previewPgt(stationId,createDate){
 	if(stationId && createDate){
 		var data = {
 		url :  basepath+'qt/showPGT.do',
@@ -295,7 +294,61 @@ function previewPgt(stationId,createDate){
 	}
 	ajaxpost(data);
 	}
+}*/
+/**
+ *  在电离参数或扫描图列表中，关联查看频高图
+ * */
+function previewPgt(stationId,createDate){
+	if(stationId && createDate){
+			var tableCols_,datasourceUrl_;			
+					tableCols_=getScanpicColmModel();					
+					datasourceUrl_=basepath+'qt/queryPGTByDate.do?stationID='+stationId+'&createDate='+createDate;	
+					$("#imagePreview2").html('<table id="paraQueryGrid3"></table>');	
+					$('#paraQueryGrid3').omGrid({
+						//title : '电离层参数查询',
+					 	dataSource :datasourceUrl_,
+					 	limit:0, 
+					 	height : 325, 
+					 	showIndex : false,
+					 	colModel :tableCols_
+					 	});
+									
+					$( "#imagePreview2").omDialog({title:'电离频高图查看',height:'auto',width:'auto'});
+					$( "#imagePreview2").omDialog('open');
+	}
 }
+/*
+    * 频高图列表表头，在电离参数或扫描图关联频高图时使用
+    * */
+	function getScanpicColmModel() {
+		var container_ = new Array();//数据表格的表头数据
+		container_[0] = {
+			header : '所属观测站',
+			name : 'station.name',
+			width : 80
+		}
+		container_[1] = {
+			header : '观测日期',
+			name : 'createDate',
+			width : 160
+		}
+		container_[2] = {
+						header : '电离层频高图名称',
+						name : 'gramTitle',
+						width : 300
+					}
+			  container_[3]={
+		           header : '操作',
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+	                         
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>';
+	                         },
+						width : 200
+			 }
+		return container_;
+}
+
 
 /**
  * 在电离参数或频高图列表中，关联查看报表扫描图
@@ -310,11 +363,12 @@ function previewScanpic(stationId,createDate){
 		},
 		callback : function(json) {			
 			if (json.success) {						
-				if(json.data.gramPath){
-					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
-					$( "#imagePreview").omDialog({title:'扫描图查看'});
+				/*if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  height=500 width=600 / >');					
+					$( "#imagePreview").omDialog({title:'扫描图查看',height: 'auto' ,width :'auto'});
 					$( "#imagePreview").omDialog('open');
-				}
+				}*/
+				previewImageForScanpic(json.data.gramPath,'扫描图查看');
 			} else {
 				at({
 						cont : '没有找到对应的报表扫描图！',
@@ -324,16 +378,6 @@ function previewScanpic(stationId,createDate){
 		}
 	}
 	ajaxpost(data);
-	}
-}
-/**
- * 扫描图列表，查看扫描图
- * */
-function previewScanPic_(path){
-	if(path){	
-	    $( "#imagePreview").html('<img src=".'+ path +'" border=0  / >');		
-		$( "#imagePreview").omDialog({title:'扫描图查看'});
-		$( "#imagePreview").omDialog('open');
 	}
 }
 
@@ -359,6 +403,9 @@ function showParaData(stationId,createDate){
 					$( "#imagePreview").omDialog('open');
 	}
 }
+   /*
+    * 电离参数列表表头，在频高图及扫描图关联电离参数时使用
+    * */
 	function getParaColmModel(queryType,paraCol_) {
 		var container_ = new Array();//数据表格的表头数据
 		container_[0] = {
@@ -369,7 +416,7 @@ function showParaData(stationId,createDate){
 		container_[1] = {
 			header : '观测日期',
 			name : 'createDate',
-			width : 80
+			width : 160
 		}
 		//if(queryType==1){//电离参数
 		   if(paraCol_){
@@ -385,3 +432,43 @@ function showParaData(stationId,createDate){
 		}
 		return container_;
 }
+
+
+/*
+ * 图片浏览器
+ *  电离层参数列表中，查看报表扫描图，不翻页width=600
+ */
+function previewImageForScanpic(filePath_,title_){			
+			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +
+				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');
+			
+			$( "#imagePreview").omDialog({title:title_, height: 'auto' , width :'auto'});
+			if( !$("#imagePreview").omDialog('isOpen')){
+				$( "#imagePreview").omDialog('open');
+			}						
+			$("#but2").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w*1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h*1.2);
+				}
+			});
+			$("#but3").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w/1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h/1.2);
+				}
+			});
+
+	
+}
+
+
+

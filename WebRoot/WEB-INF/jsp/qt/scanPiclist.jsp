@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+		<script type="text/javascript" src="js/Global.js"></script>
 	</head>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
@@ -64,7 +65,7 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.scanPicTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${smt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewSac('${smt.gramPath}');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageForScanpic('${smt.gramPath}','扫描图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
           <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>

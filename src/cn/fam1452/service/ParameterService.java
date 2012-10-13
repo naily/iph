@@ -382,7 +382,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
      * */
     public List<Parameter> parameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){
    	
-		Condition cnd;
+    	/*Condition cnd;
 		String[] stationIDS =null;
 		if(StringUtil.checkNull(paraQuery.getOrderBy())){
 			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
@@ -396,10 +396,36 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
-		}	
+		}*/	
+    	Condition cnd =getParamenterCnd(params,paraQuery);
+		log.info(cnd.toString());
+		if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
+		page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
+		
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
+		log.info("page.size="+page.getLimit());
+		log.info("page.start="+page.getStart());
+		log.info("list.size="+list.size());
 		return list;
 	}
+    public Condition getParamenterCnd(Parameter params,ParameteDataBo paraQuery){
+    	Condition cnd;
+		String[] stationIDS =null;
+		if(StringUtil.checkNull(paraQuery.getOrderBy())){
+			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+		}
+		if(StringUtil.checkNotNull(params.getIds())){
+			stationIDS= params.getIds().split(",");
+		}
+		if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){
+			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc("createDate").asc(paraQuery.getOrderBy());
+		}else{//不选择日期区间时，查询所有日期的数据
+		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
+		}	
+    	return cnd;
+    }
     /**
      * 根据表名查询改表的数据保护期（可能包含多个时间段）
      * */
@@ -522,7 +548,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     		 sb.append(" ) ");
     	 }*/
     	 sb.append(" order by ").append(paraQuery.getOrderBy());
-         log.info(sb.toString());
+         //log.info(sb.toString());
     	 return sb.toString();
      }
      

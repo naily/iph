@@ -16,7 +16,9 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Sqls;
 import org.nutz.dao.pager.Pager;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -32,6 +34,7 @@ import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
+import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataVisitService;
@@ -149,7 +152,7 @@ public class QTPGTMod extends BaseMod{
 	public JSONObject querytList(@Param("..")IronoGram irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
 		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	
 			List<IronoGram> list =null;
@@ -159,6 +162,8 @@ public class QTPGTMod extends BaseMod{
 				list=pgtService.top50PGTDataList(irg, page, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
+				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
+					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
 				 list = pgtService.pgtDataList(irg,page,paraQuery);
 				 total =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQuery(irg, paraQuery));
 			}	
@@ -212,19 +217,63 @@ public class QTPGTMod extends BaseMod{
 	 * 频高图查看
 	 *  根据观测站及日期查询电离层频高图
 	 * **/
+	@At("/qt/queryPGTByDate")
+	@Ok("json")
+	public JSONObject queryPGTBYDate(@Param("..")IronoGram irg){
+		JSONObject json = new JSONObject();
+		JsonConfig cfg = new JsonConfig();
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
+		cfg.setExcludes(new String[] {"address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+	   //String createDate= DateUtil.convertDateToString(irg.getCreateDate());
+		String createDate= DateUtil.convertDateToString(irg.getCreateDate(),"yyyy-MM-dd HH");
+	   // createDate = DateUtil.convertStringToDate(inputDate, "yyyy-MM-dd HH:MM:SS");	
+	    String startTime =createDate+":00:00";
+	    String endTime =createDate+":59:59";
+		Sql sql =Sqls.create("select * from T_IRONOGRAM where stationID='"+irg.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
+		//log.info(sql.toString());
+		
+		sql.setCallback(Sqls.callback.entities());
+		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
+		sql.setEntity(baseService.dao.getEntity(IronoGram.class));
+		baseService.dao.execute(sql) ;		
+		List<IronoGram> list = sql.getList(IronoGram.class) ;
+		List<IronoGram> listV = new ArrayList<IronoGram>();
+		for(IronoGram para:list){
+			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+			para.setStation(station);
+			listV.add(para);
+		}
+		if(null!=listV && listV.size()>0){
+			json.put(Constant.SUCCESS, true);
+			json.put(Constant.ROWS, JSONArray.fromObject(listV, cfg));
+			json.put(Constant.TOTAL, 0);
+		}else{
+			json.put(Constant.SUCCESS, false);
+		}
+		
+		log.info(json.toString());
+		return json;
+	}
+		
+	/**
+	 * 频高图查看
+	 *  根据观测站及日期查询电离层频高图
+	 * **/
 	@At("/qt/showPGT")
 	@Ok("json")
 	public JSONObject showPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:MM:SS")); 
 		cfg.setExcludes(new String[] {"station"}); 
 		json.put(Constant.SUCCESS, false);
 		Date createDate =null;	
 		String inputDate=null;
 		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
-			inputDate = irg.getGramTitle().substring(0,8);
+			//inputDate = irg.getGramTitle().substring(0,8);
 			createDate = DateUtil.convertStringToDate(inputDate, "yyyyMMdd");	
+			inputDate = irg.getGramTitle();
+			createDate = DateUtil.convertStringToDate(inputDate, "yyyy-MM-dd HH:MM:SS");	
 		}else{
 			createDate= DateUtil.getCurrentDate();
 		}
