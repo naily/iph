@@ -7,6 +7,7 @@
 			+ path + "/";
 %>
 <%@ include file="../jstl.jsp"%>
+
 <!DOCTYPE HTML >
 <html>
 	<head>
@@ -18,24 +19,30 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+		<script type="text/javascript">
+	var dataAry = new Array();
+	<% 
+	if(null!=request.getAttribute("pgtlist")){	
+	  List<IronoGram>  list  = (List<IronoGram>)request.getAttribute("pgtlist");
+	  IronoGram irg = null;
+	  String imgPath ="";
+	  for(int i=0;i<list.size();i++){
+		   irg = (IronoGram)list.get(i);
+		   imgPath =irg.getGramPath();
+		  %>
+		  dataAry[<%=i%>] ='<%=imgPath%>';
+		  <%
+	  }
+	}
+	%>
+	 
+	</script>
 		<script type="text/javascript" src="js/Global.js"></script>
 	</head>
 
 	<body>
+	
 		<jsp:include page="header.jsp" flush="true" />
-		<!--<script type="text/javascript" src="js/pgtlist.js"></script> -->
-			<script type="text/javascript">
-		function previewPgt(path){
-			  
-			if(path){
-				$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 width=600 / >');
-				//$( "#imagePreview").width(600);
-				//$( "#imagePreview").height(400);
-				$( "#imagePreview").omDialog({title:'电离层频高图查看',height: 'auto' ,width :'auto'});
-				$( "#imagePreview").omDialog('open');
-			}
-		}
-		</script>
 		<div id="right">
 			<div class="title8">
 				${msg['qt_pgt_list_title']}
@@ -68,7 +75,7 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.gramTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${pgt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageForScanpic('${pgt.gramPath}','频高图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusPgt.index},'频高图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
           <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadPGT.do?gramID=${pgt.gramID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>

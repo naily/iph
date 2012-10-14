@@ -18,22 +18,28 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+			<script type="text/javascript">
+	var dataAry = new Array();
+	<% 
+	if(null!=request.getAttribute("smtlist")){			
+	  List<Scanpic>  list  = (List<Scanpic>)request.getAttribute("smtlist");
+	  String  imgPath ="";
+	  Scanpic spic=null;
+	  for(int i=0;i<list.size();i++){
+		   spic = (Scanpic)list.get(i);
+		   imgPath =spic.getGramPath();		 
+		  %>
+		  dataAry[<%=i%>] ='<%=imgPath%>';
+		  <%
+	  }
+	}
+	%>
+	 
+	</script>
 		<script type="text/javascript" src="js/Global.js"></script>
 	</head>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<!-- <script type="text/javascript" src="js/saclist.js"></script> -->
-		<script type="text/javascript">
-		function previewSac(path){
-			if(path){
-				$( "#imagePreview").html('<img src=".'+ path +'" border=0 height=500 width=600  / >');
-				
-				$( "#imagePreview").omDialog({title:'报表扫描图查看',height: 'auto' ,width :'auto'});
-				$( "#imagePreview").omDialog('open');
-			}
-		}
-		</script>
-		
 		<div id="right">
 			<div class="title8">
 				${msg['qt_smt_list_title']}
@@ -65,7 +71,7 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.scanPicTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${smt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageForScanpic('${smt.gramPath}','扫描图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusSmt.index},'扫描图图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
           <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>

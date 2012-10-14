@@ -121,14 +121,16 @@ function previewImageForScanpic(filePath_,title_){
  * dataAry ： 图片数组
  * i      :  索引序号
  */
-function previewImageA(dataAry , i ,title_){
-	if(dataAry && i > -1){
+function previewImageA(dataArys , i ,title_){
+	dataArys = dataAry;
+	//alert(dataAry.length);
+	if(dataArys && i > -1){
 		
-		if( i < dataAry.length){
+		if( i < dataArys.length){
 			//当前图片
-			var gpath = dataAry[i] ;
+			var gpath = dataArys[i] ;
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=500 / >' +
-				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataAry.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
+				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
 			
 			$( "#imagePreview").omDialog({title:title_ ,height: 'auto' ,width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
@@ -137,10 +139,10 @@ function previewImageA(dataAry , i ,title_){
 			
 			//绑定事件
 			$("#but1").one("click", function(){
-				previewImageA(gridId , i-1,title_) ;
+				previewImageA(dataArys , i-1,title_) ;
 			});
 			$("#but4").one("click", function(){
-				previewImageA(gridId , i+1,title_) ;
+				previewImageA(dataArys , i+1,title_) ;
 			});
 			
 			$("#but2").bind("click", function(){
