@@ -48,17 +48,17 @@
 				     
     </script>
     <style>
-     .li_no_img{height:20px;list-style-type:none;}
-     .metaTitle{height:20px;font-weight:bold; width:110px;}
+     .li_no_img{height:20px;list-style-type:none;margin:0px;}
+     .metaTitle{height:20px;font-weight:bold; width:110px;float:left}
+     
     </style>
 			</head>
 			<body style="bgcolor:red;">
 							<li style="line-height:15px">元数据标识信息<ul>
 							       <li class="li_no_img">
 												<span class="metaTitle">服务地址:</span>
-												<span id="serviceLinkText" style="display:none;"><xsl:value-of select="metadata/DissInfo/serviceInfo/serviceLink"/></span>
-												
-												<a  id="serviceLinkHref" target="_blank">浏览</a>
+												<span id="serviceLinkText" style="display:none;"><xsl:value-of select="metadata/DissInfo/serviceInfo/serviceLink"/></span>										
+												   <a  id="serviceLinkHref" style="float:left" target="_blank">浏览</a>																				
 												<script>
 												    if($("#serviceLinkText").html()){
 												      $("#serviceLinkHref").attr("href",$("#serviceLinkText").html());
@@ -68,7 +68,7 @@
 									<li class="li_no_img">
 										<span class="metaTitle">数据集标识符:</span>
 										<xsl:value-of select="metadata/IdInfo/datId" />
-									</li>
+									</li>								
 									<li class="li_no_img">
 										<span class="metaTitle">数据集名称:</span>
 										<xsl:value-of select="metadata/IdInfo/resTitle" />
@@ -322,14 +322,9 @@
 										<xsl:value-of select="metadata/DissInfo/dissContact" />
 									</li>
 								</ul>
-							</li>
-							
+							</li>						
 							<li>元数据描述信息
 								<ul>
-									<li class="li_no_img">
-										<span class="metaTitle">元数据标示符:</span>
-										<xsl:value-of select="metadata/MdDesp/mdId" />
-									</li>
 									<li class="li_no_img">
 										<span class="metaTitle">元数据维护方:</span>
 										<xsl:value-of select="metadata/MdDesp/MdContact" />
@@ -337,6 +332,42 @@
 									<li class="li_no_img">
 										<span class="metaTitle">元数据更新日期:</span>
 										<xsl:value-of select="metadata/MdDesp/mdDateUpd" />
+									</li>
+								</ul>
+							</li>							
+							<li>元数据类型实体
+								<ul>
+									<li class="li_no_img">
+										<span class="metaTitle">经度:</span>
+										<xsl:value-of select="metadata/PointCoordType/pointLong" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">纬度:</span>
+										<xsl:value-of select="metadata/PointCoordType/pointLat" />
+									</li>
+								</ul>
+							</li>							
+								<li>数据集负责方
+								<ul>
+									<li class="li_no_img">
+										<span class="metaTitle">单位名称:</span>
+										<xsl:value-of select="metadata/respParty/orgName" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">联系电话:</span>
+										<xsl:value-of select="metadata/respParty/phone" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">通讯地址:</span>
+										<xsl:value-of select="metadata/respParty/address" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">邮编:</span>
+										<xsl:value-of select="metadata/respParty/postcode" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">电子邮件:</span>
+										<xsl:value-of select="metadata/respParty/eMail" />
 									</li>
 								</ul>
 							</li>

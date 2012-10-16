@@ -53,11 +53,11 @@
 			</div>
 			<table width="750" border="0" align="center" cellpadding="0"
 				cellspacing="0" class="">
-				<tr>
-					<td width="141" height="35" bgcolor="#edf7fb">
+				<tr bgcolor="#F2F2F2">
+					<td width="141" height="35"  bgcolor="#F2F2F2">
 						<strong> &nbsp;&nbsp;数据集名称</strong>：
 					</td>
-					<td width="659" bgcolor="#edf7fb">
+					<td width="659" bgcolor="#F2F2F2">
 						${obj.title }
 					</td>
 				</tr>
@@ -69,11 +69,11 @@
 						${obj.keyword }
 					</td>
 				</tr>
-				<tr>
-					<td height="35" bgcolor="#edf7fb">
+				<tr bgcolor="#F2F2F2">
+					<td height="35" bgcolor="#F2F2F2">
 						<strong>&nbsp;&nbsp;摘要：</strong>
 					</td>
-					<td bgcolor="#edf7fb">
+					<td bgcolor="#F2F2F2">
 						<div style="word-break:break-all;width:500px;">
 							${obj.summary }
 						</div>
@@ -83,7 +83,7 @@
 			
 			<tr>
 					<td height="35"  colspan="2">					
-							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="1600" scrolling="no" width="800"></iframe>
+							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="1900" scrolling="no" width="800"></iframe>
 					
 					</td>
 				</tr>
