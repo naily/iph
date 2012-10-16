@@ -23,13 +23,42 @@ country_omCombo_datasource=[{text : '中国',value : '86'}, {text : '美国',val
 function getCityRecords() {
 	var country = $('#country').omCombo('value');
 	if (country == '86') {// 中国
-		return [{
-					'text' : '北京市',
-					'value' : '110000'
-				}, {
-					'text' : '江苏省',
-					'value' : '320000'
-				}];
+		return [{text : '北京' , value:'1100000'},
+				{text : '天津' , value:'1200000'},
+				{text : '河北' , value:'1300000'},
+				{text : '山西' , value:'1400000'},
+				{text : '辽宁' , value:'2100000'},
+				{text : '吉林' , value:'2200000'},
+				{text : '上海' , value:'3100000'},
+				{text : '江苏' , value:'3200000'},
+				{text : '浙江' , value:'3300000'},
+				{text : '安徽' , value:'3400000'},
+				{text : '福建' , value:'3500000'},
+				{text : '江西' , value:'3600000'},
+				{text : '山东' , value:'3700000'},
+				{text : '河南' , value:'4100000'},
+				{text : '湖北' , value:'4200000'},
+				{text : '湖南' , value:'4300000'},
+				{text : '广东' , value:'4400000'},
+				{text : '广西' , value:'4500000'},
+				{text : '海南' , value:'4600000'},
+				{text : '重庆' , value:'5000000'},
+				{text : '四川' , value:'5100000'},
+				{text : '贵州' , value:'5200000'},
+				{text : '云南' , value:'5300000'},
+				{text : '西藏' , value:'5400000'},
+				{text : '陕西' , value:'6100000'},
+				{text : '甘肃' , value:'6200000'},
+				{text : '青海' , value:'6300000'},
+				{text : '宁夏' , value:'6400000'},
+				{text : '新疆' , value:'6500000'},
+				{text : '内蒙古' , value:'1500000'},
+				{text : '黑龙江' , value:'2300000'},
+				{text : '青岛市' , value:'9600000'},
+				{text : '厦门市' , value:'9700000'},
+				{text : '宁波市' , value:'9800000'},
+				{text : '大连市' , value:'9900000'}
+				];
 	} else if (country == '01') {// 美国
 		return [{
 					'text' : '夏威夷',
