@@ -251,7 +251,7 @@ public class ParameterMod extends BaseMod{
 	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		log.info("tableName:"+ mdbTableName + " timefield:" + dateField + " station:" +stationId) ;
+		//log.info("tableName:"+ mdbTableName + " timefield:" + dateField + " station:" +stationId) ;
 		
 		try {
 			long start = System.currentTimeMillis() ;
@@ -289,7 +289,7 @@ public class ParameterMod extends BaseMod{
 					while (rset.next()) {
 						Parameter p = new Parameter() ;
 						String time = rset.getString(dateField) ;
-						p.setParameterID(rset.getString(dateField)) ;
+						p.setParameterID(time) ;
 						p.setCreateDate(DateUtil.convertStringToDate(time, DateUtil.pattern5)) ;
 						p.setStationID(stationId) ;
 						//StringBuilder ss = new StringBuilder(rset.getString("mytime")).append("\t");
@@ -317,7 +317,7 @@ public class ParameterMod extends BaseMod{
 			json.put(Constant.SUCCESS, true) ;
 			json.put("usetime", (end-start)/1000 + " 秒" ) ;
 			json.put("insertRow", insertdb + " 条") ;
-			log.info(json.get("usetime")) ;
+			//log.debug(json.get("usetime")) ;
 		} catch (Exception e) {
 			//e.printStackTrace();
 			json.put(Constant.INFO, e.getMessage()) ;
