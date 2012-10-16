@@ -45,7 +45,7 @@
     <td height="35" colspan="2" bgcolor="#f5f5f5" class="fontstyle2"> &nbsp;<a href="qt/metaDataPriview.do?mdId=${metaData.mdId}" class="a3">${metaData.title}</a></td>
     </tr>
   <tr>
-    <td width="202" height="110" align="center" valign="top"><div class="rightbox2_1_img"></div></td>
+    <td width="202" height="110" align="center" valign="top"><div class="rightbox2_1_img"><img src='${metaData.thumbnailFilePath}' width='171' height='118'></div></td>
     <td width="598" align="left" valign="top"><div class="news3text">${metaData.summary}</div></td>
   </tr>
   </c:forEach>

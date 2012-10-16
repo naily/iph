@@ -26,9 +26,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <jsp:include page="header.jsp" flush="true" />
     
-    <div id="pageleft">
-    	<p><a href="ht/news.do" class="a3"> 添加新闻</a></p>
-    	<p>新闻管理</p>
+  <div id="pageleft">
+    	<!-- 左侧菜单 -->
+    	<div class="left2_1"><a href="ht/news.do" class="a3">添加新闻</a></div>
+    	<div class="left2_1">新闻管理</div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容

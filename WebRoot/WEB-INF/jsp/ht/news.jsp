@@ -52,24 +52,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</span>
     	 -->
         
-        <div id="tab1" style="height: 800px;">
+        <div id="tab1">
         <form action="#" id="savenewsfm" method="post">
-        	<table width="840" border="0" style="border:#bfd0e1 2px solid">
+        	<table width="100%" border="0" style="border:#bfd0e1 1px solid">
         	<tr>
-                <td align="left">&nbsp;</td>
-                <td>&nbsp;</td>
+                <td colspan="2">&nbsp;&nbsp; 
+                提示：标有 <span class="red_asterisk">*</span>  的项为必填项
+                </td>
               </tr>
               <tr>
-                <td  class="table_td_fieldlab">&nbsp;新闻标题:</td>
-                <td>&nbsp;<input id = "title" name="title" class="boxinput3"/><span class="red_asterisk">*</span></td>
+                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>新闻标题:</td>
+                <td>&nbsp;<input id = "title" name="title" class="boxinput3"/></td>
               </tr>
               <tr>
-                <td  class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
+                <td height="30"   class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
                 <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" /> </td>
               </tr>
               <tr>
-                <td class="table_td_fieldlab">&nbsp;新闻内容:</td>
-                <td>&nbsp;<textarea id="contentId" name="content" class="editor"></textarea> <span class="red_asterisk">*</span></td>
+                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>新闻内容:</td>
+                <td>&nbsp;<textarea id="contentId" name="content" class="editor"></textarea> </td>
               </tr>
               
               <tr>
@@ -85,6 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 -->
                 </td>
               </tr>
+			   
             </table>
             </form>
         </div>

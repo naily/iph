@@ -53,9 +53,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <div id="tab1" style="height: auto;">
         <form action="#" id="savemetadata" method="post">
-        	<table width="680" border="0">
+        	<table width="100%" border="0" style="border:#bfd0e1 1px solid">
         	<tr>
-                <td align="left">&nbsp;提示：标有*的项为必填项</td>
+                <td align="left">&nbsp;提示：标有 <span class="red_asterisk">*</span>  的项为必填项</td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
