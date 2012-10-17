@@ -81,7 +81,7 @@ public class QTPGTMod extends BaseMod{
 	public JSONObject loadLeftTree(@Param("..")NavDataYear navData){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
-		List<Station> stationList = baseService.dao.query(Station.class, null);//查询观测站
+		List<Station> stationList = baseService.dao.query(Station.class, Cnd.where("status", "=", "1"));//查询观测站
 		int listSize=stationList.size();
 		if(listSize>0){
 			json.put(Constant.SUCCESS, true);
