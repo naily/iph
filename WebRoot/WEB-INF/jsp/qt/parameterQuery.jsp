@@ -77,7 +77,8 @@
 					</table>
 					<br/>
 					<table id="paraQueryGrid"></table>
-					<div id="imagePreview" title="图片预览"><table id="paraQueryGrid2"></table> </div> 
+					<div id="imagePreview" title="图片预览"><table id="paraQueryGrid2"></table></div> 
+					
 					<div id="imagePreview2" title="图片预览"><table id="paraQueryGrid3"></table> </div> 
 				</div>
 		   <!-- </div> -->

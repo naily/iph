@@ -94,7 +94,21 @@ $(document).ready(function() {
 							value : '150'
 						}]
 			});
+/*			   //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
+$('#paraQueryGrid2').omGrid({
+						//title : '电离层参数查询',
+					 	//dataSource :datasourceUrl_,
+					 	limit:30, 
+					 	//height : 380, 
+					 	//showIndex : false,
+					 	colModel :getParaColmModel(1,parameter_array) 
 
+					 	});*/
 /*	var colModel_ = [{
 				header : '观测站',
 				name : 'station.name',
@@ -393,12 +407,13 @@ function showParaData(stationId,createDate){
 					$('#paraQueryGrid2').omGrid({
 						//title : '电离层参数查询',
 					 	dataSource :datasourceUrl_,
-					 	limit:0, 
-					 	height : 325, 
-					 	showIndex : false,
+					 	limit:24, 
+					 //	height : 335, 
+					 	//showIndex : false,
 					 	colModel :tableCols_
+					 	
 					 	});
-									
+					//$('#paraQueryGrid2').omGrid('setData', datasourceUrl_);			
 					$( "#imagePreview").omDialog({title:'电离层参数查看',height:'auto',width:'auto'});
 					$( "#imagePreview").omDialog('open');
 	}

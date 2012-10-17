@@ -54,7 +54,7 @@ public class QTParameterMod extends BaseMod {
 	
 	@Inject("refer:parameterService")
 	private ParameterService parameterService;
-
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/report")
 	@Ok("jsp:jsp.qt.parameter")
 	/**
@@ -154,6 +154,7 @@ public class QTParameterMod extends BaseMod {
 			log.error(e, e) ;
 		}
 	}
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/paraDataChart")
 	@Ok("jsp:jsp.qt.parameterChart")
 	/**
@@ -559,16 +560,18 @@ public class QTParameterMod extends BaseMod {
 	    //log.info(parameter.getCreateDate());//"station",
 	    //log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
 	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
-	    String startTime =createDate+" 00:00";
-	    String endTime =createDate+" 23:59";
-		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
-		//log.info(sql.toString());
+	    String startTime =createDate+" 00:00:00";
+	    String endTime =createDate+" 23:59:59";
+		//Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
+		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
+		log.info(sql.toString());
 		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
+		log.info("list.size="+list.size());
 		List<Parameter> listV = new ArrayList<Parameter>();
 		for(Parameter para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
@@ -578,12 +581,12 @@ public class QTParameterMod extends BaseMod {
 		if(null!=listV && listV.size()>0){
 			json.put(Constant.SUCCESS, true);
 			json.put(Constant.ROWS, JSONArray.fromObject(listV, cfg));
-			json.put(Constant.TOTAL, 0);
+			json.put(Constant.TOTAL, listV.size());
 		}else{
 			json.put(Constant.SUCCESS, false);
 		}
-		
-		//log.info(json.toString());
+		log.info("listV.size="+listV.size());
+		log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadParaData")
