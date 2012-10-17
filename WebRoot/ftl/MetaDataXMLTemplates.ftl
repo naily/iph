@@ -122,7 +122,7 @@
 		<phone>${phone!}</phone>
 		<address>${address!}</address>
 		<postcode>${postcode!}</postcode>
-		<eMail>${eMail!}</eMail>
+		<email>${email!}</email>
 	</respParty>
 	
 	

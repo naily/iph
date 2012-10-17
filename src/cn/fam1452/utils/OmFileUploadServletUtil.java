@@ -27,8 +27,17 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	private static final long serialVersionUID = 1L;
 
 	// 上传文件的保存路径，相对于应用的根目录
-	public static final String UPLOAD_PIC_PATH = "/data/pgt_file/";
-	//临时目录
+	/**
+	 * 频高图文件目录
+	 */
+	public static final String UPLOAD_PGT_PATH = "/data/pgt_file/";
+	/**
+	 * 扫描图文件目录
+	 */
+	public static final String UPLOAD_SAC_PATH = "/data/sac_file/";
+	/**
+	 * 临时文件目录
+	 */
 	public static final String UPLOAD_PIC_PATH_TMP = "/data/tmp/"; 
 
 	byte[] imgBufTemp = new byte[102401];
@@ -181,7 +190,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	 */
 	public String getSavePath(String fileName) {
 		String realPath = getContextRealPath() ;
-		return realPath + UPLOAD_PIC_PATH + fileName;
+		return realPath + UPLOAD_PIC_PATH_TMP + fileName;
 	}
 	/**
 	 * 生成保存上传文件的磁盘路径(保存在临时目录)
@@ -236,23 +245,16 @@ public class OmFileUploadServletUtil  extends BaseMod{
 						if(temp){
 							savePath = getSaveTempPath(fileName);
 							fileUrl = UPLOAD_PIC_PATH_TMP + fileName;
-						}else{
-							savePath = getSavePath(fileName);
-							fileUrl = UPLOAD_PIC_PATH + fileName;
+							
+							bos = new BufferedOutputStream(new FileOutputStream(new File(savePath)));
+							int length;
+							while ((length = stream.read(imgBufTemp)) != -1) {
+								bos.write(imgBufTemp, 0, length);
+							}
+							i++;
 						}
 						
-						/*if (i > 0) {
-							fileUrl += ",";
-						}
-						fileUrl += getFileUrl(fileName);*/
 						
-						bos = new BufferedOutputStream(new FileOutputStream(
-								new File(savePath)));
-						int length;
-						while ((length = stream.read(imgBufTemp)) != -1) {
-							bos.write(imgBufTemp, 0, length);
-						}
-						i++;
 					}
 				}
 				
@@ -307,7 +309,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 						
 						savePath = dir + fileName ;
 						
-						bos = new BufferedOutputStream(new FileOutputStream(new File(savePath)));
+						bos = new BufferedOutputStream(new FileOutputStream(new File(getContextRealPath() + savePath)));
 						int length;
 						while ((length = stream.read(imgBufTemp)) != -1) {
 							bos.write(imgBufTemp, 0, length);

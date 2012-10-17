@@ -105,7 +105,7 @@ $(document).ready(function(){
         	
         	fileName = fileObj.name ;
             if(fileName && fileName.length >= 10){
-                $('#comboStation').omCombo('value', fileName.substring(0,5) )  ;
+                //$('#comboStation').omCombo('value', fileName.substring(0,5) )  ;
                 $('#sacTitleId').val( fileName ) ;
                
                 //$('#actionDate').val( $.omCalendar.formatDate($.omCalendar.parseDate(fileName.substring(6,18) , "yymmddHi") , "yy-mm-dd H:i") ); 
@@ -148,6 +148,11 @@ $(document).ready(function(){
             
             if( !$('#sacTitleId').val()){
                 $('#errormsg').html('请输入报表扫描图标题').show();
+                return false ;
+            }
+            
+            if( !$('#comboStation').omCombo('value')){
+            	$('#errormsg').html('请选择观测站').show();
                 return false ;
             }
             

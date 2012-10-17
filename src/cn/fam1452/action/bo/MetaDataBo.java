@@ -114,7 +114,7 @@ public class MetaDataBo {
 	private String phone ;
 	private String address ;
 	private String postcode ;
-	private String eMail ;
+	private String email ;
 	
 	
 	
@@ -664,12 +664,6 @@ public class MetaDataBo {
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
 	}
-	public String getEMail() {
-		return eMail;
-	}
-	public void setEMail(String mail) {
-		eMail = mail;
-	}
 	public void setTpCat(String tpCat) {
 		this.tpCat = tpCat;
 	}
@@ -690,6 +684,12 @@ public class MetaDataBo {
 	}
 	public void setServiceLink(String serviceLink) {
 		this.serviceLink = serviceLink;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 

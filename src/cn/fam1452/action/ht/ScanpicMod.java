@@ -78,7 +78,7 @@ public class ScanpicMod extends BaseMod{
 		fusu.setServletContext(context) ;
 		
 		try {
-			String filepath = fusu.defaultProcessFileUpload(request , false); //存入实际目录
+			String filepath = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_SAC_PATH ); //存入实际目录
 			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
 				//log.info(filepath) ;
 				int i = filepath.lastIndexOf("/") ;
@@ -259,8 +259,8 @@ public class ScanpicMod extends BaseMod{
 			if("savedata".equals(sac.getAction())){
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(sac.getScanPicFileName() )){
-					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + Constant.sacnpicSavePath) ){
-						sac.setGramPath(Constant.sacnpicSavePath + fusu.getTargetFile().getName()); 
+					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH) ){
+						sac.setGramPath(fusu.UPLOAD_SAC_PATH + fusu.getTargetFile().getName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						sac.setScanPicID(sac.getScanPicFileName().substring(0, sac.getScanPicFileName().lastIndexOf(".")))  ;
 						

@@ -350,7 +350,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;电子邮件:</td>
-                <td>&nbsp;<input id="eMail" name="eMail" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input id="email" name="email" type="text" class="boxinput3" /></td>
               </tr>
               
               

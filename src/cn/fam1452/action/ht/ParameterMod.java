@@ -230,7 +230,7 @@ public class ParameterMod extends BaseMod{
 		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil(context);
 		try {
-			String mdb = fusu.defaultProcessFileUpload(request, this.getAppRealPath(context) + "data/access/") ;
+			String mdb = fusu.defaultProcessFileUpload(request, "data/access/") ;
 			
 			//Connection con = new AccessUtil(mdb).getConnection() ;
 			//log.info(mdb) ;
@@ -248,14 +248,14 @@ public class ParameterMod extends BaseMod{
 	@POST
 	@At("/ht/savepamdata")
     @Ok("json")
-	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField){
+	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField ,ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		//log.info("tableName:"+ mdbTableName + " timefield:" + dateField + " station:" +stationId) ;
 		
 		try {
 			long start = System.currentTimeMillis() ;
-			AccessUtil au = new AccessUtil(mdbPath) ;
+			AccessUtil au = new AccessUtil(this.getAppRealPath(context) + mdbPath) ;
 			Connection con = au.getConnection() ;
 			
 			Statement stat = con.createStatement(); 
@@ -298,15 +298,16 @@ public class ParameterMod extends BaseMod{
 							//ss.append(rset.getString(fn)).append("\t") ;
 							BeanUtils.setProperty(p, fn, String.valueOf(rset.getString(fn))) ;
 						}
-						//System.out.println(ss.toString());
 						
-						if(baseService.dao.fetch(p) == null){
-							data.add(p) ;
-							dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
-						}
+						/*if(baseService.dao.fetch(p) == null){
+						}*/
+						data.add(p) ;
+						dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
 					}
 					//log.info("得到: " + data.size()) ;
 					insertdb += data.size() ;
+					//把已经存在的对象删除掉
+					baseService.dao.delete(data) ;
 					baseService.dao.insert(data) ;
 					dls.insert("01", tableName, getHTLoginUserName()) ;
 				}
