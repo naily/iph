@@ -564,14 +564,14 @@ public class QTParameterMod extends BaseMod {
 	    String endTime =createDate+" 23:59:59";
 		//Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
 		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
-		log.info(sql.toString());
+		//log.info(sql.toString());
 		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
-		log.info("list.size="+list.size());
+		//log.info("list.size="+list.size());
 		List<Parameter> listV = new ArrayList<Parameter>();
 		for(Parameter para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
@@ -585,8 +585,8 @@ public class QTParameterMod extends BaseMod {
 		}else{
 			json.put(Constant.SUCCESS, false);
 		}
-		log.info("listV.size="+listV.size());
-		log.info(json.toString());
+		//log.info("listV.size="+listV.size());
+		//log.info(json.toString());
 		return json;
 	}
 	@At("/qt/downloadParaData")

@@ -121,16 +121,6 @@ $('#paraQueryGrid2').omGrid({
 			}];*/
 
 	// 电离参数列表显示
-
-	/*var dUrl = 'qt/doParaDataQuery.do';
-	$('#paraQueryGrid').omGrid({
-				// title : '电离层参数查询',
-				dataSource : dUrl,
-				// limit:0,
-				height : 325,
-				showIndex : false,
-				colModel : colModel_
-			});*/
 	$("#paraDataQuery").click(function() {
         //alert($('#selectorParaS').omItemSelector('value'));
 		//var stationId = $('#stationIDs').val();
@@ -398,23 +388,29 @@ function previewScanpic(stationId,createDate){
 /**
  * 在电离频高图或报表扫描图列表中，关联查看电离层参数
  * */
+var firstOpt=true;
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
 			var tableCols_,datasourceUrl_;	
 					tableCols_=getParaColmModel(1,parameter_array);					
 					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
-					$("#imagePreview").html('<table id="paraQueryGrid2"></table>');	
-					$('#paraQueryGrid2').omGrid({
+					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
+					if(firstOpt){					 
+					  $("#imagePreview").html('<table id="paraQueryGrid2"></table>');
+					  $('#paraQueryGrid2').omGrid({
 						//title : '电离层参数查询',
 					 	dataSource :datasourceUrl_,
-					 	limit:24, 
-					 //	height : 335, 
+					 	limit:0, 
+  						//height : 335, 
 					 	//showIndex : false,
-					 	colModel :tableCols_
-					 	
+					 	colModel :tableCols_			 	
 					 	});
-					//$('#paraQueryGrid2').omGrid('setData', datasourceUrl_);			
-					$( "#imagePreview").omDialog({title:'电离层参数查看',height:'auto',width:'auto'});
+					 	firstOpt=false;
+					}else{
+					  $('#paraQueryGrid2').omGrid('setData', datasourceUrl_);
+					}				
+				 	//$("#imagePreview").omDialog('close');			
+					$( "#imagePreview").omDialog({title:'电离层参数查看',modal: true,height:'auto',width:'auto'});
 					$( "#imagePreview").omDialog('open');
 	}
 }
