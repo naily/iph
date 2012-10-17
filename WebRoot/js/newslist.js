@@ -100,8 +100,7 @@ $(document).ready(function(){
 						                            	at({cont: "查询文章失败" , type : 'error'});
 						                            }
 						                            
-						                            $('#savebut').omButton({
-												     	onClick : function(){
+						                            $('#savebut').bind('click' , function(){
 								                            json.title = $('#title').val() ;
 							                                json.isPicNews = $('#isPicNews').attr('checked') ? true : false ;
 							                                json.content = $( '#contentId' ).omEditor('getData') ;
@@ -126,7 +125,7 @@ $(document).ready(function(){
 												     		}
 												     		ajaxpost(updatepgt);
 												     	}
-												     }) ;
+												    ) ;
 						                        }
 					                }
 					                ajaxpost(getpgt);

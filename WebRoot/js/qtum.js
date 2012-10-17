@@ -79,12 +79,7 @@ $(document).ready(function(){
             title:'修改用户资料'
      });
      
-     $('#updateUserSubmit').omButton({
-        //icons : {left:'images/help.png',right:'images/edit_add.png'},
-        label : '提  交' ,
-        width : 150, 
-        onClick : saveUserUpdate
-    });
+     $('#updateUserSubmit').bind('click' ,saveUserUpdate );
     
     // 性别下拉列表
     $('input[name=gender]').omCombo({ // 初始化Combo

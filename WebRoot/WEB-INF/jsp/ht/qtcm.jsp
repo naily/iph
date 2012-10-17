@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<p id="cmtcontent"></p>
   		<p><textarea id="feedbackcontent" rows="4" cols="60"></textarea></p>
   		<input id="cid" type="hidden">
-		<input id="saveFeedbackBut" type="button" />
+		<input id="saveFeedbackBut" src="images/baocun.png" type="image" title="提交" />
 	</div>
     
     

@@ -50,41 +50,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		<form id="userRegForm"  name="userRegForm">
 	    		<table   border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
-				    <td height="10" colspan="3" align="center">&nbsp;</td>
+				    <td height="30" colspan="3" align="">&nbsp; 提示：标有 <font color="red">*</font>  的项为必填项<br></td>
 				    </tr>
 				  <tr>
-				    <td class="userregtd" >${msg['qt_regist_username']}：</td>
+				    <td class="userregtd" ><font color="red">*</font>${msg['qt_regist_username']}：</td>
 				    <td class="userregtd2"><input name="loginId" id="loginId" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    
 				    </tr>
 				  <tr>
-				    <td class="userregtd">${msg['qt_regist_password']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_password']}：</td>
 				    <td ><input name="password" id="password" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				  <tr>
-				    <td class="userregtd">${msg['qt_regist_realname']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_realname']}：</td>
 				    <td><input name="name" id="name" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				     <tr>
-				    <td class="userregtd">${msg['qt_regist_gender']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_gender']}：</td>
 				    <td><input name="gender" id="gender" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				     <tr>
-				    <td class="userregtd">${msg['qt_regist_degree']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_degree']}：</td>
 				    <td ><input name="eduBackground" id="eduBackground" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				     <tr>
-				    <td class="userregtd">${msg['qt_regist_email']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_email']}：</td>
 				    <td><input name="email" id="email" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				     <tr>
-				    <td class="userregtd">${msg['qt_regist_industry']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_industry']}：</td>
 				    <td><input name="vocation" id="vocation" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
@@ -94,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td class="userregtd_img"></td>
 				    </tr>
 				  <tr>
-				    <td class="userregtd">${msg['qt_regist_region']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_region']}：</td>
 				    <td><input name="region" id="region" class="boxinput3" /><!-- <span class="redcolor">*</span> --></td>
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td class="userregtd_img"></td>
 				    </tr> 
 				    <tr>
-				    <td  class="userregtd">${msg['ht_login_code']}：</td>
+				    <td  class="userregtd"><font color="red">*</font>${msg['ht_login_code']}：</td>
 				    <td ><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="90" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode');" class="a4"> 换一张</a></td>
 				    <td class="userregtd_img"></td>
 				    

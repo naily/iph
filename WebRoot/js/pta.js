@@ -106,17 +106,21 @@ $(document).ready(function(){
      		var ed = $('#eDate').val() ? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
      		var pd = $('#pubDate').val() ? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
      		
-     		if($('#sDate').val() || $('#eDate').val()){
+     		if( sd && ed){
      			if( $('#sDate').omCalendar('getDate') >= $('#eDate').omCalendar('getDate') ){
      				$('#errormsg').html('开始日期必须小于结束日期!').show() ;
+     				return  ;
      			}
      			
-     		}else{
+     		}
+     		if(!sd && !ed){
      			$('#errormsg').html('开始日期和结束日期不能同时为空').show() ;
+     			return ;
      		}
      		
      		if(!( tn && pd) ){
      			$('#errormsg').html(notempty).show() ;
+     			return  ;
      		}else{
      			$('#errormsg').hide() ;
      			var save = {

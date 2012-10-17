@@ -1,0 +1,56 @@
+一、SQL Server 2005的配置：
+
+1、安装好SQL Server 2005后，运行 开始 → 所有程序 → Microsoft SQL Server 2005 → 配置工具 → SQL Server Configuration Manager。
+
+在打开的窗口的左边找到 MSSQLSERVER的协议，在右边右单击 TCP/IP，选择 已启用。如图1所示：
+
+2、双击图1右边的 TCP/IP，在弹出的窗口中选择 IP地址 标签，把 IPAll 中的 TCP端口 设成 1433，并将上方所有的 已启用 选项设置成是。如图2所示：
+
+3、重新启动SQL Server 2005服务中的MSSQLSERVER服务器。（建议忽略第3、5步，等到配置完成后重启电脑）
+
+4、运行 开始 → 所有程序 → Microsoft SQL Server 2005 → 配置工具 → SQL Server 外围应用配置器，在打开的窗口中选择 服务和连接的外围应用配置器，在打开的窗口左边选择 远程连接，在右边选择 同时使用TCP/IP和named pipes(B)，然后点击 应用。如图3所示：
+
+5、重启SQL服务。
+
+6、如果忽略了第3、5步，那么请先记下此网页的地址，然后重启电脑，重启完毕后，接下来使用命令测试1433端口是否打开。
+
+7、开始菜单 → 运行cmd → 在命令提示符下输入：telnet 127.0.0.1 1433，若提示“不能打开到主机的连接，在端口 1433: 连接失败”，则说明1433端口没有打开，需要重新进行以上配置。若连接成功，显示如图4所示：
+
+
+二、下载JDBC的驱动文件：
+
+1、上微软的官网或其他网站下载JDBC的驱动文件，例如我下载得到的文件版本是sqljdbc_1.2.2828.100_chs.exe，双击该文件，解压到当前目录，之后将其中的sqljdbc_1.2文件夹复制到你要安装到的目录下（我的目录是 D:\Programs\ sqljdbc_1.2）。
+
+2、在桌面上右击 我的电脑，依次选择 属性 → 高级 → 环境变量，在 系统变量 中双击 CLASSPATH变量，追加“D:\Program Files\sqljdbc_1.2\chs\sqljdbc.jar”；若不存在应当新建CLASSPATH变量，并且将其值设为“D: \Program Files\sqljdbc_1.2\chs\sqljdbc.jar”。如图5所示：
+
+3、连续点击 确定 以退出环境变量配置。
+
+三、使用Eclipse测试连接SQL Server 2005数据库：
+
+1、打开SQL Server 2005，在其中新建数据库 Test，然后退出SQL Server 2005。
+
+2、运行Eclipse，新建一个Java Project 名为 Test。
+
+3、右单击工程名，依次选择 Build Path → Configure Build Path，在打开的窗口的右边选择 Libraries标签，然后单击 Add External JARs，找到 sqljdbc.jar 文件并打开，然后单击 OK 完成构建路径的配置。如图6所示：
+
+4、在Test中新建包sqlConn，在sqlConn中新建一个类Test，在其中输入代码如下：
+
+     package pkg;
+     import java.sql.*;
+     public class Test{
+       public static void main(String[] args) {
+         String driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+         String dbURL="jdbc:sqlserver://localhost:1433;DatabaseName=Test";
+           String userName="sa";    //默认用户名 
+           String userPwd="123456";     //密码 
+           try{
+              Class.forName(driverName); 
+              Connection dbConn=DriverManager.getConnection(dbURL,userName,userPwd); 
+              System.out.println("连接成功！"); //如果连接成功，控制台输出“连接成功！”
+           }catch(Exception e){
+              System.out.println("连接失败！");
+         }
+        }
+     }
+
+5、编译运行，如图7所示：

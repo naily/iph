@@ -41,11 +41,7 @@ $(document).ready(function(){
             width : 400 ,
             title:'回复评论'
      });
-     $('#saveFeedbackBut').omButton({
-        label : '保  存' ,
-        width : 150, 
-        onClick : saveFeedback
-	 });
+     $('#saveFeedbackBut').bind('click' , saveFeedback );
     
 });
 

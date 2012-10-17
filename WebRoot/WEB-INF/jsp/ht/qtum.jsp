@@ -125,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    			  
 	  <tr>
 	    <td height="30" colspan="3" align="center">
-	    	<input id="updateUserSubmit" type="button" value="提交" />
+	    	<input id="updateUserSubmit" src="images/baocun.png" type="image" title="提交" />
 	    </td>
 	  </tr>
 	</table>
