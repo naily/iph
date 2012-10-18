@@ -63,12 +63,12 @@ public class QTScanPicMod extends BaseMod{
 	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")Scanpic scp){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
-		String queryKey ="";
-		if(null!=scp && StringUtil.checkNotNull(scp.getScanPicTitle())){
-			queryKey =scp.getScanPicTitle();
+		String queryYear ="";
+		if(null!=scp && StringUtil.checkNotNull(scp.getQueryYear())){
+			queryYear =scp.getQueryYear();
 		}
 		
-		List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("scanPicTitle","like","%"+queryKey+"%").or("createDate","like","%"+queryKey+"%").desc("createDate"), pager); 
+		List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
 		List<Scanpic> showList = new ArrayList<Scanpic>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
 		for(Scanpic scps:list){
@@ -77,8 +77,9 @@ public class QTScanPicMod extends BaseMod{
 			scps.setStation(station);			
 			showList.add(scps);
 		}
-		pager.setRecordCount(baseService.dao.count(Scanpic.class)); 
+		pager.setRecordCount(baseService.dao.count(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
 		req.setAttribute("smtlist", showList);
+		req.setAttribute("queryYear", queryYear);
 		req.setAttribute("page", pager);
 		
 	}

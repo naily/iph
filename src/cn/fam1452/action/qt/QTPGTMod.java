@@ -124,12 +124,13 @@ public class QTPGTMod extends BaseMod{
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
 		//IronoGram is =baseService.dao.fetchLinks(baseService.dao.fetch(IronoGram.class), "station");	
-		String queryKey ="";
-		if(null!=irg && StringUtil.checkNotNull(irg.getGramTitle())){
-			queryKey =irg.getGramTitle();
+		String queryYear ="";
+		if(null!=irg && StringUtil.checkNotNull(irg.getQueryYear())){
+			queryYear =irg.getQueryYear();
 		}
 		
-		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("gramTitle","like","%"+queryKey+"%").or("createDate","like","%"+queryKey+"%").desc("createDate"), pager); 
+		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		
 		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
 		for(IronoGram iro:list){
@@ -138,8 +139,9 @@ public class QTPGTMod extends BaseMod{
 			iro.setStation(station);			
 			showList.add(iro);
 		}
-		pager.setRecordCount(baseService.dao.count(IronoGram.class)); 
+		pager.setRecordCount(baseService.dao.count(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
 		req.setAttribute("pgtlist", showList);
+		req.setAttribute("queryYear", queryYear);
 		req.setAttribute("page", pager);
 		
 	}

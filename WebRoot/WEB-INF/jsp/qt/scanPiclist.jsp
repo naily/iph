@@ -84,7 +84,7 @@
 					<a href="qt/listScanPic.do" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
 				    	<c:when test="${requestScope.page.pageNumber>1}" >
-				    	  <a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
+				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_prepage']}</a>	       
@@ -94,14 +94,14 @@
 					<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount} ${msg['qt_page_unit']}
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >
-				    	  <a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
+				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_nextpage']}</a>	       
 			    		</c:otherwise>
 			    	</c:choose>
 					
-					<a href="qt/listScanPic.do?pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
+					<a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
 				</div>
 	  </td>
       </tr>
