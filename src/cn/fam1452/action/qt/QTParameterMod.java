@@ -515,10 +515,11 @@ public class QTParameterMod extends BaseMod {
 			List<Parameter> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
-			if(!parameterService.isProtectDateOpen("T_PARAMETER",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
+			//判断电离参数表是否设置了保护期,若保护期存在则进行数据拼装（保护期内的前50条数据+保护期外的数据）
+			if(!parameterService.isProtectDateOpen("T_PARAMETER",paraQuery.getStartDate(),paraQuery.getEndDate())){
 				list=parameterService.top50ParameterDataList(parameter,page,paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
-			}else{
+			}else{//无保护期,正常显示数据
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 				
 				 //total =this.baseService.dao.count(Parameter.class);

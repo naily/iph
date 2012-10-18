@@ -140,7 +140,7 @@ $('#paraQueryGrid2').omGrid({
 		var orderBy = $('#orderCol').val();
 		var queryDataType =$('#selectDataType').val();
 	    
-		if ((queryDataType!=1 ||  parameter) && stationId  && (startDate || endDate || allDate)) {
+		if ((queryDataType!=1 ||  parameter) && stationId  && (startDate && endDate || allDate)) {
 			var tableCols,datasourceUrl;			
 			tableCols=getColmModel(queryDataType,parameter);
 			if(queryDataType==1){//电离层参数查询
@@ -165,7 +165,7 @@ $('#paraQueryGrid2').omGrid({
 	    	} else { // 有查询条件，显示查询数据
 
 			at({
-						cont : '请选择条件！',
+						cont : '请检查查询条件，“观测站"、"查询类型","日期条件"必须选择！',
 						type : 'error'
 					});
 			$('#paraQueryGrid').omGrid("setData", 'qt/paraDataQuery.do');

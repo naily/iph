@@ -398,14 +398,14 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}*/	
     	Condition cnd =getParamenterCnd(params,paraQuery);
-		log.info(cnd.toString());
+		//log.info(cnd.toString());
 		if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 		page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
 		
 		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
-		log.info("page.size="+page.getLimit());
-		log.info("page.start="+page.getStart());
-		log.info("list.size="+list.size());
+		//log.info("page.size="+page.getLimit());
+		//log.info("page.start="+page.getStart());
+		//log.info("list.size="+list.size());
 		return list;
 	}
     public Condition getParamenterCnd(Parameter params,ParameteDataBo paraQuery){
@@ -435,6 +435,14 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	return list;
     }
     /**
+     * 根据表名查询改表的数据保护期（可能包含多个时间段）
+     * */
+    public ProtectDate getProtectDateByTableName(String dataTable){
+    	ProtectDate prodata=null;
+    	prodata = this.dao.fetch(ProtectDate.class, Cnd.where("dataTable","=",dataTable).desc("id"));
+    	return prodata;
+    }
+    /**
      * 查询某个表是否设置了保护期
      * */
     public boolean isProtectDate(String dataTable){
@@ -445,6 +453,8 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     }
     	/**
     	 * 有保护期的数据查询
+    	 * 1、若保护期区间是查询时间段的子集则只显示50条数据
+    	 * 2、若保护期区间与查询时间段有交集，则进行数据拼装（保护期内的前50条记录+保护期外的记录）
     	 * */
      public List<Parameter> top50ParameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){	
     	Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
@@ -463,9 +473,12 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
       * 3、若保护期无效或没有保护期则正常查询并分页显示数据
       * 4、若保护期有效且与页面查询日期区间有重叠则按保护期规则显示数据，如只显示前50条数据等，若查询时间段与保护期没有重叠亦正常查询并显示数据
       * 5、返回值true表示保护期已开放，返回值false表示当前数据有保护期
+      * 
+      * 
+      * 6、注：最新修改（2012-10-18 16：30）---只取某种受保护数据的最新的保护期
       * */
      public boolean isProtectDateOpen(String dataTable,String startDate,String endDate){
-     	List<ProtectDate> list=getProtectDate(dataTable);
+     	/*List<ProtectDate> list=getProtectDate(dataTable);
      	
      	if(null!=list && list.size()>0){
      		Date today = (Date) DateUtil.getCurrentDate();//当前日期
@@ -486,8 +499,18 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	     			}
 	     		}	
 	     	}// end 查询区间
-     	}
-     		
+     	}*/
+    	 ProtectDate prodata= getProtectDateByTableName(dataTable);	
+    	 if(null!=prodata && null!=prodata.getId()){
+    		 Date today = (Date) DateUtil.getCurrentDate();//当前日期
+    		 Date queryStart = (Date) DateUtil.convertStringToDate(startDate, "yyyy-MM-dd");
+	     	 Date queryEnd  =  (Date) DateUtil.convertStringToDate(endDate, "yyyy-MM-dd");
+    		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
+  				if(dateCompare(queryStart,prodata.getDataSDate(),prodata.getDataEDate()) || dateCompare(queryEnd,prodata.getDataSDate(),prodata.getDataEDate())){//查询区间与保护期有重叠
+  					return false;
+  				}
+  			}
+    	 }
      	return true;
      }
      /**
