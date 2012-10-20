@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.pager.Pager;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -27,6 +28,7 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.filter.UserFilter;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -68,7 +70,8 @@ public class QTScanPicMod extends BaseMod{
 			queryYear =scp.getQueryYear();
 		}
 		
-		List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		//List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		List<Scanpic> list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
 		List<Scanpic> showList = new ArrayList<Scanpic>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
 		for(Scanpic scps:list){
@@ -77,19 +80,48 @@ public class QTScanPicMod extends BaseMod{
 			scps.setStation(station);			
 			showList.add(scps);
 		}
-		pager.setRecordCount(baseService.dao.count(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
+		//pager.setRecordCount(baseService.dao.count(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
+		//pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
+		/**
+		 * 生成查询记录
+		 * */
+		if(!"".equals(getQTLoginUserID())){
+			dvs.insert("T_SCANPIC", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+		}
+		pager.setRecordCount(showList.size());
 		req.setAttribute("smtlist", showList);
+		req.setAttribute("scp", scp);
 		req.setAttribute("queryYear", queryYear);
 		req.setAttribute("page", pager);
 		
 	}
-	
+	 public Condition getQueryCnd(Scanpic irg){
+	    	Cnd cnd=null;
+			if(null!=irg){
+				if(StringUtil.checkNotNull(irg.getQueryYear())){
+					cnd = Cnd.where("createDate","like","%"+irg.getQueryYear()+"%");
+					
+				}else{
+					if(StringUtil.checkNotNull(irg.getStationID())){
+						cnd = Cnd.where("stationID", "=", irg.getStationID());
+					}
+					if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
+						Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+						Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 59:59:00","yyyy-MM-dd HH:mm:ss");
+						cnd.and("createDate", ">=",start).and("createDate","<=",end);
+					}
+				}
+				//log.info(cnd.toString());
+			}
+		    
+	    	return cnd;
+	    }
 	@At("/qt/queryScanpic")
 	@Ok("json")
 	/**
 	 * 找数据：报表扫描图查询，根据观测站及日期查询
 	 * */
-	public JSONObject queryScanpicList(@Param("..")Scanpic irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
+	public JSONObject queryScanpicList(HttpServletRequest req,@Param("..")Scanpic irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
@@ -110,6 +142,12 @@ public class QTScanPicMod extends BaseMod{
 			
 		
 				List<Scanpic> showList = new ArrayList<Scanpic>();
+				/**
+				 * 生成查询记录
+				 * */
+				if(!"".equals(getQTLoginUserID())){
+					dvs.insert("T_SCANPIC", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+				}
 				String id=null;
 				for(Scanpic iro:list){
 					id=iro.getStationID();

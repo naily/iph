@@ -139,7 +139,7 @@ $('#paraQueryGrid2').omGrid({
 		}
 		var orderBy = $('#orderCol').val();
 		var queryDataType =$('#selectDataType').val();
-	    
+
 		if ((queryDataType!=1 ||  parameter) && stationId  && (startDate && endDate || allDate)) {
 			var tableCols,datasourceUrl;			
 			tableCols=getColmModel(queryDataType,parameter);

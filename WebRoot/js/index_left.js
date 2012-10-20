@@ -32,7 +32,9 @@ function loadLeftTree(paraName, domID) {
 						dataSource : datasource,
 						showCheckbox : false,
 						showIcon : false,
-						onClick : function(node, event) {							
+						simpleDataModel:true,
+						onClick : function(node, event) {
+							//alert(node.pid+''+node.id);
 							if(paraName=='T_IRONOGRAM'){//频高图
 								location.href = basepath+'qt/listPGT.do?queryYear='+ node.text;
 							}else if(paraName=='T_PARAMETER'){//电离参数
@@ -43,6 +45,7 @@ function loadLeftTree(paraName, domID) {
 							
 						}
 					});
+			//$("#mytree").omTree({simpleDataModel:true});
 		}
 	}
 	ajaxpost(ajax_data);

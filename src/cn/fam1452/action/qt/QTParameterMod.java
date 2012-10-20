@@ -39,9 +39,11 @@ import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataVisitService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -51,7 +53,8 @@ public class QTParameterMod extends BaseMod {
 
 	@Inject("refer:baseService")
 	private BaseService baseService ;
-	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dvs ;
 	@Inject("refer:parameterService")
 	private ParameterService parameterService;
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
@@ -517,9 +520,10 @@ public class QTParameterMod extends BaseMod {
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			//判断电离参数表是否设置了保护期,若保护期存在则进行数据拼装（保护期内的前50条数据+保护期外的数据）
 			if(!parameterService.isProtectDateOpen("T_PARAMETER",paraQuery.getStartDate(),paraQuery.getEndDate())){
+				//list=parameterService.top50ParameterDataList(parameter,page,paraQuery);
 				list=parameterService.top50ParameterDataList(parameter,page,paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
-			}else{//无保护期,正常显示数据
+			}else{//无保护期或查询日期与保护期无交集,正常显示数据
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 				
 				 //total =this.baseService.dao.count(Parameter.class);
@@ -553,7 +557,7 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据模块：电离层参数查询
 	 * */
-	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
+	public JSONObject showParaData(HttpServletRequest req,@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
@@ -573,6 +577,12 @@ public class QTParameterMod extends BaseMod {
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
 		//log.info("list.size="+list.size());
+		/**
+		 * 生成查询记录
+		 * */
+		if(!"".equals(getQTLoginUserID())){
+			dvs.insert("T_PARAMETER", "01", list.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+		}
 		List<Parameter> listV = new ArrayList<Parameter>();
 		for(Parameter para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());

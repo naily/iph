@@ -65,7 +65,7 @@ public class QTMetaDataMod extends BaseMod{
 		MetaData metaData = new MetaData();
 		metaData = baseService.dao.fetch(MetaData.class, mdId);
 		if(!"".equals(getQTLoginUserID())){
-			dvs.insertMetaData("01", 1, getQTLoginUserID(),GetIP.getIpAddr(req),0f);
+			dvs.insertMetaData("02", 1, getQTLoginUserID(),GetIP.getIpAddr(req),0f);
 		}
 		return metaData;	
 	}

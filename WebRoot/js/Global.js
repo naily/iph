@@ -120,9 +120,19 @@ function previewImageForScanpic(filePath_,title_){
  * 图片浏览器（通过数组存储数据）
  * dataAry ： 图片数组
  * i      :  索引序号
+ * typeNum:数据类型（1：频高图，2：扫描图）
  */
-function previewImageA(dataArys , i ,title_){
+function previewImageA(dataArys , i ,typeNum){
 	dataArys = dataAry;
+	var title_,tableName_;
+	if(typeNum=='1'){
+		title_='频高图查看';
+		tableName_='T_IRONOGRAM';
+	}else{
+	    title_='扫描图查看';
+	    tableName_='T_SCANPIC';
+	}
+	insertBrowser(tableName_);
 	//alert(dataAry.length);
 	if(dataArys && i > -1){
 		
@@ -173,4 +183,23 @@ function previewImageA(dataArys , i ,title_){
 	
 	}
 	
+}
+/**
+ *生成图片浏览记录
+ * */
+function insertBrowser(tableName_) {
+	var datasource;
+	var ajax_data = {
+		url : basepath+'qt/insertBrowser.do',
+		params : {
+			tableNames:tableName_
+		},
+		callback : function(json) {
+			if (json.success) {
+				
+			}
+			
+		}
+	}
+	ajaxpost(ajax_data);
 }

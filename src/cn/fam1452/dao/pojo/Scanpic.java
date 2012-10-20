@@ -15,6 +15,8 @@ public class Scanpic {
 	private String action ; //savedata  ,请求类型
 	private String ids ; //很多id
 	private String queryYear;//查询年份传参
+	private String startDate;//查询开始日期
+	private String endDate;//查询结束日期
 	
 	@Column
     @Name(casesensitive=false)
@@ -120,6 +122,22 @@ public class Scanpic {
 
 	public void setQueryYear(String queryYear) {
 		this.queryYear = queryYear;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 	
 	

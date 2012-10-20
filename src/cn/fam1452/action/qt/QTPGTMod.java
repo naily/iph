@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
@@ -94,6 +96,7 @@ public class QTPGTMod extends BaseMod{
 				Station station = (Station)stationList.get(i);
 				mapAll = new HashMap<String, Object>(); 
 				mapAll.put("text", station.getName());
+				mapAll.put("pid", station.getId());
 			    if(i==0){
 			    	mapAll.put("expanded", true);
 			    }
@@ -102,6 +105,7 @@ public class QTPGTMod extends BaseMod{
 				for(NavDataYear ndy:queryListStaYear){
 					mapYear = new HashMap<String, Object>(); 			
 					mapYear.put("text", ndy.getYear());
+					mapYear.put("id", station.getId());
 					yearList.add(mapYear);			
 				}
 				mapAll.put("children", yearList);
@@ -109,7 +113,7 @@ public class QTPGTMod extends BaseMod{
 			}
 			json.put("data", jsonAllList);
 		}
-//	    log.info(json.toString());
+	    //log.info(json.toString());
 		return json;
 		
 		
@@ -120,7 +124,7 @@ public class QTPGTMod extends BaseMod{
 	/**
 	 * 导航频高图查询
 	 * */
-	public void pgtList(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")IronoGram irg){
+	public void pgtList(HttpSession session ,HttpServletRequest req, @Param("..")Pager page,@Param("..")IronoGram irg){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
 		//IronoGram is =baseService.dao.fetchLinks(baseService.dao.fetch(IronoGram.class), "station");	
@@ -128,8 +132,8 @@ public class QTPGTMod extends BaseMod{
 		if(null!=irg && StringUtil.checkNotNull(irg.getQueryYear())){
 			queryYear =irg.getQueryYear();
 		}
-		
-		List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		//List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		List<IronoGram> list =  baseService.dao.query(IronoGram.class, getQueryCnd(irg), pager); 
 		
 		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
@@ -139,19 +143,47 @@ public class QTPGTMod extends BaseMod{
 			iro.setStation(station);			
 			showList.add(iro);
 		}
-		pager.setRecordCount(baseService.dao.count(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
+		//pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
+		/**
+		 * 生成查询记录
+		 * */
+		if(!"".equals(getQTLoginUserID())){
+			dvs.insert("T_IRONOGRAM", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+		}
+		pager.setRecordCount(showList.size()); 
 		req.setAttribute("pgtlist", showList);
+		req.setAttribute("irg", irg);
 		req.setAttribute("queryYear", queryYear);
 		req.setAttribute("page", pager);
 		
 	}
-	
+    public Condition getQueryCnd(IronoGram irg){
+    	Cnd cnd=null;
+		if(null!=irg){
+			if(StringUtil.checkNotNull(irg.getQueryYear())){
+				cnd = Cnd.where("createDate","like","%"+irg.getQueryYear()+"%");
+				
+			}else{
+				if(StringUtil.checkNotNull(irg.getStationID())){
+					cnd = Cnd.where("stationID", "=", irg.getStationID());
+				}
+				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
+					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 59:59:00","yyyy-MM-dd HH:mm:ss");
+					cnd.and("createDate", ">=",start).and("createDate","<=",end);
+				}
+			}
+			//log.info(cnd.toString());
+		}
+	    
+    	return cnd;
+    }
 	@At("/qt/queryPGT")
 	@Ok("json")
 	/**
 	 * 找数据：频高图查询，根据观测站及日期查询
 	 * */
-	public JSONObject querytList(@Param("..")IronoGram irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
+	public JSONObject querytList(HttpServletRequest req,@Param("..")IronoGram irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
@@ -179,10 +211,17 @@ public class QTPGTMod extends BaseMod{
 					iro.setStation(station);			
 					showList.add(iro);
 				}
+				/**
+				 * 生成查询记录
+				 * */
+				if(!"".equals(getQTLoginUserID())){
+					dvs.insert("T_IRONOGRAM", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+				}
 				if(null!=showList && showList.size()>0){
 					json.put(Constant.SUCCESS, true);
 					json.put(Constant.ROWS, JSONArray.fromObject(showList, cfg));
 					json.put(Constant.TOTAL, total);//list.size()
+					
 				}else{
 					json.put(Constant.ROWS, "[]");
 					json.put(Constant.TOTAL, 0);
@@ -191,7 +230,7 @@ public class QTPGTMod extends BaseMod{
 			json.put(Constant.ROWS, "[]");
 			json.put(Constant.TOTAL, 0);
 		}
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 		
 	}
@@ -286,8 +325,19 @@ public class QTPGTMod extends BaseMod{
 			json.put(Constant.SUCCESS, true);
 			json.put("data", JSONObject.fromObject(idd,cfg)) ;
 		}
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
-	
+	@At("/qt/insertBrowser")
+	@Ok("json")
+	public JSONObject insertBrowser(@Param("..")String tableNames,HttpSession session ,HttpServletRequest req){
+		//JSONObject json = new JSONObject();
+		//json.put(Constant.SUCCESS, false);
+		 tableNames = req.getParameter("tableNames");
+			if(!"".equals(getQTLoginUserID())){
+				dvs.insert(tableNames, "02", 1, getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+			}					
+		//return json;
+		return null;
+	}
 }

@@ -457,7 +457,8 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 * 2、若保护期区间与查询时间段有交集，则进行数据拼装（保护期内的前50条记录+保护期外的记录）
     	 * */
      public List<Parameter> top50ParameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){	
-    	Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
+    	//Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
+    	Sql sql =Sqls.create(getProtectDateSql(params,paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(Parameter.class));
 		this.dao.execute(sql) ;		
@@ -506,11 +507,15 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     		 Date queryStart = (Date) DateUtil.convertStringToDate(startDate, "yyyy-MM-dd");
 	     	 Date queryEnd  =  (Date) DateUtil.convertStringToDate(endDate, "yyyy-MM-dd");
     		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
-  				if(dateCompare(queryStart,prodata.getDataSDate(),prodata.getDataEDate()) || dateCompare(queryEnd,prodata.getDataSDate(),prodata.getDataEDate())){//查询区间与保护期有重叠
+  				if(dateCompare(queryStart,prodata.getDataSDate(),prodata.getDataEDate()) 
+  					|| dateCompare(queryEnd,prodata.getDataSDate(),prodata.getDataEDate())
+  				    || dateCompare(prodata.getDataSDate(),queryStart,queryEnd)	
+  				    || dateCompare(prodata.getDataEDate(),queryStart,queryEnd)	
+  				){//查询区间与保护期有重叠
   					return false;
   				}
   			}
-    	 }
+    	 }   	
      	return true;
      }
      /**
@@ -526,6 +531,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 }
     	
      }
+
      
      /**
     	 * 查询保护期内的电离层参数（前50条数据）
@@ -640,4 +646,110 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     		
     	    return wb ;
   	}
+     /**
+      * 查询保护期的情况
+      *a) 参数定义
+      *   保护期开始时间：B1
+      *   保护期结束时间：B2
+      *   查询日期开始：Q1
+      *   查询日期结束：Q2
+      *b) 返回值说明：
+      * 0-无保护期\保护期失效\两区间无交集,1-查询日期区间是保护期的子集,2-保护期区间是查询区间的子集,3-保护期区间与查询区间有交集(前部分交集),4-保护期区间与查询区间有交集(后部分交集)
+      *c) 时间值分布情况
+      *  1(B1<Q1<Q2<B2)
+      *  2(Q1<B1<B2<Q2)
+      *  3(Q1<B1<Q2<B2)
+      *  4(B1<Q1<B2<Q2)
+      * 
+      * */
+     public int getProtectDateType(Parameter params,ParameteDataBo paraQuery){
+    	 ProtectDate prodata= getProtectDateByTableName("T_PARAMETER");//保护期
+    	 int retValue=0;
+    	 if(null!=prodata && null!=prodata.getId()){
+    		 Date today = (Date) DateUtil.getCurrentDate();//当前日期
+    		 Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate(), "yyyy-MM-dd");
+	     	 Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate(), "yyyy-MM-dd");
+	     	 Date B1  =  prodata.getDataSDate();
+	     	 Date B2  =  prodata.getDataEDate();
+    		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
+  				if(dateCompare(Q1,B1,B2) && dateCompare(Q2,B1,B2)){
+  					retValue=1;
+  				}
+  				if(dateCompare(	B1,Q1,Q2) && dateCompare(B2,Q1,Q2)){
+  					retValue=2;
+  				}
+  				if(dateCompare(	B1,Q1,Q2) && dateCompare(Q2,B1,B2)){
+  					retValue=3;
+  				}
+  				if(dateCompare(Q1,B1,B2) && dateCompare(B2,Q1,Q2)){
+  					retValue=4;
+  				}
+  			}
+    	 }   	
+    	 return retValue;
+     }
+     public String getProtectDateSql(Parameter params,ParameteDataBo paraQuery){
+    	 ProtectDate prodata= getProtectDateByTableName("T_PARAMETER");//保护期
+    	 int shownums =Constant.PROTECTDATA_SHOWNUM;//默认显示记录数
+    	 String[] stationIDS =null;//观测站数组
+    	 StringBuffer sb = new StringBuffer(""); 
+  		 if(StringUtil.checkNull(paraQuery.getOrderBy())){
+  			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+  		 }
+  		 if(StringUtil.checkNotNull(params.getIds())){
+  			stationIDS= params.getIds().split(",");
+  		 }
+  		 String queryStationArry="";
+  		 for(String s:stationIDS){
+  			if(!"".equals(queryStationArry)){
+  				queryStationArry+=",";
+  			 }
+  			 queryStationArry+="\'"+s+"\'";
+  		 }
+    	 
+         //log.info(sb.toString());
+    	
+    	 
+    	 
+    	 if(null!=prodata && null!=prodata.getId()){
+    		     	 
+	     	
+	    	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){//前台查询日期区间
+	    		 Date dateQ1 = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+		  		 Date dateQ2 = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+		  		 Date B1  =  prodata.getDataSDate();
+		     	 Date B2  =  prodata.getDataEDate(); 
+		     	 
+		     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
+		     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");
+		     	
+	    		 if(getProtectDateType(params,paraQuery)>=1){
+	    			 sb.append("select top "); 
+	    	    	 sb.append(shownums);
+	    	    	 sb.append(" * from T_PARAMETER");
+	    	    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
+	    			 sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
+		     	 }else if(getProtectDateType(params,paraQuery)>=2){
+	    			 sb.append(" union ");
+	    	    	 sb.append("  select * from T_PARAMETER");
+	    	    	 sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
+	    			 if(getProtectDateType(params,paraQuery)==2){			    	
+				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");
+				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");
+			     	} 
+	    			 if(getProtectDateType(params,paraQuery)==3){			    	
+				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");				    	 
+			     	} 
+	    			 if(getProtectDateType(params,paraQuery)==4){			    					    	
+				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");
+			     	} 
+	    		 }
+  			
+	  		 }	 
+	    	 //sb.append(" order by ").append(paraQuery.getOrderBy());	     	
+    	 } 
+    	 log.info(sb.toString());
+    	 return sb.toString();
+     }
+     
 }

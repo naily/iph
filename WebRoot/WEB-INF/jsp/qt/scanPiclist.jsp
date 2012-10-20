@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+		<script type="text/javascript" src="js/qt_pgt.js"></script>
 			<script type="text/javascript">
 	var dataAry = new Array();
 	<% 
@@ -47,14 +48,23 @@
 			<div class="loginbox1">
 			 <div id="imagePreview" title="图片预览"> </div> 
   <table width="800" border="0" align="left" cellpadding="0" cellspacing="0" class="fontstyle4">
-    <%--<tr>
-      <td width="277" height="50" align="right">选择查询关键字：</td>
-      <td width="227"><select name="select"  class="select1">
-          <option>请选择</option>
-      </select></td>
-      <td width="226"><input type="submit" name="Submit" value="查询" /></td>
+     <form action="qt/listScanPic.do" name="queryName" method="POST" onsubmit="return checkValue(this);">
+    <tr>
+      <td width="300" height="50" align="center">
+      <input type="hidden" id="stationIDV" value="${requestScope.scp.stationID}"/>
+         ${msg['qt_month_report_station']}：<input id="comboStation"   name="stationID"  class="boxinput_report"/></td>
+      <td width="600">
+        ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.scp.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.scp.endDate}" class="boxinput_report"/></td>
+      <td width="100">
+     
+      <input type="button" name="Submit" value="${msg['qt_query_button']}"  onclick="checkValue('smt');"/>
+     
+      <%--
+      <input type="Submit" name="Submit" value="${msg['qt_query_button']}" />
+      --%></td>
     </tr>
-    --%><tr>
+  </form>
+    <tr>
       <td height="40" colspan="3" align="right"><a href="qt/listScanPic.do"  class="a2">${msg['qt_show_all']}>></a><br>
       <table width="800" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#CEE7FF">
         <tr><td></td></tr>
@@ -84,7 +94,7 @@
 					<a href="qt/listScanPic.do" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
 				    	<c:when test="${requestScope.page.pageNumber>1}" >
-				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
+				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_prepage']}</a>	       
@@ -94,14 +104,14 @@
 					<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount} ${msg['qt_page_unit']}
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >
-				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
+				    	  <a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_nextpage']}</a>	       
 			    		</c:otherwise>
 			    	</c:choose>
 					
-					<a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
+					<a href="qt/listScanPic.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
 				</div>
 	  </td>
       </tr>
