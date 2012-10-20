@@ -321,7 +321,7 @@ public class ParameterMod extends BaseMod{
 			//log.debug(json.get("usetime")) ;
 		} catch (Exception e) {
 			//e.printStackTrace();
-			json.put(Constant.INFO, e.getMessage()) ;
+			json.put(Constant.INFO, e.getLocalizedMessage() ) ;
 		}finally{
 			return json ;
 		}

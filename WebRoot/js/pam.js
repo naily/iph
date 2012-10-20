@@ -162,7 +162,7 @@ $(document).ready(function(){
                 if(json.success){
                     $("#errormsg2").html("导入成功<br>记录数： "+json.insertRow +"<br>用时： " +json.usetime).show() ;
                 }else{
-                    $("#errormsg2").html(json.info).show() ;
+                    $("#errormsg2").html(json.info);
                 }
                 $("#saveMdbFile").removeAttr("disabled" );
             }
