@@ -456,9 +456,9 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 * 1、若保护期区间是查询时间段的子集则只显示50条数据
     	 * 2、若保护期区间与查询时间段有交集，则进行数据拼装（保护期内的前50条记录+保护期外的记录）
     	 * */
-     public List<Parameter> top50ParameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){	
+     public List<Parameter> top50ParameterDataList(Parameter params,String tableName,ParameteDataBo paraQuery){	
     	//Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
-    	Sql sql =Sqls.create(getProtectDateSql(params,paraQuery));
+    	Sql sql =Sqls.create(getProtectDateSql(params.getIds(),tableName,paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(Parameter.class));
 		this.dao.execute(sql) ;		
@@ -501,20 +501,30 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	     		}	
 	     	}// end 查询区间
      	}*/
+    	
     	 ProtectDate prodata= getProtectDateByTableName(dataTable);	
     	 if(null!=prodata && null!=prodata.getId()){
-    		 Date today = (Date) DateUtil.getCurrentDate();//当前日期
-    		 Date queryStart = (Date) DateUtil.convertStringToDate(startDate, "yyyy-MM-dd");
-	     	 Date queryEnd  =  (Date) DateUtil.convertStringToDate(endDate, "yyyy-MM-dd");
-    		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
-  				if(dateCompare(queryStart,prodata.getDataSDate(),prodata.getDataEDate()) 
-  					|| dateCompare(queryEnd,prodata.getDataSDate(),prodata.getDataEDate())
-  				    || dateCompare(prodata.getDataSDate(),queryStart,queryEnd)	
-  				    || dateCompare(prodata.getDataEDate(),queryStart,queryEnd)	
-  				){//查询区间与保护期有重叠
-  					return false;
-  				}
-  			}
+    		  Date today = (Date) DateUtil.getCurrentDate();//当前日期
+    		  Date queryStart = null;
+    		  Date queryEnd  = null;
+    		  if(StringUtil.checkNull(startDate) || StringUtil.checkNull(endDate)){
+    			  ParameteDataBo pdb =getMinAndMaxDate(dataTable);
+    			  queryStart= (Date) DateUtil.convertStringToDate(pdb.getStartDate(), "yyyy-MM-dd");
+    			  queryEnd  = (Date) DateUtil.convertStringToDate(pdb.getEndDate(), "yyyy-MM-dd");
+     		  }else{
+     			 queryStart = (Date) DateUtil.convertStringToDate(startDate, "yyyy-MM-dd");
+  			     queryEnd  =  (Date) DateUtil.convertStringToDate(endDate, "yyyy-MM-dd");
+     		  }   	     	
+        		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
+      				if(dateCompare(queryStart,prodata.getDataSDate(),prodata.getDataEDate()) 
+      					|| dateCompare(queryEnd,prodata.getDataSDate(),prodata.getDataEDate())
+      				    || dateCompare(prodata.getDataSDate(),queryStart,queryEnd)	
+      				    || dateCompare(prodata.getDataEDate(),queryStart,queryEnd)	
+      				){//查询区间与保护期有重叠
+      					return false;
+      				}
+        		 }
+    		 
     	 }   	
      	return true;
      }
@@ -662,11 +672,15 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
       *  4(B1<Q1<B2<Q2)
       * 
       * */
-     public int getProtectDateType(Parameter params,ParameteDataBo paraQuery){
-    	 ProtectDate prodata= getProtectDateByTableName("T_PARAMETER");//保护期
+     public int getProtectDateType(String tableName,ParameteDataBo paraQuery){
+    	 ProtectDate prodata= getProtectDateByTableName(tableName);//保护期
     	 int retValue=0;
     	 if(null!=prodata && null!=prodata.getId()){
     		 Date today = (Date) DateUtil.getCurrentDate();//当前日期
+    		 if(StringUtil.checkNull(paraQuery.getStartDate()) || StringUtil.checkNull(paraQuery.getEndDate()) ){
+    			 paraQuery= getMinAndMaxDate(tableName);
+    			 
+    		 }
     		 Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate(), "yyyy-MM-dd");
 	     	 Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate(), "yyyy-MM-dd");
 	     	 Date B1  =  prodata.getDataSDate();
@@ -688,68 +702,103 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
     	 }   	
     	 return retValue;
      }
-     public String getProtectDateSql(Parameter params,ParameteDataBo paraQuery){
-    	 ProtectDate prodata= getProtectDateByTableName("T_PARAMETER");//保护期
+     /**
+      * 获取保护期查询sql(观测站id字符串，查询表名，查询bean)
+      * 
+      * */
+     public String getProtectDateSql(String stationIdAry, String tableName,ParameteDataBo paraQuery){
+    	// public String getProtectDateSql(Parameter params,ParameteDataBo paraQuery){
+    	// String tableName="T_PARAMETER";
+    	 ProtectDate prodata= getProtectDateByTableName(tableName);//保护期
     	 int shownums =Constant.PROTECTDATA_SHOWNUM;//默认显示记录数
     	 String[] stationIDS =null;//观测站数组
     	 StringBuffer sb = new StringBuffer(""); 
   		 if(StringUtil.checkNull(paraQuery.getOrderBy())){
   			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
   		 }
-  		 if(StringUtil.checkNotNull(params.getIds())){
+  		 /*if(StringUtil.checkNotNull(params.getIds())){
   			stationIDS= params.getIds().split(",");
-  		 }
+  		 }*/
+  		if(StringUtil.checkNotNull(stationIdAry)){
+			stationIDS= stationIdAry.split(",");
+		 }
   		 String queryStationArry="";
   		 for(String s:stationIDS){
   			if(!"".equals(queryStationArry)){
   				queryStationArry+=",";
   			 }
   			 queryStationArry+="\'"+s+"\'";
-  		 }
-    	 
-         //log.info(sb.toString());
+  		 }    	 
+         //log.info(sb.toString());   	    	   	 
+    	 if(null!=prodata && null!=prodata.getId()){   	
     	
-    	 
-    	 
-    	 if(null!=prodata && null!=prodata.getId()){
-    		     	 
-	     	
-	    	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){//前台查询日期区间
-	    		 Date dateQ1 = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-		  		 Date dateQ2 = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+	    	// if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){//前台查询日期区间
+	    		// Date dateQ1 = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+		  		// Date dateQ2 = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 		  		 Date B1  =  prodata.getDataSDate();
-		     	 Date B2  =  prodata.getDataEDate(); 
-		     	 
+		     	 Date B2  =  prodata.getDataEDate(); 		     	 
+		    	
+		    	 String dateQ1 = null;
+		    	 String dateQ2 = null;
+		    	 if(StringUtil.checkNull(paraQuery.getStartDate()) || StringUtil.checkNull(paraQuery.getEndDate()) ){
+	    			 ParameteDataBo pdb = getMinAndMaxDate(tableName);
+	    			// paraQuery.setStartDate(pdb.getStartDate());
+	    			 //paraQuery.setEndDate(pdb.getEndDate());
+	    			 if(null!=pdb){
+	    				  dateQ1 = pdb.getStartDate();
+				     	  dateQ2 = pdb.getEndDate();
+	    			 }
+	    			 
+	    		 }else{
+	    			  dateQ1 = paraQuery.getStartDate()+" 00:00:00";
+			     	  dateQ2 = paraQuery.getEndDate()+" 23:59:00";
+	    		 }
 		     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
-		     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");
-		     	
-	    		 if(getProtectDateType(params,paraQuery)>=1){
+		     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");		     	
+	    		 if(getProtectDateType(tableName,paraQuery)>=1){
 	    			 sb.append("select top "); 
 	    	    	 sb.append(shownums);
-	    	    	 sb.append(" * from T_PARAMETER");
+	    	    	 sb.append(" * from "+tableName);
 	    	    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
 	    			 sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
-		     	 }else if(getProtectDateType(params,paraQuery)>=2){
+		     	  if(getProtectDateType(tableName,paraQuery)>=2){
 	    			 sb.append(" union ");
-	    	    	 sb.append("  select * from T_PARAMETER");
+	    	    	 sb.append("  select * from "+tableName);// T_PARAMETER");
 	    	    	 sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
-	    			 if(getProtectDateType(params,paraQuery)==2){			    	
+	    			 if(getProtectDateType(tableName,paraQuery)==2){			    	
 				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");
 				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");
 			     	} 
-	    			 if(getProtectDateType(params,paraQuery)==3){			    	
+	    			 if(getProtectDateType(tableName,paraQuery)==3){			    	
 				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");				    	 
 			     	} 
-	    			 if(getProtectDateType(params,paraQuery)==4){			    					    	
+	    			 if(getProtectDateType(tableName,paraQuery)==4){			    					    	
 				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");
 			     	} 
-	    		 }
-  			
-	  		 }	 
+	    		 } 			
+	  		  }	
+	    	 }
 	    	 //sb.append(" order by ").append(paraQuery.getOrderBy());	     	
-    	 } 
+    	 //} 
     	 log.info(sb.toString());
     	 return sb.toString();
      }
-     
+     /**
+      * 获取查询数据表的日期最大值与最小值
+      * 
+      * */
+     	public ParameteDataBo getMinAndMaxDate(String tabelName){
+     		//public List<ParameterMonthDateBo> getMinAndMaxDate(String tabelName){
+     		Sql sql =Sqls.create("SELECT min(createDate)  startDate,max(createDate) endDate FROM "+tabelName);
+     		sql.setCallback(Sqls.callback.entities());
+     		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
+     		sql.setEntity(dao.getEntity(ParameteDataBo.class));
+     		this.dao.execute(sql) ;		
+     		//List<ParameterMonthDateBo> list = sql.getList(ParameterMonthDateBo.class) ;
+     		//return list;
+     		ParameteDataBo pmb = sql.getObject(ParameteDataBo.class);
+     		log.info(pmb.getStartDate());
+     		log.info(pmb.getEndDate());
+     		return pmb;
+     	}
 }

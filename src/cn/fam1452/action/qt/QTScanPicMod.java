@@ -81,14 +81,14 @@ public class QTScanPicMod extends BaseMod{
 			showList.add(scps);
 		}
 		//pager.setRecordCount(baseService.dao.count(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
-		//pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
+		pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
 		/**
 		 * 生成查询记录
 		 * */
 		if(!"".equals(getQTLoginUserID())){
 			dvs.insert("T_SCANPIC", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
 		}
-		pager.setRecordCount(showList.size());
+		//pager.setRecordCount(showList.size());
 		req.setAttribute("smtlist", showList);
 		req.setAttribute("scp", scp);
 		req.setAttribute("queryYear", queryYear);
@@ -107,7 +107,7 @@ public class QTScanPicMod extends BaseMod{
 					}
 					if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
 						Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-						Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 59:59:00","yyyy-MM-dd HH:mm:ss");
+						Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
 						cnd.and("createDate", ">=",start).and("createDate","<=",end);
 					}
 				}
@@ -130,8 +130,9 @@ public class QTScanPicMod extends BaseMod{
 			List<Scanpic> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
-			if(!parameterService.isProtectDateOpen("T_SCANPIC",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
-				list=scanPicService.top50ScanpicDataList(irg, page, paraQuery);
+			String tableName ="T_SCANPIC";
+			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+				list=scanPicService.top50ScanpicDataList(irg, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))

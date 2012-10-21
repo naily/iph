@@ -143,14 +143,14 @@ public class QTPGTMod extends BaseMod{
 			iro.setStation(station);			
 			showList.add(iro);
 		}
-		//pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
+		pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
 		/**
 		 * 生成查询记录
 		 * */
 		if(!"".equals(getQTLoginUserID())){
 			dvs.insert("T_IRONOGRAM", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
 		}
-		pager.setRecordCount(showList.size()); 
+		//pager.setRecordCount(showList.size()); 
 		req.setAttribute("pgtlist", showList);
 		req.setAttribute("irg", irg);
 		req.setAttribute("queryYear", queryYear);
@@ -169,7 +169,7 @@ public class QTPGTMod extends BaseMod{
 				}
 				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
 					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 59:59:00","yyyy-MM-dd HH:mm:ss");
+					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
 					cnd.and("createDate", ">=",start).and("createDate","<=",end);
 				}
 			}
@@ -192,8 +192,9 @@ public class QTPGTMod extends BaseMod{
 			List<IronoGram> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_IRONOGRAM")){//判断频高图表是否设置了保护期
-			if(!parameterService.isProtectDateOpen("T_IRONOGRAM",paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
-				list=pgtService.top50PGTDataList(irg, page, paraQuery);
+			String tableName ="T_IRONOGRAM";
+			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+				list=pgtService.top50PGTDataList(irg, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))

@@ -62,8 +62,9 @@ public class PGTService extends Base{
    	/**
    	 * 有保护期的数据查询
    	 * */
-    public List<IronoGram> top50PGTDataList(IronoGram irg,Pages page,ParameteDataBo paraQuery){	
-    	Sql sql =Sqls.create(getQueryPGTSQL(irg,paraQuery));
+    public List<IronoGram> top50PGTDataList(IronoGram irg,String tableName,ParameteDataBo paraQuery){	
+    	//Sql sql =Sqls.create(getQueryPGTSQL(irg,paraQuery));
+    	Sql sql =Sqls.create(parameterService.getProtectDateSql(irg.getIds(), tableName, paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(IronoGram.class));
 		this.dao.execute(sql) ;		

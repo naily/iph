@@ -54,8 +54,9 @@ public class ScanPicService extends Base{
    	/**
    	 * 有保护期的数据查询
    	 * */
-    public List<Scanpic> top50ScanpicDataList(Scanpic irg,Pages page,ParameteDataBo paraQuery){	
-    	Sql sql =Sqls.create(getQueryScanpicSQL(irg,paraQuery));
+    public List<Scanpic> top50ScanpicDataList(Scanpic irg,String tableName,ParameteDataBo paraQuery){	
+    	//Sql sql =Sqls.create(getQueryScanpicSQL(irg,paraQuery));
+    	Sql sql =Sqls.create(parameterService.getProtectDateSql(irg.getIds(), tableName, paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(Scanpic.class));
 		this.dao.execute(sql) ;		
