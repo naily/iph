@@ -51,8 +51,8 @@
      <form action="qt/listScanPic.do" name="queryName" method="POST" onsubmit="return checkValue(this);">
     <tr>
       <td width="300" height="50" align="center">
-      <input type="hidden" id="stationIDV" value="${requestScope.scp.stationID}"/>
-         ${msg['qt_month_report_station']}：<input id="comboStation"   name="stationID"  class="boxinput_report"/></td>
+      <input type="hidden" id="stationIDV" value="${requestScope.scp.ids}"/>
+         ${msg['qt_month_report_station']}：<input id="comboStation"   name="ids"  class="boxinput_report"/></td>
       <td width="600">
         ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.scp.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.scp.endDate}" class="boxinput_report"/></td>
       <td width="100">

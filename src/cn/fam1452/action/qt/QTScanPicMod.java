@@ -62,16 +62,29 @@ public class QTScanPicMod extends BaseMod{
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.scanPiclist")
-	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")Scanpic scp){
+	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")Scanpic scp,@Param("..")ParameteDataBo paraQuery){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
 		String queryYear ="";
+		String tableName="T_SCANPIC";
 		if(null!=scp && StringUtil.checkNotNull(scp.getQueryYear())){
 			queryYear =scp.getQueryYear();
 		}
 		
 		//List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
-		List<Scanpic> list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
+		//List<Scanpic> list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
+		
+		List<Scanpic> list =  new ArrayList<Scanpic>();
+		if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+			//scp.setIds(scp.getStationID());
+			list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
+			pager.setRecordCount(list.size()); 
+		}else{
+			list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
+			pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
+		}
+		
+		
 		List<Scanpic> showList = new ArrayList<Scanpic>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
 		for(Scanpic scps:list){
@@ -81,7 +94,7 @@ public class QTScanPicMod extends BaseMod{
 			showList.add(scps);
 		}
 		//pager.setRecordCount(baseService.dao.count(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%"))); 
-		pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
+		//pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
 		/**
 		 * 生成查询记录
 		 * */
@@ -95,19 +108,19 @@ public class QTScanPicMod extends BaseMod{
 		req.setAttribute("page", pager);
 		
 	}
-	 public Condition getQueryCnd(Scanpic irg){
+	 public Condition getQueryCnd(Scanpic scp){
 	    	Cnd cnd=null;
-			if(null!=irg){
-				if(StringUtil.checkNotNull(irg.getQueryYear())){
-					cnd = Cnd.where("createDate","like","%"+irg.getQueryYear()+"%");
+			if(null!=scp){
+				if(StringUtil.checkNotNull(scp.getQueryYear())){
+					cnd = Cnd.where("createDate","like","%"+scp.getQueryYear()+"%");
 					
 				}else{
-					if(StringUtil.checkNotNull(irg.getStationID())){
-						cnd = Cnd.where("stationID", "=", irg.getStationID());
+					if(StringUtil.checkNotNull(scp.getIds())){
+						cnd = Cnd.where("stationID", "=", scp.getIds());
 					}
-					if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
-						Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-						Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
+					if(StringUtil.checkNotNull(scp.getStartDate()) && StringUtil.checkNotNull(scp.getStartDate())){
+						Date start = DateUtil.convertStringToSqlDate(scp.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+						Date end = DateUtil.convertStringToSqlDate(scp.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
 						cnd.and("createDate", ">=",start).and("createDate","<=",end);
 					}
 				}
@@ -121,24 +134,24 @@ public class QTScanPicMod extends BaseMod{
 	/**
 	 * 找数据：报表扫描图查询，根据观测站及日期查询
 	 * */
-	public JSONObject queryScanpicList(HttpServletRequest req,@Param("..")Scanpic irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
+	public JSONObject queryScanpicList(HttpServletRequest req,@Param("..")Scanpic scp,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
 		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
-		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	
+		if (scp != null && StringUtil.checkNotNull(scp.getIds())) {	
 			List<Scanpic> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
 			String tableName ="T_SCANPIC";
 			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
-				list=scanPicService.top50ScanpicDataList(irg, tableName, paraQuery);
+				list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
-				 list = scanPicService.ScanpicDataList(irg,page,paraQuery);
-				 total =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQuery(irg, paraQuery));
+				 list = scanPicService.ScanpicDataList(scp,page,paraQuery);
+				 total =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQuery(scp, paraQuery));
 			}	
 			
 		
@@ -168,7 +181,7 @@ public class QTScanPicMod extends BaseMod{
 			json.put(Constant.ROWS, "[]");
 			json.put(Constant.TOTAL, 0);
 		}
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 		
 	}
@@ -217,7 +230,7 @@ public class QTScanPicMod extends BaseMod{
 		}else{
 			createDate= DateUtil.getCurrentDate();
 		}	
-		log.info(createDate);
+		//log.info(createDate);
 		Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",scp.getStationID()).and("createDate","=",createDate));		
 		if(null!=idd){
 			json.put(Constant.SUCCESS, true);

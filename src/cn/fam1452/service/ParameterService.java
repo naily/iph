@@ -780,7 +780,7 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	    	 }
 	    	 //sb.append(" order by ").append(paraQuery.getOrderBy());	     	
     	 //} 
-    	 log.info(sb.toString());
+    	 //log.info(sb.toString());
     	 return sb.toString();
      }
      /**
@@ -797,8 +797,8 @@ public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
      		//List<ParameterMonthDateBo> list = sql.getList(ParameterMonthDateBo.class) ;
      		//return list;
      		ParameteDataBo pmb = sql.getObject(ParameteDataBo.class);
-     		log.info(pmb.getStartDate());
-     		log.info(pmb.getEndDate());
+     		//log.info(pmb.getStartDate());
+     		//log.info(pmb.getEndDate());
      		return pmb;
      	}
 }

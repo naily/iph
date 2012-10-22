@@ -124,16 +124,24 @@ public class QTPGTMod extends BaseMod{
 	/**
 	 * 导航频高图查询
 	 * */
-	public void pgtList(HttpSession session ,HttpServletRequest req, @Param("..")Pager page,@Param("..")IronoGram irg){
+	public void pgtList(HttpSession session ,HttpServletRequest req,@Param("..")IronoGram irg, @Param("..")Pager page,@Param("..")ParameteDataBo paraQuery){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
-		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
-		//IronoGram is =baseService.dao.fetchLinks(baseService.dao.fetch(IronoGram.class), "station");	
+		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    
+		String  tableName="T_IRONOGRAM";
 		String queryYear ="";
 		if(null!=irg && StringUtil.checkNotNull(irg.getQueryYear())){
 			queryYear =irg.getQueryYear();
 		}
 		//List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
-		List<IronoGram> list =  baseService.dao.query(IronoGram.class, getQueryCnd(irg), pager); 
+		List<IronoGram> list =  new ArrayList<IronoGram>();
+		if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+			//irg.setIds(irg.getStationID());
+			list=pgtService.top50PGTDataList(irg, tableName, paraQuery);
+			pager.setRecordCount(list.size()); 
+		}else{
+			list =  baseService.dao.query(IronoGram.class, getQueryCnd(irg), pager); 
+			pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
+		}
 		
 		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
@@ -143,7 +151,7 @@ public class QTPGTMod extends BaseMod{
 			iro.setStation(station);			
 			showList.add(iro);
 		}
-		pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
+		
 		/**
 		 * 生成查询记录
 		 * */
@@ -164,8 +172,8 @@ public class QTPGTMod extends BaseMod{
 				cnd = Cnd.where("createDate","like","%"+irg.getQueryYear()+"%");
 				
 			}else{
-				if(StringUtil.checkNotNull(irg.getStationID())){
-					cnd = Cnd.where("stationID", "=", irg.getStationID());
+				if(StringUtil.checkNotNull(irg.getIds())){//irg.getStationID()
+					cnd = Cnd.where("stationID", "=", irg.getIds());
 				}
 				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
 					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
@@ -293,7 +301,7 @@ public class QTPGTMod extends BaseMod{
 			json.put(Constant.SUCCESS, false);
 		}
 		
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 		

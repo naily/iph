@@ -45,9 +45,9 @@ function checkValue(p){
 	}
 	ajaxpost(data);*/
   if(p=='pgt'){
-    window.location.href=basepath+'qt/listPGT.do?startDate='+startDate+'&endDate='+endDate+'&stationID='+stationId;
+    window.location.href=basepath+'qt/listPGT.do?startDate='+startDate+'&endDate='+endDate+'&ids='+stationId;
   }else{
-   window.location.href=basepath+'qt/listScanPic.do?startDate='+startDate+'&endDate='+endDate+'&stationID='+stationId;
+   window.location.href=basepath+'qt/listScanPic.do?startDate='+startDate+'&endDate='+endDate+'&ids='+stationId;
   }
 	
 }
