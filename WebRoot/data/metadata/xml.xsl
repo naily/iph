@@ -367,7 +367,7 @@
 									</li>
 									<li class="li_no_img">
 										<span class="metaTitle">µç×ÓÓÊ¼þ:</span>
-										<xsl:value-of select="metadata/respParty/eMail" />
+										<xsl:value-of select="metadata/respParty/email" />
 									</li>
 								</ul>
 							</li>
