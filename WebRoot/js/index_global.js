@@ -34,11 +34,11 @@ parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'},
 					           { text : 'foEs',  value : 'foEs'}, 
 					           { text : 'hlEs',  value : 'hlEs'}, 
 					           { text : 'fbEs',  value : 'fbEs'}, 
-					           { text : 'Fmin',  value : 'Fmin'}, 
-					           { text : 'M3000F2',  value : 'M3000F2'}, 
-					           { text : 'M1500F2',  value : 'M1500F2'}, 
-					           { text : 'M3000F1',  value : 'M3000F1'}, 
-					           { text : 'M3000F',   value : 'M3000F'}
+					           { text : 'Fmin',  value : 'fmin'}, 
+					           { text : 'M3000F2',  value : 'm3000F2'}, 
+					           { text : 'M1500F2',  value : 'm1500F2'}, 
+					           { text : 'M3000F1',  value : 'm3000F1'}, 
+					           { text : 'M3000F',   value : 'm3000F'}
 					           ]
 
 /*

@@ -60,10 +60,11 @@
       <td width="600">
         ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.irg.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.irg.endDate}" class="boxinput_report"/></td>
       <td width="100">
-     
-      <input type="button" name="Submit" value="${msg['qt_query_button']}"  onclick="checkValue('pgt');"/>
+     <a href="javascript:void(0)"  id="ssss" onclick="checkValue('pgt');"><img src="images/chaxun.png"  border="0" /></a>
+      
      
       <%--
+      <input type="button" name="Submit" value="${msg['qt_query_button']}"  onclick="checkValue('pgt');"/>
       <input type="Submit" name="Submit" value="${msg['qt_query_button']}" />
       --%></td>
     </tr>
@@ -74,7 +75,7 @@
         <tr><td></td></tr>
         <tr>
           <td width="44" height="35" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_order']}</strong></td>
-          <td width="344" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_pgt_name']}</strong></td>
+          <td width="320" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_pgt_name']}</strong></td>
           <td width="134" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_station']}</strong></td>
           <td width="121" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_date']}</strong></td>
           <td colspan="2" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_operate']}</strong></td>
@@ -85,8 +86,8 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.gramTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${pgt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${pgt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusPgt.index},'1');" class="a4">${msg['qt_list_Browse']}</a></td>
-          <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadPGT.do?gramID=${pgt.gramID}" class="a4">${msg['qt_list_download']}</a></td>
+          <td width="67" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusPgt.index},'1');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="67" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadPGT.do?gramID=${pgt.gramID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>
         

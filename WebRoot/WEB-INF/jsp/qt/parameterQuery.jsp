@@ -43,6 +43,9 @@
     </script>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
+		<input id="startDateV" type="hidden" value="${requestScope.para.startDate}"/> 
+		<input id="endDateV" type="hidden" value="${requestScope.para.endDate}"/> 
+		<input id="stationIDV" type="hidden" value="${requestScope.para.stationID}"/> 
 		<div id="right">
 			<div class="title8">
 				${msg['qt_data_query_title']}
@@ -59,7 +62,7 @@
 							<td height="30"  valign="top">
 						
 								<div id="selectorParaS" ></div>
-								<input id="parameter" type="hidden"/> 
+								<input id="parameter" type="hidden" /> 
 							</td>
 							<td>
 							  <table width="100%">
@@ -69,8 +72,24 @@
 							     <tr><td align="right">${msg['qt_parameter_end_date']}：</td><td><input id="endDate" name="endDate" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_orderby']}：</td><td><input id="orderCol" name="orderCol" class="boxinput_report"/></td></tr>
 							     <tr><td align="right">${msg['qt_parameter_pagesize']}：</td><td><input id="showNum" name="showNum" class="boxinput_report"/></td></tr>
-							     <tr><td colspan="2" height="50" align="center"><input type="button" id="paraDataQuery" value="${msg['qt_query_button']}"/></td></tr>								
-							     <tr><td colspan="2" height="100" align="center"><input type="button" style="display:none;" id="downloadParaData" value="${msg['qt_download_para_excel']}"/></td></tr>								
+							     <tr><td colspan="2" height="50" align="center">
+							     <!--  <input type="button" id="paraDataQuery" value="${msg['qt_query_button']}"/>-->
+							      <a href="javascript:void(0)" id="paraDataQuery">
+								      <c:choose>
+										<c:when test='${msg.lang=="zh"}'>
+										 <img src="images/chaxun.png"  border="0" />
+									   </c:when>		
+										<c:otherwise>
+										<img src="images/d11.jpg"  border="0" />
+										</c:otherwise>
+									  </c:choose>
+								    
+								      </a>
+							     </td></tr>								
+							     <tr><td colspan="2" height="100" align="center">
+							     <!-- <input type="button" style="display:none;" id="downloadParaData" value="${msg['qt_download_para_excel']}"/> -->
+							     <a href="javascript:void(0)" style="display:none;"  id="downloadParaData"><img src="images/daochu.png"  border="0" /></a>
+							     </td></tr>								
 							   </table>	
 							</td>
 						</tr>								

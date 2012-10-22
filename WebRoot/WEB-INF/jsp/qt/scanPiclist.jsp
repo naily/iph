@@ -56,10 +56,11 @@
       <td width="600">
         ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.scp.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.scp.endDate}" class="boxinput_report"/></td>
       <td width="100">
-     
-      <input type="button" name="Submit" value="${msg['qt_query_button']}"  onclick="checkValue('smt');"/>
+     <a href="javascript:void(0)"  id="ssss" onclick="checkValue('smt');"><img src="images/chaxun.png"  border="0" /></a>
+      
      
       <%--
+      <input type="button" name="Submit" value="${msg['qt_query_button']}"  onclick="checkValue('smt');"/>
       <input type="Submit" name="Submit" value="${msg['qt_query_button']}" />
       --%></td>
     </tr>
@@ -70,7 +71,7 @@
         <tr><td></td></tr>
         <tr>
           <td width="44" height="35" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_order']}</strong></td>
-          <td width="344" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_smt_name']}</strong></td>
+          <td width="310" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_smt_name']}</strong></td>
           <td width="134" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_station']}</strong></td>
           <td width="121" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_date']}</strong></td>
           <td colspan="2" align="center" bgcolor="#E8F7FF"><strong>${msg['qt_list_operate']}</strong></td>
@@ -81,8 +82,8 @@
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.scanPicTitle}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"> ${smt.station.name}</td>
           <td align="center" valign="middle" bgcolor="#FFFFFF"><fmt:formatDate value="${smt.createDate}"   type="date" dateStyle="default" /></td>
-          <td width="37" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusSmt.index},'扫描图图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
-          <td width="43" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">${msg['qt_list_download']}</a></td>
+          <td width="67" align="center" valign="middle" bgcolor="#FFFFFF"><a href="javascript:previewImageA('dataAry1',${varStatusSmt.index},'扫描图图查看');" class="a4">${msg['qt_list_Browse']}</a></td>
+          <td width="67" align="center" valign="middle" bgcolor="#FFFFFF"><a href="qt/downloadScanpic.do?scanPicID=${smt.scanPicID}" class="a4">${msg['qt_list_download']}</a></td>
         </tr>
         </c:forEach>
         

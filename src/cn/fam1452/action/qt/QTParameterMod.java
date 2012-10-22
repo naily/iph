@@ -319,7 +319,7 @@ public class QTParameterMod extends BaseMod {
 			  }		
 			}//end if
 			
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	
@@ -476,8 +476,15 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据：电离层数据查询页面跳转
 	 * */
-	public void loadParaQuery(){
-		
+	public void loadParaQuery(HttpServletRequest req,@Param("..")Parameter parameter,@Param("..")ParameteDataBo paraQuery){
+		//log.info("year="+paraQuery.getYear());
+		//log.info("station="+paraQuery.getStationID());
+		if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getYear())){
+			paraQuery.setStartDate(paraQuery.getYear()+"-01-01");
+			paraQuery.setEndDate(paraQuery.getYear()+"-12-31");
+			
+		}
+		req.setAttribute("para", paraQuery);
 	}
 	
 	@At("/qt/listAllStation")

@@ -36,7 +36,7 @@ $(document).ready(function() {
 			$('#visitNum').html(json.visitNum);
 			$('#queryNum').html(json.queryNum);
 			$('#downloadNum').html(json.downloadNum);
-			$('#downloadAmount').html(downloadAmount);
+			$('#downloadAmount').html(downloadAmount+"M");
 		}
 	}
 	ajaxpost(indexVisterData);

@@ -69,8 +69,12 @@
 						</tr>
 						<tr>						
 							<td align="center">
+								<%--
 								<input type="button" id="loadReportData" value="${msg['qt_month_report_press']}"/> 
 								<input type="button" id="downloadReportData" value="${msg['qt_month_report_download']}"/>
+								--%>
+								<a href="javascript:void(0)"  id="loadReportData"><img src="images/yuebaosc.png"  border="0" /></a>
+								<a href="javascript:void(0)"  id="downloadReportData"><img src="images/yuebaoxz.png"  border="0" /></a>
 							</td>
 						</tr>
 					</table>

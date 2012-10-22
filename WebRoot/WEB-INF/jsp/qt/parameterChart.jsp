@@ -73,7 +73,11 @@
 							          </td>
 							         <!-- <td><input id="monthForChart" name="months" class="boxinput_report"/>(支持多选)</td> -->
 							      </tr>
-							     <tr><td colspan="2" height="50" align="center"><input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
+							     <tr><td colspan="2" height="50" align="center">
+							     <%--
+							     <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
+							     --%>
+							     <a href="javascript:void(0)"  id="pressParaChart"><img src="images/qxtsc.png"  border="0" /></a>
 								<!--<input type="button" id="paraData" value="曲线图下载"/>  --></td></tr>
 							   </table>												
 							</td>

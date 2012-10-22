@@ -1,10 +1,34 @@
 $(document).ready(function() {
+	
+	    var stationId = $('#stationIDV').val();	
+		var startDateV = $('#startDateV').val();
+		var endDateV = $('#endDateV').val();
+		var selectTypeValue='';
+		var initParaValue = new Array();
+		if(stationId && startDateV && endDateV){
+			initParaValue =parameter_array;
+			$('#startDate').val(startDateV);
+			$('#endDate').val(endDateV);
+			selectTypeValue='1';
+			//$('#selectDataType').val('1');
+			tableCols_=getParaColmModel(1,parameter_array);	
+			 datasourceUrl='qt/doParaDataQuery.do?ids=' + stationId + '&startDate='+ startDateV + '&endDate=' + endDateV;
+			 $('#paraQueryGrid').omGrid({
+				//title : '电离层参数查询',
+			 	dataSource :datasourceUrl, // limit:0, 
+			 	height : 325, 
+			 	limit:pageslimit,
+			 	showIndex : false,
+			 	colModel :tableCols_
+			 	});
+			//$("#downloadParaData").show();
+		}
 	// 选择观测站
 	$('#selectorStation').omItemSelector({
 				availableTitle : select_station,
 				selectedTitle : selected_station,
 				dataSource : 'qt/listAllStation.do',
-				// value:[],
+				value:[stationId],
 				/*onItemSelect : function(itemDatas, event) {
 					var stationValue = '';
 					if (itemDatas.length >= 1) {
@@ -28,7 +52,8 @@ $(document).ready(function() {
 				availableTitle : select_parameter,
 				selectedTitle : selected_parameter,
 				dataSource : parameter_omCombo_datasource,
-				// value:[],
+				value:initParaValue,
+				//value:parameter_array,
 			/*	onItemSelect : function(itemDatas1, event) {
 					var paraValue = '';
 					if (itemDatas1.length >= 1) {
@@ -56,7 +81,7 @@ $(document).ready(function() {
 		            return '<font color="red">'+index+'：</font>'+data.text+'('+data.value+')';
 		        },*/
 		        emptyText:select_query_type,
-		      //  value:'1',
+		         value:selectTypeValue,
 		     //   editable:false,
 		      //  lazyLoad:true,
 		        listMaxHeight:65
