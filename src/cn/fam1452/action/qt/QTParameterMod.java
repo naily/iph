@@ -39,9 +39,11 @@ import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.service.DataVisitService;
 import cn.fam1452.service.ParameterService;
 import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.GetIP;
 import cn.fam1452.utils.QuartileUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -54,6 +56,11 @@ public class QTParameterMod extends BaseMod {
 	
 	@Inject("refer:parameterService")
 	private ParameterService parameterService;
+	
+	@Inject("refer:dataVisitService")
+	private DataVisitService dataVisitService;
+	
+	
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/report")
 	@Ok("jsp:jsp.qt.parameter")
@@ -127,14 +134,14 @@ public class QTParameterMod extends BaseMod {
 	 * 1、根据传入的观测站、年份、月份、电离参数等条件生成报表导出到excel文件中供用户下载
 	 * 2、支持全选参数、全选月份多报表生成
 	 * */
-	public void exportLogAndDownload(HttpServletResponse response,@Param("..")ParameteDataBo parameter){
+	public void exportLogAndDownload(HttpServletRequest req ,  HttpServletResponse response,@Param("..")ParameteDataBo parameter){
 		String id = parameter.getStationID();
 		Station station = baseService.dao.fetch(Station.class, id);
 		parameter.setStation(station);
 		Workbook wb = parameterService.exportToHSSFWorkbook(parameter) ;
 		
 		try {
-			if(null != wb){
+			if(null != wb){ 
 				OutputStream out = response.getOutputStream();
 				response.setContentType("application/x-msdownload");
 				
@@ -144,9 +151,28 @@ public class QTParameterMod extends BaseMod {
 				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
 				//byte[] buffer = IOUtils.toByteArray(bis);
 				//os.write(buffer);
-				
 				wb.write(out) ;
 				out.close();
+				
+				String[] monthAry=null;
+			    String[] paraAry=null;
+			    if("all".equals(parameter.getMonth())){//全部月份
+			    	monthAry=Constant.monthAry;
+			    }else{
+			    	monthAry = new String[1];
+			    	monthAry[0]=parameter.getMonth();
+			    }
+		        if("all".equals(parameter.getParaType())){//全部参数
+		        	paraAry=Constant.paraAry;
+			    }else{
+			    	paraAry= new String[1];
+			    	paraAry[0]=parameter.getParaType();
+			    }
+		        
+		        int total = monthAry.length * paraAry.length ;
+		        //单因子文件常量 (M)
+		        float fs = 21;
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "03", 0, getQTLoginUserID(), GetIP.getIpAddr(req), (total*fs) );
 			}
 			
 		}catch (Exception e) {
@@ -171,7 +197,7 @@ public class QTParameterMod extends BaseMod {
 	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
 	 *   两种多因子组合  foF2.foF1.foEs.foE    h'F2.h'Es.h'E.h'F1
 	 * */
-	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter) {
+	public JSONObject loadParaData(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
 		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())&& StringUtil.checkNotNull(parameter.getMonth())) {
@@ -314,9 +340,12 @@ public class QTParameterMod extends BaseMod {
 					}//end 多因子
 				}//end  if(null!=parameter.getParaType()){
 							
-			if(null!=medList ){
+			if (null != medList) {
 				json.put(Constant.SUCCESS, true);
-			  }		
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "01", medList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+			} else {
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "01", 0, getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+			}
 			}//end if
 			
 		//log.info(json.toString());

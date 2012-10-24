@@ -86,9 +86,10 @@ public class DataStatsMod extends BaseMod{
 		
 		//log.info(cri.toString()) ;
 
+		cri.getOrderBy().desc("serviceDate") ;
 		List<DataService>  list = baseService.dao.query(DataService.class, cri, params.getNutzPager()) ;
 		
-		json.put(Constant.TOTAL, baseService.dao.count(DataService.class)) ;
+		json.put(Constant.TOTAL, baseService.dao.count(DataService.class , cri)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] { "admin", "serviceDate"  }); 
@@ -145,6 +146,19 @@ public class DataStatsMod extends BaseMod{
 				array.add(t) ;
 			}
 		}
+		
+		//浏览
+		List<DataService>  list2 = dvs.statsBrowseTable();
+		for (DataService dataService : list2) {
+			JSONObject t = new JSONObject() ;
+			t.put("searchTable", dataService.getBrowseTable()) ;
+			t.put("dbResultNum", dataService.getResultNum1()) ;  //影响数据库记录数
+			t.put("actionNum", dataService.getResultNum2()) ;  //查询次数
+			t.put("actionType", "02") ;
+			
+			array.add(t) ;
+		}
+		
 		
 		json.put(Constant.TOTAL, array.size()) ;
 		json.put(Constant.ROWS, array) ;

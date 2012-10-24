@@ -33,6 +33,10 @@ import cn.fam1452.utils.StringUtil;
 @IocBean(name = "dataVisitService")
 public class DataVisitService extends Base{
 	
+	public static final String T_METADATA  = "T_METADATA" ;  //元数据表名
+	public static final String T_IRONOGRAM = "T_IRONOGRAM" ; //频高图
+	public static final String T_PARAMETER = "T_PARAMETER" ;  //电离参数
+	public static final String T_SCANPIC   = "T_SCANPIC" ;    //扫描图
 	
 	public void insert(DataService obj){
 		if(null != obj && StringUtil.checkNotNull(obj.getId())){
@@ -49,14 +53,14 @@ public class DataVisitService extends Base{
 	 * @param resultAmount 下载量，单位（M）[actionType为03的时候必须输入该值，其余可填空值]
 	 */
 	public void insertMetaData(String actionType ,int resultNum ,  String userId , String userIP , Float resultAmount){
-		this.insert("T_METADATA", actionType, resultNum, userId, userIP, resultAmount) ;
+		this.insert(T_METADATA , actionType, resultNum, userId, userIP, resultAmount) ;
 		
 	}
 	
 	
 	/**
 	 * 记录前台对数据的操作信息
-	 * @param tableName  [T_METADATA ; T_IRONOGRAM ;T_PARAMETER]
+	 * @param tableName  [{@link T_METADATA ; T_IRONOGRAM ;T_PARAMETER;T_SCANPIC }]
 	 * @param actionType 数据服务类别，01查询（含导航），02浏览，03下载
 	 * @param resultNum  该次操作影响数据库 影响记录数
 	 * @param userId     用户登录名，匿名访问时不记录。外键关联：T_ USER.loginID
@@ -117,6 +121,8 @@ public class DataVisitService extends Base{
 	 */
 	public List<DataService> statsDownloadTable(){
 		Sql sql = Sqls.create("select downloadTable , sum(resultNum3) resultNum1 , count(downloadTable) resultNum2 from T_DATASERVICE where actionType='03' group by downloadTable ") ;
+		
+		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(DataService.class)) ;
 		
 		this.dao.execute(sql) ;
@@ -131,9 +137,10 @@ public class DataVisitService extends Base{
 	 */
 	public List<DataService> statsBrowseTable(){
 		Sql sql = Sqls.create("select browseTable , sum(resultNum2) resultNum1 , count(browseTable) resultNum2 from T_DATASERVICE where actionType='02' group by browseTable ") ;
+		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(DataService.class)) ;
 		
-		this.dao.execute(sql) ;
+		dao.execute(sql) ;
 		
 		List<DataService> list = sql.getList(DataService.class) ;
 		return list ;

@@ -18,6 +18,7 @@ import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
+import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.fam1452.Constant;
@@ -41,6 +42,10 @@ import cn.fam1452.utils.StringUtil;
 
 @IocBean(name = "parameterService")
 public class ParameterService extends Base{
+		
+	@Inject("refer:dataVisitService")
+	private DataVisitService dataVisitService;
+	
 /**
  * 电离参数月报报表生成
  * 
@@ -113,7 +118,7 @@ public class ParameterService extends Base{
     *3、全选月份时，一个工作表中包含1-12月份的所有参数表
     * */
    @SuppressWarnings("unchecked")
-public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
+   public Workbook exportToHSSFWorkbook( ParameteDataBo pdb){
 	    String defaultTitle="IONOSPHERIC DATA";//报表名称
 	    String year= pdb.getYear();
 	    String month=pdb.getMonth();
