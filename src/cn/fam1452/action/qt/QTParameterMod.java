@@ -172,7 +172,7 @@ public class QTParameterMod extends BaseMod {
 		        int total = monthAry.length * paraAry.length ;
 		        //单因子文件常量 (M)
 		        float fs = 21;
-				dataVisitService.insert(dataVisitService.T_PARAMETER, "03", 0, getQTLoginUserID(), GetIP.getIpAddr(req), (total*fs) );
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "03", 1, getQTLoginUserID(), GetIP.getIpAddr(req), (total*fs) );
 			}
 			
 		}catch (Exception e) {
