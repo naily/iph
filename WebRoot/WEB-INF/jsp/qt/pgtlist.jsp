@@ -56,6 +56,7 @@
     <tr>
       <td width="300" height="50" align="center">
       <input type="hidden" id="stationIDV" value="${requestScope.irg.ids}"/>
+      <input type="hidden" id="queryYear" value="${requestScope.queryYear}"/>
          ${msg['qt_month_report_station']}：<input id="comboStation"   name="ids"  class="boxinput_report"/></td>
       <td width="600">
         ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.irg.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.irg.endDate}" class="boxinput_report"/></td>
@@ -94,7 +95,7 @@
       </table></td>
     </tr>
     <tr>
-      <td height="40" colspan="3" align="center">
+      <td height="60" colspan="3" align="center">
       <div class="newspage">
 					<a href="qt/listPGT.do" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
@@ -106,7 +107,17 @@
 			    		</c:otherwise>
 			    	</c:choose>
 					 ${msg['qt_page_local']}
-					<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount} ${msg['qt_page_unit']}
+					<%--<span class="fontstyle3">${ requestScope.page.pageNumber}</span>/${ requestScope.page.pageCount} ${msg['qt_page_unit']}
+					--%>
+					
+					<select id="" name="gotopages" onchange="goPages(this,'pgt');">
+					<c:forEach var="i" begin="1" end="${requestScope.page.pageCount}" step="1"> 
+				       <option value="${i}" <c:if test="${i==requestScope.page.pageNumber}">selected</c:if>>${i}/${requestScope.page.pageCount}</option>${msg['qt_page_unit']}
+				    </c:forEach>
+					
+					</select>
+					${msg['qt_page_unit']}
+					
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >
 				    	  <a href="qt/listPGT.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
