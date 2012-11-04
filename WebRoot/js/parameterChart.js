@@ -92,9 +92,9 @@ $(document).ready(function() {
 									 * */
 									//=======================单因子曲线图（单因子曲线显示）=============================================
 									if(json.paraFlag==1){									  
-									   $("#rightChartContent").height(220*json.SingleFactor.length+300);
+									   $("#rightChartContent").height(250*json.SingleFactor.length+300);
 									 	$.each( json.SingleFactor, function (i, object) {
-									            // alert("text:" + object.text );
+									            // alert("text:" + object.monthValue );
 									           /* $.each( object.text, function (i, o1) {
 									             alert("text:" + o1.name + ", value:"  + o1.data);
 									             
@@ -110,7 +110,7 @@ $(document).ready(function() {
 												marginBottom: 25
 											},
 											title: {
-												text: '',//json.chartTitle
+												text: object.chartTitle,//json.chartTitle
 												x: -20 //center
 											},
 											subtitle: {

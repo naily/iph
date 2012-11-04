@@ -211,7 +211,7 @@ public class QTParameterMod extends BaseMod {
 				int[]  monthAry =StringUtil.getIntArrayBySplitString(parameter.getMonth(),",");
 				if(paraAry.length==1){//单因子
 						json.put("paraFlag", 1);//曲线图类型：单因子
-						json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+						//json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
 						json.put("yAxis", "Critical Frequency ");
 						json.put("paraName", paraAry[0]);
 						quartUtil = new QuartileUtil();	
@@ -227,6 +227,8 @@ public class QTParameterMod extends BaseMod {
 								medListOne=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
 							}
 							map.put("mutiMonth", medListOne);
+							//map.put("monthValue", m);
+							map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraAry[0]);
 							medList.add(map);
 						  }
 						}
@@ -348,7 +350,7 @@ public class QTParameterMod extends BaseMod {
 			}
 			}//end if
 			
-		//log.info(json.toString());
+		log.info(json.toString());
 		return json;
 	}
 	
