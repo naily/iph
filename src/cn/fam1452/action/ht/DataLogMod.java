@@ -89,7 +89,7 @@ public class DataLogMod extends BaseMod{
 			item.put("logDate", DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)) ;
 			//item.put("dataEDate", DateUtil.convertDateToString(g.getDataEDate()  , DateUtil.pattern0)) ;
 			//item.put("publicDate", DateUtil.convertDateToString(g.getPublicDate()  , DateUtil.pattern0)) ;
-			
+			item.put("dataTable", this.tableMap.get(g.getDataTable())) ;
 			array.add(item) ;
 		}
 		json.put(Constant.ROWS, array) ;

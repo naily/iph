@@ -1,7 +1,8 @@
+var itemId = '' ;
 $(document).ready(function(){
     /* */
     $('#list0').omGrid({
-        //title : '设置列表' ,
+         //title : '设置列表' ,
          //height : 250,
          width : '99.8%',
          method : 'POST' ,
@@ -21,14 +22,26 @@ $(document).ready(function(){
 		btns : [{
 			label : '添加' ,
 			onClick:function(){
+                $( "#createblock").omDialog({title:"添加记录"}) ;
 				$( "#createblock").omDialog("open") ;
-				//alert('code~~1');
+                clearInputValue() ;
 			}
-		},/*{
+		},{
 			label : '修改' ,
-			disabled : true ,
-			onClick:function(){ alert('code~~2') }
-		}, */{
+			//disabled : true ,
+			onClick:function(){
+                var ss = $('#list0').omGrid('getSelections',true);
+                if(ss.length != 1){
+                    at({cont:'请选择一条记录修改！' , type : 'error'});
+                    return;
+                }else{
+                    setInputValue(ss[0]) ;
+                    $( "#createblock").omDialog({title:"修改记录"}) ;
+                    $( "#createblock").omDialog("open") ;
+                }
+                
+            }
+		},{
 			label : '删除' ,
 			onClick:function(){ 
 				var ss = $('#list0').omGrid('getSelections',true);
@@ -123,6 +136,7 @@ $(document).ready(function(){
      			return  ;
      		}else{
      			$('#errormsg').hide() ;
+                
      			var save = {
 	                url :'ht/ptaSave.do' ,
 	                params :{'dataTable' :   tn ,
@@ -151,6 +165,9 @@ $(document).ready(function(){
 	                    
 	                }
 	            }
+                if(itemId){
+                    save.params.id = itemId ;
+                }
 	            //alert(save.params.dataSDate) ;
 	            ajaxpost(save);
      		}
@@ -158,5 +175,23 @@ $(document).ready(function(){
      ) ;
 });
 
+function setInputValue(data){
+    itemId = data.id ;
+    var st = $('#comboStation').omCombo('value' , data.stationName) ;
+    var tn = $('#comboTableName').omCombo("value" , data.dataTable) ;
+    
+    var sd = $('#sDate').val(data.dataSDate)  ;//? $.omCalendar.formatDate($('#sDate').omCalendar('getDate'), 'yy-mm-dd') : '' ;
+    var ed = $('#eDate').val(data.dataEDate) ;//? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+    var pd = $('#pubDate').val(data.publicDate) ;//? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+}
+
+function clearInputValue(){
+    $('#comboStation').omCombo('value' , '') ;
+    $('#comboTableName').omCombo("value" , '') ;
+    $('#sDate').val('')  ;
+    $('#eDate').val('') ;
+    $('#pubDate').val('') ;
+    itemId = '' ;
+}
 
 

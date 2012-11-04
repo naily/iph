@@ -104,13 +104,13 @@ public class DataStatsMod extends BaseMod{
 				item.put("serviceDate", null == g.getServiceDate() ? "" : DateUtil.convertDateToString( g.getServiceDate(), DateUtil.pattern2)) ;
 				
 				if("01".equals(g.getActionType())){ //查询
-					item.put("dataTable", g.getSearchTable()) ;
+					item.put("dataTable", this.tableMap.get(g.getSearchTable())) ;
 					item.put("resultNum", g.getResultNum1()) ;
 				}else if("02".equals(g.getActionType())){ //浏览
-					item.put("dataTable", g.getBrowseTable()) ;
+					item.put("dataTable", this.tableMap.get(g.getBrowseTable())) ;
 					item.put("resultNum", g.getResultNum2()) ;
 				}else if("03".equals(g.getActionType())){ //下载
-					item.put("dataTable", g.getDownloadTable()) ;
+					item.put("dataTable", this.tableMap.get(g.getDownloadTable())) ;
 					item.put("resultNum", g.getResultNum3()) ;
 				}
 				
@@ -138,7 +138,7 @@ public class DataStatsMod extends BaseMod{
 			
 			for (DataService ds : list) {
 				JSONObject t = new JSONObject() ;
-				t.put("searchTable", ds.getSearchTable()) ;
+				t.put("searchTable", this.tableMap.get(ds.getSearchTable())) ;
 				t.put("dbResultNum", ds.getResultNum1()) ;  //影响数据库记录数
 				t.put("actionNum", ds.getResultNum2()) ;  //查询次数
 				t.put("actionType", "01") ;
@@ -151,7 +151,7 @@ public class DataStatsMod extends BaseMod{
 		List<DataService>  list2 = dvs.statsBrowseTable();
 		for (DataService dataService : list2) {
 			JSONObject t = new JSONObject() ;
-			t.put("searchTable", dataService.getBrowseTable()) ;
+			t.put("searchTable", this.tableMap.get(dataService.getBrowseTable())) ;
 			t.put("dbResultNum", dataService.getResultNum1()) ;  //影响数据库记录数
 			t.put("actionNum", dataService.getResultNum2()) ;  //查询次数
 			t.put("actionType", "02") ;
@@ -182,7 +182,7 @@ public class DataStatsMod extends BaseMod{
 			
 			for (DataService ds : list) {
 				JSONObject t = new JSONObject() ;
-				t.put("downloadTable", ds.getDownloadTable()) ;
+				t.put("downloadTable", this.tableMap.get(ds.getDownloadTable())) ;
 				t.put("dbResultNum", ds.getResultNum1()) ;  //影响数据库记录数
 				t.put("actionNum", ds.getResultNum2()) ;  //查询次数
 				t.put("actionType", "03") ;

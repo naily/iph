@@ -75,8 +75,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="tab2" class="hidediv">
         	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 	        	<tr>
-		        	<td align="center">&nbsp;<span class="fontgreen">温馨提示: 单次上传文件请不要超过20个，选择太多文件可能导致长时间无响应或浏览器崩溃！
-		        		<br/>上传文件的速度，取决于你电脑配置及运行速度！</span>
+		        	<td align="center">&nbsp;
+		        	<!-- <span class="fontgreen">温馨提示: 单次上传文件请不要超过20个，选择太多文件可能导致长时间无响应或浏览器崩溃！
+		        		<br/>上传文件的速度，取决于你电脑配置及运行速度！</span>  -->
 		        	</td>
 	        	</tr>
 	        	<tr>

@@ -62,10 +62,16 @@ public class ProtectDataMod extends BaseMod{
 		try {
 			//姑且只有js验证
 			if(null != pd){
-				pd.setId(String.valueOf(System.currentTimeMillis())) ;
 				
 				if(StringUtil.checkNotNull(pd.getDataTable() ) ){ 
-					baseService.dao.insert(pd) ;
+					if(StringUtil.checkNotNull(pd.getId())){
+						//System.out.println(pd.getId() + " <");
+						baseService.dao.update(pd) ;
+					}else{
+						//System.out.println(pd.getId() + " <<");
+						pd.setId(String.valueOf(System.currentTimeMillis())) ;
+						baseService.dao.insert(pd) ;
+					}
 					json.put(Constant.SUCCESS, true) ;
 				}else{
 					json.put(Constant.INFO, "DataTable字段为空") ;
@@ -116,6 +122,7 @@ public class ProtectDataMod extends BaseMod{
 				item.put("stationName", "无") ;
 			}
 			
+			item.put("dataTable", this.tableMap.get(g.getDataTable())) ;
 			array.add(item) ;
 		}
 		json.put(Constant.ROWS, array) ;

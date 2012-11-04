@@ -2,6 +2,7 @@ package cn.fam1452.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -123,4 +124,12 @@ public class BaseMod {
 	 * 参数错误
 	 */
 	protected final String error8 = "参数错误" ;
+	
+	public static Map<String, String> tableMap = new HashMap<String, String>()  ;
+	public BaseMod(){
+		tableMap.put("T_IRONOGRAM", "频高图表(T_IRONOGRAM)") ;
+		tableMap.put("T_PARAMETER", "参数数据表(T_PARAMETER)") ;
+		tableMap.put("T_SCANPIC", "报表扫描图表(T_IRONOGRAM)") ;
+		tableMap.put("T_METADATA", "元数据表(T_METADATA)") ;
+	}
 }
