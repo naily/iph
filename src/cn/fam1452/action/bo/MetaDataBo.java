@@ -15,7 +15,7 @@ public class MetaDataBo {
 	public String getTpCat(){
 		return this.cateName + this.cateCode + this.cateStd ;
 	}
-	private String IdInfo ;
+	private String idInfo ;
 	private String datId ;
 	private String resTitle ;
 	private String engTitle ;
@@ -130,11 +130,12 @@ public class MetaDataBo {
 	public void setIds(String ids) {
 		this.ids = ids;
 	}
+	
 	public String getIdInfo() {
-		return IdInfo;
+		return idInfo;
 	}
 	public void setIdInfo(String idInfo) {
-		IdInfo = idInfo;
+		this.idInfo = idInfo;
 	}
 	public String getDatId() {
 		return datId;

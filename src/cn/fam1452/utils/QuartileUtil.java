@@ -177,7 +177,7 @@ public class QuartileUtil<T>{
 	 * q1 0.25 , q2 0.5, q3 0.75
 	 */
 	private Number quartile(List<Number> list ,double d){
-		if(null == list || list.size() == 0)
+		if(null == list || list.size() < 1 )
 			return null ;
 		Number m = list.size() * d ;
 		int i = m.intValue() ;
@@ -233,7 +233,6 @@ public class QuartileUtil<T>{
 		for(String f : fields){
 			List<Number> ln = this.getValueArrayByField(list, f) ;
 			//map.put(f, ln) ;				
-			
 			if(null!=ln && ln.size()>0){
 				PropertyUtils.setSimpleProperty(cnt, f, StringUtil.getNotNullStr(String.valueOf(ln.size()))) ;
 				PropertyUtils.setSimpleProperty(q1, f, StringUtil.getNotNullStr(String.valueOf(this.quartile(ln, this.q1))));
@@ -419,18 +418,22 @@ public class QuartileUtil<T>{
 		QuartileUtil util = new QuartileUtil() ;
 		
 		Pages o = new Pages() ;
-		List<MetaDataBo> list = new ArrayList () ;
+		List list = new ArrayList () ;
 		
-		for (int i = 0 ; i < 10 ; i++) {
+		for (int i = 0 ; i < 5 ; i++) {
 			MetaDataBo p = new MetaDataBo() ;
-			//p.setAnquan ( String.valueOf(Math.round( (Math.random() *100)) )+"L") ;
-			//p.setContacts(String.valueOf(Math.round(Math.random() *100))) ;
+//			p.setId(id)
+//			p.setStart((int)Math.round(Math.random() *100)) ;
+//			p.setLimit((int)Math.round(Math.random() *100)) ;
+			p.setId(String.valueOf(Math.round(Math.random() *10))) ;
+			p.setIdInfo(String.valueOf(Math.round(Math.random() *10))) ;
 			list.add(p) ;
 		}
 		util.printList(list) ;
 		
 		try {
 			QuartileBean q = util.mianCallMe(list, null) ;
+			q.printQuartile() ;
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

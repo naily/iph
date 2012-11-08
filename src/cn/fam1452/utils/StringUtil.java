@@ -1431,7 +1431,7 @@ public class StringUtil
 	public static String replaceLetter(String inputValue) { 
 		 String outputValue;
 		 if(checkNotNull(inputValue)){
-			 outputValue= inputValue.replaceAll("[a-zA-Z`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？\\r\\n]", "");//[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]
+			 outputValue= inputValue.replaceAll("[a-zA-Z`~!@#$^&*()=|{}':;',\\[\\]<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？\\r\\n]", "");//[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]
 		 }else{
 			 outputValue= "";
 		 }		 
