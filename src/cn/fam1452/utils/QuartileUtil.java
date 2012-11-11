@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +155,10 @@ public class QuartileUtil<T>{
 					arry.add(va) ;
 			}
 		}
-		Arrays.sort(arry.toArray()) ;
+		//System.out.println(arry.toString());
+		//Arrays.sort(arry.toArray()) ;
+		 Collections.sort(arry);
+		//System.out.println(arry.toString());
 		return arry ;
 	}
 	/**

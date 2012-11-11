@@ -29,6 +29,7 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.IronoGram;
+import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -139,14 +140,18 @@ public class QTScanPicMod extends BaseMod{
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
 		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		String protectArea=null;//保护期区间
 		if (scp != null && StringUtil.checkNotNull(scp.getIds())) {	
 			List<Scanpic> list =null;
 			int total =0;
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
 			String tableName ="T_SCANPIC";
+			
 			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 				list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
+				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
+				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
@@ -176,11 +181,13 @@ public class QTScanPicMod extends BaseMod{
 				}else{
 					json.put(Constant.ROWS, "[]");
 					json.put(Constant.TOTAL, 0);
-				}						
+				}
 		}else{
 			json.put(Constant.ROWS, "[]");
 			json.put(Constant.TOTAL, 0);
+			
 		}
+		json.put(Constant.PROTECTDATA_AREA, protectArea);
 		//log.info(json.toString());
 		return json;
 		

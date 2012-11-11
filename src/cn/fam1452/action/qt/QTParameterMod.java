@@ -37,6 +37,7 @@ import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.Parameter;
+import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataVisitService;
@@ -555,9 +556,15 @@ public class QTParameterMod extends BaseMod {
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			//判断电离参数表是否设置了保护期,若保护期存在则进行数据拼装（保护期内的前50条数据+保护期外的数据）
 			String tableName ="T_PARAMETER";
+			//boolean existProtect =false;//是否有保护期
+			String protectArea=null;//保护期区间
 			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){
 				list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
+				//existProtect =true;
+				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
+				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
+				
 			}else{//无保护期,正常显示数据
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 				
@@ -571,17 +578,21 @@ public class QTParameterMod extends BaseMod {
 				para.setStation(station);
 				listD.add(para);
 			}
+			
 			if(null!=listD && listD.size()>0){
 				json.put(Constant.SUCCESS, true);
 				json.put(Constant.ROWS, JSONArray.fromObject(listD, cfg));
 				json.put(Constant.TOTAL, total);//list.size()
+				json.put(Constant.PROTECTDATA_AREA, protectArea);
 			}else{
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
+				json.put(Constant.PROTECTDATA_AREA, protectArea);
 			}						
 		}else{
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
+				json.put(Constant.PROTECTDATA_AREA, null);
 		}
 		//log.info(json.toString());
 		return json;

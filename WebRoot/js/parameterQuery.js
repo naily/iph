@@ -179,6 +179,17 @@ $('#paraQueryGrid2').omGrid({
 			 $('#paraQueryGrid').omGrid({
 				//title : '电离层参数查询',
 			 	dataSource :datasourceUrl, // limit:0, 
+			 	 onSuccess:function(data,testStatus,XMLHttpRequest,event){
+				  if(data.protectArea){
+					  //alert('您查看的数据区间与本系统设置的保护期有重叠，保护期区间为：['+data.protectArea+']，保护期内的数据仅显示前50条记录。');
+					  at({
+						  title:'提示',
+						  cont : '您查看的数据区间与本系统设置的保护期有重叠，保护期区间为：['+data.protectArea+']，保护期内的数据仅显示前50条记录。',
+						  type : 'alert'
+						});
+				  }
+		         //alert('fetch data success,got '+data.rows+' rows');
+		     },
 			 	height : 325, 
 			 	limit:pageslimit,
 			 	showIndex : false,

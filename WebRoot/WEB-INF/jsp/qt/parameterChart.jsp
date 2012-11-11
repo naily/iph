@@ -16,6 +16,7 @@
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/library/FusionCharts.js"></script>		
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/highcharts.js"></script>
@@ -42,7 +43,26 @@
     </script>
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<div id="right" style="height:auto;">
+		<%--<table align='center' border="1">  
+        <caption>图</caption>  
+          
+            <tr>  
+                <td>  
+                    <div id='Pie' align="center">  
+                        <script type="text/javascript">  
+                            var chart =   
+                            new FusionCharts("swf/FC_2_3_Pie2D.swf", "Server Performance", "400", "300");  
+                            chart.setDataURL("data.xml"); 
+                                           
+                            chart.render('Pie');  
+                          
+</script>  
+                    </div>  
+                </td>  
+            </tr>  
+          
+    </table>  
+		--%><div id="right" style="height:auto;">
 			<div class="title8">
 				${msg['qt_Ionospheric_parameters_graph']}
 			</div>
@@ -123,6 +143,7 @@
 				</div>
 		   <!-- </div> -->
 		</div>
+		
 		<!--right 结束-->
 		<jsp:include page="left.jsp" flush="true" />
 		<!--left 结束-->

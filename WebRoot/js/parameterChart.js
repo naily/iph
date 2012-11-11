@@ -73,7 +73,9 @@ $(document).ready(function() {
 							},
 							callback : function(json) {											
 								if (json.success) {	
-									
+									var chart;	//曲线图
+									var chartHeight = 250;//单个曲线图的高度
+									var rigthDivHeight =700;//显示曲线图div的默认高度
 									/**
 									 * 清除页面曲线图位置节点中的内容
 									 * */
@@ -85,21 +87,28 @@ $(document).ready(function() {
 								    }									
 									$("#downChart").html('');
 									$("#downChart").height(0);
-									 $("#rightChartContent").height(670);
-									 var chart;	
+									$("#rightChartContent").height(rigthDivHeight);
 									/**
 									 * 单因子曲线图生成（支持多月份选择）
 									 * */
 									//=======================单因子曲线图（单因子曲线显示）=============================================
-									if(json.paraFlag==1){									  
-									   $("#rightChartContent").height(250*json.SingleFactor.length+300);
+									if(json.paraFlag==1){		
+										alert(chartHeight*json.SingleFactor.length);
+										if(json.SingleFactor.length>1){
+											//if(chartHeight*json.SingleFactor.length>rigthDivHeight){
+											 $("#rightChartContent").height(chartHeight*json.SingleFactor.length+350);										
+										}else{
+											 $("#rightChartContent").height(rigthDivHeight);
+							
+										}
+									  
 									 	$.each( json.SingleFactor, function (i, object) {
 									            // alert("text:" + object.monthValue );
 									           /* $.each( object.text, function (i, o1) {
 									             alert("text:" + o1.name + ", value:"  + o1.data);
 									             
 												});*/								
-									 		$("#paraDataChart"+i).height(200);
+									 		$("#paraDataChart"+i).height(250);
 									 		$("#paraDataChart"+i).width(700);
 									 		$("#paraDataChart"+i).css({"margin-top":"10px"})
 									 		chart = new Highcharts.Chart({
