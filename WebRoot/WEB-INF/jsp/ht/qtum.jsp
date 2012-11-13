@@ -7,6 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML >
 <html>
   <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=8">
     <base href="<%=basePath%>">
     <title>管理注册账户</title>
 	<!--

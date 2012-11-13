@@ -6,6 +6,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@ include file="../jstl.jsp" %>
 <!DOCTYPE HTML >
 <html>
+<meta http-equiv="X-UA-Compatible" content="IE=8">
   <head>
     <base href="<%=basePath%>">
 	<meta http-equiv="pragma" content="no-cache">

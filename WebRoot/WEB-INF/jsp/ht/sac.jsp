@@ -7,6 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML >
 <html>
   <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=8">
     <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>报表扫描图上传</title>

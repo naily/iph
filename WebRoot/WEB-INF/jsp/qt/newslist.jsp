@@ -10,6 +10,7 @@
 <!DOCTYPE HTML >
 <html>
 	<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=8">
 		<base href="<%=basePath%>">
 		<title>电离层专题数据库管理系统</title>
 		<!--
