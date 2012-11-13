@@ -93,7 +93,7 @@ $(document).ready(function() {
 									 * */
 									//=======================单因子曲线图（单因子曲线显示）=============================================
 									if(json.paraFlag==1){		
-										alert(chartHeight*json.SingleFactor.length);
+										//alert(chartHeight*json.SingleFactor.length);
 										if(json.SingleFactor.length>1){
 											//if(chartHeight*json.SingleFactor.length>rigthDivHeight){
 											 $("#rightChartContent").height(chartHeight*json.SingleFactor.length+350);										
