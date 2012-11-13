@@ -17,7 +17,8 @@
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="js/library/FusionCharts.js"></script>		
+		<script type="text/javascript" src="js/library/FusionCharts.js"></script>	
+		<script language="JavaScript"  src="js/library/FusionCharts.js"></script>	
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/highcharts.js"></script>
@@ -34,7 +35,6 @@
 		</c:choose>
 		<script type="text/javascript" src="js/reportData.js"></script>
 		<script type="text/javascript" src="js/parameterChart.js"></script>
-		
 
 
 
@@ -115,30 +115,30 @@
 					<div id="topChart" style="min-width: 400px;  margin: 0 auto"></div><!-- height: 250px; -->				
 					
 					<div id="paraDataChart0" style="min-width: 400px; margin: 0 auto;"></div>
-					
-					<div id="paraDataChart1" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart2" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart3" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart4" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart5" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart6" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart7" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart8" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart9" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="paraDataChart10" style="min-width: 400px; margin: 0 auto"></div>
-							
-					<div id="paraDataChart11" style="min-width: 400px; margin: 0 auto"></div>
-					
-					<div id="downChart" style="min-width: 400px; margin: 0 auto"></div>
+					<div id="scatterChart0"  class="paracharts" ></div>
+					<div id="paraDataChart1" class="paracharts"></div>
+					<div id="scatterChart1" class="paracharts"></div>
+					<div id="paraDataChart2" class="paracharts"></div>
+					<div id="scatterChart2" class="paracharts"></div>
+					<div id="paraDataChart3" class="paracharts"></div>
+					<div id="scatterChart3" class="paracharts"></div>
+					<div id="paraDataChart4" class="paracharts"></div>
+					<div id="scatterChart4" class="paracharts"></div>
+					<div id="paraDataChart5" class="paracharts"></div>
+					<div id="scatterChart5" class="paracharts"></div>
+					<div id="paraDataChart6" class="paracharts"></div>
+					<div id="scatterChart6" class="paracharts"></div>
+					<div id="paraDataChart7" class="paracharts"></div>
+					<div id="scatterChart7" class="paracharts"></div>
+					<div id="paraDataChart8" class="paracharts"></div>
+					<div id="scatterChart8" class="paracharts"></div>
+					<div id="paraDataChart9" class="paracharts"></div>
+					<div id="scatterChart9" class="paracharts"></div>
+					<div id="paraDataChart10" class="paracharts"></div>
+					<div id="scatterChart10" class="paracharts"></div>		
+					<div id="paraDataChart11" class="paracharts"></div>
+					<div id="scatterChart11" class="paracharts"></div>
+					<div id="downChart" class="paracharts"></div>
 					
 					<!--  height: 300px; -->					
 				</div>

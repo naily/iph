@@ -74,6 +74,7 @@ $(document).ready(function() {
 							callback : function(json) {											
 								if (json.success) {	
 									var chart;	//曲线图
+									var chartS;//散点图
 									var chartHeight = 250;//单个曲线图的高度
 									var rigthDivHeight =700;//显示曲线图div的默认高度
 									/**
@@ -108,9 +109,23 @@ $(document).ready(function() {
 									             alert("text:" + o1.name + ", value:"  + o1.data);
 									             
 												});*/								
+									 		
+									 		
+									 		
+									 		
 									 		$("#paraDataChart"+i).height(250);
 									 		$("#paraDataChart"+i).width(700);
 									 		$("#paraDataChart"+i).css({"margin-top":"10px"})
+									 		
+									 		 //根据你所需要的图形类型选择不同的swf，如3d柱状图为FCF_Column3D.swf，2d饼状图为FCF_Pie2D.swf
+									 		 chartS = new FusionCharts("swf/SelectScatter.swf", "SelectScatter", "700", "400", "0", "1");
+		   									//chartS.setDataURL("Data.xml");
+									       //chartS = new FusionCharts("swf/FC_2_3_MSScatter.swf ", "FC_2_3_MSScatter", "600", "350");
+									      // chartS.setDataXML("");
+									       chartS.setDataURL("data/data.xml");									    
+									       chartS.render("scatterChart"+i);
+									       
+								 		
 									 		chart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'paraDataChart'+i,
