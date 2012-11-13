@@ -220,7 +220,7 @@ public class QTParameterMod extends BaseMod {
 						if(monthAry.length>0){
 						  List medListOne = new ArrayList();
 						  Map map ;
-						  for(int m:monthAry){
+						  for(int m:monthAry){//遍历月份
 							map = new HashMap();
 							parameter.setMonth(String.valueOf(m));			
 							list = parameterService.parameterMonthReport(parameter);
@@ -228,7 +228,7 @@ public class QTParameterMod extends BaseMod {
 								medListOne=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
 							}
 							map.put("mutiMonth", medListOne);
-							//map.put("monthValue", m);
+							map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraAry[0]));//生成散点图
 							map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraAry[0]);
 							medList.add(map);
 						  }

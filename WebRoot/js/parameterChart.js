@@ -76,7 +76,8 @@ $(document).ready(function() {
 									var chart;	//曲线图
 									var chartS;//散点图
 									var chartHeight = 250;//单个曲线图的高度
-									var rigthDivHeight =700;//显示曲线图div的默认高度
+									var sandianHeight =400;//散点图高度
+									var rigthDivHeight =1000;//显示曲线图div的默认高度
 									/**
 									 * 清除页面曲线图位置节点中的内容
 									 * */
@@ -84,7 +85,9 @@ $(document).ready(function() {
 								    $("#topChart").height(0);
 								    for(var ind=0;ind<12;ind++){
 								      $("#paraDataChart"+ind).html('');
-								      $("#paraDataChart"+ind).height(0);								      
+								      $("#paraDataChart"+ind).height(0);	
+								      $("#scatterChart"+ind).html('');
+								      $("#scatterChart"+ind).height(0);
 								    }									
 									$("#downChart").html('');
 									$("#downChart").height(0);
@@ -96,8 +99,9 @@ $(document).ready(function() {
 									if(json.paraFlag==1){		
 										//alert(chartHeight*json.SingleFactor.length);
 										if(json.SingleFactor.length>1){
+											var  totalH =(chartHeight+sandianHeight)*json.SingleFactor.length+350;											
 											//if(chartHeight*json.SingleFactor.length>rigthDivHeight){
-											 $("#rightChartContent").height(chartHeight*json.SingleFactor.length+350);										
+											 $("#rightChartContent").height(totalH);										
 										}else{
 											 $("#rightChartContent").height(rigthDivHeight);
 							
@@ -114,16 +118,19 @@ $(document).ready(function() {
 									 		
 									 		
 									 		$("#paraDataChart"+i).height(250);
+									 		$("#scatterChart"+i).height(350);
 									 		$("#paraDataChart"+i).width(700);
+									 		$("#scatterChart"+i).width(700);
 									 		$("#paraDataChart"+i).css({"margin-top":"10px"})
 									 		
 									 		 //根据你所需要的图形类型选择不同的swf，如3d柱状图为FCF_Column3D.swf，2d饼状图为FCF_Pie2D.swf
-									 		 chartS = new FusionCharts("swf/SelectScatter.swf", "SelectScatter", "700", "400", "0", "1");
-		   									//chartS.setDataURL("Data.xml");
-									       //chartS = new FusionCharts("swf/FC_2_3_MSScatter.swf ", "FC_2_3_MSScatter", "600", "350");
-									      // chartS.setDataXML("");
-									       chartS.setDataURL("data/data.xml");									    
-									       chartS.render("scatterChart"+i);
+									 		 //chartS = new FusionCharts("swf/SelectScatter.swf", "SelectScatter", "700", "400", "0", "1");									
+									 		// chartS.setDataURL("data/data.xml");	
+									 		
+									         chartS = new FusionCharts("swf/FC_2_3_MSScatter.swf ", "FC_2_3_MSScatter", "700", "350");
+									         chartS.setDataXML(object.fusionCharts);
+									        // chartS.setDataURL("data/data2.xml");									    
+									         chartS.render("scatterChart"+i);
 									       
 								 		
 									 		chart = new Highcharts.Chart({

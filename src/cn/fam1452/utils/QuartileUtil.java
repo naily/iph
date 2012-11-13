@@ -633,4 +633,89 @@ public class QuartileUtil<T>{
 		return map;
 		
 	}
+	
+	public String getFushionChartData(List<ParameterMonthDateBo> list,String chartTitle){
+		StringBuffer sb = new StringBuffer("<graph caption='"+chartTitle+"' canvasBgColor='FFFFFF' numDivLines='13' yAxisName='' xAxisName='' rotateNames='0' showLegend='1' showNames='1' xAxisMaxValue='23' xAxisMinValue='00' yAxisMaxValue='20' decimalPrecision='1'>");
+		sb.append("<categories verticalLineColor='666666' verticalLineThickness='1'>");
+		sb.append("<category name='00' x='00' showVerticalLine='1'/>");
+		sb.append("<category name='01' x='01' showVerticalLine='1'/>");
+		sb.append("<category name='02' x='02' showVerticalLine='1'/>");
+		sb.append("<category name='03' x='03' showVerticalLine='1'/>");
+		sb.append("<category name='04' x='04' showVerticalLine='1'/>");
+		sb.append("<category name='05' x='05' showVerticalLine='1'/>");
+		sb.append("<category name='06' x='06' showVerticalLine='1'/>");
+		sb.append("<category name='07' x='07' showVerticalLine='1'/>");
+		sb.append("<category name='08' x='08' showVerticalLine='1'/>");
+		sb.append("<category name='09' x='09' showVerticalLine='1'/>");
+		sb.append("<category name='10' x='10' showVerticalLine='1'/>");
+		sb.append("<category name='11' x='11' showVerticalLine='1'/>");
+		sb.append("<category name='12' x='12' showVerticalLine='1'/>");
+		sb.append("<category name='13' x='13' showVerticalLine='1'/>");
+		sb.append("<category name='14' x='14' showVerticalLine='1'/>");
+		sb.append("<category name='15' x='15' showVerticalLine='1'/>");
+		sb.append("<category name='16' x='16' showVerticalLine='1'/>");
+		sb.append("<category name='17' x='17' showVerticalLine='1'/>");
+		sb.append("<category name='18' x='18' showVerticalLine='1'/>");
+		sb.append("<category name='19' x='19' showVerticalLine='1'/>");
+		sb.append("<category name='20' x='20' showVerticalLine='1'/>");
+		sb.append("<category name='21' x='21' showVerticalLine='1'/>");
+		sb.append("<category name='22' x='22' showVerticalLine='1'/>");
+		sb.append("<category name='23' x='23' showVerticalLine='0'/>");
+		sb.append("</categories>");
+		sb.append("<dataSet seriesName='' anchorSides='4' anchorRadius='4' anchorBgColor='D5FFD5' anchorBorderColor='009900' >");
+/*		sb.append("<set y='2.4' x='0' />");
+		sb.append("<set y='3.4' x='0' />");
+		sb.append("<set y='4.4' x='1' />");
+		sb.append("<set y='4.4' x='2' />");
+		sb.append("<set y='4.4' x='3' />");
+		sb.append("<set y='4.4' x='4' />");
+		sb.append("<set y='4.4' x='5' />");
+		sb.append("<set y='4.4' x='6' />");
+		sb.append("<set y='4.4' x='7' />");
+		sb.append("<set y='4.4' x='8' />");
+		sb.append("<set y='4.4' x='9' />");
+		sb.append("<set y='4.4' x='10' />");
+		sb.append("<set y='4.4' x='11' />");
+		sb.append("<set y='4.4' x='12' />");
+		sb.append("<set y='4.4' x='13' />");
+		sb.append("<set y='4.4' x='14' />");
+		sb.append("<set y='4.4' x='15' />");
+		sb.append("<set y='4.4' x='16' />");
+		sb.append("<set y='5.4' x='21' />");
+		sb.append("<set y='2.4' x='22' />");*/
+		
+		Object o = list.get(0) ;
+		Field[] fs = getFields(o) ;
+		Map<String, String> map = new HashMap<String, String> () ;
+		List<Number> listV;
+		for (Field f : fs) {
+			String fn = f.getName() ;
+			 try {
+				if(!"days".equals(fn)){
+					listV = getValueArrayByField(list , fn);
+					String xStr = fn.replace("h", "");
+					for(Number n:listV){
+						sb.append("<set y='"+n.toString()+"' x='"+xStr+"' />");						
+					}
+					
+				}
+				
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		sb.append("</dataSet>");  
+		sb.append("</graph>");
+		
+	
+		
+		return sb.toString();
+	}
 }
