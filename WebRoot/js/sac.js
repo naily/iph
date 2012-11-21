@@ -160,7 +160,7 @@ $(document).ready(function(){
                 url :'ht/sacsingsave.do' ,
                 params :{'stationID' :$('#comboStation').omCombo('value') ,
                          'scanPicTitle' : $('#sacTitleId').val() ,
-                         'createDate': $.omCalendar.formatDate($('#actionDate').omCalendar('getDate'), 'yy-mm-dd H:i') ,
+                         'createDate':$('#actionDate').val(),
                          'scanPicFileName':fileName ,
                          'action'      : 'savedata'},
                 callback : function(json){
@@ -180,7 +180,6 @@ $(document).ready(function(){
                     
                 }
             }
-            
             ajaxpost(save);
         }
         
