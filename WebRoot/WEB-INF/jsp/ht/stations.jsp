@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="txdzId" /></td>
               </tr>
               <tr>
-                <td align="right">&nbsp;维度:</td>
+                <td align="right">&nbsp;纬度:</td>
                 <td>&nbsp;<input id="wdId" /><span class="red_asterisk">*</span></td>
                 <td align="right">&nbsp;电话:</td>
                 <td>&nbsp;<input id="lxdhId" /></td>

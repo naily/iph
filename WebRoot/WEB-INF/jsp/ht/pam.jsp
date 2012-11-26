@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip1" type="text" name="foF2" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F2层最低虚高(hlF2):</td>
+                <td align="right">&nbsp;F2层最低虚高(h'F2):</td>
                 <td>&nbsp;<input id="ip2" type="text" name="hlF2" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -63,11 +63,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip3" type="text" name="foF1" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F1层最低虚高(hlF1):</td>
+                <td align="right">&nbsp;F1层最低虚高(h'F1):</td>
                 <td>&nbsp;<input id="ip4" type="text" name="hlF1" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F层最低虚高(hlF):</td>
+                <td align="right">&nbsp;F层最低虚高(h'F):</td>
                 <td>&nbsp;<input id="ip5" type="text" name="hlF" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip7" type="text" name="foE" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;E层最低虚高(hlE):</td>
+                <td align="right">&nbsp;E层最低虚高(h'E):</td>
                 <td>&nbsp;<input id="ip8" type="text" name="hlE" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip9" type="text" name="foEs" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;Es层最低虚高(hlEs):</td>
+                <td align="right">&nbsp;Es层最低虚高(h'Es):</td>
                 <td>&nbsp;<input id="ip10" type="text" name="hlEs" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </td>
               </tr>
             </table>
-            <div id="fieldsInfo">
+            <div id="fieldsInfo" style="float:right;width:280px;">
             	<p>f(min)--Minimum frequeney at which echo is observed</p>
 				<p>A--Blanketing by Es</p>
 				<p>B -- Absorption</p>
