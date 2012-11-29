@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta http-equiv="X-UA-Compatible" content="IE=8">
     <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>报表扫描图上传</title>
+    <title>原始观测报表上传</title>
 	<!--
 	-->
 	<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
@@ -29,16 +29,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<div class="left2_1">报表扫描图上传</div>
-    	<div class="left2_1"><a href="ht/saclist.do" class="a3">报表扫描图管理</a></div>
+    	<div class="left2_1">原始观测报表上传</div>
+    	<div class="left2_1"><a href="ht/saclist.do" class="a3">原始观测报表管理</a></div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容 -->
     	<div id="make-tab" style="margin: auto;">
 	        <ul>
 	            <li><a href="#tab1">单记录录入</a></li>
-	            <li><a href="#tab2">批量导入</a></li>
+	            <li><a href="#tab2">本地批量导入</a></li>
+            	<li><a href="#tab3">服务器批量导入</a></li>
 	        </ul>
+	        <div id="tab3" class="hidediv">
+	        	<p>文件目录:<input type="text" style="width:600px;" id="file_serverdir" /> </p>
+	        	<p>&nbsp;&nbsp;&nbsp;观测站:<input type="text" style="width:160px;" id="station_serverdir" /> </p>
+	        	<p>数据年份:<input type="text" style="width:160px;" id="year_serverdir" /> </p>
+	        	<p><a href="javascript:void(0);" id="testdir">测试目录</a></p>
+	        	<p><input id="savebyserverdir"  type="image" src="images/baocun.png" value="保存" style="height: 22px;" /></p>
+	        	<div id="reviewinfo-id"></div>
+	        </div>
 	        <div id="tab1" class="hidediv">
         	<table width="400" border="0">
         	<tr>

@@ -2,6 +2,7 @@ package cn.fam1452.util;
 
 import org.junit.Test;
 
+import cn.fam1452.utils.StationUtil;
 import cn.fam1452.utils.StringUtil;
 
 public class AppUtil {
@@ -47,4 +48,12 @@ public class AppUtil {
 		System.out.println("dot: "+ StringUtil.replaceLetter(dot));
 		
 	}
+	
+	@Test
+	public void app1(){
+		String dot = "abc.doc" ;
+		System.out.println("dot: "+ StationUtil.removeSuffix(dot));
+	}
+	
+	
 }

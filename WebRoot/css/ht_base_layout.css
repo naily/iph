@@ -75,3 +75,7 @@ body{
 .fontgreen{
 	color: green;
 }
+
+.aligncenter{
+	text-align :center; 
+}

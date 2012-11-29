@@ -186,16 +186,30 @@ public class DateUtil {
 		}
 	}
 	public static Date convertStringToDate(String s ,String patt) {
-		
+		Date date = null ;
 		SimpleDateFormat df = new SimpleDateFormat(patt, new DateFormatSymbols());
 		try {
-			Date d = df.parse(s);
-			return d;
+			date = df.parse(s);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+		}finally{
+			return date ;
 		}
+		
+	}
+	/**
+	 * 从一个Date对象中得到year字段值
+	 * @Author Derek
+	 * @Date Nov 28, 2012
+	 * @param date
+	 * @return
+	 */
+	public static String getYearstrByDate(Date date){
+		Calendar c = Calendar.getInstance() ;
+		c.setTime(date) ;
+		String year = String.valueOf( c.get(Calendar.YEAR) ) ;
+		return year ;
 	}
 	/**
 	 * 返回上一月

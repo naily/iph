@@ -37,7 +37,7 @@ public class StationUtil {
 	 * @return
 	 */
 	public static Date getObserveDate(String fileName){
-		Date d = DateUtil.getCurrentDate() ;
+		Date d = null ;
 		if(fileName.indexOf("WU430_") != -1){
 			int i =  6;
 			int l = fileName.lastIndexOf(".") ;
@@ -89,7 +89,7 @@ public class StationUtil {
 	 * @return
 	 */
 	public static Date getSacDate(String fileName){
-		Date d = new Date() ;
+		Date d = null ;
 		if(StringUtil.checkNotNull(fileName)){
 			fileName = fileName.substring(0, 8) ;
 			d = DateUtil.convertStringToDate(fileName, DateUtil.pattern3)  ;
@@ -97,4 +97,21 @@ public class StationUtil {
 		
 		return d ;
 	}
+	
+	/**
+	 * 去掉字符串中最后一个以.结尾的后缀
+	 * @Author Derek
+	 * @Date Nov 28, 2012
+	 * @param fileName
+	 * @return
+	 */
+	public static String removeSuffix(String fileName){
+		if(StringUtil.checkNotNull(fileName)){
+			int l = fileName.lastIndexOf(".") ;
+			fileName = fileName.substring(0 , l) ;
+		}
+		
+		return fileName ;
+	}
+
 }

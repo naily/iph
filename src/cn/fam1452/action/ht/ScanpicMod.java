@@ -1,7 +1,9 @@
 package cn.fam1452.action.ht;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -26,13 +28,11 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.filter.AdminFilter;
 import cn.fam1452.dao.pojo.Scanpic;
-import cn.fam1452.dao.pojo.Scanpic;
-import cn.fam1452.dao.pojo.Scanpic;
-import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.LocalFileUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StationUtil;
 import cn.fam1452.utils.StringUtil;
@@ -297,5 +297,106 @@ public class ScanpicMod extends BaseMod{
 		}finally{
 			return json ;
 		}
+	}
+	
+	
+	
+	/**
+	 * 测试服务器目录
+	 * @Author Derek
+	 * @Date Nov 27, 2012
+	 */
+	@POST
+	@At("/ht/sactestserverpath")
+    @Ok("json")
+	public JSONObject testServerFileDirectory(String path){
+		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		
+		if(null != json && json.getBoolean(Constant.SUCCESS)){
+			String fn = json.getString(Constant.INFO) ;
+			//解析出观测站
+			String st = fn.substring(1 , 3)  ; 
+			st = StationUtil.getStationId(fn) ;
+			json.put("stationid", st) ; //观测站ID
+			
+			//解析出日期
+			Date date = StationUtil.getSacDate(fn) ;
+			if(null != date){
+				json.put("date", DateUtil.DateToString(date, DateUtil.pattern4));
+				json.put("year", DateUtil.getYearstrByDate(date));
+			}else{
+				json.put(Constant.SUCCESS, false) ;
+				json.put(Constant.INFO, "文件异常,无法解析出日期、类型及年份") ;
+			}
+			
+			json.put("filename", fn) ;
+			json.put("path", path) ;
+		}
+		
+		return json ;
+	}
+	
+	@POST
+	@At("/ht/sacsaveserverpath")
+    @Ok("json")
+	public JSONObject saveServerFileDirectory(String path , String stationId , String year,ServletContext context){
+		long start  = System.currentTimeMillis() ;
+		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
+		if(null != json && json.getBoolean(Constant.SUCCESS)){
+			StringBuilder failFile = new StringBuilder() ;
+			List<Scanpic> salist = new ArrayList() ;
+			
+			File file = new File(path) ;
+			File[] list = file.listFiles() ;
+			if(null != list && list.length >0){
+				int fail = 0 ;
+				for (File sf : list) { //
+					String sfname = sf.getName() ; //文件名
+					if(null != StationUtil.getSacDate(sfname)){
+						if(fusu.cloneTmpFile2Other(sf, this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH )){
+							Scanpic sa = new Scanpic() ;
+							sa.setScanPicID(StationUtil.removeSuffix(sfname)) ;
+							sa.setScanPicFileName(sfname) ;
+							sa.setGramPath(fusu.UPLOAD_SAC_PATH + sfname ) ;
+							sa.setScanPicTitle(sfname) ;
+							
+							sa.setCreateDate( StationUtil.getObserveDate(sfname) ) ;
+							//ig.setStationID(StationUtil.getStationId(sfname)) ;
+							sa.setStationID(stationId) ;
+							
+							salist.add(sa) ;
+						}else{
+							fail++ ; //失败数加1
+							failFile.append(sfname).append(",") ;
+						}
+						
+					}else{
+						fail++ ; //失败数加1
+						failFile.append(sfname).append(",") ;
+					}
+				}
+				json.put("fail", fail) ;
+				json.put("total", list.length) ;
+				
+				json.put("failfile", failFile.toString()) ;
+			}
+			
+			if(salist.size() > 0){
+				baseService.dao.delete(salist) ;
+				baseService.dao.insert(salist) ;
+				json.put(Constant.SUCCESS, true) ;
+				
+				dls.insert("01", tableName, getHTLoginUserName()) ;
+					
+				dls.insertNDY(tableName, stationId, null, year) ;
+			}
+		}
+		//log.info("用时毫秒数： " + (System.currentTimeMillis() - start)) ;
+		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
+		return json ;
 	}
 }

@@ -26,7 +26,8 @@ public class BaseMod {
 	
 	//i18n ， 通过key取得语言字符串
 	protected String getMsgByKey(HttpServletRequest req , String key){
-		Map<String,String> msgmap  =  msgmap = (Map<String,String>)req.getAttribute ("msg") ;
+		Map<String,String> msgmap  = (Map<String,String>)req.getAttribute ("msg") ;
+//		Map<String,String> msgmap  =  msgmap = (Map<String,String>)req.getAttribute ("msg") ;
 		return msgmap.get(key) ;
 	}
 	

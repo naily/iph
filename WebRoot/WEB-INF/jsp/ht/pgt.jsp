@@ -41,8 +41,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="make-tab" style="margin: auto;" >
         <ul>
             <li><a href="#tab1">单个录入</a></li>
-            <li><a href="#tab2">批量导入</a></li>
+            <li><a href="#tab2">本地批量导入</a></li>
+            <li><a href="#tab3">服务器批量导入</a></li>
         </ul>
+        <div id="tab3" class="hidediv">
+        	<p>文件目录:<input type="text" style="width:600px;" id="file_serverdir" /> </p>
+        	<p>&nbsp;&nbsp;&nbsp;观测站:<input type="text" style="width:160px;" id="station_serverdir" /> </p>
+        	<p>数据年份:<input type="text" style="width:160px;" id="year_serverdir" /> </p>
+        	<p><a href="javascript:void(0);" id="testdir">测试目录</a></p>
+        	<p><input id="savebyserverdir"  type="image" src="images/baocun.png" value="保存" style="height: 22px;" /></p>
+        	<div id="reviewinfo-id"></div>
+        </div>
         <div id="tab2" class="hidediv">
         	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 	        	<tr>

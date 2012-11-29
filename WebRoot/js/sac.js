@@ -15,7 +15,6 @@ $(document).ready(function(){
     //观测日期
     $('#actionDate').omCalendar();
     
-    
     function multiinfo() {
         this.ok = 0; //成功
         this.err2 = new Array() ;//文件已存在
@@ -212,7 +211,77 @@ $(document).ready(function(){
     
     
     
+    //解析服务器目录
+    $('#savebyserverdir').click(function(){
+        alert('请测试目录路径');
+    });
     
+    $('#testdir').click(function(){
+        var data = {
+                url :'ht/sactestserverpath.do' ,
+                params :{'path' : $('#file_serverdir').val() },
+                callback : function(json){
+                    if(json.success){
+                        //显示测试信息
+                        var html = new Array();
+                        html.push("<p><b>测试结果报告</b>") ;
+                        html.push("<p>文件名： "+json.info ) ;
+                        html.push("<p>观测站ID： "+json.stationid ) ;
+                        html.push("<p>日期： "+json.date ) ;
+                        html.push("<p>年份： "+json.year ) ;
+                        html.push("<p><b>核对以上信息，若正确请点击‘保存’按钮继续操作</b>") ;
+                        $('#reviewinfo-id').html(html.join('</p>')).removeClass() ;
+                        //alert(html.join('</p>')) ;
+                        
+                        $('#year_serverdir').val(json.year);
+                        $('#station_serverdir').omCombo({
+                            dataSource:'ht/stationlistall.do' ,
+                            valueField : 'id' ,
+                            optionField :'name'  
+                        }) ;
+                        $('#station_serverdir').omCombo('value' , json.stationid) ;
+                        
+                        $("#savebyserverdir").unbind( "click" ) ;
+                        $('#savebyserverdir').click(function(){
+                            $("#savebyserverdir").unbind( "click" ) ;
+                            $("#reviewinfo-id").html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").addClass('aligncenter');
+                            var data1 = {
+                                url :'ht/sacsaveserverpath.do' ,
+                                params :{'path' : json.path ,year : json.year , stationId: json.stationid},
+                                callback : function(json){
+                                    $('#reviewinfo-id').html('').removeClass() ;
+                                    if(json.success){
+                                        html = new Array() ;
+                                        html.push("<p><b>导入完成，详细信息：</b>") ;
+                                        html.push("<p>处理文件总数： "+json.total ) ;
+                                        html.push("<p>其中失败： "+json.fail ) ;
+                                        if(json.fail && json.fail > 0){
+                                            html.push("<p>失败的文件： "+json.failfile ) ;
+                                        }
+                                        html.push("<p>用时(秒)： "+json.usedtime ) ;
+                                        $('#reviewinfo-id').html(html.join('</p>')) ;
+                                    }else{
+                                        alert(json.info) ;
+                                    }
+                                    
+                                }
+                            }
+                            ajaxpost(data1);
+                            
+                        });
+                    }else{
+                        if(json.info){
+                            alert(json.info) ;
+                        }else{
+                            alert("测试失败,请检查文件路径") ;
+                        }
+                    }
+                    
+                }
+        }
+        
+        ajaxpost(data);
+    });
     
     
     
