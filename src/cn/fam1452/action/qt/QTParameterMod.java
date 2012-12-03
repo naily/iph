@@ -61,6 +61,12 @@ public class QTParameterMod extends BaseMod {
 	@Inject("refer:dataVisitService")
 	private DataVisitService dataVisitService;
 	
+	@Filters(@By(type=UserFilter.class ))   
+	@At("/yousay")   
+	  public String tellMore(){  
+	            return "yousay";  
+	     }  
+
 	
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/report")
