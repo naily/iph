@@ -13,6 +13,6 @@ public class CreateTableTest extends DataSource{
 		//this.initDataSource() ;
 		
 		//this.dao.create(NavDataYear.class, true) ;
-		this.dao.create(Visit.class, true) ;
+		this.dao.create(Station.class, true) ;
 	}
 }

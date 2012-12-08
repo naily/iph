@@ -33,6 +33,7 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.DataBaseUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -55,6 +56,11 @@ public class StationMod extends BaseMod{
 	@At("/ht/stationload")
     @Ok("jsp:jsp.ht.stations")
     public void init(HttpServletRequest req){ }
+	
+	public boolean createStationParameterTable(String table){
+		DataBaseUtil util = new DataBaseUtil(DataBaseUtil.getConfig(baseService.dao)) ;
+		return util.nutCreateParameterTable(baseService.dao, table) ;
+	}
 	
 	@At("/ht/stationsave")
 	@Ok("json")
@@ -92,12 +98,15 @@ public class StationMod extends BaseMod{
 				if(null == baseService.dao.fetch(obj)){
 					
 					if(null != baseService.dao.insert(obj) ){
+						//根据观测站Id创建表
+						this.createStationParameterTable(obj.getId()) ;
 						json.put(Constant.SUCCESS, true) ;
 					}else{
 						json.put(Constant.INFO, "保存失败") ;
 					}
 				}else{
-					json.put(Constant.INFO, "保存失败,观测站编码已经存在") ;
+					
+					json.put(Constant.INFO, String.format("保存失败,[%1$s]该观测站ID已经存在", obj.getId()) ) ;
 				}
 				
 			}else{

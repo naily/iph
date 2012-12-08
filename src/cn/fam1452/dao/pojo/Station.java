@@ -74,6 +74,18 @@ public class Station {
 	
 	@Column
 	private int status ; //该表是个基表，不要物理删除它，需要删除时更新该字段即可。1 == 正常 ，0 == 已删除
+	
+	@Column
+    @ColDefine(type=ColType.VARCHAR, width=50)
+	private String tableName ;  //观测站表
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 
 	public String getId() {
 		return id;

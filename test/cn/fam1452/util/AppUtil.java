@@ -1,7 +1,10 @@
 package cn.fam1452.util;
 
+import java.util.Locale;
+
 import org.junit.Test;
 
+import cn.fam1452.dao.pojo.User;
 import cn.fam1452.utils.StationUtil;
 import cn.fam1452.utils.StringUtil;
 
@@ -55,5 +58,28 @@ public class AppUtil {
 		System.out.println("dot: "+ StationUtil.removeSuffix(dot));
 	}
 	
+	@Test
+	public void aap2(){
+		BeanTest b = new BeanTest() ;
+		String s  = String.format("保存失败,[%1$b]该观测站ID已经存在", "ABC" , "999" ) ;
+		System.out.println(s);
+		System.out.println("ABC".hashCode());
+		System.out.println(Integer.toHexString("ABC".hashCode()) );;
+		
+		
+		Locale loc = Locale.getDefault() ;
+		System.out.println(loc.getCountry());
+	}
+	@Test
+	public void aap3(){
+		
+		
+		Locale loc = Locale.getDefault() ;
+		System.out.println(loc.getCountry());
+		System.out.println(loc.getDisplayCountry());
+		System.out.println(loc.getLanguage());
+		System.out.println(loc.getVariant());
+	}
 	
 }
+
