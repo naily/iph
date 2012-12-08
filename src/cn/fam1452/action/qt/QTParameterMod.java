@@ -187,9 +187,9 @@ public class QTParameterMod extends BaseMod {
 			log.error(e, e) ;
 		}
 	}
-	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/paraDataChart")
 	@Ok("jsp:jsp.qt.parameterChart")
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	/**
 	 * 电离曲线图图页面跳转*/
 	public void loadParaChart(){
@@ -508,9 +508,9 @@ public class QTParameterMod extends BaseMod {
 	}
 	
 	
-	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/paraDataQuery")
 	@Ok("jsp:jsp.qt.parameterQuery")
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	/**
 	 * 找数据：电离层数据查询页面跳转
 	 * */

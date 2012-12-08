@@ -60,9 +60,9 @@ public class QTScanPicMod extends BaseMod{
 	
 	@Inject("refer:scanPicService")
 	private ScanPicService scanPicService;
-	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/listScanPic")
 	@Ok("jsp:jsp.qt.scanPiclist")
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	public void listScanPic(HttpSession session ,HttpServletRequest req,@Param("..")Pager page,@Param("..")Scanpic scp,@Param("..")ParameteDataBo paraQuery){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				

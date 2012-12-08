@@ -119,9 +119,9 @@ public class QTPGTMod extends BaseMod{
 		
 		
 	}
-	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/listPGT")
 	@Ok("jsp:jsp.qt.pgtlist")
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	/**
 	 * 导航频高图查询
 	 * */
