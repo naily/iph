@@ -20,7 +20,10 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.FieldMatcher;
+import org.nutz.dao.entity.Record;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -71,14 +74,23 @@ public class ParameterMod extends BaseMod{
 	@POST
 	@At("/ht/pamget")
     @Ok("json")
-    public Parameter get(String id){
-		Parameter sp = null ;
-		if(StringUtil.checkNotNull(id)){
-			sp = baseService.dao.fetch(Parameter.class, id) ;
+    public Parameter get(String table , int id){
+		Parameter para = null ;
+		if(id > 0 && StringUtil.checkNotNull(table)){
+			Record sp = baseService.dao.fetch(table, Cnd.where("parameterID", "=", id)) ;
+			para = sp.toPojo(Parameter.class) ;
 		}
 		
-		return sp ;
+		return para ;
 	}
+	public Parameter get(String table , String id){
+		if(Integer.parseInt(id) > 0){
+			return this.get(table, Integer.parseInt(id)) ;
+		}else{
+			return null ;
+		}
+	}
+	
 	
 	@POST
 	@At("/ht/pamlist")
@@ -130,27 +142,31 @@ public class ParameterMod extends BaseMod{
 			
 			List<Parameter> igs = new ArrayList<Parameter>() ;
 			for (String id : ids) {
-				Parameter sa = new Parameter();
-				sa.setParameterID(id) ;
+				if(null != this.get(params.getStationID(), id)) {
+					baseService.dao.clear(params.getStationID(), Cnd.where("parameterID", "=", params.getParameterID())) ;
+				}
+				//Parameter sa = new Parameter();
+				//sa.setParameterID(id) ;
 				
-				sa = baseService.dao.fetch(sa) ;
+				/*sa = baseService.dao.fetch(sa) ;
 				
 				if(null != sa){
 					igs.add(sa) ;
-				}
+				}*/
 			}
 			
-			if(null != igs && igs.size() > 0 ){
+			json.put(Constant.SUCCESS, true) ;
+			dls.insert("03", tableName, getHTLoginUserName()) ;
+			
+			/*if(null != igs && igs.size() > 0 ){
 				if( baseService.dao.delete(igs) == igs.size() ){
-					json.put(Constant.SUCCESS, true) ;
 					
-					dls.insert("03", tableName, getHTLoginUserName()) ;
 				}else{
 					json.put(Constant.INFO, error1) ;
 				}
 			}else{
 				json.put(Constant.INFO, error2) ;
-			}
+			}*/
 			
 		}else{
 			json.put(Constant.INFO, error3) ;
@@ -163,12 +179,14 @@ public class ParameterMod extends BaseMod{
 	@POST
 	@At("/ht/pamupdate")
     @Ok("json")
-	public JSONObject updatePgt(@Param("..")Parameter params){
+	public JSONObject update(@Param("..")Parameter params){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(StringUtil.checkNotNull(params.getParameterID()) && null != baseService.dao.fetch(params)){
-			int  i = baseService.dao.update(params) ;
+		if(params.getParameterID().toInt() > 0 && null != this.get(params.getStationID(), params.getParameterID().toInt())){
+			int i = baseService.dao.update(params.getStationID(), cov(params), Cnd.where("parameterID", "=", params.getParameterID())) ;
+//			int  i = baseService.dao.update(params) ;
+			
 			json.put(Constant.SUCCESS, true ) ;
 			
 			dls.insert("02", tableName, getHTLoginUserName()) ;
@@ -186,31 +204,17 @@ public class ParameterMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		try{
 			if(StringUtil.checkNotNull(params.getStationID()) ){
-				
-				StringBuilder id = new StringBuilder();
-				id.append(params.getStationID());
-				id.append(DateUtil.convertDateToString(params.getCreateDate(), "yyyyMMddHH") );
-				
-				int s = baseService.dao.count(Parameter.class, Cnd.where("parameterID", "like",  id.toString()+"%") ) ;
-				
-				String patt = "00" ;  
-				DecimalFormat nf  =  new DecimalFormat(patt);
-				id.append(nf.format(s)) ;
-				
-				params.setParameterID(id.toString()) ;
-			}else{
-				json.put(Constant.INFO, "请选择观测站") ;
-			}
-			
-			if(StringUtil.checkNotNull(params.getParameterID()) && null == baseService.dao.fetch(params)){
-				baseService.dao.insert(params) ;
+				baseService.dao.insert(params.getStationID(), cov(params)) ;
+				//baseService.dao.insert(params) ;
 				json.put(Constant.SUCCESS, true ) ;
 				
 				dls.insert("01", tableName, getHTLoginUserName()) ;
 				dls.insertNDY(tableName, params.getStationID(), null, params.getCreateDate()) ;
+				json.put(Constant.INFO, "操作成功") ;
 			}else{
-				json.put(Constant.INFO, error7) ;
+				json.put(Constant.INFO, "请选择观测站或观测站ID错误") ;
 			}
+			
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -289,7 +293,7 @@ public class ParameterMod extends BaseMod{
 					while (rset.next()) {
 						Parameter p = new Parameter() ;
 						String time = rset.getString(dateField) ;
-						p.setParameterID(time) ;
+						//p.setParameterID(time) ;
 						p.setCreateDate(DateUtil.convertStringToDate(time, DateUtil.pattern5)) ;
 						p.setStationID(stationId) ;
 						//StringBuilder ss = new StringBuilder(rset.getString("mytime")).append("\t");
@@ -299,17 +303,20 @@ public class ParameterMod extends BaseMod{
 							BeanUtils.setProperty(p, fn, String.valueOf(rset.getString(fn))) ;
 						}
 						
-						/*if(baseService.dao.fetch(p) == null){
-						}*/
 						data.add(p) ;
 						dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
 					}
 					//log.info("得到: " + data.size()) ;
-					insertdb += data.size() ;
 					//把已经存在的对象删除掉
-					baseService.dao.delete(data) ;
-					baseService.dao.insert(data) ;
-					dls.insert("01", tableName, getHTLoginUserName()) ;
+					//baseService.dao.delete(data) ;
+					if(null != data && data.size() > 0){
+						insertdb += data.size() ;
+						for (Parameter pa : data) {
+							baseService.dao.insert(stationId, cov(pa)) ;
+						}
+						//baseService.dao.insert(data) ;
+						dls.insert("01", tableName, getHTLoginUserName()) ;
+					}
 				}
 			}
 			//log.info("共得到: " + insertdb) ;
@@ -326,5 +333,14 @@ public class ParameterMod extends BaseMod{
 			return json ;
 		}
 	}
+	
+	//private final String[] paField = {"parameterID" , "stationID","createDate","foF2","hlF2","foF1","hlF1","hlF","hpF","foE","hlE","foEs","hlEs","fbEs","Fmin","M3000F2","M1500F2","M3000F1","M3000F"} ;
+	private Chain cov(Parameter pa){
+		FieldMatcher fm = FieldMatcher.make(null, "parameterID\bids\bstation\b", true) ;
+		Chain ch = Chain.from(pa , fm) ;
+		
+		return ch ;
+	}
+	
 	
 }

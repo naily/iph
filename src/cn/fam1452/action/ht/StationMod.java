@@ -95,6 +95,7 @@ public class StationMod extends BaseMod{
 		if("save".equals(action)){
 			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
 			if(StringUtil.checkNotNull(obj.getId())){
+				obj.setId(obj.getId().toUpperCase()) ;
 				if(null == baseService.dao.fetch(obj)){
 					
 					if(null != baseService.dao.insert(obj) ){

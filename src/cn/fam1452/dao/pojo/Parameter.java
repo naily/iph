@@ -5,18 +5,26 @@ import java.util.Date;
 import org.nutz.dao.entity.annotation.ColDefine;
 import org.nutz.dao.entity.annotation.ColType;
 import org.nutz.dao.entity.annotation.Column;
+import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.One;
 import org.nutz.dao.entity.annotation.Table;
+
+import sun.security.util.BigInt;
 
 @Table("T_PARAMETER")
 public class Parameter {
 	private String ids ; //很多id
 	
-	@Column
+	/*@Column
     @Name(casesensitive=false)
     @ColDefine(type=ColType.VARCHAR, width=25)
-	private String parameterID ;
+	private String parameterID ;*/
+	
+	@Column
+    @Id
+    @ColDefine(customType="bigint")
+	private BigInt parameterID ;
 	
 	@One(target = Station.class, field = "stationID")
     private Station station;
@@ -111,13 +119,7 @@ public class Parameter {
 	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String para24 ;
 
-	public String getParameterID() {
-		return parameterID;
-	}
-
-	public void setParameterID(String parameterID) {
-		this.parameterID = parameterID;
-	}
+	
 
 	public String getStationID() {
 		return stationID;
@@ -319,6 +321,14 @@ public class Parameter {
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+
+	public BigInt getParameterID() {
+		return parameterID;
+	}
+
+	public void setParameterID(BigInt parameterID) {
+		this.parameterID = parameterID;
 	}
 	
 	
