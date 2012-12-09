@@ -10,6 +10,12 @@ $(document).ready(function(){
         $('#title').val('') ;
         $('#isPicNews').removeAttr('checked') ;
     }
+    
+    $('#comboCateg').omCombo({
+        dataSource:[{text:'新闻栏目' , value:1},{text:'展示空间' , value:2}] ,
+        value : 1 ,
+        width :100
+    }) ;
     //表单验证
      var notempty = "不能为空" ;
     $("#savenewsfm").validate({
@@ -25,7 +31,8 @@ $(document).ready(function(){
                     url : 'ht/newsSave.do' ,
                     params : {title : $('#title').val(),
                               isPicNews: $('#isPicNews').attr('checked') ? true : false,
-                              content : $( '#contentId' ).omEditor('getData')
+                              content : $('#contentId' ).omEditor('getData') ,
+                              category: $('#comboCateg').omCombo('value')
                         },
                     callback : function(json){
                         if(json.success){

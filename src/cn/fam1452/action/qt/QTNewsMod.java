@@ -34,7 +34,7 @@ public class QTNewsMod extends BaseMod{
     public JSONObject loadPicNews(HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		News news = baseService.dao.fetch(News.class, Cnd.where("isPicNews", "=", true).desc("newsId")) ;
+		News news = baseService.dao.fetch(News.class, Cnd.where("isPicNews", "=", true).and("category", "=", "1").desc("newsId")) ;
 		if(null!=news){
 			String dbNewsContent =news.getContent();//
 			String  pageNewsContent=StringUtil.splitAndFilterString(dbNewsContent, 20);
@@ -62,7 +62,7 @@ public class QTNewsMod extends BaseMod{
     public void loadNewsList(HttpSession session ,HttpServletRequest req,@Param("..")Pager page){
 		page.setPageSize(Constant.PAGE_SIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());       
-		List<News> list = baseService.dao.query(News.class, null, pager); 		
+		List<News> list = baseService.dao.query(News.class, Cnd.where("category", "=", "1"), pager); 		
 		pager.setRecordCount(baseService.dao.count(News.class)); 
 		req.setAttribute("newslist", list);
 		req.setAttribute("page", pager);
@@ -85,7 +85,9 @@ public class QTNewsMod extends BaseMod{
     public JSONObject newsListss(){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
-		List<News> newslist = baseService.dao.query(News.class, Cnd.orderBy().desc("newsId"),baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
+		List<News> newslist = baseService.dao.query(News.class, 
+				Cnd.where("category", "=", "1").orderBy(). asc("newsId"),
+				baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 

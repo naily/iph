@@ -83,9 +83,9 @@ public class NewsMod extends BaseMod{
 	
 	@At("/ht/preview")
     @Ok("jsp:jsp.ht.newstempl")
-    public News loadNewsPreview(HttpServletRequest req,String nid){
+    public News loadNewsPreview(HttpServletRequest req,long nid){
 		News n = new News() ;
-		if(StringUtil.checkNotNull(nid)){
+		if( nid > 0 ){
 			n = baseService.dao.fetch(News.class, nid) ;
 		}
 		return n ;
@@ -101,18 +101,19 @@ public class NewsMod extends BaseMod{
 		try {
 			//姑且只有js验证
 			if(null != news){
-				news.setNewsId(String.valueOf(System.currentTimeMillis())) ;
+				//news.setNewsId(String.valueOf(System.currentTimeMillis())) ;
 				news.setPublishDate(DateUtil.getCurrentDate()) ;
 //				log.info(news.isPicNews()) ;
 //				log.info(news.getContent()) ;
-				
-				
-				if(StringUtil.checkNotNull(news.getNewsId()) ){ //&& baseService.dao.fetch(news) == null
-					baseService.dao.insert(news) ;
-					json.put(Constant.SUCCESS, true) ;
+				if(!StringUtil.checkNotNull(news.getCategory()) ){
+					news.setCategory("1") ; //默认类别
+				}
+				baseService.dao.insert(news) ;
+				json.put(Constant.SUCCESS, true) ;
+				/*if( news.getNewsId() > 0){ //&& baseService.dao.fetch(news) == null
 				}else{
 					json.put(Constant.INFO, "该记录已存在") ;
-				}
+				}*/
 			}else{
 				json.put(Constant.INFO, "参数为空") ;
 			}
@@ -166,7 +167,7 @@ public class NewsMod extends BaseMod{
 			List<News> igs = new ArrayList<News>() ;
 			for (String id : idss) {
 				News n = new News();
-				n.setNewsId(id) ;
+				n.setNewsId(Long.parseLong(id)) ;
 				
 				n = baseService.dao.fetch(n) ;
 				igs.add(n) ;
@@ -196,7 +197,7 @@ public class NewsMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(StringUtil.checkNotNull(params.getNewsId() ) && null != baseService.dao.fetch(params)){
+		if( params.getNewsId() > 0 && null != baseService.dao.fetch(params)){
 			int  i = baseService.dao.update(params) ;
 			json.put(Constant.SUCCESS, true ) ;
 		}else{

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.nutz.dao.entity.annotation.ColDefine;
 import org.nutz.dao.entity.annotation.ColType;
 import org.nutz.dao.entity.annotation.Column;
+import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
 
@@ -13,9 +14,12 @@ import org.nutz.dao.entity.annotation.Table;
 public class News {
 	
 	@Column
-    @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=20)
-	private String newsId ;
+    @Id
+	private long newsId ;
+	
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=10)
+	private String category ;  //新闻类别
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=50)
@@ -36,14 +40,6 @@ public class News {
 	@Column
 	@ColDefine(customType="binary(1000)")
 	private Blob picture ;
-
-	public String getNewsId() {
-		return newsId;
-	}
-
-	public void setNewsId(String newsId) {
-		this.newsId = newsId;
-	}
 
 	public String getTitle() {
 		return title;
@@ -83,6 +79,22 @@ public class News {
 
 	public void setPicture(Blob picture) {
 		this.picture = picture;
+	}
+
+	public long getNewsId() {
+		return newsId;
+	}
+
+	public void setNewsId(long newsId) {
+		this.newsId = newsId;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 }

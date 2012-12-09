@@ -5,7 +5,15 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'<b>标题</b>', align : 'center',     name:'title',width:380},
+         colModel : [    {header:'<b>标题</b>', align : 'center',     name:'title',width:'autoExpand'},
+                        {header:'<b>新闻类别</b>',align : 'center',   name:'category' ,width:100 ,
+                            renderer : function(colValue, rowData, rowIndex){
+                            if (colValue == 2) {
+                                 return '<span >展示空间</span>';
+                             } else {
+                                 return '<span >新闻栏目</span>';
+                             }
+                         }} ,
                          {header:'<b>图片新闻</b>',align : 'center',   name:'picNews' ,width:80 ,
                          renderer : function(colValue, rowData, rowIndex){
                          	if (colValue) {
@@ -14,8 +22,9 @@ $(document).ready(function(){
                                  return '<span style="color:red;"><b>否</b></span>';
                              }
                          }} ,
-                         {header:'<b>日期</b>',  align : 'center',  name:'publishDate', width:'autoExpand'}  ,
-                         {header:'<b>操作</b>', align : 'center',   name:'operation', width:130 ,renderer: function(colValue, rowData, rowIndex){
+                         
+                         {header:'<b>日期</b>',  align : 'center',  name:'publishDate', width:140}  ,
+                         {header:'<b>操作</b>', align : 'center',   name:'operation', width:100 ,renderer: function(colValue, rowData, rowIndex){
                          	return '<a href="./ht/preview.do?nid='+rowData.newsId+'" target="_blank">预览 </a>' ;
                          }}
          ],
