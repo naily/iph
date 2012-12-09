@@ -24,15 +24,15 @@ month_omCombo_datasource= [ {text : '1',  value : '1' },
 
 //电离参数
 parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'}, 
-					           { text : 'h\'F2',  value : 'h\'F2'}, 
+					           { text : 'h\'F2',  value : 'hlF2'}, 
 					           { text : 'foF1',  value : 'foF1'}, 
-					           { text : 'h\'F1',  value : 'h\'F1'}, 
-					           { text : 'h\'F',   value : 'h\'F'}, 
+					           { text : 'h\'F1',  value : 'hlF1'}, 
+					           { text : 'h\'F',   value : 'hlF'}, 
 					           { text : 'hpF',   value : 'hpF'}, 
 					           { text : 'foE',   value : 'foE'}, 
-					           { text : 'h\'E',   value : 'h\'E'}, 
+					           { text : 'h\'E',   value : 'hlE'}, 
 					           { text : 'foEs',  value : 'foEs'}, 
-					           { text : 'h\'Es',  value : 'h\'Es'}, 
+					           { text : 'h\'Es',  value : 'hlEs'}, 
 					           { text : 'fbEs',  value : 'fbEs'}, 
 					           { text : 'Fmin',  value : 'fmin'}, 
 					           { text : 'M3000F2',  value : 'm3000F2'}, 
@@ -49,15 +49,15 @@ parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'},
  * */
 parameter_omCombo_datasource2=[ 
 					   { text : 'foF2',  value : 'foF2'}, 
-			           { text : 'h\'F2',  value : 'h\'F2'}, 
+			           { text : 'h\'F2',  value : 'hlF2'}, 
 			           { text : 'foF1',  value : 'foF1'}, 
-			           { text : 'h\'F1',  value : 'h\'F1'}, 
-			           { text : 'h\'F',   value : 'h\'F'}, 
+			           { text : 'h\'F1',  value : 'hlF1'}, 
+			           { text : 'h\'F',   value : 'hlF'}, 
 			           { text : 'hpF',   value : 'hpF'}, 
 			           { text : 'foE',   value : 'foE'}, 
-			           { text : 'h\'E',   value : 'h\'E'}, 
+			           { text : 'h\'E',   value : 'hlE'}, 
 			           { text : 'foEs',  value : 'foEs'}, 
-			           { text : 'h\'Es',  value : 'h\'Es'}, 
+			           { text : 'h\'Es',  value : 'hlEs'}, 
 			           { text : 'fbEs',  value : 'fbEs'}, 
 			           { text : 'Fmin',  value : 'fmin'}, 
 			           { text : 'M3000F2',  value : 'm3000F2'}, 
@@ -69,7 +69,8 @@ parameter_omCombo_datasource2=[
 			         
 			           
 			           ]
- parameter_array=['foF2','h\'F2','foF1','h\'F1','h\'F','hpF','foE','h\'E','foEs','h\'Es','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']			         
+ parameter_array=['foF2','hlF2','foF1','hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']		
+ parameter_array_text=['foF2','h\'F2','foF1','h\'F1','h\'F','hpF','foE','h\'E','foEs','h\'Es','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']			         
  month_array=['1','2','3','4','5','6','7','8','9','10','11','12']
  /*
  * 电离曲线图的x轴数据列（小时序列）
@@ -80,7 +81,7 @@ function getUnit(ptype){
 	var retValue;
 	var km="(KM)";
 	var mhz="(MHZ)";
-	var kmArry= ['h\'F2','h\'F1','h\'F','hpF', 'h\'E','h\'Es'];
+	var kmArry= ['hlF2','hlF1','hlF','hpF', 'hlE','hlEs'];
 	var mhzArray=['foF2','foF1','foE','foEs','fbEs','fmin'];
 	            // {'m3000F2', 'M1500F2','m3000F1','m3000F'}
 	if(kmArry.toString().indexOf(ptype) > -1){
@@ -96,7 +97,7 @@ function getUnit(ptype){
 /*根据月份的数字，返回该月份的英文*/
 function getMonthEn(mdata){
 	var retValue;	
-	var monthArry= ['Jan','Feb','Mar','Apr', 'May','Jun','Jui','Aug','Sept','Oct','Nov','Dec'];
+	var monthArry= ['Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
     retValue =monthArry[mdata-1]
 	return retValue;
 }

@@ -575,7 +575,8 @@ public class QTParameterMod extends BaseMod {
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 				
 				 //total =this.baseService.dao.count(Parameter.class);
-				 total =this.baseService.dao.count(Parameter.class,parameterService.getParamenterCnd(parameter, paraQuery));
+				 //total =this.baseService.dao.count(Parameter.class,parameterService.getParamenterCnd(parameter, paraQuery));
+				 total =this.baseService.dao.count(parameter.getIds());
 			}
 		
 			List<Parameter> listD= new ArrayList<Parameter>();

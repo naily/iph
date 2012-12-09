@@ -24,7 +24,7 @@ import cn.fam1452.utils.StringUtil;
  * @version $Revision:1.0.0, $Date:Aug 12, 2012 11:16:47 AM $
  */
 public class UserFilter extends CheckSession implements ActionFilter {
-	 public View match(ActionContext actionContext) {
+	 /*public View match(ActionContext actionContext) {
 		HttpServletRequest request = Mvcs.getReq();
 		// Mvcs
 		// 可用，直接加入HttpServletRequest参数，nutz能传值给它
@@ -47,7 +47,7 @@ public class UserFilter extends CheckSession implements ActionFilter {
 			return v;
 		}
 		return null;
-	}  
+	}  */
 
 	/**
 	 * 

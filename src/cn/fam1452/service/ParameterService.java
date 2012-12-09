@@ -1,8 +1,11 @@
 package cn.fam1452.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -17,6 +20,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
 import org.nutz.dao.Sqls;
+import org.nutz.dao.entity.Record;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -96,10 +100,12 @@ public class ParameterService extends Base{
 	   sb.append(",max(case a.hours when '23' then ").append(pdb.getParaType()).append(" else ' ' end) 'h23'");
 	   sb.append(" from (");
 	   //sb.append("select stationID,")
-	   sb.append("select ").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from t_parameter");
+	  // sb.append("select ").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from t_parameter");
+	   sb.append("select ").append(pdb.getParaType()).append(", datepart(dd,createdate) as days,datepart(HH,createdate) as hours from ").append(pdb.getStationID());
 	  if(StringUtil.checkNotNull(pdb.getStationID()) && StringUtil.checkNotNull(pdb.getYear()) && StringUtil.checkNotNull(pdb.getMonth())){
 		  sb.append(" where datepart(YY,createdate)='").append(pdb.getYear()).append("'");
-		  sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("'").append(" and stationID='"+pdb.getStationID()).append("' ");
+		  //sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("'").append(" and stationID='"+pdb.getStationID()).append("' ");
+		  sb.append(" and datepart(MM,createdate)='").append(pdb.getMonth()).append("' ");
 	  }
 	   
 	   sb.append(") as a");
@@ -403,17 +409,77 @@ public class ParameterService extends Base{
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}*/	
     	Condition cnd =getParamenterCnd(params,paraQuery);
-		//log.info(cnd.toString());
+		log.info(cnd.toString());
 		if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 		page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
+		String tableName =params.getIds();
+		List<Record> lists = dao.query(tableName, cnd, page.getNutzPager()); 
+		List<Parameter> list =  new ArrayList<Parameter>();
+		for(Record r:lists){			
+			Parameter paramss =record2Object(r);
+			paramss.setStationID(tableName);
+			//para = sp.toPojo(Parameter.class) ;
+			list.add(paramss);
+		}
 		
-		List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
+		//List<Parameter> list = this.dao.query(Parameter.class,cnd,page.getNutzPager()) ;
+		
+		
 		//log.info("page.size="+page.getLimit());
 		//log.info("page.start="+page.getStart());
 		//log.info("list.size="+list.size());
 		return list;
 	}
+    private final String[] paField = {"foF2","fxF2","fxl","hlF2","foF1","hlF1","hlF","hpF","hpF2","foE","hlE","foEs","hlEs","fbEs","es"} ;
+    private Parameter record2Object(Record rd){
+		Parameter p = new Parameter() ;
+		p.setParameterID((Long)rd.get("parameterID")) ;
+		p.setCreateDate((Date)rd.get("createDate")) ;
+		p.setFmin(rd.getString("Fmin")) ;
+		p.setM3000F(rd.getString("M3000F")) ;
+		p.setM3000F1(rd.getString("M3000F1")) ;
+		p.setM3000F2(rd.getString("M3000F2")) ;
+		p.setM1500F2(rd.getString("M1500F2")) ;
+		p.setMUF3000F1(rd.getString("MUF3000F1")) ;
+		p.setMUF3000F2(rd.getString("MUF3000F2")) ;
+		for (String fie : paField) {
+			try {
+				BeanUtils.setProperty(p, fie, rd.get(fie)) ;
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return p ;
+	}
     public Condition getParamenterCnd(Parameter params,ParameteDataBo paraQuery){
+    	Condition cnd;
+		String[] stationIDS =null;
+		if(StringUtil.checkNull(paraQuery.getOrderBy())){
+			//paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+			paraQuery.setOrderBy("createDate");//默认排序方式：时间
+		}
+		if(StringUtil.checkNotNull(params.getIds())){
+			stationIDS= params.getIds().split(",");
+		}
+		String start = paraQuery.getStartDate();
+		String end = paraQuery.getEndDate();
+		if(StringUtil.checkNotNull(start) && StringUtil.checkNotNull(end)){
+			//Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			//Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			
+			//cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc("createDate").asc(paraQuery.getOrderBy());
+			cnd= Cnd.where("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
+		}else{//不选择日期区间时，查询所有日期的数据
+		    //cnd = Cnd.where("createDate", "<>",null).asc(paraQuery.getOrderBy());
+		    cnd =Cnd.orderBy().asc(paraQuery.getOrderBy());
+		}	
+    	return cnd;
+    }
+/*    public Condition getParamenterCnd(Parameter params,ParameteDataBo paraQuery){
     	Condition cnd;
 		String[] stationIDS =null;
 		if(StringUtil.checkNull(paraQuery.getOrderBy())){
@@ -430,7 +496,7 @@ public class ParameterService extends Base{
 		    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
 		}	
     	return cnd;
-    }
+    }*/
     /**
      * 根据表名查询改表的数据保护期（可能包含多个时间段）
      * */
@@ -461,9 +527,26 @@ public class ParameterService extends Base{
     	 * 1、若保护期区间是查询时间段的子集则只显示50条数据
     	 * 2、若保护期区间与查询时间段有交集，则进行数据拼装（保护期内的前50条记录+保护期外的记录）
     	 * */
-     public List<Parameter> top50ParameterDataList(Parameter params,String tableName,ParameteDataBo paraQuery){	
+     public List top50ParameterDataListNew(Object obj,Parameter params,String tableName,ParameteDataBo paraQuery){	
     	//Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
     	Sql sql =Sqls.create(getProtectDateSql(params.getIds(),tableName,paraQuery));
+		sql.setCallback(Sqls.callback.entities());
+		sql.setEntity(dao.getEntity(Parameter.class));;
+		sql.setEntity(dao.getEntity(obj.getClass()));
+		this.dao.execute(sql) ;		
+		//List<Parameter> list = sql.getList(Parameter.class) ;  
+		List list = sql.getList(obj.getClass()) ;  
+		return list;
+		
+	}
+   	/**
+ 	 * 有保护期的数据查询
+ 	 * 1、若保护期区间是查询时间段的子集则只显示50条数据
+ 	 * 2、若保护期区间与查询时间段有交集，则进行数据拼装（保护期内的前50条记录+保护期外的记录）
+ 	 * */
+  public List<Parameter> top50ParameterDataList(Parameter params,String tableName,ParameteDataBo paraQuery){	
+ 	//Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
+ 	Sql sql =Sqls.create(getProtectDateSql(params.getIds(),tableName,paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(Parameter.class));
 		this.dao.execute(sql) ;		
@@ -719,7 +802,8 @@ public class ParameterService extends Base{
     	 String[] stationIDS =null;//观测站数组
     	 StringBuffer sb = new StringBuffer(""); 
   		 if(StringUtil.checkNull(paraQuery.getOrderBy())){
-  			paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+  			//paraQuery.setOrderBy("stationID");//默认排序方式：观测站
+  			paraQuery.setOrderBy("createDate");//默认排序方式：观测站
   		 }
   		 /*if(StringUtil.checkNotNull(params.getIds())){
   			stationIDS= params.getIds().split(",");
@@ -785,7 +869,7 @@ public class ParameterService extends Base{
 	    	 }
 	    	 //sb.append(" order by ").append(paraQuery.getOrderBy());	     	
     	 //} 
-    	 //log.info(sb.toString());
+    	 log.info(sb.toString());
     	 return sb.toString();
      }
      /**

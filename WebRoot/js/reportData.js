@@ -208,7 +208,7 @@ $(document).ready(function() {
 	  	$("#monthIndex").val(monthIdx); //月份下标显示
   	}   
   	if(paraIdx!='-1' && paraIdx!=-1){
-	  	$('#para_unit').html(parameter_array[paraIdx]+getUnit(parameter_array[paraIdx]));//参数显示
+	  	$('#para_unit').html(parameter_array_text[paraIdx]+getUnit(parameter_array[paraIdx]));//参数显示
 	  	$("#parameterIndex").val(paraIdx);//电离参数下标设置
   	}
   }
