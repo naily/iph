@@ -24,7 +24,7 @@ public class Parameter {
 	@Column
     @Id
     @ColDefine(customType="bigint")
-	private BigInt parameterID ;
+	private long parameterID ;
 	
 	@One(target = Station.class, field = "stationID")
     private Station station;
@@ -38,6 +38,14 @@ public class Parameter {
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String foF2 ;
+	
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=10)
+	private String fxF2 ;
+	
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=10)
+	private String fxl ;
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
@@ -58,6 +66,10 @@ public class Parameter {
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String hpF ;
+	
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=10)
+	private String hpF2 ;
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
@@ -78,6 +90,10 @@ public class Parameter {
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String fbEs ;
+	
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=10)
+	private String Es ;
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
@@ -85,11 +101,12 @@ public class Parameter {
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String M3000F2 ;
-
+	private String M1500F2 ;
+	
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String M1500F2 ;
+	private String M3000F2 ;
+
 
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
@@ -98,28 +115,65 @@ public class Parameter {
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
 	private String M3000F ;
-
+	
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String para20 ;
-
+	private String MUF3000F1 ;
+	
 	@Column
 	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String para21 ;
+	private String MUF3000F2 ;
 
-	@Column
-	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String para22 ;
-
-	@Column
-	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String para23 ;
-
-	@Column
-	@ColDefine(type=ColType.VARCHAR, width=10)
-	private String para24 ;
 
 	
+
+	public String getFxF2() {
+		return fxF2;
+	}
+
+	public void setFxF2(String fxF2) {
+		this.fxF2 = fxF2;
+	}
+
+	public String getFxl() {
+		return fxl;
+	}
+
+	public void setFxl(String fxl) {
+		this.fxl = fxl;
+	}
+
+	public String getHpF2() {
+		return hpF2;
+	}
+
+	public void setHpF2(String hpF2) {
+		this.hpF2 = hpF2;
+	}
+
+	public String getEs() {
+		return Es;
+	}
+
+	public void setEs(String es) {
+		Es = es;
+	}
+
+	public String getMUF3000F1() {
+		return MUF3000F1;
+	}
+
+	public void setMUF3000F1(String muf3000f1) {
+		MUF3000F1 = muf3000f1;
+	}
+
+	public String getMUF3000F2() {
+		return MUF3000F2;
+	}
+
+	public void setMUF3000F2(String muf3000f2) {
+		MUF3000F2 = muf3000f2;
+	}
 
 	public String getStationID() {
 		return stationID;
@@ -267,45 +321,7 @@ public class Parameter {
 		M3000F = m3000f;
 	}
 
-	public String getPara20() {
-		return para20;
-	}
-
-	public void setPara20(String para20) {
-		this.para20 = para20;
-	}
-
-	public String getPara21() {
-		return para21;
-	}
-
-	public void setPara21(String para21) {
-		this.para21 = para21;
-	}
-
-	public String getPara22() {
-		return para22;
-	}
-
-	public void setPara22(String para22) {
-		this.para22 = para22;
-	}
-
-	public String getPara23() {
-		return para23;
-	}
-
-	public void setPara23(String para23) {
-		this.para23 = para23;
-	}
-
-	public String getPara24() {
-		return para24;
-	}
-
-	public void setPara24(String para24) {
-		this.para24 = para24;
-	}
+	
 
 	public Station getStation() {
 		return station;
@@ -323,13 +339,14 @@ public class Parameter {
 		this.ids = ids;
 	}
 
-	public BigInt getParameterID() {
+	public long getParameterID() {
 		return parameterID;
 	}
 
-	public void setParameterID(BigInt parameterID) {
+	public void setParameterID(long parameterID) {
 		this.parameterID = parameterID;
 	}
+
 	
 	
 	

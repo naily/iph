@@ -3,12 +3,14 @@
  */
 package cn.fam1452.action.ht;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -26,6 +28,7 @@ import org.nutz.dao.FieldMatcher;
 import org.nutz.dao.entity.Record;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.By;
 import org.nutz.mvc.annotation.Filters;
@@ -74,11 +77,13 @@ public class ParameterMod extends BaseMod{
 	@POST
 	@At("/ht/pamget")
     @Ok("json")
-    public Parameter get(String table , int id){
+    public Parameter get(String table , long id){
 		Parameter para = null ;
 		if(id > 0 && StringUtil.checkNotNull(table)){
-			Record sp = baseService.dao.fetch(table, Cnd.where("parameterID", "=", id)) ;
-			para = sp.toPojo(Parameter.class) ;
+			Record rd = baseService.dao.fetch(table, Cnd.where("parameterID", "=", id)) ;
+			para = this.record2Object(rd) ;
+			para.setStationID(table) ;
+			para.setParameterID(id) ;
 		}
 		
 		return para ;
@@ -95,24 +100,25 @@ public class ParameterMod extends BaseMod{
 	@POST
 	@At("/ht/pamlist")
     @Ok("json")
-	public JSONObject list(@Param("..")Pages page){
+	public JSONObject list(@Param("..")Pages page , String sid){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
 
-		List<Parameter>  list = baseService.dao.query(Parameter.class, null, page.getNutzPager()) ;
+		List<Record>  list = baseService.dao.query(sid+":parameterID", null, page.getNutzPager()) ;
 		
-		json.put(Constant.TOTAL, baseService.dao.count(Parameter.class)) ;
+		json.put(Constant.TOTAL, baseService.dao.count(sid)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] { "station" , "createDate"}); 
 		JSONArray array = new JSONArray();
 		
-		for(Parameter pm : list ){
+		Station sa = new Station();
+		sa.setId(sid) ;
+		sa = baseService.dao.fetch(sa) ;
+		for(Record rd : list ){
+			Parameter pm = this.record2Object(rd) ;
 			JSONObject item = JSONObject.fromObject(pm , cfg);
 			
-			Station sa = new Station();
-			sa.setId(pm.getStationID()) ;
-			sa = baseService.dao.fetch(sa) ;
 			if(null != sa){
 				item.put("stationName", sa.getName()) ;
 			}else{
@@ -120,8 +126,7 @@ public class ParameterMod extends BaseMod{
 			}
 			
 			item.put("ID", pm.getParameterID()) ;
-			
-			item.put("createDate" , DateUtil.convertDateToString(pm.getCreateDate(), DateUtil.pattern2));
+			item.put("createDate" , null != pm.getCreateDate() ? DateUtil.convertDateToString(pm.getCreateDate(), DateUtil.pattern2) : "");
 			
 			array.add(item) ;
 		}
@@ -140,10 +145,10 @@ public class ParameterMod extends BaseMod{
 		if(StringUtil.checkNotNull(params.getIds())){
 			String[] ids = params.getIds().split(";") ;
 			
-			List<Parameter> igs = new ArrayList<Parameter>() ;
+			//List<Parameter> igs = new ArrayList<Parameter>() ;
 			for (String id : ids) {
 				if(null != this.get(params.getStationID(), id)) {
-					baseService.dao.clear(params.getStationID(), Cnd.where("parameterID", "=", params.getParameterID())) ;
+					baseService.dao.clear(params.getStationID(), Cnd.where("parameterID", "=", id )) ;
 				}
 				//Parameter sa = new Parameter();
 				//sa.setParameterID(id) ;
@@ -183,8 +188,8 @@ public class ParameterMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		if(params.getParameterID().toInt() > 0 && null != this.get(params.getStationID(), params.getParameterID().toInt())){
-			int i = baseService.dao.update(params.getStationID(), cov(params), Cnd.where("parameterID", "=", params.getParameterID())) ;
+		if(params.getParameterID() > 0 && null != this.get(params.getStationID(), params.getParameterID())){
+			int i = baseService.dao.update(params.getStationID(), cov(params , false), Cnd.where("parameterID", "=", params.getParameterID())) ;
 //			int  i = baseService.dao.update(params) ;
 			
 			json.put(Constant.SUCCESS, true ) ;
@@ -204,7 +209,7 @@ public class ParameterMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		try{
 			if(StringUtil.checkNotNull(params.getStationID()) ){
-				baseService.dao.insert(params.getStationID(), cov(params)) ;
+				baseService.dao.insert(params.getStationID(), cov(params , true)) ;
 				//baseService.dao.insert(params) ;
 				json.put(Constant.SUCCESS, true ) ;
 				
@@ -312,7 +317,7 @@ public class ParameterMod extends BaseMod{
 					if(null != data && data.size() > 0){
 						insertdb += data.size() ;
 						for (Parameter pa : data) {
-							baseService.dao.insert(stationId, cov(pa)) ;
+							baseService.dao.insert(stationId, cov(pa,true)) ;
 						}
 						//baseService.dao.insert(data) ;
 						dls.insert("01", tableName, getHTLoginUserName()) ;
@@ -334,12 +339,37 @@ public class ParameterMod extends BaseMod{
 		}
 	}
 	
-	//private final String[] paField = {"parameterID" , "stationID","createDate","foF2","hlF2","foF1","hlF1","hlF","hpF","foE","hlE","foEs","hlEs","fbEs","Fmin","M3000F2","M1500F2","M3000F1","M3000F"} ;
-	private Chain cov(Parameter pa){
-		FieldMatcher fm = FieldMatcher.make(null, "parameterID\bids\bstation\b", true) ;
+	private Chain cov(Parameter pa , boolean ignoreNull){
+		FieldMatcher fm = FieldMatcher.make(null, "parameterID|ids|station", ignoreNull) ;
 		Chain ch = Chain.from(pa , fm) ;
-		
 		return ch ;
+	}
+	
+	//"parameterID" , "stationID","createDate",
+	private final String[] paField = {"foF2","fxF2","fxl","hlF2","foF1","hlF1","hlF","hpF","hpF2","foE","hlE","foEs","hlEs","fbEs","es"} ;
+	private Parameter record2Object(Record rd){
+		Parameter p = new Parameter() ;
+		p.setParameterID((Long)rd.get("parameterID")) ;
+		p.setCreateDate((Date)rd.get("createDate")) ;
+		p.setFmin(rd.getString("Fmin")) ;
+		p.setM3000F(rd.getString("M3000F")) ;
+		p.setM3000F1(rd.getString("M3000F1")) ;
+		p.setM3000F2(rd.getString("M3000F2")) ;
+		p.setM1500F2(rd.getString("M1500F2")) ;
+		p.setMUF3000F1(rd.getString("MUF3000F1")) ;
+		p.setMUF3000F2(rd.getString("MUF3000F2")) ;
+		for (String fie : paField) {
+			try {
+				BeanUtils.setProperty(p, fie, rd.get(fie)) ;
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return p ;
 	}
 	
 	

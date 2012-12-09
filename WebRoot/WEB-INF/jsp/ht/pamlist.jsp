@@ -21,6 +21,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/pamlist.js"></script>
+	<style type="text/css">
+	   a,input,button{
+		   outline:none;
+		   hide-focus:expression(this.hideFocus=true) \9; 
+	   }
+	  button::-moz-focus-inner,input::-moz-focus-inner{border:none;}
+    </style>
 	
   </head>
   
@@ -39,7 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <a id="del"  href="javascript:void(0)">删除</a>
     	</span>
     	 -->
-    	<div id="buttonbar"></div>
+    	<div id="buttonbar" style="padding-left: 10px;">
+    		<input id = "comboStationQuery" class="boxinput3"/>
+    		<a id="updatebut"  href="javascript:void(0)">修改</a>
+    		<a id="del"  href="javascript:void(0)">删除</a>
+    	</div>
     	
     	<table id="list0"></table>
         
@@ -60,19 +71,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip1" type="text" name="foF2" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F2层最低虚高(hlF2):</td>
+                <td align="right">&nbsp;fxF2:</td>
+                <td>&nbsp;<input id="ip1.1" type="text" name="fxF2" class="boxinput3" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;fxl:</td>
+                <td>&nbsp;<input id="ip1.2" type="text" name="fxl" class="boxinput3" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;F2层最低虚高(h'F2):</td>
                 <td>&nbsp;<input id="ip2" type="text" name="hlF2" class="boxinput3" />(公里)</td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;hpF2:</td>
+                <td>&nbsp;<input id="ip2.1" type="text" name="hpF2" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td align="right">&nbsp;F1层临界频率(foF1):</td>
                 <td>&nbsp;<input id="ip3" type="text" name="foF1" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F1层最低虚高(hlF1):</td>
+                <td align="right">&nbsp;F1层最低虚高(h'F1):</td>
                 <td>&nbsp;<input id="ip4" type="text" name="hlF1" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F层最低虚高(hlF):</td>
+                <td align="right">&nbsp;F层最低虚高(h'F):</td>
                 <td>&nbsp;<input id="ip5" type="text" name="hlF" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -84,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip7" type="text" name="foE" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;E层最低虚高(hlE):</td>
+                <td align="right">&nbsp;E层最低虚高(h'E):</td>
                 <td>&nbsp;<input id="ip8" type="text" name="hlE" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
@@ -92,12 +115,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip9" type="text" name="foEs" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;Es层最低虚高(hlEs):</td>
+                <td align="right">&nbsp;Es层最低虚高(h'Es):</td>
                 <td>&nbsp;<input id="ip10" type="text" name="hlEs" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;Es层遮蔽频率(fbEs):</td>
                 <td>&nbsp;<input id="ip101" type="text" name="fbEs" class="boxinput3" />(兆周/秒)</td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;Es-type:</td>
+                <td>&nbsp;<input id="ip101.1" type="text" name="Es" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td align="right">&nbsp;记录到的最低频率(Fmin):</td>
@@ -118,6 +145,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <tr>
                 <td align="right">&nbsp;F层3000公里传输因子(M3000F):</td>
                 <td>&nbsp;<input id="ip113" type="text" name="M3000F" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;MUF3000F1:</td>
+                <td>&nbsp;<input id="ip114" type="text" name="MUF3000F1" class="boxinput3" /> </td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;MUF3000F2:</td>
+                <td>&nbsp;<input id="ip115" type="text" name="MUF3000F2" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td align="right">&nbsp; </td>

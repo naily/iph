@@ -78,7 +78,14 @@ $(document).ready(function(){
         var M1500F2 = $("input[name='M1500F2']").val();
         var M3000F1 = $("input[name='M3000F1']").val();
         var M3000F  = $("input[name='M3000F']").val();
-        var array = new Array('foF2', 'hlF2','foF1', 'hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','Fmin','M3000F2','M1500F2','M3000F1','M3000F' );
+        var MUF3000F1  = $("input[name='MUF3000F1']").val();
+        var MUF3000F2  = $("input[name='MUF3000F2']").val();
+        var Es = $("input[name='Es']").val();
+        var fxF2 = $("input[name='fxF2']").val();
+        var fxl = $("input[name='fxl']").val();
+        var hpF2 = $("input[name='hpF2']").val();
+        
+        var array = new Array('foF2', 'hlF2','foF1', 'hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','Fmin','M3000F2','M1500F2','M3000F1','M3000F','MUF3000F2','MUF3000F1','hpF2','fxl','fxF2','Es' );
     	
     	var data = {
     		url : 'ht/pamsave.do' ,
@@ -98,7 +105,14 @@ $(document).ready(function(){
     				  'M3000F2': M3000F2,
     				  'M1500F2': M1500F2,
     				  'M3000F1': M3000F1,
-    				  'M3000F':  M3000F} ,
+    				  'M3000F':  M3000F,
+                      'MUF3000F1' :MUF3000F1 ,
+                      'MUF3000F2' :MUF3000F2 ,
+                      'Es' :Es ,
+                      'fxF2' : fxF2 ,
+                      'fxl' :fxl ,
+                      'hpF2' : hpF2
+                      } ,
     		callback : function(json){
     			if(json.success){
     				$('#errormsg').hide();

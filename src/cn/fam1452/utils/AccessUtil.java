@@ -21,7 +21,7 @@ public class AccessUtil {
 //	private final String dburl = "jdbc:Access:///#mdbpath#" ;
 	
 	
-	public static final String[] fieldsName = new String[]{"foF2","hlF2","foF1","hlF1","hlF","hpF","foE","hlE","foEs","hlEs","fbEs","fmin","m3000F2","m1500F2","m3000F1","m3000F" } ;
+	public static final String[] fieldsName = new String[]{"foF2","fxF2","fxl","hlF2","foF1","hlF1","hlF","hpF","hpF2","foE","hlE","foEs","hlEs","fbEs","es","fmin","m3000F2","m3000F1","m3000F" ,"mUF3000F1","mUF3000F2"} ;
 	
 	private String accessFile ;
 	public AccessUtil(){} 
