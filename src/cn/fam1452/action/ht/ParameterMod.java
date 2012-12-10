@@ -340,8 +340,9 @@ public class ParameterMod extends BaseMod{
 	}
 	
 	private Chain cov(Parameter pa , boolean ignoreNull){
-		FieldMatcher fm = FieldMatcher.make(null, "parameterID|ids|station", ignoreNull) ;
+		FieldMatcher fm = FieldMatcher.make(null, "parameterID|ids|station$", ignoreNull) ;
 		Chain ch = Chain.from(pa , fm) ;
+		
 		return ch ;
 	}
 	
