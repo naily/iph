@@ -7,7 +7,13 @@ $(document).ready(function() {
 		//value:1,
 		 multi : true            
 	});
-	
+	   //选择月份
+	$('#hourForChart').omCombo({ // 初始化Combo
+		dataSource :hour_omCombo_datasource,
+		width : 200,
+		//value:1,
+		 multi : true            
+	});
 	var paraValue;
 	var selectOk=true;
  	/*

@@ -510,7 +510,8 @@ public class ParameterService extends Base{
      * */
     public ProtectDate getProtectDateByTableName(String dataTable){
     	ProtectDate prodata=null;
-    	prodata = this.dao.fetch(ProtectDate.class, Cnd.where("dataTable","=",dataTable).desc("id"));
+    	//prodata = this.dao.fetch(ProtectDate.class, Cnd.where("dataTable","=",dataTable).desc("id"));
+    	prodata = this.dao.fetch(ProtectDate.class, Cnd.where("dataStation","=",dataTable).desc("id"));
     	return prodata;
     }
     /**
@@ -546,7 +547,7 @@ public class ParameterService extends Base{
  	 * */
   public List<Parameter> top50ParameterDataList(Parameter params,String tableName,ParameteDataBo paraQuery){	
  	//Sql sql =Sqls.create(getQueryParameterSQL(params,paraQuery));
- 	Sql sql =Sqls.create(getProtectDateSql(params.getIds(),tableName,paraQuery));
+	  	Sql sql =Sqls.create(getProtectDateSql(params.getIds(),tableName,paraQuery));
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(dao.getEntity(Parameter.class));
 		this.dao.execute(sql) ;		
@@ -848,12 +849,14 @@ public class ParameterService extends Base{
 	    			 sb.append("select top "); 
 	    	    	 sb.append(shownums);
 	    	    	 sb.append(" * from "+tableName);
-	    	    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
-	    			 sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
+	    	    	 //sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()	    	    	
+	    			 //sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
+	    			 sb.append(" where createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
 		     	  if(getProtectDateType(tableName,paraQuery)>=2){
 	    			 sb.append(" union ");
 	    	    	 sb.append("  select * from "+tableName);// T_PARAMETER");
-	    	    	 sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
+	    	    	 //sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
+	    	    	 sb.append("  where parameterID>0 ");//params.getIds()
 	    			 if(getProtectDateType(tableName,paraQuery)==2){			    	
 				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");
 				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");

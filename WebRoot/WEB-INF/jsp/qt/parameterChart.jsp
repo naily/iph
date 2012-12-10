@@ -70,10 +70,16 @@
 			<div class="reportbox_chart" id="rightChartContent" ><!-- style="min-height:760px;" -->
 					<table height="290" class="report_table" align="center">
 						<tr>
-						   
+						   	<td height="30" valign="top">
+								${msg['qt_month_report_selectpara']}：							
+							</td>
+							<td height="30"  valign="top">
+								<div id="selectorPara" ></div>
+								<input id="parameter" type="hidden"/> 
+							</td>
 							<td height="30" valign="top">
 							  <table width="100%">
-							     <tr><td width="120">${msg['qt_month_report_station']}:：</td><td><input id="stationId" name="stationId" class="boxinput_report"/></td></tr>
+							     <tr><td width="120">${msg['qt_month_report_station']}:：</td><td><input id="stationId" type="hidden" name="stationId" class="boxinput_report"/></td></tr>
 							     <tr><td>${msg['qt_month_report_year']}：</td><td><input id="year" name="year" class="boxinput_report"/></td></tr>
 							     <tr>
 							         <td>
@@ -102,13 +108,7 @@
 								<!--<input type="button" id="paraData" value="曲线图下载"/>  --></td></tr>
 							   </table>												
 							</td>
-							<td height="30" valign="top">
-								${msg['qt_month_report_selectpara']}：							
-							</td>
-							<td height="30"  valign="top">
-								<div id="selectorPara" ></div>
-								<input id="parameter" type="hidden"/> 
-							</td>
+						
 						</tr>								
 					</table>
 					<br/>

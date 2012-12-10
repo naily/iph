@@ -561,7 +561,8 @@ public class QTParameterMod extends BaseMod {
 			int total =0;
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			//判断电离参数表是否设置了保护期,若保护期存在则进行数据拼装（保护期内的前50条数据+保护期外的数据）
-			String tableName ="T_PARAMETER";
+			//String tableName ="T_PARAMETER";
+			String tableName =parameter.getIds();//
 			//boolean existProtect =false;//是否有保护期
 			String protectArea=null;//保护期区间
 			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){
@@ -580,8 +581,14 @@ public class QTParameterMod extends BaseMod {
 			}
 		
 			List<Parameter> listD= new ArrayList<Parameter>();
-			for(Parameter para:list){
+			
+			/*for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+				para.setStation(station);
+				listD.add(para);
+			}*/
+			Station station = this.baseService.dao.fetch(Station.class,tableName);
+			for(Parameter para:list){				
 				para.setStation(station);
 				listD.add(para);
 			}

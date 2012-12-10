@@ -1,288 +1,521 @@
 $(document).ready(function() {
- 	
- 	   //选择月份
-	$('#monthForChart').omCombo({ // 初始化Combo
-		dataSource :month_omCombo_datasource,
-		width : 200,
-		//value:1,
-		 multi : true            
-	});
 	
-	var paraValue;
-	var selectOk=true;
- 	/*
- 	 * 选择电离参数
- 	 * 一次只选择一个单因子或者一组多因子，不允许多选
- 	 * */
-       var sss=$('#selectorPara').omItemSelector({
-                availableTitle : select_parameter,
-                selectedTitle : selected_parameter,
-                dataSource : parameter_omCombo_datasource2,
-                value:[],
-                onBeforeItemSelect:function(itemDatas, event){
-	                if(itemDatas.length<=1 && selectOk){
-	                	   paraValue=itemDatas[0].value;
-	                	   $('#parameter').attr({value:itemDatas[0].value});
-	                	    selectOk=false;
-	                	}else{	           			
-	           			  at({cont:'只能选择一个单因子或者一组多因子！' , type : 'error'});	                	
-	                	  return false;
-	                	}
-                },
-                 onItemDeselect:function(itemDatas, event){ 
-                 	  selectOk=true;
-                	 $('#parameter').attr({value:''});
-                 },
-                width:350,
-        		height:250
+	    var stationId = $('#stationIDV').val();	
+		var startDateV = $('#startDateV').val();
+		var endDateV = $('#endDateV').val();
+		var selectTypeValue='';
+		var initParaValue = new Array();
+		if(stationId && startDateV && endDateV){
+			initParaValue =parameter_array;
+			$('#startDate').val(startDateV);
+			$('#endDate').val(endDateV);
+			selectTypeValue='1';
+			//$('#selectDataType').val('1');
+			tableCols_=getParaColmModel(1,parameter_array);	
+			 datasourceUrl='qt/doParaDataQuery.do?ids=' + stationId + '&startDate='+ startDateV + '&endDate=' + endDateV;
+			 $('#paraQueryGrid').omGrid({
+				//title : '电离层参数查询',
+			 	dataSource :datasourceUrl, // limit:0, 
+			 	height : 325, 
+			 	limit:pageslimit,
+			 	showIndex : false,
+			 	colModel :tableCols_
+			 	});
+			//$("#downloadParaData").show();
+		}
+	// 选择观测站
+	$('#selectorStation').omItemSelector({
+				availableTitle : select_station,
+				selectedTitle : selected_station,
+				dataSource : 'qt/listAllStation.do',
+				value:[stationId],
+				/*onItemSelect : function(itemDatas, event) {
+					var stationValue = '';
+					if (itemDatas.length >= 1) {
+						stationValue = itemDatas[0].value
+					}
+					for (var i = 1; i < itemDatas.length; i++) {
+						stationValue += "," + itemDatas[i].value;
+					}
+					$('#stationIDs').attr({
+								value : stationValue
+							});
 
-            });
-     //全选月份    
-    $("#select_all").click(function() {
-      if($("#select_all").attr("checked")){
-      	$("input[type='checkbox']").attr("checked", true);//$("input[type='checkbox']").attr("checked", $(this).attr("checked"));
-      }else{
-        $("input[type='checkbox']").attr("checked", false);
-      }
-	   
+				},*/
+				width : 270,
+				height : 345
+
+			});
+
+	// 选择电离参数
+	$('#selectorParaS').omItemSelector({
+				availableTitle : select_parameter,
+				selectedTitle : selected_parameter,
+				dataSource : parameter_omCombo_datasource,
+				value:initParaValue,
+				//value:parameter_array,
+			/*	onItemSelect : function(itemDatas1, event) {
+					var paraValue = '';
+					if (itemDatas1.length >= 1) {
+						paraValue = itemDatas1[0].value
+					}
+					for (var j = 1; j < itemDatas1.length; j++) {
+						paraValue += "," + itemDatas1[j].value;
+					}
+					$('#parameter').attr({
+								value : paraValue
+							});
+				},*/
+				width : 270,
+				height : 345
+
+			});
+	// 选择查询数据类型
+	$('#selectDataType').omCombo({
+				dataSource:[
+                {text:select_type_parameter,value:'1'},
+                {text:select_type_ionogram,value:'2'},
+                {text:select_type_Report_scan,value:'3'}             
+		        ],
+		       /* optionField:function(data,index){
+		            return '<font color="red">'+index+'：</font>'+data.text+'('+data.value+')';
+		        },*/
+		        emptyText:select_query_type,
+		         value:selectTypeValue,
+		     //   editable:false,
+		      //  lazyLoad:true,
+		        listMaxHeight:65
+
+			});
+		
+	
+	// 开始时间
+	$('#startDate').omCalendar();
+	// 截止时间
+	$('#endDate').omCalendar();
+	// 排序方式选择
+	$('#orderCol').omCombo({
+				dataSource : [{
+							text : order_by_station,
+							value : 'stationID'
+						}, {
+							text : order_by_date,
+							value : 'createDate'
+						}]
+			});
+	// 页面显示记录
+	$('#showNum').omCombo({
+				dataSource : [{
+							text : '20',
+							value : '20'
+						}, {
+							text : '50',
+							value : '50'
+						}, {
+							text : '100',
+							value : '100'
+						}, {
+							text : '150',
+							value : '150'
+						}]
+			});
+/*			   //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
     });
-     
-      //生成电离参数曲线图      
-       $("#pressParaChart").click(function(){
-               var stationId=$('#stationId').val();
-			   var year=$('#year').val();
-			   var chk_value =[];    
-				  $('input[name="months"]:checked').each(function(){    
-				     chk_value.push($(this).val());    
-				  });    
+$('#paraQueryGrid2').omGrid({
+						//title : '电离层参数查询',
+					 	//dataSource :datasourceUrl_,
+					 	limit:30, 
+					 	//height : 380, 
+					 	//showIndex : false,
+					 	colModel :getParaColmModel(1,parameter_array) 
 
-			  // var month=$('#monthForChart').val();
-			//   var month=chk_value.toString();
-			  // month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份
-			   var parameter=$('#parameter').val();	
-			   var month;
-	//for(var m=1;m<=chk_value.length;m++){
-	  	//alert(chk_value[m-1]);
- 	month=chk_value[m-1];
-                if(stationId && year && month && parameter){
-                	//if(stationId && year && month && parameter){
-                     var data = {
-								url : 'qt/loadParaChartData.do',
-								params : {
-								stationID : stationId,
-								year :year,
-								month:month,
-								paraType:parameter
-							},
-							callback : function(json) {											
-								if (json.success) {		
-								    $("#topChart").html('');								
-									$("#paraDataChart").html('');
-									$("#downChart").html('');
-									  //====================多因子组合时，上方的曲线图（如：M3000F2曲线图）=======================================================
-										if(json.topChart){	
-											$("#topChart").height(220); //.css(height,250);
-											$("#topChart").width(700); //.css(height,250);
-											$("#rightChartContent").height(970);
-											
-											var topChart;												
-										    topChart = new Highcharts.Chart({
-											chart: {
-												renderTo: 'topChart',
-												type: 'line',
-												marginRight: 80,
-												marginBottom: 25
-											},
-											title: {
-												text: json.top_chartTitle,
-												x: -20 //center
-											},
-											subtitle: {
-												text: year+'.'+month+'  '+locations+'     '+jingweidu,
-												x: -20
-											},
-											xAxis: {
-												categories: parameter_chart_xAxis_hour
-											},
-											yAxis: {
-												title: {
-													text: json.top_yAxis+getUnit(json.top_paraName)//json.yAxis+getUnit(json.paraName)
-												},
-												plotLines: [{
-													value: 0,
-													width: 1,
-													color: '#808080'
-												}]
-											},
-											tooltip: {
-												formatter: function() {
-														return '<b>'+ this.series.name +'</b><br/>'+
-														this.x +': '+ this.y ;
-												}
-											},
-											legend: {
-												layout: 'vertical',
-												align: 'right',
-												verticalAlign: 'top',
-												x: -10,
-												y: 100,
-												borderWidth: 0
-											},
-											series: json.topChart
-											/*series: [{
-												name: 'foF2',
-												data: ["7.0", "6.9", "9.5", "14.5"]
-											}]*/
-										});
-										  
-										}else{
-										    $("#topChart").height(0);
-										    $("#rightChartContent").height(670);										   										    
-										}
-									//=======================主曲线图（单因子曲线显示，多因子时下方多因子曲线图）=============================================
-									 if(json.rows){
-									   $("#paraDataChart").height(220);
-									   $("#paraDataChart").width(700);
-									   var chart;									  
-										chart = new Highcharts.Chart({
-											chart: {
-												renderTo: 'paraDataChart',
-												type: 'line',
-												marginRight: 80,
-												marginBottom: 25
-											},
-											title: {
-												text: json.chartTitle,//json.chartTitle
-												x: -20 //center
-											},
-											subtitle: {
-												text: '',//year+'.'+month+'  '+locations+'     '+jingweidu
-												x: -20
-											},
-											xAxis: {
-												categories: parameter_chart_xAxis_hour
-											},
-											yAxis: {
-												title: {
-													text: json.yAxis+getUnit(json.paraName)
-												},
-												plotLines: [{
-													value: 0,
-													width: 1,
-													color: '#808080'
-												}]
-											},
-											tooltip: {
-												formatter: function() {
-														return '<b>'+ this.series.name +'</b><br/>'+
-														this.x +': '+ this.y ;
-												}
-											},
-											legend: {
-												layout: 'vertical',
-												align: 'right',
-												verticalAlign: 'top',
-												x: -10,
-												y: 100,
-												borderWidth: 0
-											},
-											series: json.rows
-											/*series: [{
-												name: 'foF2',
-												data: ["7.0", "6.9", "9.5", "14.5"]
-											}]*/
-										});
-									 }else{
-									 	 $("#paraDataChart").height(0);
-									 }
-									  
-									  if(json.downChart){
-									   	 $("#downChart").height(200);
-									   	 $("#rightChartContent").height(870);	
-									   		chart = new Highcharts.Chart({
-								            chart: {
-								                renderTo: 'downChart',
-								                type: 'column',
-								               // margin: [ 30, 100, 50, 50]
-								                marginRight: 100,
-												marginBottom: 25
-								            },
-								            title: {
-								                text: ''
-								            },
-								            xAxis: {
-								                categories: parameter_chart_xAxis_hour
-								                /*labels: {
-								                    rotation: -45,
-								                    align: 'right',
-								                    style: {
-								                        fontSize: '13px',
-								                        fontFamily: 'Verdana, sans-serif'
-								                    }
-								                }*/
-								            },
-								            yAxis: {
-								                min: 0,
-								                title: {
-								                    text: 'Population (millions)'
-								                }
-								            },
-								            legend: {
-								                enabled: false
-								            },
-								            tooltip: {
-								                formatter: function() {
-								                    return '<b>'+ this.x +': '+ this.y;
-								                }
-								            },
-								            series:json.downChart
-								          /*     series: [{
-								                name: "h'Es",
-								                data: [1, 0, 0, 0, 0, 0, 0, 0, 18,1, 16, 15, 14, 14, 13, 12, 12, 11,11, 11,2,2,3,4],
-								                    //data:json.downChart.data,
-								                dataLabels: {
-								                    enabled: true,
-								                    rotation: -90,
-								                    color: '#FFFFFF',
-								                    align: 'right',
-								                    x: -3,
-								                    y: 10,
-								                    formatter: function() {
-								                        return this.y;
-								                    },
-								                    style: {
-								                        fontSize: '13px',
-								                        fontFamily: 'Verdana, sans-serif'
-								                    }
-								                }
-								            }]*/
-								        });
- 
-									   }else{
-									      $("#downChart").height(0);
-									   }
-										
-										
-										  //=========================================================================
-								} else {
-									at({cont:'没有数据！' , type : 'error'});
-								}
-							}
-						  }
-						ajaxpost(data);
-                	
-                	}else{ //有查询条件，显示查询数据  
-                	at({cont:'请选择条件！' , type : 'error'});
-                    
-                }
-	//} 
-            });
-            
-            
-   
+					 	});*/
+/*	var colModel_ = [{
+				header : '观测站',
+				name : 'station.name',
+				width : 80
+			}, {
+				header : '观测日期',
+				name : 'createDate',
+				align : 'center',
+				width : 80
+			}];*/
 
-         
-            
-            
-            
-        });
+	// 电离参数列表显示
+	$("#paraDataQuery").click(function() {
+        //alert($('#selectorParaS').omItemSelector('value'));
+		//var stationId = $('#stationIDs').val();
+		var stationId = $('#selectorStation').omItemSelector('value');
+		//var parameter = $('#parameter').val();
+		var parameter = $('#selectorParaS').omItemSelector('value');
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		var allDate = '';
+		if ($("#allDate").attr("checked")) {
+			allDate = 'all';
+		}
+		var pageSize = $('#showNum').val();
+		if(pageSize){
+		  pageslimit=pageSize;
+		}
+		var orderBy = $('#orderCol').val();
+		var queryDataType =$('#selectDataType').val();
+
+		if ((queryDataType!=1 ||  parameter) && stationId  && (startDate && endDate || allDate)) {
+			var tableCols,datasourceUrl;			
+			tableCols=getColmModel(queryDataType,parameter);
+			if(queryDataType==1){//电离层参数查询
+				datasourceUrl='qt/doParaDataQuery.do'
+			}else if(queryDataType==2){//电离层频高图查询				
+				datasourceUrl='qt/queryPGT.do'
+			}else{//报表扫描图查询
+			    datasourceUrl='qt/queryScanpic.do'
+			}
+			 datasourceUrl+='?ids=' + stationId + '&startDate='+ startDate + '&endDate=' + endDate + '&selectAllDate='+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
+			 $('#paraQueryGrid').omGrid({
+				//title : '电离层参数查询',
+			 	dataSource :datasourceUrl, // limit:0, 
+			 	 onSuccess:function(data,testStatus,XMLHttpRequest,event){
+				  if(data.protectArea){
+					  //alert('您查看的数据区间与本系统设置的保护期有重叠，保护期区间为：['+data.protectArea+']，保护期内的数据仅显示前50条记录。');
+					  at({
+						  title:'提示',
+						  cont : '您查看的数据区间与本系统设置的保护期有重叠，保护期区间为：['+data.protectArea+']，保护期内的数据仅显示前50条记录。',
+						  type : 'alert'
+						});
+				  }
+		         //alert('fetch data success,got '+data.rows+' rows');
+		     },
+			 	height : 325, 
+			 	limit:pageslimit,
+			 	showIndex : false,
+			 	colModel :tableCols
+			 	});
+			 
+			//$('#paraQueryGrid').omGrid('setData', dUrl);
+			$("#downloadParaData").show();
+	    	} else { // 有查询条件，显示查询数据
+
+			at({
+						cont : '请检查查询条件，“观测站"、"查询类型","日期条件"必须选择！',
+						type : 'error'
+					});
+			$('#paraQueryGrid').omGrid("setData", 'qt/paraDataQuery.do');
+		}
+
+			// alert($('#parameter').val());
+	});
+	$("#downloadParaData").click(function() {
+		var stationId = $('#selectorStation').omItemSelector('value');
+		var parameter = $('#selectorParaS').omItemSelector('value');
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		var allDate = '';
+		if ($("#allDate").attr("checked")) {
+			allDate = 'all';
+		}
+		var pageSize = $('#showNum').val();
+		var orderBy = $('#orderCol').val();
+		var queryDataType =$('#selectDataType').val();
+		 datasourceUrl='qt/downloadParaData.do?ids=' + stationId + '&startDate='+ startDate + '&endDate=' + endDate + '&selectAllDate='+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
+		window.open(basepath + datasourceUrl)
+		
+		   //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
+		
+	});
+  /**
+   * 根据查询类型，组装查询数据的表头
+   * */
+	function getColmModel(queryType,paraCol) {
+		var container = new Array();//数据表格的表头数据
+		container[0] = {
+			header : '所属观测站',
+			name : 'station.name',
+			width : 80
+		}
+		container[1] = {
+			header : '观测日期',
+			name : 'createDate',
+			width : 140
+		}
+		if(queryType==1){//电离参数
+				var str = new Array();
+				//var selectPara = $('#parameter').val();
+				//str = selectPara.split(",");			
+				//for (i = 0; i < str.length; i++) {
+				for (i = 0; i < paraCol.length; i++) {
+					container[i + 2] = {
+						header : paraCol[i],
+						name : paraCol[i],
+						width : 40
+					}
+				}
+			container[paraCol.length+2]={
+		           header : '操作',
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+	                         	return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         },
+						width : 150
+			 }
+		}else if(queryType==2){//电离频高图
+				container[2] = {
+						header : '电离层频高图名称',
+						name : 'gramTitle',
+						width : 300
+					}
+			  container[3]={
+		           header : '操作',
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+	                         
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
+	                         },
+						width : 200
+			 }
+		}else{//报表扫描图
+		
+		      container[2] = {
+						header : '报表扫描图名称',
+						name : 'scanPicTitle',
+						width : 300
+					}
+			container[3]={
+		           header : '操作',
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+	                         
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         },
+						width : 200
+			 }
+		}
+		
+		return container;
+
+	}
+
+});
+
+/**
+ * 在电离参数或扫描图列表中，关联查看频高图
+ * */
+/*function previewPgt(stationId,createDate){
+	if(stationId && createDate){
+		var data = {
+		url :  basepath+'qt/showPGT.do',
+		params : {
+			gramTitle:createDate,
+			stationID:stationId
+		},
+		callback : function(json) {
+			if (json.success) {						
+				if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
+					$( "#imagePreview").omDialog({title:'频高图查看'});
+					$( "#imagePreview").omDialog('open');
+				}
+			} else {
+				at({
+						cont : '没有找到对应的电离频高图！',
+						type : 'alert'
+					});
+			}
+		}
+	}
+	ajaxpost(data);
+	}
+}*/
+/**
+ *  在电离参数或扫描图列表中，关联查看频高图
+ * */
+function previewPgt(stationId,createDate){
+	if(stationId && createDate){
+			var tableCols_,datasourceUrl_;			
+					tableCols_=getScanpicColmModel();					
+					datasourceUrl_=basepath+'qt/queryPGTByDate.do?stationID='+stationId+'&createDate='+createDate;	
+					$("#imagePreview2").html('<table id="paraQueryGrid3"></table>');	
+					$('#paraQueryGrid3').omGrid({
+						//title : '电离层参数查询',
+					 	dataSource :datasourceUrl_,
+					 	limit:0, 
+					 	height : 325, 
+					 	showIndex : false,
+					 	colModel :tableCols_
+					 	});
+									
+					$( "#imagePreview2").omDialog({title:'电离频高图查看',height:'auto',width:'auto'});
+					$( "#imagePreview2").omDialog('open');
+	}
+}
+/*
+    * 频高图列表表头，在电离参数或扫描图关联频高图时使用
+    * */
+	function getScanpicColmModel() {
+		var container_ = new Array();//数据表格的表头数据
+		container_[0] = {
+			header : '所属观测站',
+			name : 'station.name',
+			width : 80
+		}
+		container_[1] = {
+			header : '观测日期',
+			name : 'createDate',
+			width : 160
+		}
+		container_[2] = {
+						header : '电离层频高图名称',
+						name : 'gramTitle',
+						width : 300
+					}
+			  container_[3]={
+		           header : '操作',
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+	                         
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>';
+	                         },
+						width : 200
+			 }
+		return container_;
+}
+
+
+/**
+ * 在电离参数或频高图列表中，关联查看报表扫描图
+ * */
+function previewScanpic(stationId,createDate){
+	if(stationId && createDate){
+		var data = {
+		url : basepath+'qt/showScanpic.do',
+		params : {
+			scanPicTitle:createDate,
+			stationID:stationId
+		},
+		callback : function(json) {			
+			if (json.success) {						
+				/*if(json.data.gramPath){
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  height=500 width=600 / >');					
+					$( "#imagePreview").omDialog({title:'扫描图查看',height: 'auto' ,width :'auto'});
+					$( "#imagePreview").omDialog('open');
+				}*/
+				previewImageForScanpic(json.data.gramPath,'扫描图查看');
+			} else {
+				at({
+						cont : '没有找到对应的报表扫描图！',
+						type : 'alert'
+					});
+			}
+		}
+	}
+	ajaxpost(data);
+	}
+}
+
+/**
+ * 在电离频高图或报表扫描图列表中，关联查看电离层参数
+ * */
+var firstOpt=true;
+function showParaData(stationId,createDate){
+	if(stationId && createDate){
+			var tableCols_,datasourceUrl_;	
+					tableCols_=getParaColmModel(1,parameter_array);					
+					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
+					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
+					if(firstOpt){					 
+					  $("#imagePreview").html('<table id="paraQueryGrid2"></table>');
+					  $('#paraQueryGrid2').omGrid({
+						//title : '电离层参数查询',
+					 	dataSource :datasourceUrl_,
+					 	limit:0, 
+  						//height : 335, 
+					 	//showIndex : false,
+					 	colModel :tableCols_			 	
+					 	});
+					 	firstOpt=false;
+					}else{
+					  $('#paraQueryGrid2').omGrid('setData', datasourceUrl_);
+					}				
+				 	//$("#imagePreview").omDialog('close');			
+					$( "#imagePreview").omDialog({title:'电离层参数查看',modal: true,height:'auto',width:'auto'});
+					$( "#imagePreview").omDialog('open');
+	}
+}
+   /*
+    * 电离参数列表表头，在频高图及扫描图关联电离参数时使用
+    * */
+	function getParaColmModel(queryType,paraCol_) {
+		var container_ = new Array();//数据表格的表头数据
+		container_[0] = {
+			header : '所属观测站',
+			name : 'station.name',
+			width : 80
+		}
+		container_[1] = {
+			header : '观测日期',
+			name : 'createDate',
+			width : 160
+		}
+		//if(queryType==1){//电离参数
+		   if(paraCol_){
+		   	 //alert(paraCol_);
+				var str = new Array();
+				for (i = 0; i < paraCol_.length; i++) {
+					container_[i + 2] = {
+						header : paraCol_[i],
+						name : paraCol_[i],
+						width : 40
+					}
+				}
+		}
+		return container_;
+}
+
+
+/*
+ * 图片浏览器
+ *  电离层参数列表中，查看报表扫描图，不翻页width=600
+ */
+function previewImageForScanpic(filePath_,title_){			
+			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +
+				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');
+			
+			$( "#imagePreview").omDialog({title:title_, height: 'auto' , width :'auto'});
+			if( !$("#imagePreview").omDialog('isOpen')){
+				$( "#imagePreview").omDialog('open');
+			}						
+			$("#but2").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w*1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h*1.2);
+				}
+			});
+			$("#but3").bind("click", function(){
+				var w = $( "#imagePreview img").attr("width");
+				var h = $( "#imagePreview img").attr("height");
+				if(w){
+					$( "#imagePreview img").attr("width" , w/1.2);
+				}
+				if(h){
+					$( "#imagePreview img").attr("height" , h/1.2);
+				}
+			});
+
+	
+}
+
+
+
