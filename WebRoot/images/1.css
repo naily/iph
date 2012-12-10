@@ -19,10 +19,14 @@ float:left;
 margin-right:8px;
 }
 
-#right{ width:800px;
-height:100%;
+#right{ 
+	width:800px;
+height:830px;
+overflow: hidden;
 float:right;
-margin:0px;}
+margin:0px;
+border:0px solid red; 
+}
 
 .top_language{
 width:90px;
@@ -81,7 +85,7 @@ font-weight:bold;
 .title2{ width:180px; height:30px; background:url(d04.jpg) repeat-x;padding-left:10px; padding-top:13px; font-size:16px; font-weight:bold; margin-bottom:8px; }
 .title3{ width:120px; height:30px; background:url(d05.jpg) no-repeat;padding-left:72px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171; }
 .title4{ width:105px; height:30px; background:url(d06.jpg) no-repeat; padding-left:65px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171;margin-left:10px; margin-bottom:5px; float:right; text-indent:0em;}
-.title5{ width:84px; height:28px; background:#f3f3f3; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; margin:1px 0px 10px 1px; }
+.title5{ width:84px; height:28px; background:#f3f3f3; text-align:center; padding-top:5px; font-size:14px; font-weight:bold; margin:1px 0px 4px 1px; overflow: hidden;}
 .title6{ width:120px; height:28px; background:#f3f3f3; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; float:right; margin-top:1px; margin-right:1px;}
 .title7{ width:90px; height:20px; text-align:center; padding-top:5px; font-size:16px; font-weight:bold; margin:1px 1px 10px 0px; }
 
@@ -105,7 +109,7 @@ font-weight:bold;
 
 .rightbox3_1{ width:498px; height:132px; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative; overflow: hidden; margin-bottom:10px;}
 .rightbox3_1_text{ width:230px; height:130px; margin-left:15px; overflow:hidden; float:left; }
-.rightbox3_2{ width:498px; height:460px; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative;  }
+.rightbox3_2{ width:498px; height:312px;overflow:hidden; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative;  }
 .rightbox3_2_m{ margin-bottom:15px;}
 .rightbox3_img{ width:120px; height:90px; margin:5px ;  background:#f5f5f5;  border:1px solid #e7e7e7; }
 .rightbox3_text{ width:330px; height:82px; margin:5px;  background:#f5f5f5; text-indent:2em; padding:5px; overflow: hidden;}
@@ -114,10 +118,15 @@ font-weight:bold;
 
 /*����ҳ��*/
 .title8{ width:772px; height:28px;padding-left:30px; padding-top:12px; font-size:20px; font-weight:bold; color:#004171; border-bottom: #004171 3px solid; margin-bottom:20px;}
-.newsbox{ width:768px;  height:auto; padding-left:20px;  border:1px solid #e7e7e7; margin:10px; padding-top:15px; padding-bottom:15px;}
+.newsbox{ width:740px;  height:auto; padding-left:20px;  border:1px solid #e7e7e7; margin:10px; padding-top:15px; padding-bottom:15px;}
 .newsbox li{ list-style:none; line-height:35px; border-bottom:#E7E7E7 1px dashed; padding-top:7px; padding-left:10px; font-size:14px; }
 .newspage{ width:700px; height:20px; text-align:right;  padding-top:18px; font-size:14px; color:#004171;}
-.newstext{  width:750px; height:auto; list-style:none; line-height:28px; padding-top:7px; padding-left:10px; font-size:14px; text-align:left; text-indent:2em;}
+.newstext{  width:730px; height:auto;
+	list-style:none; line-height:28px; 
+	padding-top:7px; padding-left:10px;
+	font-size:12px; text-align:left; text-indent:2em;
+	border: solid 0px red; 
+}
 .newstitle{  width:760px; height:20px; text-align:center; font-size:18px;  font-weight:bold; color:#000000; }
 .newsinfo{  width:760px; height:20px; text-align:center; font-size:13px; margin-top:10px; margin-bottom:10px; color:#004173;  }
 .news3text{ width:555px; height:110px; margin:10px;  border:1px solid #e7e7e7; text-indent:2em; padding:5px; overflow: hidden; }

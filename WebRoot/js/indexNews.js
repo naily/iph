@@ -19,8 +19,8 @@ $(document).ready(function() {
 				/*if(idx==0){ 
 				 return true;
 			     } */			
-			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;'+item.publishDate;
-			     divstr+='<br />';
+			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:10px;">'+item.publishDate;
+			     divstr+='</i><br />';
 			     /*    if(idx<4 || (idx>4 && idx<9)){
 			      divstr+='<br />';
 			     }			    
@@ -37,12 +37,32 @@ $(document).ready(function() {
 		}
 	}
 	ajaxpost(indexNewsData);
+	
+	//展示空间新闻列表
+	var indexShowSpaceNewsData = {
+		url : 'qt/indexshowspacenews.do',
+		params : {},
+		callback : function(json) {		
+			var divstart='<div class="rightbox3_1_text_">';
+			var divend='</div>';
+			var divstr = divstart;
+			if (json.success) {	
+				$.each(json.newsList,function(idx,item){ 
+				     divstr+='<li><a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:10px;">'+item.publishDate;
+				     divstr+='</i></li>';
+				
+				}) 
+			    divstr+=divend;				   
+				$('#zskj_news').html(divstr);
+			}
+		}
+	}
+	ajaxpost(indexShowSpaceNewsData);
+	
 	//图片新闻
 	var picNewsData = {
 		url : 'qt/indexPicNews.do',
-		params : {
-			
-		},
+		params : {},
 		callback : function(json) {
 			if (json.success) {						
 				$('#newsBrief').html(json.newsBrief);

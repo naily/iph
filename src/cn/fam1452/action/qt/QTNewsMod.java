@@ -71,9 +71,9 @@ public class QTNewsMod extends BaseMod{
 	@At("/qt/newspreview")
     @Ok("jsp:jsp.qt.news")
     /*新闻三级内容*/
-    public News loadNewsPreview(HttpServletRequest req,String newsId){
+    public News loadNewsPreview(HttpServletRequest req,long newsId){
 		News news = new News() ;
-		if(StringUtil.checkNotNull(newsId)){
+		if( newsId > 0){
 			news = baseService.dao.fetch(News.class, newsId) ;
 		}
 		return news ;
@@ -86,11 +86,11 @@ public class QTNewsMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		List<News> newslist = baseService.dao.query(News.class, 
-				Cnd.where("category", "=", "1").orderBy(). asc("newsId"),
+				Cnd.where("category", "=", "1").desc("newsId"),
 				baseService.dao.createPager(1, Constant.INDEX_NEWS_NUMS)) ;
 		
 		JsonConfig cfg = new JsonConfig(); 
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm")); 
 		cfg.setExcludes(new String[] { "content","picture"  }); // "publishDate" , 
 		
 		JSONArray jsonAry = JSONArray.fromObject(newslist , cfg);
@@ -104,6 +104,34 @@ public class QTNewsMod extends BaseMod{
 		}	
 		//System.err.println(jsonAry.toString());
 		//log.info(json12.toString());
+		return json;
+	}
+	
+	/**
+	 * 首页展示空间新闻列表
+	 * @return
+	 */
+	@At("/qt/indexshowspacenews")
+	@Ok("json")
+	public JSONObject indexShowSpaceNews(){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		List<News> newslist = baseService.dao.query(News.class, 
+				Cnd.where("category", "=", "2").desc("newsId"),
+				baseService.dao.createPager(1, Constant.INDEX_NEWS2_NUMS)) ;
+		
+		JsonConfig cfg = new JsonConfig(); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm")); 
+		cfg.setExcludes(new String[] { "content","picture"  }); // "publishDate" , 
+		
+		JSONArray jsonAry = JSONArray.fromObject(newslist , cfg);
+		
+		if(newslist!=null && newslist.size()>0){
+			json.put(Constant.SUCCESS, true);
+			json.put("newsList", jsonAry);
+			json.put("newsnum", newslist.size());
+		}else{ }	
+		
 		return json;
 	}
 }

@@ -28,12 +28,12 @@
 
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<div  id="right">
+		<div id="right" style="overflow-y: scroll;">
 			<div class="title8">${msg['qt_news_title']}</div>
-			<div class="newsbox">
+			<div class="newsbox" >
 				<div class="newstitle">${obj.title }</div>
 				<div class="newsinfo">${msg['qt_news_time']}：<fmt:formatDate value="${ obj.publishDate }"  type="both" /></div>
-				<div class="newstext">${obj.content }</div>
+				<div class="newstext" >${obj.content}</div>
 			</div>
 		</div>
 		<!--right 结束-->
