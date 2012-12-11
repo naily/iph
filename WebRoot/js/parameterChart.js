@@ -10,9 +10,9 @@ $(document).ready(function() {
 	   //选择月份
 	$('#hourForChart').omCombo({ // 初始化Combo
 		dataSource :hour_omCombo_datasource,
-		width : 200,
+		width : 100
 		//value:1,
-		 multi : true            
+		 //multi : true            
 	});
 	var paraValue;
 	var selectOk=true;
@@ -21,14 +21,16 @@ $(document).ready(function() {
  	 * 一次只选择一个单因子或者一组多因子，不允许多选
  	 * */
        var sss=$('#selectorPara').omItemSelector({
-                availableTitle : select_parameter,
-                selectedTitle : selected_parameter,
-                dataSource : parameter_omCombo_datasource2,
+                availableTitle : select_station,
+                selectedTitle : selected_station,
+                //dataSource : parameter_omCombo_datasource2,
                 value:[],
-                onBeforeItemSelect:function(itemDatas, event){
+                dataSource : 'qt/listAllStation.do',
+				//value:[stationId],
+               /* onBeforeItemSelect:function(itemDatas, event){
 	                if(itemDatas.length<=1 && selectOk){
 	                	   paraValue=itemDatas[0].value;
-	                	   $('#parameter').attr({value:itemDatas[0].value});
+	                	   $('#stationId2').attr({value:itemDatas[0].value});
 	                	    selectOk=false;
 	                	}else{	           			
 	           			  at({cont:'只能选择一个单因子或者一组多因子！' , type : 'error'});	                	
@@ -37,8 +39,8 @@ $(document).ready(function() {
                 },
                  onItemDeselect:function(itemDatas, event){ 
                  	  selectOk=true;
-                	 $('#parameter').attr({value:''});
-                 },
+                	 $('#stationId2').attr({value:''});
+                 },*/
                 width:350,
         		height:250
 
@@ -55,7 +57,7 @@ $(document).ready(function() {
      
       //生成电离参数曲线图      
        $("#pressParaChart").click(function(){
-               var stationId=$('#stationId').val();
+               var stationId=$('#stationId2').val();
 			   var year=$('#year').val();
 			   var parameter=$('#parameter').val();	
 			   var chk_value =[];    

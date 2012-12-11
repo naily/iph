@@ -71,15 +71,16 @@
 					<table height="290" class="report_table" align="center">
 						<tr>
 						   	<td height="30" valign="top">
-								${msg['qt_month_report_selectpara']}：							
+								${msg['qt_month_report_station']}：							
 							</td>
 							<td height="30"  valign="top">
 								<div id="selectorPara" ></div>
-								<input id="parameter" type="hidden"/> 
+								<input id="stationIds"  type="hidden"/>
+								 
 							</td>
 							<td height="30" valign="top">
 							  <table width="100%">
-							     <tr><td width="120">${msg['qt_month_report_station']}:：</td><td><input id="stationId" type="hidden" name="stationId" class="boxinput_report"/></td></tr>
+							     <tr><td width="120">${msg['qt_month_report_selectpara']}:：</td><td><input id="parameter" name="parameter" class="boxinput_report"/></td></tr>
 							     <tr><td>${msg['qt_month_report_year']}：</td><td><input id="year" name="year" class="boxinput_report"/></td></tr>
 							     <tr>
 							         <td>
@@ -99,6 +100,16 @@
 							          
 							          </td>
 							         <!-- <td><input id="monthForChart" name="months" class="boxinput_report"/>(支持多选)</td> -->
+							      </tr>
+							           <tr>
+							         <td>
+							           ${msg['qt_month_report_hour']}：<br>
+							          
+							         </td>
+							          <td>
+							          <input id="hourForChart" name="hour" class="boxinput_report"/>							          
+							          </td>
+							
 							      </tr>
 							     <tr><td colspan="2" height="50" align="center">
 							     <%--

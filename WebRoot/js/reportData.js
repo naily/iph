@@ -16,7 +16,7 @@ $(document).ready(function() {
         dataSource:'ht/stationlistall.do' ,
         valueField : 'id' ,
         optionField :'name',
-        width : 120,
+        width : 100,
         onValueChange : function(target, newValue, oldValue, event) {
 			//$('input[name=year]').focus();
           if(newValue){
@@ -66,7 +66,7 @@ $(document).ready(function() {
 	// 电离参数下拉列表
 	$('input[name=parameter]').omCombo({ // 初始化Combo
 		dataSource :parameter_omCombo_datasource,
-		width : 120,
+		width : 100,
 		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {
 			 $('input[name=parameter]').focus();

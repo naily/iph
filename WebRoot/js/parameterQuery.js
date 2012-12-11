@@ -23,12 +23,28 @@ $(document).ready(function() {
 			 	});
 			//$("#downloadParaData").show();
 		}
+	var paraValue;
+	var selectOk=true;
 	// 选择观测站
 	$('#selectorStation').omItemSelector({
 				availableTitle : select_station,
 				selectedTitle : selected_station,
 				dataSource : 'qt/listAllStation.do',
 				value:[stationId],
+				  onBeforeItemSelect:function(itemDatas, event){
+	                if(itemDatas.length<=1 && selectOk){
+	                	   paraValue=itemDatas[0].value;
+	                	   $('#stationIDs').attr({value:itemDatas[0].value});
+	                	    selectOk=false;
+	                	}else{	           			
+	           			  at({cont:'只能选择一个观测站！' , type : 'error'});	                	
+	                	  return false;
+	                	}
+                },
+                 onItemDeselect:function(itemDatas, event){ 
+                 	  selectOk=true;
+                	 $('#stationIDs').attr({value:''});
+                 },
 				/*onItemSelect : function(itemDatas, event) {
 					var stationValue = '';
 					if (itemDatas.length >= 1) {
@@ -148,9 +164,8 @@ $('#paraQueryGrid2').omGrid({
 	// 电离参数列表显示
 	$("#paraDataQuery").click(function() {
         //alert($('#selectorParaS').omItemSelector('value'));
-		//var stationId = $('#stationIDs').val();
-		var stationId = $('#selectorStation').omItemSelector('value');
-		//var parameter = $('#parameter').val();
+		var stationId = $('#stationIDs').val();
+		//var stationId = $('#selectorStation').omItemSelector('value');
 		var parameter = $('#selectorParaS').omItemSelector('value');
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
