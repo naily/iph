@@ -195,6 +195,74 @@ public class QTParameterMod extends BaseMod {
 	public void loadParaChart(){
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	@At("/qt/loadParaChartDataNew")
+	@Ok("json")
+	/**
+	 * 电离层曲线图生成(多站点单参数月中值曲线，多站点单参数长期变化曲线（分为24小时连续和某时刻两种选项)
+	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
+	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
+	 *   两种多因子组合  foF2.foF1.foEs.foE    h'F2.h'Es.h'E.h'F1
+	 * */
+	public JSONObject loadParaDataNew(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) {
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())&& StringUtil.checkNotNull(parameter.getMonth())) {
+			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
+			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
+			if(null!=parameter.getParaType()){				
+				QuartileUtil quartUtil=null;
+				String[] filterFiled={"days"};//过滤非数据字段
+				String[] stationAry = null;
+				if(null!=parameter.getStationID()){
+					stationAry =parameter.getStationID().split(",");
+				}
+				
+				//String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
+				String paraName = parameter.getParaType();//电离参数
+				int[]  monthAry =StringUtil.getIntArrayBySplitString(parameter.getMonth(),",");
+				if(null!=stationAry && stationAry.length>0){//观测站
+						json.put("paraFlag", 1);//曲线图类型：单因子
+						//json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+						json.put("yAxis", "Critical Frequency ");
+						json.put("paraName", paraName);
+						quartUtil = new QuartileUtil();	
+						parameter.setParaType(paraName);
+						if(monthAry.length>0){
+						  List medListOne = new ArrayList();
+						  Map map ;
+						  for(int m:monthAry){//遍历月份
+							map = new HashMap();
+							parameter.setMonth(String.valueOf(m));	
+							parameter.setStationID("WU430");
+							list = parameterService.parameterMonthReport(parameter);
+							if(null!=list && list.size()>0){
+								medListOne=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
+							}
+							map.put("mutiMonth", medListOne);
+							map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
+							map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+							medList.add(map);
+						  }
+						}
+						json.put("SingleFactor", medList);//单因子
+										
+				 }
+				}//end  if(null!=parameter.getParaType()){
+							
+			if (null != medList) {
+				json.put(Constant.SUCCESS, true);
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "01", medList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+			} else {
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "01", 0, getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+			}
+			}//end if
+			
+		//log.info(json.toString());
+		return json;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@At("/qt/loadParaChartData")
 	@Ok("json")
@@ -357,7 +425,7 @@ public class QTParameterMod extends BaseMod {
 			}
 			}//end if
 			
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	

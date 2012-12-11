@@ -7,7 +7,7 @@ $(document).ready(function() {
 		//value:1,
 		 multi : true            
 	});
-	   //选择月份
+	   //选择小时（00-23）
 	$('#hourForChart').omCombo({ // 初始化Combo
 		dataSource :hour_omCombo_datasource,
 		width : 100
@@ -16,31 +16,16 @@ $(document).ready(function() {
 	});
 	var paraValue;
 	var selectOk=true;
+	 var stationId = $('#stationIDV').val();	
  	/*
- 	 * 选择电离参数
- 	 * 一次只选择一个单因子或者一组多因子，不允许多选
+ 	 * 选择服务站
  	 * */
        var sss=$('#selectorPara').omItemSelector({
                 availableTitle : select_station,
                 selectedTitle : selected_station,
                 //dataSource : parameter_omCombo_datasource2,
-                value:[],
+                value:[stationId],
                 dataSource : 'qt/listAllStation.do',
-				//value:[stationId],
-               /* onBeforeItemSelect:function(itemDatas, event){
-	                if(itemDatas.length<=1 && selectOk){
-	                	   paraValue=itemDatas[0].value;
-	                	   $('#stationId2').attr({value:itemDatas[0].value});
-	                	    selectOk=false;
-	                	}else{	           			
-	           			  at({cont:'只能选择一个单因子或者一组多因子！' , type : 'error'});	                	
-	                	  return false;
-	                	}
-                },
-                 onItemDeselect:function(itemDatas, event){ 
-                 	  selectOk=true;
-                	 $('#stationId2').attr({value:''});
-                 },*/
                 width:350,
         		height:250
 
@@ -57,27 +42,34 @@ $(document).ready(function() {
      
       //生成电离参数曲线图      
        $("#pressParaChart").click(function(){
-               var stationId=$('#stationId2').val();
+              // var stationId=$('#stationId').val();
+               var stationId= $('#selectorPara').omItemSelector('value');
 			   var year=$('#year').val();
 			   var parameter=$('#parameter').val();	
+			  
 			   var chk_value =[];    
 				  $('input[name="months"]:checked').each(function(){    
 				     chk_value.push($(this).val());    
 				  });    
-			   var month=chk_value.toString();		
+			   var month=chk_value.toString();
+			  if(stationId)stationId.toString();
+			    //alert(stationId+'-'+parameter+'-'+month+'-'+year);
+			   //return false;
 			   //month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份	
 			   if(chk_value.length>1 && (parameter=='foF2,foF1,foEs,foE' || parameter=='M3000F2,P（foEs）,hiEs') ){
 			    at({cont:'查看多因子曲线图时，只能选择一个月份！' , type : 'error'});
 			    return;
 			   }
                 if(stationId && year && month && parameter){
+                	//alert(stationId);
                      var data = {
-								url : 'qt/loadParaChartData.do',
-								params : {
-								stationID : stationId,
+								url : 'qt/loadParaChartDataNew.do',
+								params : {								
 								year :year,
 								month:month,
-								paraType:parameter
+								paraType:parameter,
+								//stationID:stationId
+								stationID:'\''+stationId+'\''
 							},
 							callback : function(json) {											
 								if (json.success) {	
