@@ -13,6 +13,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="images/1.css" type="text/css" rel="stylesheet" />
 <link href="css/index.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
+<script type="text/javascript">
+	var fg = '<%=request.getParameter("login")%>' ;
+	if(fg == 'no'){
+		alert("请登录!") ;
+	}
+</script>
 </head>
 
 <body>
