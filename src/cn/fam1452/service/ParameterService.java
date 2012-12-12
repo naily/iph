@@ -200,7 +200,7 @@ public class ParameterService extends Base{
 				}
 	    		
 	    		//报表名称行（顶行）合并为一列
-	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt,rowSatrt,0,25));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)	    		
+	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt,rowSatrt,0,24));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)	    		
 	    		row = sheet.createRow((short)rowSatrt);// 在索引0的位置创建行（最顶端的行）
 	    		cell = row.createCell(0);
 	    		cell.setCellValue(defaultTitle);
@@ -210,7 +210,7 @@ public class ParameterService extends Base{
 	    		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,0,3));//合并单元格  CellRangeAddress(起始行,结束行,起始列,结束列)
 		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,4,8));
 		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,9,15));
-		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,16,25));
+		   		sheet.addMergedRegion(new CellRangeAddress(rowSatrt+1,rowSatrt+1,16,24));
 		   		//创建一行四列,并为四列赋值
 		   		row = sheet.createRow((short)rowSatrt+1);
 		   		
@@ -233,15 +233,17 @@ public class ParameterService extends Base{
 		   		cell.setCellStyle(styleAlign);
 		   		//设置单元格宽度
 		   		sheet.setColumnWidth( 0,10*256);//.autoSizeColumn(0 )
-		   		for(int col=1;col<=25;col++){
+		   		//for(int col=1;col<=25;col++){
+		   		for(int col=1;col<=24;col++){
 		   			sheet.setColumnWidth( col  , 5*256); 
 		   		}
 		   		//创建报表表头（第三行）（日期及0-23小时行）
 		        row = sheet.createRow((short)rowSatrt+2);
 		   	    cell = row.createCell(0); 		   	    
-		   	    cell.setCellValue("Day\\Month");//此处应该设为斜线，暂未解决
+		   	    cell.setCellValue("Day\\Hour");//此处应该设为斜线，暂未解决
 		   	    cell.setCellStyle(styleHead);
-		   	    for(int col1=0;col1<=24;col1++){
+		   	    //for(int col1=0;col1<=24;col1++){
+		   	    for(int col1=0;col1<24;col1++){
 		   	    	cell=row.createCell(col1+1);
 		   	    	 if(col1<10){
 		   	    		cell.setCellValue("0"+col1);		   	    		 
@@ -256,7 +258,7 @@ public class ParameterService extends Base{
 					    	for (int i = 0 ; i < listData.size() ; i++) {
 					    		para = (ParameterMonthDateBo)listData.get(i) ;
 					    		row = sheet.createRow(rowSatrt+3); 				    		
-					    		  for(int col2=0;col2<=25;col2++){
+					    		  for(int col2=0;col2<25;col2++){
 					    			  cell=row.createCell(col2);
 						    	    	if(col2==0){
 						    	    		cell.setCellValue(para.getDays());
