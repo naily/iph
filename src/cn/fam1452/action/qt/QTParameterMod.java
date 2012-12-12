@@ -208,6 +208,7 @@ public class QTParameterMod extends BaseMod {
 	public JSONObject loadParaDataNew(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
+		json.put("showSanDianPic", false);
 		if (parameter != null && StringUtil.checkNotNull(parameter.getYear())&& StringUtil.checkNotNull(parameter.getMonth())) {
 			List<ParameterMonthDateBo> list =null;//电离月报报表(不含四分位数)
 			List medList= new ArrayList();//四分位数列表（单因子list=1，多因子list=4）
@@ -215,14 +216,18 @@ public class QTParameterMod extends BaseMod {
 				QuartileUtil quartUtil=null;
 				String[] filterFiled={"days"};//过滤非数据字段
 				String[] stationAry = null;
-				if(null!=parameter.getStationID()){
+				String stationStr = req.getParameter("stationIDs");
+				/*if(null!=parameter.getStationID()){
 					stationAry =parameter.getStationID().split(",");
+				}*/
+				if(null!=stationStr){
+					stationAry =stationStr.split(",");
 				}
-				
+				String hourStr = req.getParameter("hourStr");//小时
 				//String[] paraAry = parameter.getParaType().split(",");//电离参数处理，多因子用逗号隔开
-				String paraName = parameter.getParaType();//电离参数
+				String paraName = parameter.getParaType();//电离参数(单参数)
 				int[]  monthAry =StringUtil.getIntArrayBySplitString(parameter.getMonth(),",");
-				if(null!=stationAry && stationAry.length>0){//观测站
+				   if(null!=stationAry && stationAry.length==1){//单站点时
 						json.put("paraFlag", 1);//曲线图类型：单因子
 						//json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
 						json.put("yAxis", "Critical Frequency ");
@@ -235,7 +240,8 @@ public class QTParameterMod extends BaseMod {
 						  for(int m:monthAry){//遍历月份
 							map = new HashMap();
 							parameter.setMonth(String.valueOf(m));	
-							parameter.setStationID("WU430");
+							//parameter.setStationID("WU430");
+							parameter.setStationID(stationAry[0]);
 							list = parameterService.parameterMonthReport(parameter);
 							if(null!=list && list.size()>0){
 								medListOne=quartUtil.monthIonosphericMedDateOne(list, filterFiled,filterFiled[0]);	
@@ -243,12 +249,96 @@ public class QTParameterMod extends BaseMod {
 							map.put("mutiMonth", medListOne);
 							map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
 							map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+							json.put("showSanDianPic", true);
 							medList.add(map);
 						  }
 						}
-						json.put("SingleFactor", medList);//单因子
-										
-				 }
+						json.put("SingleFactor", medList);										
+				   }
+				   if(null!=stationAry && stationAry.length>1){//多观测站时
+					   json.put("paraFlag", 1);//曲线图类型：单因子
+						//json.put("chartTitle", "Monthly median values and its distribution of "+paraAry[0]);
+						json.put("yAxis", "Critical Frequency ");
+						json.put("paraName", paraName);
+						
+						 /**
+						  * 不选小时：按小时连续显示00-23的曲线值（x轴 小时）【多个曲线图（每个月一个），每个图中显示各观测站的参数值）】
+						  * 选小时：按月份显示电离曲线（x轴 月份）【只有一个图，显示1-12月中各个观测站在某个时刻的电离值，】
+						  * */
+						if(null!=hourStr && !"".equals(hourStr)){
+							//hourStr="h"+hourStr;//前台传值：00-23，类中的属性：h01-h23
+							quartUtil = new QuartileUtil();	
+							parameter.setParaType(paraName);
+							//if(monthAry.length>0){
+							  List medListOne =null;
+							  Map map = new HashMap();	
+							  Map medMap = null;	
+							  for(String stationID:stationAry){
+								medMap = new HashMap();
+								parameter.setStationID(stationID);
+								medListOne = new ArrayList();//月报电离曲线																														 
+								 float[] pValueAry =  new float[12];//
+								 float paraValue=0;
+								 //for(int m:monthAry){//遍历月份
+								   for(int m=1;m<=12;m++){//遍历月份									
+									parameter.setMonth(String.valueOf(m));
+									list = parameterService.parameterMonthReport(parameter);									
+									 if(null!=list && list.size()>0){									
+										paraValue = quartUtil.monthIonosphericMedDateForHour(list, filterFiled,filterFiled[0],"h"+hourStr);																				
+									 }
+									pValueAry[m-1] =paraValue;								
+								  }//end for month
+								    medMap.put("name", stationID);
+									medMap.put("data", pValueAry);
+									medListOne.add(medMap);
+							  }//end for  station
+								map.put("mutiMonth", medListOne);
+								//map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
+								//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+								map.put("chartTitle", parameter.getYear()+" 1->"+parameter.getYear()+" 12("+hourStr+") of "+paraName);
+								medList.add(map);
+								
+								
+							//}
+					      }else{//
+					    	  quartUtil = new QuartileUtil();	
+								parameter.setParaType(paraName);
+								if(monthAry.length>0){
+								  List medListOne =null;
+								  Map map ;
+								  for(int m:monthAry){//遍历月份
+									medListOne = new ArrayList();//月报电离曲线
+									map = new HashMap();
+									parameter.setMonth(String.valueOf(m));	
+									Map medMap;
+									 for(String stationID:stationAry){
+										parameter.setStationID(stationID);
+										list = parameterService.parameterMonthReport(parameter);							
+										if(null!=list && list.size()>0){
+											medMap = new HashMap();
+											//medMap = quartUtil.monthIonosphericMedDateForMutiStation(list, filterFiled,filterFiled[0],stationID);								
+											medMap = quartUtil.monthIonosphericMedDate(list, filterFiled,filterFiled[0]);
+											medMap.put("name", stationID);
+											medListOne.add(medMap);
+										 }
+									  }
+									map.put("mutiMonth", medListOne);
+									map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
+									json.put("showSanDianPic", true);
+									//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+									map.put("chartTitle", parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+									medList.add(map);
+								  }//end for  month
+								}
+					   }
+					   
+					   
+		
+						
+						
+						json.put("SingleFactor", medList);//单因子	
+				   }
+				   
 				}//end  if(null!=parameter.getParaType()){
 							
 			if (null != medList) {

@@ -24,8 +24,21 @@ $(document).ready(function() {
                 availableTitle : select_station,
                 selectedTitle : selected_station,
                 //dataSource : parameter_omCombo_datasource2,
-                value:[stationId],
+                //value:[stationId],
                 dataSource : 'qt/listAllStation.do',
+                onItemSelect : function(itemDatas, event) {
+					var stationValue = '';
+					if (itemDatas.length >= 1) {
+						stationValue = itemDatas[0].value
+					}
+					for (var i = 1; i < itemDatas.length; i++) {
+						stationValue += "," + itemDatas[i].value;
+					}
+					$('#stationIds').attr({
+								value : stationValue
+							});
+
+				},
                 width:350,
         		height:250
 
@@ -39,11 +52,11 @@ $(document).ready(function() {
       }
 	   
     });
-     
+ 
       //生成电离参数曲线图      
        $("#pressParaChart").click(function(){
-              // var stationId=$('#stationId').val();
-               var stationId= $('#selectorPara').omItemSelector('value');
+               //var stationIds=$('#stationIds').val();
+               var stationIds= $('#selectorPara').omItemSelector('value');
 			   var year=$('#year').val();
 			   var parameter=$('#parameter').val();	
 			  
@@ -52,7 +65,7 @@ $(document).ready(function() {
 				     chk_value.push($(this).val());    
 				  });    
 			   var month=chk_value.toString();
-			  if(stationId)stationId.toString();
+			  //if(stationIds)stationIds.toString();
 			    //alert(stationId+'-'+parameter+'-'+month+'-'+year);
 			   //return false;
 			   //month=chk_value[0];//暂支持一个月的数据，多选时选择第一个选中的月份	
@@ -60,8 +73,12 @@ $(document).ready(function() {
 			    at({cont:'查看多因子曲线图时，只能选择一个月份！' , type : 'error'});
 			    return;
 			   }
-                if(stationId && year && month && parameter){
-                	//alert(stationId);
+                if(stationIds && year && month && parameter){
+                	
+                	//stationIds =stationIds.toString();
+                	//alert($('#hourForChart').val());
+                	//return false;
+                	//alert(stationIds);
                      var data = {
 								url : 'qt/loadParaChartDataNew.do',
 								params : {								
@@ -69,10 +86,22 @@ $(document).ready(function() {
 								month:month,
 								paraType:parameter,
 								//stationID:stationId
-								stationID:'\''+stationId+'\''
+								hourStr:$('#hourForChart').val(),
+								stationIDs:stationIds.toString()
+								
 							},
-							callback : function(json) {											
+							callback : function(json) {
+							 
 								if (json.success) {	
+									
+									 var  xAxisValueAry;//x轴显示序列
+									  if($('#hourForChart').val()){							
+										   xAxisValueAry=parameter_chart_xAxis_month;
+										}else{
+										   xAxisValueAry=parameter_chart_xAxis_hour
+										}
+									
+									//alert(xAxisValueAry);
 									var chart;	//曲线图
 									var chartS;//散点图
 									var chartHeight = 250;//单个曲线图的高度
@@ -126,13 +155,15 @@ $(document).ready(function() {
 									 		 //根据你所需要的图形类型选择不同的swf，如3d柱状图为FCF_Column3D.swf，2d饼状图为FCF_Pie2D.swf
 									 		 //chartS = new FusionCharts("swf/SelectScatter.swf", "SelectScatter", "700", "400", "0", "1");									
 									 		// chartS.setDataURL("data/data.xml");	
-									 		
-									         chartS = new FusionCharts("swf/FC_2_3_MSScatter.swf ", "FC_2_3_MSScatter", "700", "350");
+									 		if(json.showSanDianPic){
+									 		  chartS = new FusionCharts("swf/FC_2_3_MSScatter.swf ", "FC_2_3_MSScatter", "700", "350");
 									         chartS.setDataXML(object.fusionCharts);
 									        // chartS.setDataURL("data/data2.xml");									    
-									         chartS.render("scatterChart"+i);
-									       
+									        chartS.render("scatterChart"+i);
 								 		
+									 		}
+									        
+									      
 									 		chart = new Highcharts.Chart({
 											chart: {
 												renderTo: 'paraDataChart'+i,
@@ -149,7 +180,7 @@ $(document).ready(function() {
 												x: -20
 											},
 											xAxis: {
-												categories: parameter_chart_xAxis_hour
+												categories: xAxisValueAry//parameter_chart_xAxis_hour
 											},
 											yAxis: {
 												title: {

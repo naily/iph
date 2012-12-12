@@ -22,7 +22,8 @@ month_omCombo_datasource= [ {text : '1',  value : '1' },
 							{text : '11', value : '11' },
 							{text : '12', value : '12' }]
 //小时
-hour_omCombo_datasource= [  {text : '00', value : '00' },
+hour_omCombo_datasource= [  {text : '请选择', value : '' },
+							{text : '00', value : '00' },
 							{text : '01', value : '01' },
 							{text : '02', value : '02' },
 							{text : '03', value : '03' },
@@ -101,6 +102,10 @@ parameter_omCombo_datasource2=[
  * 电离曲线图的x轴数据列（小时序列）
  * */			           
 parameter_chart_xAxis_hour=['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
+ /*
+ * 电离曲线图的x轴数据列（月份序列）
+ * */	
+parameter_chart_xAxis_month=['1','2','3','4','5','6','7','8','9','10','11','12']
 /*根据参数类型，返回该参数的单位*/
 function getUnit(ptype){
 	var retValue;

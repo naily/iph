@@ -331,6 +331,36 @@ public class QuartileUtil<T>{
 		
 	}
 	/**
+	 * 功能：返回某月某时刻的中位值（如：1月份 每天12点的中位值）
+	 * 
+	 * 多月份可以循环调用此方法（得到各个月在某时刻的电离参数中位值）
+	 *
+	 * */
+	public float  monthIonosphericMedDateForHour(List<Object> list , String[] field,String headTitle,String hourStr) {
+		QuartileBean quartBean = null;
+		float pValue=0;
+		try {
+			quartBean = this.mianCallMe(list, field);
+			PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
+			Object va = PropertyUtils.getSimpleProperty(quartBean.getQ2(), hourStr) ;
+			pValue=Float.parseFloat(va.toString());
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pValue;
+		
+	}
+	/**
 	 * 功能：返回电离月报三个四分位值
 	 * @param list ：1-31天的电力参数值
 	 * @param field ：排除的属性
@@ -384,16 +414,16 @@ public class QuartileUtil<T>{
 			 
 		}
 		Map map = new HashMap();
-		map.put("name", "LQ");
-		map.put("data", lqValue);
+		map.put("name", "UQ");
+		map.put("data", uqValue);		
 		medList.add(map);
 		map = new HashMap();
 	    map.put("name", "MED");
 		map.put("data", medValue);
 		medList.add(map);
 		map = new HashMap();
-		map.put("name", "UQ");
-		map.put("data", uqValue);
+		map.put("name", "LQ");
+		map.put("data", lqValue);
 		medList.add(map);
 		//为四分位数赋标题值
 	
