@@ -65,7 +65,7 @@ $(document).ready(function() {
 
 	// 电离参数下拉列表
 	$('input[name=parameter]').omCombo({ // 初始化Combo
-		dataSource :parameter_omCombo_datasource,
+		dataSource :parameter_month_omCombo_datasource,
 		width : 100,
 		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {

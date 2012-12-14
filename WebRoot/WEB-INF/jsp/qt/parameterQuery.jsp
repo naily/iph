@@ -51,12 +51,10 @@
 			<div class="title8">
 				${msg['qt_data_query_title']}
 			</div>
-			<div class="reportbox">
-					<table height="400" class="report_table" align="center">
-						<tr>
-						   
-							<td height="30"  valign="top">
-						
+			<div class="reportbox_">
+					<table height="460" class="report_table" align="center">
+						<tr>					   
+							<td height="30"  valign="top">						
 								<div id="selectorStation" ></div>
 								<input id="stationIDs" type="hidden"/> 
 							</td>
@@ -83,8 +81,7 @@
 										<c:otherwise>
 										<img src="images/d11.jpg"  border="0" />
 										</c:otherwise>
-									  </c:choose>
-								    
+									  </c:choose>							    
 								      </a>
 							     </td></tr>								
 							     <tr><td colspan="2" height="100" align="center">
@@ -98,8 +95,7 @@
 					<br/>
 					<div id="imagePreview" title="图片预览"><table id="paraQueryGrid2"></table></div> 					
 					<div id="imagePreview2" title="图片预览"><table id="paraQueryGrid3"></table> </div> 
-					<table id="paraQueryGrid"></table>
-					
+					<table id="paraQueryGrid"></table>					
 				</div>
 		   <!-- </div> -->
 		</div>

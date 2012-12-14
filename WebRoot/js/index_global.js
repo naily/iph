@@ -48,8 +48,8 @@ hour_omCombo_datasource= [  {text : '请选择', value : '' },
 							{text : '22', value : '22' },
 							{text : '23', value : '23' }
 							]
-//电离参数
-parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'}, 
+//电离参数(日报)
+parameter_omCombo_datasourceOld= [ { text : 'foF2',  value : 'foF2'}, 
 					           { text : 'h\'F2',  value : 'hlF2'}, 
 					           { text : 'foF1',  value : 'foF1'}, 
 					           { text : 'h\'F1',  value : 'hlF1'}, 
@@ -66,7 +66,43 @@ parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'},
 					           { text : 'M3000F1',  value : 'm3000F1'}, 
 					           { text : 'M3000F',   value : 'm3000F'}
 					           ]
-
+//电离参数(日报) 20121214新修改
+parameter_omCombo_datasource= [ { text : 'foF2',  value : 'foF2'}, 
+					           { text : 'fxF2',  value : 'fxF2'},
+					           { text : 'h\'F2',  value : 'hlF2'},
+					           { text : 'hpF2',  value : 'hpF2'},
+					           { text : 'foF1',  value : 'foF1'}, 
+					           { text : 'hxl',  value : 'hxl'},					          
+					           { text : 'h\'F',   value : 'hlF'}, 					            
+					           { text : 'hpF',   value : 'hpF'}, 
+					           { text : 'foE',   value : 'foE'}, 
+					           { text : 'h\'E',   value : 'hlE'},
+					           { text : 'foEs',  value : 'foEs'}, 
+					           { text : 'h\'Es',  value : 'hlEs'}, 
+					           { text : 'fbEs',  value : 'fbEs'},
+					           { text : 'Es-Type',  value : 'Es'},
+					           { text : 'Fmin',  value : 'fmin'}, 
+					           { text : 'MUF3000F1',  value : 'MUF3000F1'}, 
+					           { text : 'MUF3000F2',  value : 'MUF3000F2'}, 
+					           { text : 'M3000F1',  value : 'M3000F1'}, 
+					           { text : 'M3000F2',   value : 'M3000F2'}
+					           ]					           
+//电离参数(月报) 20121214新增
+parameter_month_omCombo_datasource= [ 
+							   { text : 'foF2',  value : 'foF2'}, 
+					           { text : 'h\'F2',  value : 'hlF2'}, 
+					           { text : 'foF1',  value : 'foF1'}, 					  
+					           { text : 'h\'F',   value : 'hlF'}, 
+					           { text : 'foE',   value : 'foE'}, 
+					           { text : 'h\'E',   value : 'hlE'}, 
+					           { text : 'Fmin',  value : 'fmin'}, 					           
+					           { text : 'foEs',  value : 'foEs'},  
+					           { text : 'fbEs',  value : 'fbEs'}, 
+					           { text : 'h\'Es',  value : 'hlEs'}, 					         
+					           { text : 'Es-Type',  value : 'Es'},
+					           { text : 'M3000F1',  value : 'M3000F1'}, 
+					           { text : 'M3000F2',   value : 'M3000F2'}
+					           ]
 /*
  * 曲线图参数选择
  * 1、带多因子选择参数

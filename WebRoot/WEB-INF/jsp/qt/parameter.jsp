@@ -42,7 +42,7 @@
 			<div class="title8">
 				${msg['qt_month_report_title']}
 			</div>
-			<div class="reportbox">
+			<div class="reportbox_">
 				<!--  <div class="newstext">-->
 					<table  class="report_table" align="center">
 						<tr>
@@ -83,7 +83,7 @@
 					<table id="showPages" style="display:none;"><tr><td><a href="javascript:void(0)" onclick="Previous()">上一页</a>&nbsp;&nbsp;<span id="pageNumber"></span>/<span id="pagesNum"></span> 页&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Next()">下一页</a>&nbsp;&nbsp;</td></tr></table>
 					<input type="hidden" id="parameterIndex"/>
 					<input type="hidden" id="monthIndex" value="0"/>
-					
+					<br/>
 					 <table id="reportGrid"></table>					
 					
 				</div>

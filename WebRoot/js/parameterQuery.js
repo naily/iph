@@ -16,7 +16,7 @@ $(document).ready(function() {
 			 $('#paraQueryGrid').omGrid({
 				//title : '电离层参数查询',
 			 	dataSource :datasourceUrl, // limit:0, 
-			 	height : 325, 
+			 	height : 295, 
 			 	limit:pageslimit,
 			 	showIndex : false,
 			 	colModel :tableCols_
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 				},*/
 				width : 270,
-				height : 345
+				height : 410
 
 			});
 
@@ -83,7 +83,7 @@ $(document).ready(function() {
 							});
 				},*/
 				width : 270,
-				height : 345
+				height : 410
 
 			});
 	// 选择查询数据类型
