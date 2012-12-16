@@ -20,7 +20,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var basepath = "<%=basePath%>" ;
     </script>
 	<script type="text/javascript" src="js/index_left.js"></script>
+	 <style type="text/css">
+    .hrefTiele{
+	 white-space: nowrap;
+	 width:16px; 
+	 overflow: hidden; 
+	 text-overflow: ellipsis;
+   }
+ 
+ /* IE下的样式 */ 
+.hrefTiele{
+display: block;
+width:160px;/*对宽度的定义,根据情况修改*/
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
 
+
+ 
+</style>
   </head>
   
   <body>
@@ -45,22 +64,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tr>
   --%>
   <tr>
-    <td height="30" ><a href="http://www.igsnrr.ac.cn" title="中国科学院地理科学与资源研究所" target="_blank" class="a2">中国科学院地理科学...</a></td>
+    <td height="30" ><a href="http://www.igsnrr.ac.cn" title="${msg['index_href_zkydls']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_zkydls']}</span></a></td>
   </tr>
   <tr>
-    <td height="30" ><a href="http://www.most.gov.cn/" target="_blank" class="a2">国家科技部</a></td>
+    <td height="30" ><a href="http://www.most.gov.cn/" title="${msg['index_href_kjb']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_kjb']}</span></a></td>
   </tr>
   <tr>
-    <td height="30" ><a href="http://www.mlr.gov.cn/" target="_blank" class="a2">国土资源部</a></td>
+    <td height="30" ><a href="http://www.mlr.gov.cn/" title="${msg['index_href_gtzyb']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_gtzyb']}</span></a></td>
   </tr>
   <tr>
-    <td height="30" ><a href="http://www.cas.ac.cn/" target="_blank" class="a2">中国科学院</a></td>
+    <td height="30" ><a href="http://www.cas.ac.cn/" title="${msg['index_href_zgkxy']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_zgkxy']}</span></a></td>
   </tr>
   <tr>
-    <td height="30" ><a href="http://www.irsa.ac.cn/" target="_blank" class="a2">遥感应用研究所</a></td>
+    <td height="30" ><a href="http://www.irsa.ac.cn/" title="${msg['index_href_ygyys']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_ygyys']}</span></a></td>
   </tr>
   <tr>
-    <td height="30" ><a href="http://www.rcees.ac.cn/" target="_blank" class="a2">生态环境研究中心</a></td>
+    <td height="30" ><a href="http://www.rcees.ac.cn/" title="${msg['index_href_sthj']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_sthj']}</span></a></td>
   </tr>
 </table>
 </div>

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
 
 import org.nutz.dao.Sqls;
@@ -44,14 +46,14 @@ public class IndexDataQueryMod extends BaseMod{
 	@SuppressWarnings("unchecked")
 	@At("/qt/latestDataUpdate")
 	@Ok("json")
-	public JSONObject latestData(){
+	public JSONObject latestData(HttpServletRequest req){
 		JSONObject json= new JSONObject();
 		json.put(Constant.SUCCESS, false);
 		Sql sql =Sqls.create("SELECT TOP 5 * FROM T_Log where actionType<>'03' order by logDate desc ");
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(baseService.dao.getEntity(Log.class));
 		baseService.dao.execute(sql) ;		
-		
+		//getMsgByKey("");
 		List<Log> list =sql.getList(Log.class);
 		
 		if(null!=list && list.size()>0){
@@ -59,14 +61,26 @@ public class IndexDataQueryMod extends BaseMod{
 			String dataTable,actionType;//数据表名称，数据操作类型(插入，修改),前台显示标题
 			Map mapTitle = null;
 			List<Map> titleList = new ArrayList<Map>();
+			String zh_en=this.getMsgByKey(req, "lang");
 			for(Log logs:list){
 				mapTitle= new HashMap();
 				if("01".endsWith(logs.getActionType())){
-					actionType="新增了";
+					
+					if("en".equals(zh_en)){
+						actionType="add";
+					}else{
+						actionType="新增了";
+					}
+					
 				}else{
-					actionType="更新了";
+					if("en".equals(zh_en)){
+						actionType="update";
+					}else{
+						actionType="更新了";
+					}
+					
 				}
-				dataTable=getDataTableName(logs.getDataTable());
+				dataTable=getDataTableName(logs.getDataTable(),zh_en);
 				mapTitle.put("title", DateUtil.convertDateToString(logs.getLogDate(), "yyyy-MM-dd HH:mm")+"&nbsp;"+actionType+dataTable);
 				titleList.add(mapTitle);
 			}
@@ -81,16 +95,33 @@ public class IndexDataQueryMod extends BaseMod{
 	/**
 	 * 获取数据表的中文名称
 	 * */
-	public String getDataTableName(String tname){
+	public String getDataTableName(String tname,String zh_en){
 		String tbChineseName;
 		if("T_METADATA".equals(tname)){
-			tbChineseName="元数据";
+			if("en".equals(zh_en)){
+				tbChineseName="METADATA";
+			}else{
+				tbChineseName="元数据";
+			}
+			
 		}else if("T_SCANPIC".equals(tname)){
-			tbChineseName="报表扫描图";
+			if("en".equals(zh_en)){
+				tbChineseName="SCANPIC";
+			}else{
+				tbChineseName="报表扫描图";
+			}
 		}else if("T_PARAMETER".equals(tname)){
-			tbChineseName="电离层参数";
+			if("en".equals(zh_en)){
+				tbChineseName="PARAMETER";
+			}else{
+				tbChineseName="电离层参数";
+			}
 		}else if("T_IRONOGRAM".equals(tname)){
-			tbChineseName="电离层频高图";
+			if("en".equals(zh_en)){
+				tbChineseName="IRONOGRAM";
+			}else{
+				tbChineseName="电离层频高图";
+			}
 		}else{
 			tbChineseName="";
 		}

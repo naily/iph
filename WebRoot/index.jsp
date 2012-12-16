@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		alert("请登录!") ;
 	}
 </script>
+
 </head>
 
 <body>
@@ -35,16 +36,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。我国南极中山站（69°22′S，76°23′E，不变磁纬74.5°，L=13.9）白天处于磁层极隙区，晚上处于极盖区，可以观测到丰富的日地能量传输过程的电离层征兆和极光现象，是开展高空大气物理观测研究的理想之地。通过与日本、澳大利亚等的国际合作，自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。该系统由电离层、极光、地磁等方面的8台观测仪器组成。自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。
 	</div>
 <!--rightbox1 项目简介 结束-->
+<!--新闻开始 -->
+	<c:if test='${msg.lang=="zh"}'>
 	<div class="rightbox1" style="text-indent:0;">
-		<div class="rightbox2_1" style="float: left;">
+	
+	  <div class="rightbox2_1" style="float: left;">
 		<div class="rightbox2_1_img" id="indexRightNewsImg"></div>
 		<div class="title5">${msg['index_pic_news']}</div>
-		<div class="rightbox2_1_text">
+		 <div class="rightbox2_1_text">
 			<a href="javascript:void(0)" id="showPicNews" class="a2">
 				<div id="newsBrief"></div>
 			</a>
 		</div>
-		</div><!--rightbox2_1 结束-->
+		</div>
+		<!--rightbox2_1 结束-->
 		
 		<div  class="rightbox3_1" id="rightbox3_1" style="float:right;width:60%;overflow: hidden;border: 0px;">
 		<!-- <div class="rightbox3_1_text">
@@ -56,7 +61,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>  -->
 		</div>
 	</div>
-
+	</c:if>
+<!--新闻结束 -->
 <div class="rightbox2">
 <div class="rightbox2_2">
 <div class="title6">${msg['index_laster_data']}</div>
