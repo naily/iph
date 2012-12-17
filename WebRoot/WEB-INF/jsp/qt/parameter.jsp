@@ -101,6 +101,11 @@
 		<!--right 结束-->
 		<jsp:include page="left.jsp" flush="true" />
 		<!--left 结束-->
-		<jsp:include page="../ht/footer.jsp" flush="true" />
+		<c:choose>
+		<c:when test='${msg.lang=="zh"}'> 
+		 <jsp:include page="../ht/footer.jsp" flush="true" />
+         </c:when>
+         <c:otherwise> <jsp:include page="footer.jsp" flush="true" /></c:otherwise>				
+	  </c:choose>
 	</body>
 </html>

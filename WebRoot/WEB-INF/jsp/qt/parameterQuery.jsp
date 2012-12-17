@@ -52,7 +52,7 @@
 				${msg['qt_data_query_title']}
 			</div>
 			<div class="reportbox_">
-					<table height="460" class="report_table" align="center">
+					<table height="335" class="report_table" align="center">
 						<tr>					   
 							<td height="30"  valign="top">						
 								<div id="selectorStation" ></div>
@@ -102,6 +102,11 @@
 		<!--right 结束-->
 		<jsp:include page="left.jsp" flush="true" />
 		<!--left 结束-->
-		<jsp:include page="../ht/footer.jsp" flush="true" />
+		<c:choose>
+		<c:when test='${msg.lang=="zh"}'> 
+		 <jsp:include page="../ht/footer.jsp" flush="true" />
+         </c:when>
+         <c:otherwise> <jsp:include page="footer.jsp" flush="true" /></c:otherwise>				
+	  </c:choose>
 	</body>
 </html>

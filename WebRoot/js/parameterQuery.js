@@ -11,12 +11,12 @@ $(document).ready(function() {
 			$('#endDate').val(endDateV);
 			selectTypeValue='1';
 			//$('#selectDataType').val('1');
-			tableCols_=getParaColmModel(1,parameter_array);	
+			tableCols_=getParaColmModel(1,parameter_array_text);	
 			 datasourceUrl='qt/doParaDataQuery.do?ids=' + stationId + '&startDate='+ startDateV + '&endDate=' + endDateV;
 			 $('#paraQueryGrid').omGrid({
 				//title : '电离层参数查询',
 			 	dataSource :datasourceUrl, // limit:0, 
-			 	height : 295, 
+			 	height : 405, 
 			 	limit:pageslimit,
 			 	showIndex : false,
 			 	colModel :tableCols_
@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 				},*/
 				width : 270,
-				height : 410
+				height : 300
 
 			});
 
@@ -67,7 +67,9 @@ $(document).ready(function() {
 	$('#selectorParaS').omItemSelector({
 				availableTitle : select_parameter,
 				selectedTitle : selected_parameter,
-				dataSource : parameter_omCombo_datasource,
+				//dataSource : parameter_omCombo_datasource,
+				dataSource : parameter_month_omCombo_datasource,
+				
 				value:initParaValue,
 				//value:parameter_array,
 			/*	onItemSelect : function(itemDatas1, event) {
@@ -83,7 +85,7 @@ $(document).ready(function() {
 							});
 				},*/
 				width : 270,
-				height : 410
+				height : 300
 
 			});
 	// 选择查询数据类型
@@ -448,7 +450,7 @@ var firstOpt=true;
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
 			var tableCols_,datasourceUrl_;	
-					tableCols_=getParaColmModel(1,parameter_array);					
+					tableCols_=getParaColmModel(1,parameter_array_text);					
 					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
 					if(firstOpt){					 

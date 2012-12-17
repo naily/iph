@@ -131,8 +131,15 @@ parameter_omCombo_datasource2=[
 			         
 			           
 			           ]
- parameter_array=['foF2','hlF2','foF1','hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']		
- parameter_array_text=['foF2','h\'F2','foF1','h\'F1','h\'F','hpF','foE','h\'E','foEs','h\'Es','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']			         
+			     
+ //parameter_array=['foF2','hlF2','foF1','hlF1','hlF','hpF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']	
+ //parameter_array_text=['foF2','h\'F2','foF1','h\'F1','h\'F','hpF','foE','h\'E','foEs','h\'Es','fbEs','fmin','m3000F2','m1500F2','m3000F1','m3000F']	
+  parameter_array=['foF2','hlF2','foF1','hlF','foE','hlE','foEs','hlEs','fbEs','fmin','M3000F2','M3000F1','Es']
+  parameter_array_text=['foF2','h\'F2','foF1','h\'F','foE','h\'E','foEs','h\'Es','fbEs','fmin','M3000F2','M3000F1','Es-Type']	
+ 
+                       
+ 
+ 
  month_array=['1','2','3','4','5','6','7','8','9','10','11','12']
  /*
  * 电离曲线图的x轴数据列（小时序列）

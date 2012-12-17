@@ -95,7 +95,7 @@ font-weight:bold;
 .rightbox2{ width:290px; height:560px; margin-left:10px; float:right; line-height:24px; font-size:13px;  }
 
 
-.rightbox2_1{ width:288px; height:142px;  border:1px solid #e7e7e7; margin-bottom:10px;}
+.rightbox2_1{ width:298px; height:142px;  border:1px solid #e7e7e7; margin-bottom:10px;}
 .rightbox2_1_img{ width:180px; height:120px; margin:10px;padding-top:2px;  background:#f5f5f5;  border:1px solid #e7e7e7; float:right;}
 .rightbox2_1_text{ width:75px; height:90px; margin-left:10px;  float:left;  }
 
@@ -107,6 +107,11 @@ font-weight:bold;
 
 .rightbox2_4{ width:288px; height:136px;  border:1px solid #e7e7e7;  }
 
+.rightbox2_5{ width:288px; height:140px;  border:1px solid #e7e7e7; margin-bottom:10px;}
+.rightbox2_5_img{ width:145px; height:110px; margin:10px;padding-top:2px;  background:#f5f5f5;  border:1px solid #e7e7e7; float:left;}
+.rightbox2_5_text{ width:75px; height:90px; margin-left:10px;  float:right;  }
+
+.rightbox3_0{ width:298px; height:132px; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative; overflow: hidden; margin-bottom:10px;}
 .rightbox3_1{ width:498px; height:132px; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative; overflow: hidden; margin-bottom:10px;}
 .rightbox3_1_text{ width:230px; height:130px; margin-left:15px; overflow:hidden; float:left; }
 .rightbox3_2{ width:498px; height:312px;overflow:hidden; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative;  }
