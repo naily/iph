@@ -37,7 +37,7 @@ $(document).ready(function() {
 	                	   $('#stationIDs').attr({value:itemDatas[0].value});
 	                	    selectOk=false;
 	                	}else{	           			
-	           			  at({cont:'只能选择一个观测站！' , type : 'error'});	                	
+	           			  at({cont:selected_only_sation , type : 'error'});	                	
 	                	  return false;
 	                	}
                 },
@@ -254,12 +254,14 @@ $('#paraQueryGrid2').omGrid({
 	function getColmModel(queryType,paraCol) {
 		var container = new Array();//数据表格的表头数据
 		container[0] = {
-			header : '所属观测站',
+			//header : '所属观测站',
+			header : order_by_station,
 			name : 'station.name',
 			width : 80
 		}
 		container[1] = {
-			header : '观测日期',
+			//header : '观测日期',
+			header : order_by_date,
 			name : 'createDate',
 			width : 140
 		}
@@ -276,41 +278,43 @@ $('#paraQueryGrid2').omGrid({
 					}
 				}
 			container[paraCol.length+2]={
-		           header : '操作',
+		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         	return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
 	                         },
 						width : 150
 			 }
 		}else if(queryType==2){//电离频高图
 				container[2] = {
-						header : '电离层频高图名称',
+						//header : '电离层频高图名称',
+						header : select_type_ionogram,
 						name : 'gramTitle',
 						width : 300
 					}
 			  container[3]={
-		           header : '操作',
+		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
 	                         
-	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">报表扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>'   ;
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+qt_Ionospheric_parameters+'</a>'   ;
 	                         },
 						width : 200
 			 }
 		}else{//报表扫描图
 		
 		      container[2] = {
-						header : '报表扫描图名称',
+						//header : '报表扫描图名称',
+						header : select_type_Report_scan,
 						name : 'scanPicTitle',
 						width : 300
 					}
 			container[3]={
-		           header : '操作',
+		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
 	                         
-	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">查看扫描图</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离层参数</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">电离频高图</a>'   ;
+	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+qt_Ionospheric_parameters+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
 	                         },
 						width : 200
 			 }

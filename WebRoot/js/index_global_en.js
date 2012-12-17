@@ -81,3 +81,5 @@ function getCityRecords() {
 	var select_query_type='select type'
 	var order_by_station='Station'
 	var order_by_date='Date'
+	var selected_only_sation='Can select only one station'
+	var option_button='Operating'

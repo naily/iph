@@ -74,13 +74,22 @@
 								<input type="button" id="loadReportData" value="${msg['qt_month_report_press']}"/> 
 								<input type="button" id="downloadReportData" value="${msg['qt_month_report_download']}"/>
 								--%>
-								<a href="javascript:void(0)"  id="loadReportData"><img src="images/yuebaosc.png"  border="0" /></a>
-								<a href="javascript:void(0)"  id="downloadReportData"><img src="images/yuebaoxz.png"  border="0" /></a>
+									<c:choose>
+									 <c:when test='${msg.lang=="zh"}'> 
+									 	<a href="javascript:void(0)"  id="loadReportData"><img src="images/yuebaosc.png"  border="0" /></a>
+										<a href="javascript:void(0)"  id="downloadReportData"><img src="images/yuebaoxz.png"  border="0" /></a>
+									</c:when>
+									<c:otherwise>
+										<input type="button" id="loadReportData" value="${msg['qt_month_report_press']}"/> 
+										<input type="button" id="downloadReportData" value="${msg['qt_month_report_download']}"/>
+									</c:otherwise>
+								</c:choose>	
+								
 							</td>
 						</tr>
 					</table>
 					
-					<table id="showPages" style="display:none;"><tr><td><a href="javascript:void(0)" onclick="Previous()">上一页</a>&nbsp;&nbsp;<span id="pageNumber"></span>/<span id="pagesNum"></span> 页&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Next()">下一页</a>&nbsp;&nbsp;</td></tr></table>
+					<table id="showPages" style="display:none;"><tr><td><a href="javascript:void(0)" onclick="Previous()">${msg['qt_page_prepage']}</a>&nbsp;&nbsp;<span id="pageNumber"></span>/<span id="pagesNum"></span> ${msg['qt_page_unit']}&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Next()">${msg['qt_page_nextpage']}</a>&nbsp;&nbsp;</td></tr></table>
 					<input type="hidden" id="parameterIndex"/>
 					<input type="hidden" id="monthIndex" value="0"/>
 					<br/>

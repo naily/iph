@@ -26,8 +26,9 @@ $(document).ready(function() {
                         callback : function(json){                      
                             if(json.success){  
                             	locations=json.data.timeZone;//timeZone//location
-                            	jingweidu=json.data.name+"("+json.data.longitude+"&nbsp;"+json.data.latitude+")";
-                            	$('#location').html(locations);
+                            	jingweidu=json.data.name+"("+json.data.longitude+"'E&nbsp;"+json.data.latitude+"'N)";
+                            	//$('#location').html(locations);//
+                            	$('#location').html("120°E.M.T ( G.M.T + 8h )");//
                                 $('#jingweidu').html(jingweidu);
                             }else{
                                 //at({cont: json.info , type : 'error'});
@@ -59,7 +60,7 @@ $(document).ready(function() {
 		//value:1,
 		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
-			$('#month_year').html(getMonthEn(newValue)+"&nbsp;"+$('#year').val());
+			$('#month_year').html(getMonthEn(newValue)+".&nbsp;"+$('#year').val());
 		}
 	});
 

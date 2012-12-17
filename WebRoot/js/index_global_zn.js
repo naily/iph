@@ -70,6 +70,8 @@ var select_type_Report_scan='原始观测报表'
 var select_query_type='选择查询类型'
 var order_by_station='观测站'
 var order_by_date='观测日期'
+var selected_only_sation='只能选择一个观测站'
+var option_button='操作'
 
 
 

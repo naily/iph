@@ -115,8 +115,16 @@
 							     <%--
 							     <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
 							     --%>
-							     <a href="javascript:void(0)"  id="pressParaChart"><img src="images/qxtsc.png"  border="0" /></a>
-								<!--<input type="button" id="paraData" value="曲线图下载"/>  --></td></tr>
+							      <c:choose>
+									 <c:when test='${msg.lang=="zh"}'> 
+									 	 <a href="javascript:void(0)"  id="pressParaChart"><img src="images/qxtsc.png"  border="0" /></a>
+									</c:when>
+									<c:otherwise>
+										 <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
+									</c:otherwise>
+								</c:choose>	
+							    
+								</td></tr>
 							   </table>												
 							</td>
 						
