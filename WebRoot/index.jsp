@@ -32,8 +32,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="right">
 	<div class="rightbox1">
 	<div class="title4">${msg['index_project_description']}</div>
-	
-		由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。我国南极中山站（69°22′S，76°23′E，不变磁纬74.5°，L=13.9）白天处于磁层极隙区，晚上处于极盖区，可以观测到丰富的日地能量传输过程的电离层征兆和极光现象，是开展高空大气物理观测研究的理想之地。通过与日本、澳大利亚等的国际合作，自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。该系统由电离层、极光、地磁等方面的8台观测仪器组成。自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。
+	<c:choose>
+		 <c:when test='${msg.lang=="zh"}'> 
+			由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。我国南极中山站（69°22′S，76°23′E，不变磁纬74.5°，L=13.9）白天处于磁层极隙区，晚上处于极盖区，可以观测到丰富的日地能量传输过程的电离层征兆和极光现象，是开展高空大气物理观测研究的理想之地。通过与日本、澳大利亚等的国际合作，自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。该系统由电离层、极光、地磁等方面的8台观测仪器组成。自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。
+		</c:when>
+		<c:otherwise>
+			Special bit-shaped due to the Earth's magnetic field, the observations of the polar region of space physics research in the study of energy transfer processes in the Sun-Earth occupies an extremely important position. China's Antarctic Zhongshan Station (69 ° 22'S, 76 ° 23'E constant magnetic latitude 74.5 °, L = 13.9) during the day and in the magnetospheric cusp, night is polar cap, can be observed rich day of energy sign of ionospheric and auroral phenomena in the transmission process, it is the ideal place to carry out observational studies of upper atmospheric physics. Through international cooperation with Japan, Australia, since 1995 our country in the Antarctic Zhongshan Station to gradually establish the upper atmosphere observation system. The system is composed by eight of the ionosphere, auroras, geomagnetic observation instruments. Zhongshan Station in Antarctica since 1995, China has gradually established upper atmospheric observing systems.							
+		</c:otherwise>
+	</c:choose>	
+		
 	</div>
 <!--rightbox1 项目简介 结束-->
 <!--新闻开始 -->
@@ -59,11 +66,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="rightbox2">
 <div class="rightbox2_5">
-<div class="title6">台站分布</div>
+<div class="title6">${msg['index_taizhan_title']}</div>
 <div class="rightbox2_5_img" id=""><a href="#a"><img src="images/mapmini.png" alt="" border="0" height="110" align="left"/></a></div>
 		<div class="rightbox2_5_text">
 			<a href="javascript:void(0)" id="" class="a2">
-				kkkk
+				${msg['index_taizhan_jianjie']}
 			</a>
 		</div>	
 </div><!--rightbox2_5 结束 台站分布-->
