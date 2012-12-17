@@ -268,8 +268,8 @@ public class QuartileUtil<T>{
 		QuartileBean quartBean = this.mianCallMe(list, field);
 		//为四分位数赋标题值
 		if(null!=quartBean){
-			PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"UQ");		
-			PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"LQ");
+			PropertyUtils.setSimpleProperty(quartBean.getQ1(),headTitle,"LQ");		
+			PropertyUtils.setSimpleProperty(quartBean.getQ3(),headTitle,"UQ");
 			PropertyUtils.setSimpleProperty(quartBean.getQ2(),headTitle,"MED");
 			PropertyUtils.setSimpleProperty(quartBean.getCnt(),headTitle,"CNT");
 			

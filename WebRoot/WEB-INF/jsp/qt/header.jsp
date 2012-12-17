@@ -51,7 +51,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		<form id="userRegForm"  name="userRegForm">
 	    		<table   border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
-				    <td height="30" colspan="3" align="">&nbsp; 提示：标有 <font color="red">*</font>  的项为必填项<br></td>
+				    <td height="30" colspan="3" align="">&nbsp; 
+      <c:choose>
+		<c:when test='${msg.lang=="zh"}'> 提示：标有 <font color="red">*</font>  的项为必填项</c:when>
+		<c:otherwise>Tip: items marked * required</c:otherwise>
+	</c:choose>
+                    
+                    
+                    <br></td>
 				    </tr>
 				  <tr>
 				    <td class="userregtd" ><font color="red">*</font>${msg['qt_regist_username']}：</td>
@@ -121,14 +128,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </tr> 
 				    <tr>
 				    <td  class="userregtd"><font color="red">*</font>${msg['ht_login_code']}：</td>
-				    <td ><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="90" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode');" class="a4"> 换一张</a></td>
+				    <td ><input type="text" name="code" id="code" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="90" height="22" border="0" id="vailcode"/></span><a href="javascript:void(0)" onClick="reloadimage('vailcode');" class="a4"> ${msg['index_pic_change']}</a></td>
 				    <td class="userregtd_img"></td>
 				    
 				  </tr>				  
 				  <tr>
 				    <td height="30" colspan="3" align="center">
 				    
-				    <input name="regSubmit"  id="regSubmit" type="image" value="ee" src="images/d10.jpg" />
+				    <input name="regSubmit"  id="regSubmit" type="image" value="ee" 
+                     <c:choose>
+		<c:when test='${msg.lang=="zh"}'> src="images/d10.jpg" />	</c:when>
+		<c:otherwise>src="images/d12.jpg"	</c:otherwise>
+	</c:choose>
+                    />
 				    
 				    </td>
 				  </tr>
@@ -160,13 +172,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </tr>				     
 				    <tr>
 				    <td  class="userregtd">${msg['ht_login_code']}：</td>
-				    <td><input type="text" name="code1" id="code1" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="70" height="22" border="0" id="vailcode_1"/></span><a href="javascript:void(0)" onclick="reloadimage('vailcode_1');" class="a4">换一张</a></td>
+				    <td><input type="text" name="code1" id="code1" class="boxinput4"  /><span class="y_img"><img src="ht/logincode.do" align="absmiddle" width="70" height="22" border="0" id="vailcode_1"/></span><a href="javascript:void(0)" onClick="reloadimage('vailcode_1');" class="a4">${msg['index_pic_change']}</a></td>
 				  <td class="userregtd_img"></td>
 				    
 				  </tr>				  
 				  <tr>
 				    <td height="30" colspan="3" align="center">				 
-				    <input name="getUserPasswordSubmit"  id="getUserPasswordSubmit" type="image" value="getpassword" src="images/d10.jpg" />				    
+				    <input name="getUserPasswordSubmit"  id="getUserPasswordSubmit" type="image" value="getpassword" 
+      <c:choose>
+		<c:when test='${msg.lang=="zh"}'> src="images/d10.jpg" />	</c:when>
+		<c:otherwise>src="images/d12.jpg" />	</c:otherwise>
+	</c:choose>
+                    			    
 				    </td>
 				  </tr>
 				</table>

@@ -67,14 +67,14 @@ public class IndexDataQueryMod extends BaseMod{
 				if("01".endsWith(logs.getActionType())){
 					
 					if("en".equals(zh_en)){
-						actionType="add";
+						actionType=" add ";
 					}else{
 						actionType="新增了";
 					}
 					
 				}else{
 					if("en".equals(zh_en)){
-						actionType="update";
+						actionType=" update ";
 					}else{
 						actionType="更新了";
 					}
@@ -99,26 +99,26 @@ public class IndexDataQueryMod extends BaseMod{
 		String tbChineseName;
 		if("T_METADATA".equals(tname)){
 			if("en".equals(zh_en)){
-				tbChineseName="METADATA";
+				tbChineseName="Metadata";
 			}else{
 				tbChineseName="元数据";
 			}
 			
 		}else if("T_SCANPIC".equals(tname)){
 			if("en".equals(zh_en)){
-				tbChineseName="SCANPIC";
+				tbChineseName="Scanpic";
 			}else{
 				tbChineseName="报表扫描图";
 			}
 		}else if("T_PARAMETER".equals(tname)){
 			if("en".equals(zh_en)){
-				tbChineseName="PARAMETER";
+				tbChineseName="Parameter";
 			}else{
 				tbChineseName="电离层参数";
 			}
 		}else if("T_IRONOGRAM".equals(tname)){
 			if("en".equals(zh_en)){
-				tbChineseName="IRONOGRAM";
+				tbChineseName="Ironogram";
 			}else{
 				tbChineseName="电离层频高图";
 			}

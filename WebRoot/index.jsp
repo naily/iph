@@ -125,7 +125,7 @@ ${msg['qt_data_download_quantity']}：<span id="downloadAmount"></span>
       <td width="88" align="left" class="fontstyle2" >${msg['qt_metadata_search']}</td>
       <td width="301"><label></label>
       	
-          <input type="text" name="title" id="metaDataKeyword" class="boxinput2" value="请输入你要查找的数据集名称或关键字"  onfocus="if(this.value=='请输入你要查找的数据集名称或关键字'){this.value=''}"/></td><!--  onblur="if(this.value==''){this.value='请输入你要查找的信息...'}" -->
+          <input type="text" name="title" id="metaDataKeyword" class="boxinput2" value="${msg['index_query_key_alert']}"  onfocus="if(this.value=='${msg['index_query_key_alert']}'){this.value=''}"/></td><!--  onblur="if(this.value==''){this.value='请输入你要查找的信息...'}" -->
       <td width="67"> 
       
       <input name="metaSubmit"  id="metaSubmit" type="image" value="" 

@@ -99,7 +99,7 @@ public class QTPGTMod extends BaseMod{
 				mapAll.put("text", station.getName());
 				mapAll.put("pid", station.getId());
 			    if(i==0){
-			    	mapAll.put("expanded", true);
+			    	//mapAll.put("expanded", true);//设置节点展开
 			    }
 				queryListStaYear =baseService.dao.query(NavDataYear.class, Cnd.where("stationId", "=",station.getId() ).and("dataTable", "=", navData.getDataTable()).asc("year"));			
 				 yearList = new ArrayList<Map>();
