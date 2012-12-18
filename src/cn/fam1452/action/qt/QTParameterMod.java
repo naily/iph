@@ -234,6 +234,8 @@ public class QTParameterMod extends BaseMod {
 						json.put("paraName", paraName);
 						quartUtil = new QuartileUtil();	
 						parameter.setParaType(paraName);
+						String tableName =stationAry[0];
+						Station station = this.baseService.dao.fetch(Station.class,tableName);
 						if(monthAry.length>0){
 						  List medListOne = new ArrayList();
 						  Map map ;
@@ -248,7 +250,9 @@ public class QTParameterMod extends BaseMod {
 							}
 							map.put("mutiMonth", medListOne);
 							map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
-							map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+							//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+							map.put("chartTitle",DateUtil.getMonthEn(m)+"."+ parameter.getYear()+" 120°E.M.T ( G.M.T + 8h ) &nbsp;&nbsp; "+tableName+"("+station.getLongitude()+"°E  "+station.getLatitude()+"°N)");
+							map.put("topTitle", "Monthly median values and its distribution of "+paraName);
 							json.put("showSanDianPic", true);
 							medList.add(map);
 						  }
@@ -295,7 +299,9 @@ public class QTParameterMod extends BaseMod {
 								map.put("mutiMonth", medListOne);
 								//map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
 								//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
-								map.put("chartTitle", parameter.getYear()+" 1->"+parameter.getYear()+" 12("+hourStr+") of "+paraName);
+								map.put("chartTitle", DateUtil.getMonthEn(1)+"."+parameter.getYear()+" -> "+DateUtil.getMonthEn(12)+"."+parameter.getYear()+" ("+hourStr+")");
+								//map.put("chartTitle", parameter.getYear()+" 1->"+parameter.getYear()+" 12("+hourStr+") of "+paraName);
+								map.put("topTitle", "Monthly median values and its distribution of "+paraName);
 								medList.add(map);
 								
 								
@@ -324,9 +330,11 @@ public class QTParameterMod extends BaseMod {
 									  }
 									map.put("mutiMonth", medListOne);
 									map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
-									json.put("showSanDianPic", true);
+									json.put("showSanDianPic", false);
 									//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
-									map.put("chartTitle", parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+									//map.put("chartTitle", parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
+									map.put("chartTitle", DateUtil.getMonthEn(m)+"."+parameter.getYear());
+									map.put("topTitle", "Monthly median values and its distribution of "+paraName);
 									medList.add(map);
 								  }//end for  month
 								}

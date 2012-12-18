@@ -290,7 +290,7 @@ public class DateUtil {
 	 * */
 	public static String getMonthEn(int idx){
 		String retV=null;
-		String[] monthEn = {"Jan","Feb","Mar","Apr", "May","Jun","Jui","Aug","Sept","Oct","Nov","Dec"};
+		String[] monthEn = {"Jan","Feb","Mar","Apr", "May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
 		if(idx>0){
 			retV=monthEn[idx-1];
 		}else{

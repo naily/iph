@@ -172,11 +172,11 @@ $(document).ready(function() {
 												marginBottom: 25
 											},
 											title: {
-												text: object.chartTitle,//json.chartTitle
+												text: object.topTitle,//json.chartTitle
 												x: -20 //center
 											},
 											subtitle: {
-												text: '',//year+'.'+month+'  '+locations+'     '+jingweidu
+												text: object.chartTitle,//year+'.'+month+'  '+locations+'     '+jingweidu
 												x: -20
 											},
 											xAxis: {

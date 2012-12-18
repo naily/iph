@@ -57,8 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>		
 		</div>
 		<!--rightbox2_1 结束-->
-		<div  class="rightbox3_0" id="rightbox3_1" style="float:left;width:24%;overflow: hidden;border: 0px;margin-left:5px;">
-		
+		<div  class="rightbox3_0" id="rightbox3_1" style="float:left;width:23%;overflow: hidden;border: 0px;margin-left:2px;">		
 		</div>
 		
 	</c:if>

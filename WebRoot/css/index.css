@@ -91,9 +91,9 @@ input.error,textarea.error {
 .boxinput4{ width:80px; height:20px; padding-top:3px; border:1px #cccccc solid; font-size:14px; background:#ffffff;}
 
 
-.index_a2{    
-        width:50px;    
-        white-space:nowrap;    
+.index_a2{             
+        white-space:nowrap; 
+        width:30px;    
         word-break:keep-all;    
         overflow:hidden;    
         text-overflow:ellipsis;   
@@ -104,4 +104,9 @@ input.error,textarea.error {
 .index_a2:hover{ color:#003399; text-decoration:none; }
 
 .rightbox3_1_text_{ width:490px; height:130px; margin-left:15px; overflow:hidden; float:left; }
-
+.indexHrefTitle{
+	 white-space: nowrap;
+	 width:10px; 
+	 overflow: hidden; 
+	 text-overflow: ellipsis;
+}

@@ -19,8 +19,9 @@ $(document).ready(function() {
 				/*if(idx==0){ 
 				 return true;
 			     } */			
-			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:10px;">'+item.publishDate;
-			     divstr+='</i><br />';
+			     //divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'">'+item.title+'</a>&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:10px;">'+item.publishDate;
+			     divstr+='<a href="qt/newspreview.do?newsId='+item.newsId+'" target="_blank" class="index_a2" title="'+item.title+'"><span style="white-space:nowrap;width:10px;overflow:hidden;text-overflow:ellipsis;">'+item.title+'</span></a>';
+			     divstr+='<br />';
 			     /*    if(idx<4 || (idx>4 && idx<9)){
 			      divstr+='<br />';
 			     }			    
