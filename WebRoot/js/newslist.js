@@ -9,9 +9,9 @@ $(document).ready(function(){
                         {header:'<b>新闻类别</b>',align : 'center',   name:'category' ,width:100 ,
                             renderer : function(colValue, rowData, rowIndex){
                             if (colValue == 2) {
-                                 return '<span >展示空间</span>';
+                                 return '<span >相关文档</span>';
                              } else {
-                                 return '<span >新闻栏目</span>';
+                                 return '<span >动态新闻</span>';
                              }
                          }} ,
                          {header:'<b>图片新闻</b>',align : 'center',   name:'picNews' ,width:80 ,

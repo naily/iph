@@ -12,7 +12,7 @@ $(document).ready(function(){
     }
     
     $('#comboCateg').omCombo({
-        dataSource:[{text:'新闻栏目' , value:1},{text:'展示空间' , value:2}] ,
+        dataSource:[{text:'动态新闻' , value:1},{text:'相关文档' , value:2}] ,
         value : 1 ,
         width :100
     }) ;

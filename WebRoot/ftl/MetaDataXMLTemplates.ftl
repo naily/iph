@@ -7,13 +7,16 @@
 		<engTitle>${engTitle!}</engTitle>
 		<language>${language!}</language>
 		<keyword>${keyword!}</keyword>
+		<keywordEng>${keywordEng!}</keywordEng>
 		<uptDate>${uptDate!}</uptDate>
 		<pubDate>${pubDate!}</pubDate>
+		<lastAlterDate>${lastAlterDate!}</lastAlterDate>
 	</IdInfo>
 	
 	
 	<ContInfo>
 		<abstract>${abstract1!}</abstract>
+		<abstract1Eng>${abstract1Eng!}</abstract1Eng>
 		<tpCat>
 			<cateName>${cateName!}</cateName>
 			<cateCode>${cateCode!}</cateCode>

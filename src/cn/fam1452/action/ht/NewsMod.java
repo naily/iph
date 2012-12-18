@@ -211,9 +211,9 @@ public class NewsMod extends BaseMod{
 	@POST
 	@At("/ht/newsget")
     @Ok("json")
-    public News get(String id){
+    public News get(long id){
 		News ig = null ;
-		if(StringUtil.checkNotNull(id)){
+		if( id > 0 ){
 			ig = baseService.dao.fetch(News.class, id) ;
 		}
 		

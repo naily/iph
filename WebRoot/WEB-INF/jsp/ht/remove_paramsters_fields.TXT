@@ -1,0 +1,33 @@
+fxF2
+fxl
+hpF2
+hlF1
+hpF
+M1500F2
+M3000F
+MUF3000F1
+MUF3000F2
+
+
+
+元数据必选项包括：
+（1）	数据集标识符 datId
+（2）	数据集名称   resTitle
+（3）	数据集英文名称 engTitle
+（4）	关键词         keyword
+（5）	英文关键词     keywordEng
+（6）	数据集语言     yuzhongCombox
+（7）	最新修改日期 * lastAlterDate
+（8）	数据集摘要     abstract1
+（9）	数据集英文摘要  abstract1Eng
+（10）	位置描述      posDes
+（11）	起始时间 begDate
+（12）	结束时间 endDate
+（13）	数据量   dataQuant
+（14）	观测站名称 siteName
+（15）	观测仪器名称 instName
+（16）	数据格式   dataFormat
+（17）	数据源类型 srcType
+（18）	数据提供方 prdContact
+（19）	数据访问服务类型 serviceType
+（20）	分发方           dissContact

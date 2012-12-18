@@ -70,38 +70,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td align="right">&nbsp;F2层临界频率(foF2):</td>
                 <td>&nbsp;<input id="ip1" type="text" name="foF2" class="boxinput3" />(兆周/秒)</td>
               </tr>
+              <!--  
               <tr>
                 <td align="right">&nbsp;fxF2:</td>
                 <td>&nbsp;<input id="ip1.1" type="text" name="fxF2" class="boxinput3" /></td>
               </tr>
+              
               <tr>
                 <td align="right">&nbsp;fxl:</td>
                 <td>&nbsp;<input id="ip1.2" type="text" name="fxl" class="boxinput3" /></td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F2层最低虚高(h'F2):</td>
-                <td>&nbsp;<input id="ip2" type="text" name="hlF2" class="boxinput3" />(公里)</td>
-              </tr>
-              <tr>
                 <td align="right">&nbsp;hpF2:</td>
                 <td>&nbsp;<input id="ip2.1" type="text" name="hpF2" class="boxinput3" /></td>
+              </tr>
+              -->
+              <tr>
+                <td align="right">&nbsp;F2层最低虚高(h'F2):</td>
+                <td>&nbsp;<input id="ip2" type="text" name="hlF2" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;F1层临界频率(foF1):</td>
                 <td>&nbsp;<input id="ip3" type="text" name="foF1" class="boxinput3" />(兆周/秒)</td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F1层最低虚高(h'F1):</td>
-                <td>&nbsp;<input id="ip4" type="text" name="hlF1" class="boxinput3" />(公里)</td>
-              </tr>
-              <tr>
                 <td align="right">&nbsp;F层最低虚高(h'F):</td>
                 <td>&nbsp;<input id="ip5" type="text" name="hlF" class="boxinput3" />(公里)</td>
+              </tr>
+              <!-- 
+              <tr>
+                <td align="right">&nbsp;F1层最低虚高(h'F1):</td>
+                <td>&nbsp;<input id="ip4" type="text" name="hlF1" class="boxinput3" />(公里)</td>
               </tr>
               <tr>
                 <td align="right">&nbsp;F层的真实高度估计(hpF):</td>
                 <td>&nbsp;<input id="ip6" type="text" name="hpF" class="boxinput3" />(公里)</td>
               </tr>
+              -->
               <tr>
                 <td align="right">&nbsp;E区临界频率(foE):</td>
                 <td>&nbsp;<input id="ip7" type="text" name="foE" class="boxinput3" />(兆周/秒)</td>
@@ -135,17 +140,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="ip11" type="text" name="M3000F2" class="boxinput3" /> </td>
               </tr>
               <tr>
-                <td align="right">&nbsp;F2层1500公里传输因子(M1500F2):</td>
-                <td>&nbsp;<input id="ip111" type="text" name="M1500F2" class="boxinput3" /> </td>
-              </tr>
-              <tr>
                 <td align="right">&nbsp;F1层3000公里传输因子(M3000F1):</td>
                 <td>&nbsp;<input id="ip112" type="text" name="M3000F1" class="boxinput3" /> </td>
+              </tr>
+              <!--
+              <tr>
+                <td align="right">&nbsp;F2层1500公里传输因子(M1500F2):</td>
+                <td>&nbsp;<input id="ip111" type="text" name="M1500F2" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td align="right">&nbsp;F层3000公里传输因子(M3000F):</td>
                 <td>&nbsp;<input id="ip113" type="text" name="M3000F" class="boxinput3" /> </td>
               </tr>
+                
               <tr>
                 <td align="right">&nbsp;MUF3000F1:</td>
                 <td>&nbsp;<input id="ip114" type="text" name="MUF3000F1" class="boxinput3" /> </td>
@@ -154,6 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td align="right">&nbsp;MUF3000F2:</td>
                 <td>&nbsp;<input id="ip115" type="text" name="MUF3000F2" class="boxinput3" /> </td>
               </tr>
+              -->
               <tr>
                 <td align="right">&nbsp; </td>
                 <td>&nbsp; <span id="errormsg" class="errorMessages"></span></td>

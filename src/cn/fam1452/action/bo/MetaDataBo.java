@@ -21,11 +21,14 @@ public class MetaDataBo {
 	private String engTitle ;
 	private String language ;
 	private String keyword ;
+	private String keywordEng ;
 	private String uptDate ; //最新修改日期
 	private String pubDate ; //发布日期
+	private String lastAlterDate ;  //最新修改日期
 	
 	private String contInfo ; //提供电离层数据库数据集内容特征的描述信息
-	private String abstract1 ;
+	private String abstract1 ; //数据集摘要
+	private String abstract1Eng ;
 	private String tpCat ; //数据集分类
 	private String cateName ;
 	private String cateCode ;
@@ -691,6 +694,24 @@ public class MetaDataBo {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getKeywordEng() {
+		return keywordEng;
+	}
+	public void setKeywordEng(String keywordEng) {
+		this.keywordEng = keywordEng;
+	}
+	public String getLastAlterDate() {
+		return lastAlterDate;
+	}
+	public void setLastAlterDate(String lastAlterDate) {
+		this.lastAlterDate = lastAlterDate;
+	}
+	public String getAbstract1Eng() {
+		return abstract1Eng;
+	}
+	public void setAbstract1Eng(String abstract1Eng) {
+		this.abstract1Eng = abstract1Eng;
 	}
 	
 

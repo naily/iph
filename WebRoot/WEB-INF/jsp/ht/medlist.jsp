@@ -72,8 +72,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<input id="keyword" name="keyword" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
-                <td class="table_td_fieldlab">&nbsp;数据集语种:</td>
+                <td class="table_td_fieldlab">&nbsp;英文关键词:</td>
+                <td>&nbsp;<input id="keywordEng" name="keywordEng" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
+                <td class="table_td_fieldlab">&nbsp;数据集语言:</td>
                 <td>&nbsp;<input id="yuzhongCombox" type="text" name="language" class="boxinput3" /><span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
+                <td class="table_td_fieldlab">&nbsp;最新修改日期:</td>
+                <td>&nbsp;<input id="lastAlterDate" type="text" name="lastAlterDate" class="boxinput3" /><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
                 <td align="left">&nbsp;内容信息</td>
@@ -84,24 +92,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td>&nbsp;<textarea id="abstract1" name="abstract1" rows="4" cols="40"></textarea> <span class="red_asterisk">*</span></td>
               </tr>
               <tr>
+                <td class="table_td_fieldlab">&nbsp;数据集英文摘要:</td>
+                <td>&nbsp;<textarea id="abstract1Eng" name="abstract1Eng" rows="4" cols="40"></textarea> <span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
                 <td class="table_td_fieldlab">&nbsp;数据集分类名称:</td>
-                <td>&nbsp;<input id="cateName" name="cateName" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="cateName" name="cateName" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据集分类类目编码:</td>
-                <td>&nbsp;<input id="cateCode" name="cateCode" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="cateCode" name="cateCode" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据集分类标准:</td>
-                <td>&nbsp;<input id="cateStd" name="cateStd" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="cateStd" name="cateStd" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;左下角坐标:</td>
-                <td>&nbsp;<input id="lftBtmCoord" name="lftBtmCoord" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="lftBtmCoord" name="lftBtmCoord" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;最大经度:</td>
-                <td>&nbsp;<input id="rightTopCoord" name="rightTopCoord" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="rightTopCoord" name="rightTopCoord" type="text" class="boxinput3" /></td>
               </tr>
               
               <tr>
@@ -114,24 +126,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;等效比例尺分母:</td>
-                <td>&nbsp;<input id="equScale" name="equScale" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="equScale" name="equScale" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;栅格分辨率:</td>
-                <td>&nbsp;<input id="gridSize" name="gridSize" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="gridSize" name="gridSize" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;位置描述:</td>
-                <td>&nbsp;<input id="posDes" name="posDes" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input id="posDes" name="posDes" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
               </tr>
               
               <tr>
                 <td class="table_td_fieldlab">&nbsp;垂向最大值:</td>
-                <td>&nbsp;<input id="topVer" name="topVer" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="topVer" name="topVer" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;垂向最小值:</td>
-                <td>&nbsp;<input id="lowVer" name="lowVer" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="lowVer" name="lowVer" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;海拨高度位置:</td>
@@ -160,15 +172,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;时间点:</td>
-                <td>&nbsp;<input id="timePoint" name="timePoint" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="timePoint" name="timePoint" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;时间采样间隔:</td>
-                <td>&nbsp;<input id="timeInterval" name="timeInterval" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="timeInterval" name="timeInterval" type="text" class="boxinput3" /></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据量:</td>
-                <td>&nbsp;<input id="dataQuant" name="dataQuant" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input id="dataQuant" name="dataQuant" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
               </tr>
               
               <tr>
@@ -177,11 +189,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据源类型:</td>
-                <td>&nbsp;<input id="srcType" name="srcType" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="srcType" name="srcType" type="text" class="boxinput3" /><span class="red_asterisk">*</span> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测站编号:</td>
-                <td>&nbsp;<input id="siteID" name="siteID" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="siteID" name="siteID" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测站名称:</td>
@@ -189,15 +201,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测站地理位置描述:</td>
-                <td>&nbsp;<input id="sitePosDesc" name="sitePosDesc" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="sitePosDesc" name="sitePosDesc" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测站负责方:</td>
-                <td>&nbsp;<input id="siteContact" name="siteContact" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="siteContact" name="siteContact" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测仪器编号:</td>
-                <td>&nbsp;<input id="instID" name="instID" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="instID" name="instID" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测仪器名称:</td>
@@ -205,11 +217,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测仪器类别:</td>
-                <td>&nbsp;<input id="instCat" name="instCat" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="instCat" name="instCat" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;观测仪器型号:</td>
-                <td>&nbsp;<input id="instSpec" name="instSpec" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="instSpec" name="instSpec" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;生产商负责方:</td>
@@ -217,7 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据处理方法名称:</td>
-                <td>&nbsp;<input id="methodName" name="methodName" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="methodName" name="methodName" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;处理方法描述:</td>
@@ -225,7 +237,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;原始数据来源说明:</td>
-                <td>&nbsp;<input id="originalDesc" name="originalDesc" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="originalDesc" name="originalDesc" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;原始数据来源方:</td>
@@ -246,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据存储结构类型:</td>
-                <td>&nbsp;<input id="dataType" name="dataType" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="dataType" name="dataType" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据格式:</td>
@@ -254,24 +266,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据格式版本:</td>
-                <td>&nbsp;<input id="formatVersion" name="formatVersion" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="formatVersion" name="formatVersion" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
-                <td class="table_td_fieldlab">&nbsp;服务类型:</td>
+                <td class="table_td_fieldlab">&nbsp;数据访问服务类型:</td>
                 <td>&nbsp;<input id="serviceType" name="serviceType" type="text" class="boxinput3" /><span class="red_asterisk">*</span>
                 <p id="serviceLink"></p></td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;服务参数名:</td>
-                <td>&nbsp;<input id="paraName" name="paraName" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="paraName" name="paraName" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;服务参数值:</td>
-                <td>&nbsp;<input id="paraValue" name="paraValue" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="paraValue" name="paraValue" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据访问分级:</td>
-                <td>&nbsp;<input id="accessClass" name="accessClass" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="accessClass" name="accessClass" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据使用:</td>
@@ -279,11 +291,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;知识产权描述:</td>
-                <td>&nbsp;<input id="copyRightDesc" name="copyRightDesc" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="copyRightDesc" name="copyRightDesc" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据引用方式:</td>
-                <td>&nbsp;<input id="citation" name="citation" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="citation" name="citation" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;数据分发方:</td>
@@ -309,11 +321,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;经度:</td>
-                <td>&nbsp;<input id="pointLong" name="pointLong" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="pointLong" name="pointLong" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;纬度:</td>
-                <td>&nbsp;<input id="pointLat" name="pointLat" type="text" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="pointLat" name="pointLat" type="text" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td align="left">&nbsp;数据集负责方</td>
@@ -321,7 +333,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;单位名称:</td>
-                <td>&nbsp;<input id="orgName" type="text" name="orgName" class="boxinput3" /><span class="red_asterisk">*</span></td>
+                <td>&nbsp;<input id="orgName" type="text" name="orgName" class="boxinput3" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;联系电话:</td>
@@ -337,9 +349,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;电子邮件:</td>
-                <td>&nbsp;<input id="eMail" name="eMail" type="text" class="boxinput3" /></td>
+                <td>&nbsp;<input id="email" name="email" type="text" class="boxinput3" /></td>
               </tr>
-              
               
                          
               <tr>
