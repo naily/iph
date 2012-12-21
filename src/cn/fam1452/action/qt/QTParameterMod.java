@@ -187,6 +187,16 @@ public class QTParameterMod extends BaseMod {
 			log.error(e, e) ;
 		}
 	}
+	/**
+	 * 电离曲线图图页面跳转--按区间查询*/
+	@At("/qt/paraDataChartByQujian")
+	@Ok("jsp:jsp.qt.parameterChart2")
+	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
+	/**
+	 * 电离曲线图图页面跳转*/
+	public void loadParaChartByQuJian(){
+		
+	}
 	@At("/qt/paraDataChart")
 	@Ok("jsp:jsp.qt.parameterChart")
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
@@ -195,15 +205,14 @@ public class QTParameterMod extends BaseMod {
 	public void loadParaChart(){
 		
 	}
-	
 	@SuppressWarnings("unchecked")
 	@At("/qt/loadParaChartDataNew")
 	@Ok("json")
 	/**
-	 * 电离层曲线图生成(多站点单参数月中值曲线，多站点单参数长期变化曲线（分为24小时连续和某时刻两种选项)
-	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
-	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）
-	 *   两种多因子组合  foF2.foF1.foEs.foE    h'F2.h'Es.h'E.h'F1
+	 * 电离层曲线图生成(多站点单参数月中值曲线，多站点单参数长期变化曲线
+	 * 1、单站点单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
+	 * 2、多站点单因子时显示各个因子的中位数的值（MED值）--几个站点几个曲线
+	 *   
 	 * */
 	public JSONObject loadParaDataNew(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
@@ -296,6 +305,7 @@ public class QTParameterMod extends BaseMod {
 									medMap.put("data", pValueAry);
 									medListOne.add(medMap);
 							  }//end for  station
+							    json.put("showSanDianPic", false);
 								map.put("mutiMonth", medListOne);
 								//map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
 								//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
@@ -360,11 +370,65 @@ public class QTParameterMod extends BaseMod {
 		//log.info(json.toString());
 		return json;
 	}
-	
+	@At("/qt/loadParaChartDataByQujian")
+	@Ok("json")
+	/**
+	 * 按区间查询电离层参数
+	 * 多站点，单参数，日期区间选择，小时选项
+	 * X轴数值：天（日期区间中的所有天，当天数大于N时X轴不显示,N：待定）
+	 * */
+	public JSONObject loadParaChartDataZByQujian(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false);
+		if (parameter != null && null!=parameter.getParaType() && StringUtil.checkNotNull(parameter.getStartDate())&& StringUtil.checkNotNull(parameter.getEndDate())) {
+			String[] stationAry = null;
+			String stationStr = req.getParameter("stationIDs");//观测站（多站点）
+			String paraName = parameter.getParaType();//电离参数(单参数)
+			String hourStr = req.getParameter("hourStr");//小时		 
+			String startDate = parameter.getStartDate();//起始日期
+			String endDate = parameter.getEndDate();//结束日期
+			if(null!=stationStr){
+				stationAry =stationStr.split(",");
+			}
+			List<Parameter> list =	null;//查询某观测站，某时间段内，某时刻的电离值列表。		  
+		   if(null!=stationAry && stationAry.length>=1){//多观测站时
+			  parameter.setParaType(paraName);
+			  parameter.setMonth(hourStr);//利用month字段传小时的值
+			  List<Map> medList = new ArrayList<Map>();
+			  List<Number> paraValueList =null;//某观测站，电离值
+			  String[] xAxis=DateUtil.getDayArryByDate(startDate,endDate);//获取x轴天的数组
+			  Map<String, Object> map = null;		
+				  for(String stationID:stationAry){
+					    map = new HashMap<String, Object>();
+						parameter.setStationID(stationID);
+						list=parameterService.parameterCharByQujian(parameter);				
+						paraValueList = parameterService.getValueArrayByField(list, parameter.getParaType());																											 
+						map.put("name", parameter.getParaType());
+						map.put("data", paraValueList);
+						medList.add(map);
+				   }//end for  station	
+				json.put(Constant.SUCCESS, true);
+				json.put("paraName", paraName);
+				json.put("title",parameter.getStartDate()+" -> "+parameter.getEndDate()+" ("+hourStr+")");//主标题
+				json.put("subtitle", "Monthly median values and its distribution of "+paraName);//副标题
+				json.put("xAxis", xAxis);//x轴显示
+				json.put("yAxis", paraName+"("+QuartileUtil.getUnit(paraName)+")");//y轴显示				
+				json.put("series", medList);//单因子					
+				if (null != medList) {
+					json.put(Constant.SUCCESS, true);
+					dataVisitService.insert(dataVisitService.T_PARAMETER, "01", medList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+				} else {
+					dataVisitService.insert(dataVisitService.T_PARAMETER, "01", 0, getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
+				}
+			 }							
+		}//end if
+		return json;
+	}
 	@SuppressWarnings("unchecked")
 	@At("/qt/loadParaChartData")
 	@Ok("json")
 	/**
+	 * ==============================带组合因子的方法（保留以备参数需要重新改回来）=========================================
 	 * 电离层曲线图生成(单因子或者多因子电离图)
 	 * 1、单因子时显示3个四分位数（UQ、LQ、MED）--单因子三条线
 	 * 2、多因子时显示各个因子的中位数的值（MED值）--多因子四条线（目前固定两种组合都是四个因子）

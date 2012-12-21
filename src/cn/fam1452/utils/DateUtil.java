@@ -303,4 +303,17 @@ public class DateUtil {
 		System.out.println(DateToString(getDate(getMillis4Str("2011-03-21 00:00:00")), pattern1));
 		
 	}
+	public static String[] getDayArryByDate(String starDate,String endDate){
+		String[] dayAry=null;
+		Date startDateV = convertStringToDate(starDate,"yyyy-MM-dd");
+		Date endDateV = convertStringToDate(endDate,"yyyy-MM-dd");
+		int startYear =startDateV.getYear();
+		int endYear = endDateV.getYear();
+		if(endYear-startYear==0){
+			
+		}else{
+			
+		}
+		return dayAry;
+	}
 }

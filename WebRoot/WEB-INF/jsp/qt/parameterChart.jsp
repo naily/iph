@@ -101,16 +101,16 @@
 							          </td>
 							         <!-- <td><input id="monthForChart" name="months" class="boxinput_report"/>(支持多选)</td> -->
 							      </tr>
+							      <%--
 							           <tr>
 							         <td>
-							           ${msg['qt_month_report_hour']}：<br>
-							          
+							           ${msg['qt_month_report_hour']}：<br>			          
 							         </td>
 							          <td>
 							          <input id="hourForChart" name="hour" class="boxinput_report"/>							          
-							          </td>
-							
+							          </td>							
 							      </tr>
+							     --%>
 							     <tr><td colspan="2" height="50" align="center">
 							     <%--
 							     <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
@@ -118,9 +118,11 @@
 							      <c:choose>
 									 <c:when test='${msg.lang=="zh"}'> 
 									 	 <a href="javascript:void(0)"  id="pressParaChart"><img src="images/qxtsc.png"  border="0" /></a>
+									 	 <a href="qt/paraDataChartByQujian.do" target="_blank">按区间查询</a>
 									</c:when>
 									<c:otherwise>
 										 <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
+										 <a href="qt/paraDataChartByQujian.do" target="_blank">According to the interval query</a>
 									</c:otherwise>
 								</c:choose>	
 							    

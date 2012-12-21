@@ -26,7 +26,7 @@ $(document).ready(function() {
                         callback : function(json){                      
                             if(json.success){  
                             	locations=json.data.timeZone;//timeZone//location
-                            	jingweidu=json.data.name+"("+json.data.longitude+"'E&nbsp;"+json.data.latitude+"'N)";
+                            	jingweidu=json.data.name+"("+json.data.longitude+"°E&nbsp;"+json.data.latitude+"°N)";
                             	//$('#location').html(locations);//
                             	$('#location').html("120°E.M.T ( G.M.T + 8h )");//
                                 $('#jingweidu').html(jingweidu);

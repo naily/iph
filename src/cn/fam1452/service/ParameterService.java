@@ -2,10 +2,12 @@ package cn.fam1452.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -895,4 +897,47 @@ public class ParameterService extends Base{
      		//log.info(pmb.getEndDate());
      		return pmb;
      	}
+     	
+     	/**
+     	 * 电离层曲线图按时间段查询（）
+     	 * 修改不符合条件的值：将空格，字母等转化为数字，空=0，含字母的去掉字母
+     	 * */
+     		public List<Parameter> parameterCharByQujian(ParameteDataBo pdb){
+     			Sql sql =Sqls.create(queryParaDataByQujian(pdb));
+     			sql.setCallback(Sqls.callback.entities());
+     			sql.setEntity(dao.getEntity(Parameter.class));
+     			this.dao.execute(sql) ;		
+     			List<Parameter> list = sql.getList(Parameter.class) ;
+     			return list;
+     		}
+     		public String queryParaDataByQujian(ParameteDataBo pdb){
+     		     String	tableName = pdb.getStationID();//表名：观测站ID
+     		     String dateQ1 = null;
+		    	 String dateQ2 = null;		
+    			 dateQ1 = pdb.getStartDate()+" 00:00:00";
+		     	 dateQ2 = pdb.getEndDate()+" 23:59:00";
+		     	 String sql =" select "+pdb.getParaType()+" from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"'";		 	
+     			 return sql;
+     		}
+     		public List<Number> getValueArrayByField(List list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+     			List arry = new ArrayList() ;
+     			for (Object t : list) {
+     				Object va = PropertyUtils.getSimpleProperty(t, fieldName) ;   				
+     				if(va instanceof String){
+     					String s = StringUtil.replaceLetter(va.toString()) ;
+     					if(StringUtil.checkNotNull(s) ){
+     						arry.add(Double.parseDouble(s) );
+     					}else{
+     						arry.add(0);
+     					}
+     				}else if(va instanceof Number){
+     						arry.add(va) ;
+     				}
+     			}
+     			//System.out.println(arry.toString());
+     			//Arrays.sort(arry.toArray()) ;
+     			 Collections.sort(arry);
+     			//System.out.println(arry.toString());
+     			return arry ;
+     		}
 }
