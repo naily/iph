@@ -27,6 +27,10 @@ public class Station {
 	private String name ;
 	
 	@Column
+    @ColDefine(type=ColType.VARCHAR, width=100 , notNull=true)
+	private String nameEng ; //观测站英文名
+	
+	@Column
     @ColDefine(type=ColType.VARCHAR, width=200)
 	private String location ;
 	
@@ -206,6 +210,14 @@ public class Station {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getNameEng() {
+		return nameEng;
+	}
+
+	public void setNameEng(String nameEng) {
+		this.nameEng = nameEng;
 	}
 	
 	
