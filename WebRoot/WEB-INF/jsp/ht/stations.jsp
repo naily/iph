@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="createblock" class="hidediv">
     		<table width="520" border="0" style="float: left;">
               <tr>
-                <td align="right" width="17%">&nbsp;观测站编码:</td>
+                <td align="right" width="19%">&nbsp;观测站编码:</td>
                 <td >&nbsp;<input id="stId" size="20"/><span class="red_asterisk">*</span></td>
                 <td align="center" colspan="2">&nbsp;提示：标有<span class="red_asterisk">*</span>的项为必填项</td>
               </tr>
@@ -50,8 +50,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td colspan="3">&nbsp;<input id="wzId"  size="59"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
-              	<td align="right">&nbsp;名称:</td>
-                <td>&nbsp;<input id="mcId" /><span class="red_asterisk">*</span></td>
+              	<td align="right">&nbsp;观测站中文名称:</td>
+                <td colspan="3">&nbsp;<input id="mcId" /><span class="red_asterisk">*</span></td>
+              </tr>
+              <tr>
+              	<td align="right">&nbsp;英文名称:</td>
+                <td>&nbsp;<input id="mcengId" /><span class="red_asterisk">*</span></td>
                 <td align="right">&nbsp;单位:</td>
                 <td>&nbsp;<input id="dwmcId" /> </td>
               </tr>

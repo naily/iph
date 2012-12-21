@@ -138,6 +138,7 @@ var save ={
     },
     check : function(){
     	var mc = $('#mcId') ; //
+    	var mceng = $('#mcengId') ; //观测站英文名
     	var dw = $('#dwmcId') ;
     	var txdz = $('#txdzId') ;
     	var lxdh = $('#lxdhId') ;
@@ -164,8 +165,13 @@ var save ={
     		return false ;
     	}
     	if(!mc.val()){
-    		$('#info').html('请输入观测站名称').show();
+    		$('#info').html('请输入观测站中文名称').show();
     		mc.focus();
+    		return false ;
+    	}
+    	if(!mceng.val()){
+    		$('#info').html('请输入观测站英文名称').show();
+    		mceng.focus();
     		return false ;
     	}
     	
@@ -201,6 +207,7 @@ var save ={
         var data = {
             url :'ht/stationsave.do' ,
             params :{name:mc.val() , 
+            		nameEng : mceng.val() ,
 		            location: wz.val(), 
 		            longitude: jd.val(), 
 		            latitude:wd.val() , 
@@ -242,6 +249,7 @@ var save ={
     } ,
     clear : function(){
     	$('#mcId').val('') ; //
+    	$('#mcengId').val('') ;
     	$('#dwmcId').val('') ;
     	$('#txdzId').val('') ;
     	$('#lxdhId').val('') ;
@@ -303,6 +311,7 @@ var save ={
         
         $('#stId').val(data.id).attr('disabled' , true) ;
         $('#mcId').val(data.name) ; //
+        $('#mcengId').val(data.nameEng) ; //
         $('#dwmcId').val(data.administrator) ;
         $('#txdzId').val(data.address) ;
         $('#lxdhId').val(data.phone) ;
