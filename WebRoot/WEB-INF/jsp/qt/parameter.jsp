@@ -89,7 +89,14 @@
 						</tr>
 					</table>
 					
-					<table id="showPages" style="display:none;"><tr><td><a href="javascript:void(0)" onclick="Previous()">${msg['qt_page_prepage']}</a>&nbsp;&nbsp;<span id="pageNumber"></span>/<span id="pagesNum"></span> ${msg['qt_page_unit']}&nbsp;&nbsp;<a href="javascript:void(0)" onclick="Next()">${msg['qt_page_nextpage']}</a>&nbsp;&nbsp;</td></tr></table>
+					<table id="showPages" style="display:none;">
+					<tr style="font-size: 14px;"><td>
+						<a href="javascript:void(0)" onclick="Previous()">${msg['qt_page_prepage']}</a>&nbsp;&nbsp;
+						<input type="text" id="pageNumber" style="display:inline;width:20px;" title="输入页数按回车键"/>
+						/<span id="pagesNum"></span> ${msg['qt_page_unit']}&nbsp;&nbsp;
+						<a href="javascript:void(0)" onclick="Next()">${msg['qt_page_nextpage']}</a>&nbsp;&nbsp;
+					</td></tr>
+					</table>
 					<input type="hidden" id="parameterIndex"/>
 					<input type="hidden" id="monthIndex" value="0"/>
 					<br/>

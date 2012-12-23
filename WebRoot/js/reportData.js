@@ -122,27 +122,28 @@ $(document).ready(function() {
 			   var showPageTbale=false;
 			   var totalPages=1;
 			   var pageNumber=1;
-			   if(isMonthSelectAll()){
-			   	  totalPages=12;
+			   if(isMonthSelectAll()){//选择所有月份
+			   	  totalPages = 12;
 			   	  month=month_array[0];
 			   	  setTitleAndParaVaule(0,-1);// 
 			   	  showPageTbale=true;
 			   }
- 			   if(isParaSelectAll()){
- 			   	  totalPages*=16;
+ 			   if(isParaSelectAll()){ //选择所有参数
+ 			   	  totalPages *= parameter_array_text.length ;
  			      parameter=parameter_array[0];
- 			       setTitleAndParaVaule(-1,0);// 
- 			       showPageTbale=true;
+ 			      setTitleAndParaVaule(-1,0);// 
+ 			      showPageTbale=true;
  			   }
  			  
                 if(stationId && year && month && parameter){
                 	 if(showPageTbale){
 		 			   	$("#pagesNum").html(totalPages);
-		 			   	$("#pageNumber").html(pageNumber);
+		 			   	//$("#pageNumber").html(pageNumber);
+                        $("#pageNumber").val(pageNumber);
 		 			   	$("#showPages").show();
 		 			   }else{
 		 			     $("#pagesNum").html('');
-		 			     $("#pageNumber").html('');
+		 			     $("#pageNumber").val(1);
 		 			   	 $("#showPages").hide();
 		 			   }
                       $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
@@ -172,12 +173,20 @@ $(document).ready(function() {
                 }
 
             });
+            
+    /**
+     * 翻页输入框绑定回车事件
+     */
+    $("#pageNumber").keyup(function(event) {  
+        if(event.keyCode ==13 ){
+            pageJump() ;
+        }
+    }) ;
 
 });
 /**
  * 是否全选电离参数
  */
-
  function isParaSelectAll(){
   if($("#allPara").attr("checked")){
   	 return true;
@@ -188,7 +197,6 @@ $(document).ready(function() {
  /**
  * 是否全选月份
  */
-
  function isMonthSelectAll(){
   if($("#allMonth").attr("checked")){
   	 return true;
@@ -213,21 +221,54 @@ $(document).ready(function() {
 	  	$("#parameterIndex").val(paraIdx);//电离参数下标设置
   	}
   }
+  
+  function setTitleAndParaVaule2(){
+    var inpt = $("#pageNumber").val();
+    var totalPages = parseInt($("#pagesNum").html());
+    
+    if(totalPages){
+        if(inpt > totalPages || inpt < 1){
+            at({cont:'请输入1-'+totalPages + '之间的页数!' , type : 'error'});
+            return ;
+        }else{
+            pageBarParamSeting() ;
+        }
+        
+    }
+    
+    
+  }
   /**
    * 下个月报显示
    *   需要判断是否全选了参数或者月份
    * */
   function Next(){ 	
-  	var parameterIndex=-1,monthIndex=-1;
-  	var pageNumber = $("#pageNumber").html();
-  	var totalPages =$("#pagesNum").html();
+  	//var parameterIndex=-1,monthIndex=-1;
+  	var pageNumber = $("#pageNumber").val();
   	pageNumber = parseInt(pageNumber);
-  	pageNumber=pageNumber+1
-  	if(pageNumber>=parseInt(totalPages)){
-  	  pageNumber=totalPages;
-  	}
-  	$("#pageNumber").html(pageNumber);
-  	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
+  	var totalPages = $("#pagesNum").html();
+    
+    if(isNaN(totalPages)) { 
+        at({cont:'参数异常'  , type : 'error'});
+    }else{ 
+	    totalPages = parseInt(totalPages) ;
+    }
+    
+    if(pageNumber == totalPages){
+        at({cont:'已经最后一页'  , type : 'error'});
+        return ;
+    }
+    
+    pageNumber +=1 ;
+    
+    if(pageNumber > totalPages || pageNumber < 1 || isNaN(pageNumber) ){
+        at({cont:'请输入1-'+totalPages + '之间的页数!' , type : 'error'});
+        return ;
+    }else{
+	  	$("#pageNumber").val(pageNumber);
+        pageBarParamSeting(pageNumber) ;
+    }
+  	/*if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
 	  	    parameterIndex=$("#parameterIndex").val();
 	  	    monthIndex=$("#monthIndex").val();
 	  	    monthIndex=parseInt(monthIndex)+1;
@@ -251,22 +292,37 @@ $(document).ready(function() {
   	}
   	
   	setTitleAndParaVaule(monthIndex,parameterIndex);
-  	showParameterMonth();
+  	showParameterMonth();*/
   	
   }
   /**
    * 上个月报显示
    * */
   function Previous(){
-   	var parameterIndex=-1,monthIndex=-1;
-   	var pageNumber = $("#pageNumber").html();
+   	//var parameterIndex=-1,monthIndex=-1;
+   	var pageNumber = $("#pageNumber").val();
   	pageNumber = parseInt(pageNumber);
+    if(pageNumber == 1){
+        at({cont:'已经第一页'  , type : 'error'});
+        return ;
+    }
   	pageNumber=pageNumber-1
+    var totalPages = $("#pagesNum").html();
+    if(pageNumber>=parseInt(totalPages)){
+      pageNumber=totalPages;
+    }
   	if(pageNumber<=0){
   	  pageNumber=1
   	}
-  	$("#pageNumber").html(pageNumber);
-  	if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
+    
+    if(pageNumber > totalPages || pageNumber < 1 || isNaN(pageNumber) ){
+        at({cont:'请输入1-'+totalPages + '之间的页数!' , type : 'error'});
+        return ;
+    }else{
+	  	$("#pageNumber").val(pageNumber);
+        pageBarParamSeting(pageNumber) ;
+    }
+  	/*if(isParaSelectAll() && isMonthSelectAll()){//全选参数且月份等于12时，遍历下个参数
 	  	    parameterIndex=$("#parameterIndex").val();
 	  	    monthIndex=$("#monthIndex").val();
 	  	    monthIndex=parseInt(monthIndex)-1;
@@ -290,9 +346,86 @@ $(document).ready(function() {
   	}
   	
   	setTitleAndParaVaule(monthIndex,parameterIndex);
-  	showParameterMonth();
+  	showParameterMonth();*/
 		
   }
+  
+  function checkPageNumber(){
+    
+  }
+  
+  /**
+   * 根据用户输入的页数跳转到指定页
+   */
+  function pageJump(){
+    var inpt = $("#pageNumber").val();
+    var totalPages = parseInt($("#pagesNum").html());
+    
+    if(!isNaN(totalPages) ){
+	    if(inpt > totalPages || inpt < 1 || isNaN(inpt) ){
+	        at({cont:'请输入1-'+totalPages + '之间的页数!' , type : 'error'});
+	        return ;
+	    }else{
+	        pageBarParamSeting(inpt) ;
+	    }
+        
+    }else{
+        at({cont:'参数异常'  , type : 'error'});
+    }
+    
+  }
+  
+  /**
+   * 翻页工具条月份、参数值全选时公共设定方法
+   */
+  function pageBarParamSeting(pageNumber){
+    var parameterIndex=-1,monthIndex=-1;
+    
+    if(isMonthSelectAll() && isParaSelectAll() ){ //全部月份全部参数
+	    var p1 = pageNumber % 12 ;  //月
+	    var p2 = pageNumber / 12 ;  //第几个参数
+	    p2 = Math.floor(p2) ;
+	    //p2 = p2 -1 ;
+	    
+	    if(p1 == 0){
+	        p1 = 11 ;
+	    }else{
+	        p1 = p1 -1 ;
+	    }
+	    
+	    monthIndex     = p1 ;
+	    parameterIndex = p2 ;
+        
+    }else if( !isParaSelectAll()  ){  //仅选择全部月份
+        parameterIndex = -1 ;
+        
+        var p1 = pageNumber % 12 ;  //月
+        if(p1 == 0){
+            p1 = 11 ;
+        }else{
+            p1 = p1 -1 ;
+        }
+        
+        monthIndex     = p1 ;
+    }else if( !isMonthSelectAll() ){  // 仅选择全部参数
+        monthIndex = -1;
+        var paramlength = parameter_array_text.length ;
+        
+        var p1 = pageNumber % paramlength ;
+        if(p1 == 0){
+            p1 = paramlength - 1 ;
+        }else{
+            p1 = p1 -1 ;
+        }
+        
+        parameterIndex     = p1 ;
+    }
+    
+    //alert('monthIndex: '+monthIndex + ' <  >  parameterIndex:' + parameterIndex) ; return ;
+    setTitleAndParaVaule(monthIndex,parameterIndex);
+    showParameterMonth();
+  }
+  
   /**
    * 月报生成
    * */
@@ -310,9 +443,11 @@ $(document).ready(function() {
 	 	parameter=parameter_array[$("#parameterIndex").val()];	
 	 }else{
 		parameter=$('#parameter').val();
-	 }				  
+	 }
+     
+     //alert(month + ' <  >  ' + parameter) ;
      if(stationId && year && month && parameter){       
-              $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+         $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
      }
   
   }
