@@ -73,7 +73,7 @@
 									 	 <a href="javascript:void(0)"  id="pressParaChart2"><img src="images/qxtsc.png"  border="0" /></a>		
 									</c:when>
 									<c:otherwise>
-										 <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
+										 <input type="button" id="pressParaChart2" value="${msg['qt_parameters_graph_press']}"/> 
 									</c:otherwise>
 								</c:choose>	
 							    
