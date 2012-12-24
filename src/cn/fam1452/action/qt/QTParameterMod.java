@@ -61,12 +61,12 @@ public class QTParameterMod extends BaseMod {
 	@Inject("refer:dataVisitService")
 	private DataVisitService dataVisitService;
 	
-	@Filters(@By(type=UserFilter.class ))   
+/*	@Filters(@By(type=UserFilter.class ))   
 	@At("/yousay")   
 	  public String tellMore(){  
 	            return "yousay";  
 	     }  
-
+*/
 	
 	@Filters(@By(type=UserFilter.class , args={ "/index.do" }))
 	@At("/qt/report")
@@ -370,13 +370,13 @@ public class QTParameterMod extends BaseMod {
 		//log.info(json.toString());
 		return json;
 	}
-	@At("/qt/loadParaChartDataByQujian")
-	@Ok("json")
 	/**
 	 * 按区间查询电离层参数
 	 * 多站点，单参数，日期区间选择，小时选项
 	 * X轴数值：天（日期区间中的所有天，当天数大于N时X轴不显示,N：待定）
 	 * */
+	@At("/qt/loadParaChartDataByQujian")
+	@Ok("json")
 	public JSONObject loadParaChartDataZByQujian(@Param("..")ParameteDataBo parameter , HttpSession session ,HttpServletRequest req) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
@@ -396,22 +396,25 @@ public class QTParameterMod extends BaseMod {
 			  parameter.setMonth(hourStr);//利用month字段传小时的值
 			  List<Map> medList = new ArrayList<Map>();
 			  List<Number> paraValueList =null;//某观测站，电离值
-			  String[] xAxis=DateUtil.getDayArryByDate(startDate,endDate);//获取x轴天的数组
+			  List<Number> paraXvalue=null;//
+			  //String[] xAxis=DateUtil.getDayArryByDate(startDate,endDate);//获取x轴天的数组
 			  Map<String, Object> map = null;		
 				  for(String stationID:stationAry){
 					    map = new HashMap<String, Object>();
 						parameter.setStationID(stationID);
 						list=parameterService.parameterCharByQujian(parameter);				
-						paraValueList = parameterService.getValueArrayByField(list, parameter.getParaType());																											 
-						map.put("name", parameter.getParaType());
+						paraValueList = parameterService.getValueArrayByField(list, parameter.getParaType());	
+						paraXvalue = parameterService.getValueArrayByField(list, "parameterID");	
+						map.put("name",stationID );//parameter.getParaType()
+						//map.put("xPara", paraXvalue);
 						map.put("data", paraValueList);
 						medList.add(map);
 				   }//end for  station	
-				json.put(Constant.SUCCESS, true);
+				json.put(Constant.SUCCESS, true);				
 				json.put("paraName", paraName);
 				json.put("title",parameter.getStartDate()+" -> "+parameter.getEndDate()+" ("+hourStr+")");//主标题
 				json.put("subtitle", "Monthly median values and its distribution of "+paraName);//副标题
-				json.put("xAxis", xAxis);//x轴显示
+				json.put("xAxis", paraXvalue);//x轴显示
 				json.put("yAxis", paraName+"("+QuartileUtil.getUnit(paraName)+")");//y轴显示				
 				json.put("series", medList);//单因子					
 				if (null != medList) {
@@ -422,6 +425,7 @@ public class QTParameterMod extends BaseMod {
 				}
 			 }							
 		}//end if
+		log.info(json.toString());
 		return json;
 	}
 	@SuppressWarnings("unchecked")

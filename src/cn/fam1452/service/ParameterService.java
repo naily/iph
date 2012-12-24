@@ -916,7 +916,7 @@ public class ParameterService extends Base{
 		    	 String dateQ2 = null;		
     			 dateQ1 = pdb.getStartDate()+" 00:00:00";
 		     	 dateQ2 = pdb.getEndDate()+" 23:59:00";
-		     	 String sql =" select "+pdb.getParaType()+" from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"'";		 	
+		     	 String sql =" select "+pdb.getParaType()+",datepart(dd,createdate) as parameterID from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"' and datepart(HH,createdate)='"+pdb.getMonth()+"' order by  createdate";		 	
      			 return sql;
      		}
      		public List<Number> getValueArrayByField(List list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
@@ -936,7 +936,7 @@ public class ParameterService extends Base{
      			}
      			//System.out.println(arry.toString());
      			//Arrays.sort(arry.toArray()) ;
-     			 Collections.sort(arry);
+     			// Collections.sort(arry);
      			//System.out.println(arry.toString());
      			return arry ;
      		}

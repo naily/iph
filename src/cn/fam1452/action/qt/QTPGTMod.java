@@ -81,7 +81,7 @@ public class QTPGTMod extends BaseMod{
 								}]
 					}];
 	 * */
-	public JSONObject loadLeftTree(@Param("..")NavDataYear navData){
+	public JSONObject loadLeftTree(@Param("..")NavDataYear navData,HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false);
 		List<Station> stationList = baseService.dao.query(Station.class, Cnd.where("status", "=", "1"));//查询观测站
@@ -92,11 +92,17 @@ public class QTPGTMod extends BaseMod{
 			List<Map<String, Object>> jsonAllList = new ArrayList<Map<String, Object>>();//
 			List<Map> yearList =null;
 			Map<String, Object> mapAll,mapYear;
-			//for(Station station:stationList){		
+			//for(Station station:stationList){
+			String zh_en=this.getMsgByKey(req, "lang");
 			for(int i=0;i<listSize;i++){
 				Station station = (Station)stationList.get(i);
 				mapAll = new HashMap<String, Object>(); 
-				mapAll.put("text", station.getName());
+				if("en".equals(zh_en)){
+					mapAll.put("text", station.getNameEng());
+				}else{
+					mapAll.put("text", station.getName());
+				}
+				
 				mapAll.put("pid", station.getId());
 			    if(i==0){
 			    	//mapAll.put("expanded", true);//设置节点展开

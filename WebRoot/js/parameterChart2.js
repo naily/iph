@@ -10,8 +10,16 @@ $(document).ready(function() {
 			// value:1,
 			// multi : true
 	});
-	var paraValue;
-	var selectOk = true;
+	// 电离参数下拉列表
+	$('input[name=parameter]').omCombo({ // 初始化Combo
+		dataSource :parameter_month_omCombo_datasource,
+		width : 100,
+		//value:'foF2',
+		onValueChange : function(target, newValue, oldValue, event) {
+			 $('input[name=parameter]').focus();
+			$('#para_unit').html(newValue+getUnit(newValue));
+		}
+	});
 	var stationId = $('#stationIDV').val();
 	/*
 	 * 选择服务站
@@ -20,7 +28,7 @@ $(document).ready(function() {
 				availableTitle : select_station,
 				selectedTitle : selected_station,
 				dataSource : 'qt/listAllStation.do',
-				onItemSelect : function(itemDatas, event) {
+			/*	onItemSelect : function(itemDatas, event) {
 					var stationValue = '';
 					if (itemDatas.length >= 1) {
 						stationValue = itemDatas[0].value
@@ -29,28 +37,28 @@ $(document).ready(function() {
 						stationValue += "," + itemDatas[i].value;
 					}
 					$('#stationIds').attr({value : stationValue});
-				},
+				},*/
 				width : 350,
 				height : 250
 
 			});
 	// 生成电离参数曲线图
-	$("#pressParaChart").click(function() {
+	$("#pressParaChart2").click(function() {
 		var stationIds = $('#selectorPara').omItemSelector('value');
-		var parameter = $('#parameter').val();
-		var data = {
-			url : 'qt/loadParaChartDataByQujian.do',
+		var parameter = $('#parameter').val();	
+		var data_21= {
+			url : './qt/loadParaChartDataByQujian.do',
 			params : {
-				startDate : startDate,
-				endDate : endDate,
+				startDate :$('#startDate').val(),
+				endDate : $('#endDate').val(),
 				paraType : parameter,
 				hourStr : $('#hourForChart').val(),
 				stationIDs : stationIds.toString()
 			},
 			callback : function(json) {
-				if (json.success) {
+				if(json.success) {
 					var chart; // 曲线图	
-						chart = new Highcharts.Chart({
+					chart = new Highcharts.Chart({
 							chart : {
 								renderTo : 'paraDataChart0',
 								type : 'line',
@@ -58,11 +66,11 @@ $(document).ready(function() {
 								marginBottom : 25
 							},
 							title : {
-								text : json.title,// json.chartTitle
+								text : json.subtitle,// json.chartTitle
 								x : -20
 							},
 							subtitle : {
-								text : json.subtitle,
+								text : json.title,
 								x : -20
 							},
 							xAxis : {
@@ -70,7 +78,7 @@ $(document).ready(function() {
 							},
 							yAxis : {
 								title : {
-									text : json.yAxis + getUnit(json.paraName)
+									text : json.yAxis //+ getUnit(json.paraName)
 								},
 								plotLines : [{
 											value : 0,
@@ -95,10 +103,12 @@ $(document).ready(function() {
 							},
 							series : json.series							
 							});
+					}else{
+					alert('error');
 					}
 			}
 		}
-		ajaxpost(data);
+		ajaxpost(data_21);
 	});
 
 });
