@@ -43,19 +43,16 @@
 	</head>
 
 	<body>
-	
 		<jsp:include page="header.jsp" flush="true" />
 		<div id="right">
 			<div class="title8">
 				${msg['qt_pgt_list_title']}
-			</div>
-			
-			<div class="loginbox1">
-			 
+			</div>		
+			<div class="loginbox1">			 
   <table width="800" border="0" align="left" cellpadding="0" cellspacing="0" class="fontstyle4">
    <form action="qt/listPGT.do" name="queryName" method="POST" onsubmit="return checkValue(this);">
     <tr>
-      <td width="300" height="50" align="center">
+      <td width="300" height="30" align="center">
       <input type="hidden" id="stationIDV" value="${requestScope.irg.ids}"/>
       <input type="hidden" id="queryYear" value="${requestScope.queryYear}"/>
          ${msg['qt_month_report_station']}：<input id="comboStation"   name="ids"  class="boxinput_report"/></td>
@@ -96,7 +93,7 @@
       </table></td>
     </tr>
     <tr>
-      <td height="60" colspan="3" align="center">
+      <td height="30" colspan="3" align="center">
       <div class="newspage">
 					<a href="qt/listPGT.do" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
@@ -120,7 +117,7 @@
 					${msg['qt_page_unit']}
 					
 					<c:choose>
-				    	<c:when test="${requestScope.page.pageNumber<requestScope.page.pageCount}" >
+				    	<c:when test="${requestScope.page.pageNumber<=requestScope.page.pageCount}" >
 				    	  <a href="qt/listPGT.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
 				    	</c:when>
 				    	<c:otherwise>

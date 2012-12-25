@@ -853,14 +853,14 @@ public class ParameterService extends Base{
 	    			 sb.append("select top "); 
 	    	    	 sb.append(shownums);
 	    	    	 sb.append(" * from "+tableName);
-	    	    	 //sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()	    	    	
-	    			 //sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
-	    			 sb.append(" where createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
+	    	    	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()	    	    	
+	    			 sb.append(" and createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
+	    			 //sb.append(" where createDate >='").append(dateB1).append("' and createDate <='").append(dateB2).append("'");
 		     	  if(getProtectDateType(tableName,paraQuery)>=2){
 	    			 sb.append(" union ");
 	    	    	 sb.append("  select * from "+tableName);// T_PARAMETER");
-	    	    	 //sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
-	    	    	 sb.append("  where parameterID>0 ");//params.getIds()
+	    	    	 sb.append("  where stationID in (").append(queryStationArry).append(")");//params.getIds()
+	    	    	 //sb.append("  where parameterID>0 ");//params.getIds()
 	    			 if(getProtectDateType(tableName,paraQuery)==2){			    	
 				    	 sb.append(" and createDate >='").append(dateQ1).append("' and createDate <'").append(dateB1).append("'");
 				    	 sb.append(" and createDate >='").append(dateB2).append("' and createDate <'").append(dateQ2).append("'");

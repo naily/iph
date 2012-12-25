@@ -31,7 +31,7 @@ public class Constant {
 	
 	public static String TOTAL = "total" ;
 	public static String ROWS = "rows" ;
-	public static int PAGE_SIZE=20;//默认分页数量
+	public static int PAGE_SIZE=15;//默认分页数量
 	
 	public static int INDEX_NEWS_NUMS=5;//首页新闻条数
 	public static int INDEX_NEWS2_NUMS=3;//首页展示空间新闻条数
