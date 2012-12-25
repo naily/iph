@@ -42,14 +42,18 @@ function loadLeftTree(paraName, domID) {
 								stationid =node.id;
 							}
 							//alert(node.pid+''+node.id);
-							
-							if(paraName=='T_IRONOGRAM'){//频高图
-								location.href = basepath+'qt/listPGT.do?queryYear='+ node.text+'&ids='+stationid;
-							}else if(paraName=='T_PARAMETER'){//电离参数
-								location.href = basepath+'qt/paraDataQuery.do?year='+ node.text+'&stationID='+stationid;
-							}else{//报表扫描图
-								location.href = basepath+'qt/listScanPic.do?queryYear='+ node.text+'&ids='+stationid;
+							if(node.id){
+								if(paraName=='T_IRONOGRAM'){//频高图
+								  location.href = basepath+'qt/listPGT.do?queryYear='+ node.text+'&ids='+stationid;
+								}else if(paraName=='T_PARAMETER'){//电离参数
+									location.href = basepath+'qt/paraDataQuery.do?year='+ node.text+'&stationID='+stationid;
+								}else{//报表扫描图
+									location.href = basepath+'qt/listScanPic.do?queryYear='+ node.text+'&ids='+stationid;
+								}
+							}else{
+							  $('#'+domID).omTree('expand',node);
 							}
+							
 							
 						}
 					});
