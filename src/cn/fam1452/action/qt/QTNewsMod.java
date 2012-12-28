@@ -1,6 +1,7 @@
 package cn.fam1452.action.qt;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,9 +94,16 @@ public class QTNewsMod extends BaseMod{
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm")); 
 		cfg.setExcludes(new String[] { "content","picture"  }); // "publishDate" , 
 		
-		JSONArray jsonAry = JSONArray.fromObject(newslist , cfg);
 
 		if(newslist!=null && newslist.size()>0){
+			List<News> list = new ArrayList() ;
+			for (News n : newslist) {
+				if(n.getTitle().length() > 16){
+					n.setTitle(n.getTitle().substring(0, 14) + "....") ;
+				}
+				list.add(n) ;
+			}
+			JSONArray jsonAry = JSONArray.fromObject(list , cfg);
 			json.put(Constant.SUCCESS, true);
 			json.put("newsList", jsonAry);
 			json.put("newsnum", newslist.size());

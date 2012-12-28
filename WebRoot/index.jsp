@@ -46,19 +46,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--新闻开始 -->
 	<c:if test='${msg.lang=="zh"}'>
 	
-	
-	  <div class="rightbox2_1" style="float: left;">
-		<div class="rightbox2_1_img" id="indexRightNewsImg"></div>
-		<div class="title5">${msg['index_pic_news']}</div>
-		 <div class="rightbox2_1_text">
+	  <div class="rightbox3_1" style="float: left;height:130px;overflow: hidden;padding-top:0px;">
+      <table width="100%" height="100" border="0">
+      <tr>
+        <td ><span class="title5" style="float:left;">${msg['index_pic_news']}</span></td>
+        <td  rowspan="2" valign="top">
+        <div class="rightbox2_1_img" id="indexRightNewsImg" style="margin:2px; border:red 0px solid;"></div></td>
+        <td  rowspan="2" valign="top">
+        <div  class="rightbox3_0" id="rightbox3_1" style="padding-top:2px;overflow: hidden;border:0px;"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <div class="rightbox2_1_text" style="height: 120px ;float:right;overflow: hidden;">
 			<a href="javascript:void(0)" id="showPicNews" class="a2">
-				<div id="newsBrief"></div>
+				<span id="newsBrief"></span>
 			</a>
-		</div>		
 		</div>
-		<!--rightbox2_1 结束-->
-		<div  class="rightbox3_0" id="rightbox3_1" style="float:left;width:23%;overflow: hidden;border: 0px;margin-left:2px;">		
-		</div>
+        </td>
+        
+      </tr>
+    </table>
+
+		
+		
+		
+	</div>
+	<!--rightbox2_1 结束-->
 		
 	</c:if>
 	<!--新闻结束 -->
@@ -66,7 +80,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="rightbox2">
 <div class="rightbox2_5">
 <div class="title6">${msg['index_taizhan_title']}</div>
-<div class="rightbox2_5_img" id=""><a href="#a"><img src="images/mapmini.png" alt="" border="0" height="110" align="left"/></a></div>
+<div class="rightbox2_5_img" id="">
+<a href="#a"><img src="images/mapmini.png" alt="" border="0" height="110" align="left"/></a></div>
 		<div class="rightbox2_5_text">
 			<a href="javascript:void(0)" id="" class="a2">
 				${msg['index_taizhan_jianjie']}
