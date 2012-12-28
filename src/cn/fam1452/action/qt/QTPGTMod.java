@@ -95,28 +95,33 @@ public class QTPGTMod extends BaseMod{
 			//for(Station station:stationList){
 			String zh_en=this.getMsgByKey(req, "lang");
 			for(int i=0;i<listSize;i++){
-				Station station = (Station)stationList.get(i);
-				mapAll = new HashMap<String, Object>(); 
-				if("en".equals(zh_en)){
-					mapAll.put("text", station.getNameEng());
-				}else{
-					mapAll.put("text", station.getName());
+				Station station = (Station)stationList.get(i);				
+				queryListStaYear =baseService.dao.query(NavDataYear.class, Cnd.where("stationId", "=",station.getId() ).and("dataTable", "=", navData.getDataTable()).asc("year"));			
+				 
+				if(null!=queryListStaYear && !queryListStaYear.isEmpty()){
+					
+					mapAll = new HashMap<String, Object>();
+					if("en".equals(zh_en)){
+						mapAll.put("text", station.getNameEng());
+					}else{
+						mapAll.put("text", station.getName());
+					}
+					
+					mapAll.put("pid", station.getId());
+				    if(i==0){
+				    	//mapAll.put("expanded", true);//设置节点展开
+				    } 
+					yearList = new ArrayList<Map>();
+					for(NavDataYear ndy:queryListStaYear){
+						mapYear = new HashMap<String, Object>(); 			
+						mapYear.put("text", ndy.getYear());
+						mapYear.put("id", station.getId());
+						yearList.add(mapYear);			
+					}
+					mapAll.put("children", yearList);
+					jsonAllList.add(mapAll);
 				}
 				
-				mapAll.put("pid", station.getId());
-			    if(i==0){
-			    	//mapAll.put("expanded", true);//设置节点展开
-			    }
-				queryListStaYear =baseService.dao.query(NavDataYear.class, Cnd.where("stationId", "=",station.getId() ).and("dataTable", "=", navData.getDataTable()).asc("year"));			
-				 yearList = new ArrayList<Map>();
-				for(NavDataYear ndy:queryListStaYear){
-					mapYear = new HashMap<String, Object>(); 			
-					mapYear.put("text", ndy.getYear());
-					mapYear.put("id", station.getId());
-					yearList.add(mapYear);			
-				}
-				mapAll.put("children", yearList);
-				jsonAllList.add(mapAll);
 			}
 			json.put("data", jsonAllList);
 		}
@@ -251,7 +256,7 @@ public class QTPGTMod extends BaseMod{
 			json.put(Constant.TOTAL, 0);
 		}
 		json.put(Constant.PROTECTDATA_AREA, protectArea);
-		//log.info(json.toString());
+		log.info(json.toString());
 		return json;
 		
 	}

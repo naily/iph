@@ -396,14 +396,15 @@ public class QTParameterMod extends BaseMod {
 			  parameter.setMonth(hourStr);//利用month字段传小时的值
 			  List<Map> medList = new ArrayList<Map>();
 			  List<Number> paraValueList =null;//某观测站，电离值
+			  //List<String> paraXvalue=null;//
 			  List<Number> paraXvalue=null;//
-			  //String[] xAxis=DateUtil.getDayArryByDate(startDate,endDate);//获取x轴天的数组
 			  Map<String, Object> map = null;		
 				  for(String stationID:stationAry){
 					    map = new HashMap<String, Object>();
 						parameter.setStationID(stationID);
 						list=parameterService.parameterCharByQujian(parameter);				
 						paraValueList = parameterService.getValueArrayByField(list, parameter.getParaType());	
+						//paraXvalue = parameterService.getYearValueArrayByField(list, "createDate");	
 						paraXvalue = parameterService.getValueArrayByField(list, "parameterID");	
 						map.put("name",stationID );//parameter.getParaType()
 						//map.put("xPara", paraXvalue);
@@ -425,7 +426,7 @@ public class QTParameterMod extends BaseMod {
 				}
 			 }							
 		}//end if
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 	}
 	@SuppressWarnings("unchecked")
@@ -763,13 +764,18 @@ public class QTParameterMod extends BaseMod {
 	@Ok("json")
 	/**
 	 * 电离参数查询-观测站选择*/
-	public JSONArray listAllStation(){		
+	public JSONArray listAllStation(HttpServletRequest req){		
 		JSONArray array = new JSONArray();
 		JSONObject json = new JSONObject();
 		List<Station>  list = baseService.dao.query(Station.class, Cnd.where("status", "=", 1).desc("id")) ;
+		String zh_en=this.getMsgByKey(req, "lang");
 		if(null != list && list.size() > 0){
 			for(Station station:list){	
-				json.put("text", station.getName());
+				if("en".equals(zh_en)){
+					json.put("text", station.getNameEng());
+				}else{
+					json.put("text", station.getName());
+				}
 				json.put("value", station.getId());
 				array.add(json);
 			}		

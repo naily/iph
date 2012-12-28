@@ -76,10 +76,28 @@ $(document).ready(function() {
 							xAxis : {
 								categories : json.xAxis
 							},
+						/*	xAxis: {
+				                type: 'datetime',
+				                labels: {
+               					 formatter: function() {
+									 //return Highcharts.dateFormat('%Y-%b-%e %H:%M:%S', this.value);                 
+									 return Highcharts.dateFormat('%b-%e', this.value);                 
+									 }
+            					}				             						
+				            },*/
+				            
+  							 /* 
+				               xAxis: {
+				                  type: 'datetime',
+				                  dateTimeLabelFormats: { // don't display the dummy year
+				                    month: '%e. %b',
+				                    year: '%b'
+				                } },*/	
 							yAxis : {
 								title : {
 									text : json.yAxis //+ getUnit(json.paraName)
 								},
+								min:0,
 								plotLines : [{
 											value : 0,
 											width : 1,

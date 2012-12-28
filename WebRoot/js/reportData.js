@@ -11,11 +11,18 @@ $(document).ready(function() {
 
 		}
 	});*/
-	 //观测站下拉框
-    $('input[name=stationId]').omCombo({
-        dataSource:'ht/stationlistall.do' ,
-        valueField : 'id' ,
-        optionField :'name',
+	
+	
+	
+	
+	//观测站下拉框
+    $('input[name=stationId]').omCombo({       
+        //dataSource:'ht/stationlistall.do' ,
+        //valueField : 'id' ,
+        //optionField :'name',
+    	dataSource:'qt/listAllStation.do' ,
+        valueField : 'value' ,
+        optionField :'text',
         width : 100,
         onValueChange : function(target, newValue, oldValue, event) {
 			//$('input[name=year]').focus();
@@ -35,22 +42,25 @@ $(document).ready(function() {
                             }
                         }
                     }
-                    ajaxpost(getSation);
-           	
-           }
-        	
+                    ajaxpost(getSation);   
+                    
+          //  var yearrecords = getYearRecords();
+			// 将算出的值设置为第2个combo的数据源
+			//$('#year').val('').omCombo('setData', yearrecords);               
+			$('#year').val('').omCombo('setData', "qt/yearList.do?stationID="+newValue);               
+           }       	
         }
 		
     }) ;
 
 	// 年份
-	$('input[name=year]').omCombo({ // 初始化Combo
-		dataSource :'qt/yearList.do',//year_omCombo_datasource,
-		width : 100,
+	$('input[name=year]').omCombo({ // 初始化Combo		
+		width : 100
 		//value:2012,
+		/*dataSource :'qt/yearList.do',//year_omCombo_datasource,
 		onValueChange : function() {
 			$('input[name=year]').focus();
-		}
+		}*/
 	});
 
 	// 月份
@@ -448,8 +458,6 @@ $(document).ready(function() {
      //alert(month + ' <  >  ' + parameter) ;
      if(stationId && year && month && parameter){       
          $('#reportGrid').omGrid("setData", 'qt/loadReport.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
-     }
-  
+     } 
   }
-
 

@@ -149,10 +149,11 @@ public class QuartileUtil<T>{
 			if(va instanceof String){
 				String s = StringUtil.replaceLetter(va.toString()) ;
 				if(StringUtil.checkNotNull(s) ){
-					arry.add(Double.parseDouble(s) );
+					//arry.add(Double.parseDouble(s) );
+					arry.add(getFloatNum2(s) );
 				}
 			}else if(va instanceof Number){
-					arry.add(va) ;
+					arry.add(getFloatNum2(va.toString())) ;
 			}
 		}
 		//System.out.println(arry.toString());
@@ -161,6 +162,15 @@ public class QuartileUtil<T>{
 		//System.out.println(arry.toString());
 		return arry ;
 	}
+	/**
+	 * 返回float数据，保留两位小数
+	 * */
+	public static float getFloatNum2(String s){
+		BigDecimal  bigDec =new   BigDecimal(s); 
+		float   rs   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();		
+		return rs;
+	   }
+	
 	/**
 	 * 获取一个一维数组的中位数
 	 * @Author Derek
@@ -172,7 +182,7 @@ public class QuartileUtil<T>{
 		int t = list.size() ;
 		
 		Number med = quartile(list , q2)  ;
-		
+		med=getFloatNum2(med.toString());
 		return med ;
 	}
 	/**
@@ -201,7 +211,7 @@ public class QuartileUtil<T>{
 			Number m2 = list.get(i) ; 
 			med = (m1.floatValue() + m2.floatValue())/2 ;
 		}
-		
+		med=getFloatNum2(med.toString());
 		return med ;
 	}
 	

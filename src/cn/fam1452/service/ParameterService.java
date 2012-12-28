@@ -227,7 +227,8 @@ public class ParameterService extends Base{
 		   		cell.setCellStyle(styleAlign);
 		   		
 		   		cell = row.createCell(9); 
-		   		cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
+		   		//cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
+		   		cell.setCellValue("120°E.M.T ( G.M.T + 8h )");//timeZone//.getLocation()
 		   		cell.setCellStyle(styleAlign);	
 		   		
 		   		cell = row.createCell(16); 
@@ -916,7 +917,8 @@ public class ParameterService extends Base{
 		    	 String dateQ2 = null;		
     			 dateQ1 = pdb.getStartDate()+" 00:00:00";
 		     	 dateQ2 = pdb.getEndDate()+" 23:59:00";
-		     	 String sql =" select "+pdb.getParaType()+",datepart(dd,createdate) as parameterID from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"' and datepart(HH,createdate)='"+pdb.getMonth()+"' order by  createdate";		 	
+		     	String sql =" select "+pdb.getParaType()+",datepart(dd,createdate) as parameterID from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"' and datepart(HH,createdate)='"+pdb.getMonth()+"' order by  createdate";		 	
+		     	 //String sql =" select "+pdb.getParaType()+",createdate  from "+tableName+" where parameterID>0 and createDate >='"+dateQ1+"' and createDate <'"+dateQ2+"' and datepart(HH,createdate)='"+pdb.getMonth()+"' order by  createdate";		 	
      			 return sql;
      		}
      		public List<Number> getValueArrayByField(List list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
@@ -938,6 +940,25 @@ public class ParameterService extends Base{
      			//Arrays.sort(arry.toArray()) ;
      			// Collections.sort(arry);
      			//System.out.println(arry.toString());
+     			return arry ;
+     		}
+     		public List<String> getYearValueArrayByField(List list , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+     			List arry = new ArrayList() ;
+     			for (Object t : list) {
+     				Object va = PropertyUtils.getSimpleProperty(t, fieldName) ;   
+     				String s = DateUtil.convertDateToString((Date)va) ;
+ 					if(StringUtil.checkNotNull(s) ){
+ 						arry.add(s);
+ 					}
+     				/*if(va instanceof String){
+     					String s = StringUtil.replaceLetter(va.toString()) ;
+     					if(StringUtil.checkNotNull(s) ){
+     						arry.add(Double.parseDouble(s) );
+     					}else{
+     						arry.add(0);
+     					}
+     				}*/
+     			}    	
      			return arry ;
      		}
 }

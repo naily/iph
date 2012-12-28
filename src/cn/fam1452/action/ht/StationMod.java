@@ -179,12 +179,16 @@ public class StationMod extends BaseMod{
 	@At("/ht/getstation")
 	@Ok("json")
 	@POST
-	public JSONObject get(@Param("..")Station obj){
+	public JSONObject get(@Param("..")Station obj,HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
 		if(null != obj && StringUtil.checkNotNull(obj.getId())){
 			Station st = baseService.dao.fetch(obj) ;
+			String zh_en=this.getMsgByKey(req, "lang");
+			if("en".equals(zh_en)){
+				st.setName(st.getNameEng());
+			}
 			json.put("data", JSONObject.fromObject(st)) ;
 			json.put(Constant.SUCCESS, true) ;
 		}else{
@@ -222,7 +226,6 @@ public class StationMod extends BaseMod{
 		if(null != sid && StringUtil.checkNotNull(sid)){
 			st = baseService.dao.fetch(Station.class, sid) ;
 		}
-		
 		return st ;
 	}
 }

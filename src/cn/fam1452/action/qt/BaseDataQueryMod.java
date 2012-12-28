@@ -2,6 +2,9 @@ package cn.fam1452.action.qt;
 
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -26,11 +29,11 @@ public class BaseDataQueryMod {
 	 * */
 	@At("/qt/yearList")
 	@Ok("json")
-	public JSONArray yearListData(){
+	public JSONArray yearListData(HttpServletRequest req ){
 		JSONArray array = new JSONArray();
 		JSONObject json = new JSONObject();
-		
-		Sql sql =Sqls.create("select distinct(year) as year from T_NDY  order by year");
+		String stationId = req.getParameter("stationID");
+		Sql sql =Sqls.create("select distinct(year) as year from T_NDY where stationId='"+stationId+"' order by year");
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(baseService.dao.getEntity(NavDataYear.class));
 		baseService.dao.execute(sql) ;				

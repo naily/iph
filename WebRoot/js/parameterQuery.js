@@ -1,6 +1,13 @@
 $(document).ready(function() {
-	
-	    var stationId = $('#stationIDV').val();	
+	//观测站下拉框
+    $('input[name=stationIdParaQuery]').omCombo({       
+    	dataSource:'qt/listAllStation.do' ,
+        valueField : 'value' ,
+        optionField :'text',
+        width : 100	
+    }) ;
+	    var stationId = $('#stationIdParaQuery').val();	
+	    //var stationId = $('#stationIDV').val();	
 		var startDateV = $('#startDateV').val();
 		var endDateV = $('#endDateV').val();
 		var selectTypeValue='';
@@ -23,7 +30,7 @@ $(document).ready(function() {
 			 	});
 			//$("#downloadParaData").show();
 		}
-	var paraValue;
+/*	var paraValue;
 	var selectOk=true;
 	// 选择观测站
 	$('#selectorStation').omItemSelector({
@@ -45,23 +52,10 @@ $(document).ready(function() {
                  	  selectOk=true;
                 	 $('#stationIDs').attr({value:''});
                  },
-				/*onItemSelect : function(itemDatas, event) {
-					var stationValue = '';
-					if (itemDatas.length >= 1) {
-						stationValue = itemDatas[0].value
-					}
-					for (var i = 1; i < itemDatas.length; i++) {
-						stationValue += "," + itemDatas[i].value;
-					}
-					$('#stationIDs').attr({
-								value : stationValue
-							});
-
-				},*/
 				width : 270,
 				height : 300
 
-			});
+			});*/
 
 	// 选择电离参数
 	$('#selectorParaS').omItemSelector({
@@ -84,7 +78,7 @@ $(document).ready(function() {
 								value : paraValue
 							});
 				},*/
-				width : 270,
+				width : 300,
 				height : 300
 
 			});
@@ -165,8 +159,8 @@ $('#paraQueryGrid2').omGrid({
 
 	// 电离参数列表显示
 	$("#paraDataQuery").click(function() {
-        //alert($('#selectorParaS').omItemSelector('value'));
-		var stationId = $('#stationIDs').val();
+		//var stationId = $('#stationIDs').val();
+		var stationId = $('#stationIdParaQuery').val();
 		//var stationId = $('#selectorStation').omItemSelector('value');
 		var parameter = $('#selectorParaS').omItemSelector('value');
 		var startDate = $('#startDate').val();
@@ -228,7 +222,8 @@ $('#paraQueryGrid2').omGrid({
 			// alert($('#parameter').val());
 	});
 	$("#downloadParaData").click(function() {
-		var stationId = $('#selectorStation').omItemSelector('value');
+		//var stationId = $('#selectorStation').omItemSelector('value');
+		var stationId = $('#stationIdParaQuery').val();
 		var parameter = $('#selectorParaS').omItemSelector('value');
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
@@ -283,7 +278,7 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         	return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
+	                        return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
 	                         },
 						width : 150
 			 }
@@ -298,8 +293,7 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         
-	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+qt_Ionospheric_parameters+'</a>'   ;
+	                        return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>'   ;
 	                         },
 						width : 200
 			 }
@@ -315,8 +309,7 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         
-	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+qt_Ionospheric_parameters+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
+	                         return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
 	                         },
 						width : 200
 			 }
@@ -342,7 +335,9 @@ $('#paraQueryGrid2').omGrid({
 		callback : function(json) {
 			if (json.success) {						
 				if(json.data.gramPath){
-					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / >');					
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  / 
+
+>');					
 					$( "#imagePreview").omDialog({title:'频高图查看'});
 					$( "#imagePreview").omDialog('open');
 				}
@@ -403,8 +398,7 @@ function previewPgt(stationId,createDate){
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         
-	                         	return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>';
+	                         return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>';
 	                         },
 						width : 200
 			 }
@@ -426,8 +420,12 @@ function previewScanpic(stationId,createDate){
 		callback : function(json) {			
 			if (json.success) {						
 				/*if(json.data.gramPath){
-					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  height=500 width=600 / >');					
-					$( "#imagePreview").omDialog({title:'扫描图查看',height: 'auto' ,width :'auto'});
+					$( "#imagePreview").html('<img src=".'+ json.data.gramPath +'" border=0  
+
+height=500 width=600 / >');					
+					$( "#imagePreview").omDialog({title:'扫描图查看',height: 'auto' ,width 
+
+:'auto'});
 					$( "#imagePreview").omDialog('open');
 				}*/
 				previewImageForScanpic(json.data.gramPath,'扫描图查看');
@@ -450,8 +448,8 @@ var firstOpt=true;
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
 			var tableCols_,datasourceUrl_;	
-					tableCols_=getParaColmModel(1,parameter_array_text);					
-					datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
+					tableCols_=getParaColmModel(1,parameter_array_text);				
+datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
 					if(firstOpt){					 
 					  $("#imagePreview").html('<table id="paraQueryGrid2"></table>');
@@ -508,9 +506,7 @@ function showParaData(stationId,createDate){
  *  电离层参数列表中，查看报表扫描图，不翻页width=600
  */
 function previewImageForScanpic(filePath_,title_){			
-			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +
-				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');
-			
+			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');			
 			$( "#imagePreview").omDialog({title:title_, height: 'auto' , width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
 				$( "#imagePreview").omDialog('open');
