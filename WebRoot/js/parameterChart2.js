@@ -80,6 +80,7 @@ $(document).ready(function() {
 								title : {
 									text : json.yAxis //+ getUnit(json.paraName)
 								},
+								min:0,
 								plotLines : [{
 											value : 0,
 											width : 1,

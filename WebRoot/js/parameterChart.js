@@ -186,6 +186,7 @@ $(document).ready(function() {
 												title: {
 													text: json.yAxis+getUnit(json.paraName)
 												},
+												min: 0,
 												plotLines: [{
 													value: 0,
 													width: 1,
@@ -242,6 +243,7 @@ $(document).ready(function() {
 												title: {
 													text: json.top_yAxis+getUnit(json.top_paraName)//json.yAxis+getUnit(json.paraName)
 												},
+												min: 0,
 												plotLines: [{
 													value: 0,
 													width: 1,
@@ -295,6 +297,7 @@ $(document).ready(function() {
 												title: {
 													text: json.yAxis+getUnit(json.paraName)
 												},
+												min: 0,
 												plotLines: [{
 													value: 0,
 													width: 1,
@@ -350,6 +353,7 @@ $(document).ready(function() {
 												title: {
 													text: json.yAxis+getUnit(json.paraName)
 												},
+												min: 0,
 												plotLines: [{
 													value: 0,
 													width: 1,
