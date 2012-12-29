@@ -52,7 +52,15 @@ $(document).ready(function() {
       }
 	   
     });
- 
+ // 年份
+	$('input[name=year]').omCombo({ // 初始化Combo		
+		width : 100,
+		//value:2012,
+		dataSource :'qt/yearList.do',//year_omCombo_datasource,
+		onValueChange : function() {
+			$('input[name=year]').focus();
+		}
+	});
       //生成电离参数曲线图      
        $("#pressParaChart").click(function(){
                //var stationIds=$('#stationIds').val();

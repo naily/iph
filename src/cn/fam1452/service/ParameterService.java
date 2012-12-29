@@ -715,7 +715,7 @@ public class ParameterService extends Base{
     	    	row.createCell(paraDataCellNum).setCellValue(paras);
     	    	paraDataCellNum++;
     	    }
-    	
+    	    //public static String[] paraAry = {"foF2","h\'F2","foF1","h\'F","foE","h\'E","fmin","foEs","fbEs","h\'Es","Es-Type","M3000F1","M3000F2"};
     	   
     	    if(null != list && list.size() > 0){
     	    	Row rw ;
@@ -727,19 +727,19 @@ public class ParameterService extends Base{
     	    		rw.createCell(2).setCellValue(parat.getFoF2()) ;
     	    		rw.createCell(3).setCellValue(parat.getHlF2()) ;
     	    		rw.createCell(4).setCellValue(parat.getFoF1()) ;
-    	    		rw.createCell(5).setCellValue(parat.getHlF1()) ;
-    	    		rw.createCell(6).setCellValue(parat.getHlF()) ;
-    	    		rw.createCell(7).setCellValue(parat.getHpF()) ;
-    	    		rw.createCell(8).setCellValue(parat.getFoE()) ;
-    	    		rw.createCell(9).setCellValue(parat.getHlE()) ;
-    	    		rw.createCell(10).setCellValue(parat.getFoEs()) ;
-    	    		rw.createCell(11).setCellValue(parat.getFmin()) ;
-    	    		rw.createCell(12).setCellValue(parat.getM3000F2()) ;
-    	    		rw.createCell(13).setCellValue(parat.getM1500F2()) ;
-    	    		rw.createCell(14).setCellValue(parat.getM3000F1()) ;
-    	    		rw.createCell(15).setCellValue(parat.getM3000F()) ;
+    	    		rw.createCell(5).setCellValue(parat.getHlF()) ;
+    	    		rw.createCell(6).setCellValue(parat.getFoE()) ;
+    	    		rw.createCell(7).setCellValue(parat.getHlE()) ;
+    	    		rw.createCell(8).setCellValue(parat.getFmin()) ;
+    	    		rw.createCell(9).setCellValue(parat.getFoEs()) ;
+    	    		rw.createCell(10).setCellValue(parat.getFbEs()) ;
+    	    		rw.createCell(11).setCellValue(parat.getHlEs()) ;
+    	    		rw.createCell(12).setCellValue(parat.getEs()) ;
+    	    		rw.createCell(13).setCellValue(parat.getM3000F1()) ;
+    	    		rw.createCell(14).setCellValue(parat.getM3000F2()) ;
+    	    		/*rw.createCell(15).setCellValue(parat.getM3000F()) ;
     	    		rw.createCell(16).setCellValue(parat.getHlEs()) ;
-    	    		rw.createCell(17).setCellValue(parat.getFbEs());    	    		
+    	    		rw.createCell(17).setCellValue(parat.getFbEs()); */   	    		
     	    		
     	    	}
     	    	

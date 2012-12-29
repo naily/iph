@@ -790,7 +790,7 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据模块：电离层参数查询
 	 * */
-	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
+	public JSONObject doParaDataQuery(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
@@ -827,8 +827,12 @@ public class QTParameterMod extends BaseMod {
 				para.setStation(station);
 				listD.add(para);
 			}*/
+			String zh_en=this.getMsgByKey(req, "lang");
 			Station station = this.baseService.dao.fetch(Station.class,tableName);
-			for(Parameter para:list){				
+			if("en".equals(zh_en)){
+				station.setName(station.getNameEng());
+			}
+			for(Parameter para:list){					
 				para.setStation(station);
 				listD.add(para);
 			}
@@ -857,7 +861,7 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据模块：电离层参数查询
 	 * */
-	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery) {
+	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
@@ -878,8 +882,12 @@ public class QTParameterMod extends BaseMod {
 		List<Parameter> list = sql.getList(Parameter.class) ;
 		//log.info("list.size="+list.size());
 		List<Parameter> listV = new ArrayList<Parameter>();
+		String zh_en=this.getMsgByKey(req, "lang");
 		for(Parameter para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+			if("en".equals(zh_en)){
+				station.setName(station.getNameEng());
+			}
 			para.setStation(station);
 			listV.add(para);
 		}
@@ -899,7 +907,7 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据：电离层参数导出excel
 	 * */
-	public void exportParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response){
+	public void exportParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response,HttpServletRequest req){
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			page.setLimit(Constant.PAGE_SIZE);
 			List<Parameter> list =null;
@@ -911,8 +919,12 @@ public class QTParameterMod extends BaseMod {
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 			}		
 			List<Parameter> listD= new ArrayList<Parameter>();
+			String zh_en=this.getMsgByKey(req, "lang");
 			for(Parameter para:list){
 				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+				if("en".equals(zh_en)){
+					station.setName(station.getNameEng());
+				}
 				para.setStation(station);
 				listD.add(para);
 			}

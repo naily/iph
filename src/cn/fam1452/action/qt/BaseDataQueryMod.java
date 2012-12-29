@@ -16,6 +16,7 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.service.BaseService;
+import cn.fam1452.utils.StringUtil;
 
 
 @IocBean
@@ -33,7 +34,12 @@ public class BaseDataQueryMod {
 		JSONArray array = new JSONArray();
 		JSONObject json = new JSONObject();
 		String stationId = req.getParameter("stationID");
-		Sql sql =Sqls.create("select distinct(year) as year from T_NDY where stationId='"+stationId+"' order by year");
+		String querySql ="select distinct(year) as year from T_NDY ";
+		if(StringUtil.checkNotNull(stationId)){
+			querySql+=" where stationId='"+stationId+"'";
+		}
+		querySql+=" order by year ";		 
+		Sql sql =Sqls.create(querySql);
 		sql.setCallback(Sqls.callback.entities());
 		sql.setEntity(baseService.dao.getEntity(NavDataYear.class));
 		baseService.dao.execute(sql) ;				
