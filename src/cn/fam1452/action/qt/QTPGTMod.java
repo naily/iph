@@ -157,9 +157,13 @@ public class QTPGTMod extends BaseMod{
 		
 		List<IronoGram> showList = new ArrayList<IronoGram>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
+		String zh_en=this.getMsgByKey(req, "lang");
 		for(IronoGram iro:list){
 			id=iro.getStationID();
 			Station station =baseService.dao.fetch(Station.class,id );
+			if("en".equals(zh_en)){
+				station.setName(station.getNameEng());
+			}
 			iro.setStation(station);			
 			showList.add(iro);
 		}
@@ -231,9 +235,13 @@ public class QTPGTMod extends BaseMod{
 		
 				List<IronoGram> showList = new ArrayList<IronoGram>();
 				String id=null;
+				String zh_en=this.getMsgByKey(req, "lang");
 				for(IronoGram iro:list){
 					id=iro.getStationID();
 					Station station =baseService.dao.fetch(Station.class,id );
+					if("en".equals(zh_en)){
+						station.setName(station.getNameEng());
+					}
 					iro.setStation(station);			
 					showList.add(iro);
 				}
@@ -286,7 +294,7 @@ public class QTPGTMod extends BaseMod{
 	 * **/
 	@At("/qt/queryPGTByDate")
 	@Ok("json")
-	public JSONObject queryPGTBYDate(@Param("..")IronoGram irg){
+	public JSONObject queryPGTBYDate(@Param("..")IronoGram irg,HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
@@ -305,8 +313,12 @@ public class QTPGTMod extends BaseMod{
 		baseService.dao.execute(sql) ;		
 		List<IronoGram> list = sql.getList(IronoGram.class) ;
 		List<IronoGram> listV = new ArrayList<IronoGram>();
+		String zh_en=this.getMsgByKey(req, "lang");
 		for(IronoGram para:list){
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+			if("en".equals(zh_en)){
+				station.setName(station.getNameEng());
+			}
 			para.setStation(station);
 			listV.add(para);
 		}

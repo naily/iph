@@ -62,8 +62,8 @@ $(document).ready(function() {
 							chart : {
 								renderTo : 'paraDataChart0',
 								type : 'line',
-								marginRight : 90,
-								marginBottom : 25
+								marginRight : 20,
+								marginBottom : 100
 							},
 							title : {
 								text : json.subtitle,// json.chartTitle
@@ -74,7 +74,13 @@ $(document).ready(function() {
 								x : -20
 							},
 							xAxis : {
-								categories : json.xAxis
+								categories : json.xAxis,
+								labels:{
+								  step:json.step,
+								  rotation:45,
+								  y:30
+								  //style:'margin-top:50px;'
+								}
 							},
 						/*	xAxis: {
 				                type: 'datetime',
@@ -111,14 +117,14 @@ $(document).ready(function() {
 											+ this.y;
 								}
 							},
-							legend : {
+							/*legend : {
 								layout : 'vertical',
 								align : 'right',
 								verticalAlign : 'top',
 								x : -10,
 								y : 100,
 								borderWidth : 0
-							},
+							},*/
 							series : json.series							
 							});
 					}else{

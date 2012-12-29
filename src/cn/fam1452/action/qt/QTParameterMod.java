@@ -396,18 +396,25 @@ public class QTParameterMod extends BaseMod {
 			  parameter.setMonth(hourStr);//利用month字段传小时的值
 			  List<Map> medList = new ArrayList<Map>();
 			  List<Number> paraValueList =null;//某观测站，电离值
-			  //List<String> paraXvalue=null;//
-			  List<Number> paraXvalue=null;//
-			  Map<String, Object> map = null;		
+			  List<String> paraXvalue=null;//
+			  //List<Number> paraXvalue=null;//
+			  Map<String, Object> map = null;	
+			  String id=null;
+			  String zh_en=this.getMsgByKey(req, "lang");
+			  int step=1,paraSize=0;
 				  for(String stationID:stationAry){
 					    map = new HashMap<String, Object>();
 						parameter.setStationID(stationID);
 						list=parameterService.parameterCharByQujian(parameter);				
 						paraValueList = parameterService.getValueArrayByField(list, parameter.getParaType());	
-						//paraXvalue = parameterService.getYearValueArrayByField(list, "createDate");	
-						paraXvalue = parameterService.getValueArrayByField(list, "parameterID");	
-						map.put("name",stationID );//parameter.getParaType()
-						//map.put("xPara", paraXvalue);
+						paraXvalue = parameterService.getYearValueArrayByField(list, "createDate");	
+						//paraXvalue = parameterService.getValueArrayByField(list, "parameterID");							
+						Station station =baseService.dao.fetch(Station.class,stationID );						
+						if("en".equals(zh_en)){
+							map.put("name",station.getNameEng());
+						}else{
+							map.put("name",station.getName());
+						}
 						map.put("data", paraValueList);
 						medList.add(map);
 				   }//end for  station	
@@ -416,6 +423,13 @@ public class QTParameterMod extends BaseMod {
 				json.put("title",parameter.getStartDate()+" -> "+parameter.getEndDate()+" ("+hourStr+")");//主标题
 				json.put("subtitle", "Monthly median values and its distribution of "+paraName);//副标题
 				json.put("xAxis", paraXvalue);//x轴显示
+				paraSize =paraXvalue.size();
+				if(paraSize<30 && paraSize>15){
+					step =2;
+				}else{
+					step =(paraSize/30)*4;
+				}
+				json.put("step", step);//x轴显示步长
 				json.put("yAxis", paraName+"("+QuartileUtil.getUnit(paraName)+")");//y轴显示				
 				json.put("series", medList);//单因子					
 				if (null != medList) {

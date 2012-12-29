@@ -85,7 +85,7 @@
 					</table>
 					<br/>		
 					
-					<div id="paraDataChart0" style="min-width: 400px; margin: 0 auto;"></div>
+					<div id="paraDataChart0" style="min-width: 400px; margin: 0 auto;height: 400px;"></div>
 				
 					
 					<!--  height: 300px; -->					

@@ -88,9 +88,13 @@ public class QTScanPicMod extends BaseMod{
 		
 		List<Scanpic> showList = new ArrayList<Scanpic>();//or("station.name","like","%"+queryKey+"%").
 		String id=null;
+		String zh_en=this.getMsgByKey(req, "lang");
 		for(Scanpic scps:list){
 			id=scps.getStationID();
 			Station station =baseService.dao.fetch(Station.class,id );
+			if("en".equals(zh_en)){
+				station.setName(station.getNameEng());
+			}
 			scps.setStation(station);			
 			showList.add(scps);
 		}
@@ -168,9 +172,13 @@ public class QTScanPicMod extends BaseMod{
 					dvs.insert("T_SCANPIC", "01", showList.size(), getQTLoginUserID(), GetIP.getIpAddr(req), 0f);
 				}
 				String id=null;
+				String zh_en=this.getMsgByKey(req, "lang");
 				for(Scanpic iro:list){
 					id=iro.getStationID();
 					Station station =baseService.dao.fetch(Station.class,id );
+					if("en".equals(zh_en)){
+						station.setName(station.getNameEng());
+					}
 					iro.setStation(station);			
 					showList.add(iro);
 				}
