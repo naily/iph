@@ -56,7 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td  class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
-                <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" /> </td>
+                <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" />
+                &nbsp;&nbsp;&nbsp;<input id = "comboCateg" /> </td>
               </tr>
               <tr>
                 <td class="table_td_fieldlab">&nbsp;新闻内容:</td>

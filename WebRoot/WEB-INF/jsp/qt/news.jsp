@@ -28,7 +28,7 @@
 
 	<body>
 		<jsp:include page="header.jsp" flush="true" />
-		<div id="right" style="overflow-y: scroll;">
+		<div id="right" style="height:auto; ">
 			<div class="title8">${msg['qt_news_title']}</div>
 			<div class="newsbox" >
 				<div class="newstitle">${obj.title }</div>
