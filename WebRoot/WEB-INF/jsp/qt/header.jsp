@@ -137,9 +137,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    
 				    <input name="regSubmit"  id="regSubmit" type="image" value="ee" 
                      <c:choose>
-		<c:when test='${msg.lang=="zh"}'> src="images/d10.jpg" />	</c:when>
-		<c:otherwise>src="images/d12.jpg"	</c:otherwise>
-	</c:choose>
+                     	<c:when test='${msg.lang=="zh"}'>src="images/d10.jpg"</c:when>
+						<c:otherwise>src="images/d12.jpg"</c:otherwise>
+					 </c:choose>
                     />
 				    
 				    </td>
