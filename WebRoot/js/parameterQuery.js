@@ -1,13 +1,7 @@
 $(document).ready(function() {
-	//观测站下拉框
-    $('input[name=stationIdParaQuery]').omCombo({       
-    	dataSource:'qt/listAllStation.do' ,
-        valueField : 'value' ,
-        optionField :'text',
-        width : 100	
-    }) ;
-	    var stationId = $('#stationIdParaQuery').val();	
-	    //var stationId = $('#stationIDV').val();	
+	
+	    //var stationId = $('#stationIdParaQuery').val();	
+	    var stationId = $('#stationIDV').val();	
 		var startDateV = $('#startDateV').val();
 		var endDateV = $('#endDateV').val();
 		var selectTypeValue='';
@@ -56,7 +50,14 @@ $(document).ready(function() {
 				height : 300
 
 			});*/
-
+//观测站下拉框
+    $('input[name=stationIdParaQuery]').omCombo({       
+    	dataSource:'qt/listAllStation.do' ,
+        valueField : 'value' ,
+        optionField :'text',
+        value:stationId,
+        width : 100	
+    }) ;
 	// 选择电离参数
 	$('#selectorParaS').omItemSelector({
 				availableTitle : select_parameter,

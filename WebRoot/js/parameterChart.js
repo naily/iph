@@ -86,7 +86,7 @@ $(document).ready(function() {
                 	//stationIds =stationIds.toString();
                 	//alert($('#hourForChart').val());
                 	//return false;
-                	//alert(stationIds);
+                	alert(stationIds);
                      var data = {
 								url : 'qt/loadParaChartDataNew.do',
 								params : {								
