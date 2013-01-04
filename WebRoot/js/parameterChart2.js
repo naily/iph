@@ -46,11 +46,17 @@ $(document).ready(function() {
 	$("#pressParaChart2").click(function() {
 		var stationIds = $('#selectorPara').omItemSelector('value');
 		var parameter = $('#parameter').val();	
+		var startDate =$('#startDate').val();
+		var endDate=$('#endDate').val();
+		if(startDate>endDate){
+		 at({cont:'开始日期，不能大于结束日期！' , type : 'error'});
+		  return false;
+		}
 		var data_21= {
 			url : './qt/loadParaChartDataByQujian.do',
 			params : {
-				startDate :$('#startDate').val(),
-				endDate : $('#endDate').val(),
+				startDate :startDate,
+				endDate : endDate,
 				paraType : parameter,
 				hourStr : $('#hourForChart').val(),
 				stationIDs : stationIds.toString()

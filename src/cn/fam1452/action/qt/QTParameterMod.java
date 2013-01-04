@@ -416,6 +416,10 @@ public class QTParameterMod extends BaseMod {
 							map.put("name",station.getName());
 						}
 						map.put("data", paraValueList);
+						map.put("lineWidth:", 0.1);
+						Map<String, Object> m = new HashMap<String, Object>();
+						m.put("radius",0.1);
+						map.put("marker", m);
 						medList.add(map);
 				   }//end for  station	
 				json.put(Constant.SUCCESS, true);				
