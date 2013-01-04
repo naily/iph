@@ -77,7 +77,7 @@ $(document).ready(function() {
 								categories : json.xAxis,
 								labels:{
 								  step:json.step,
-								  rotation:45,
+								  rotation:90,
 								  y:30
 								  //style:'margin-top:50px;'
 								}
