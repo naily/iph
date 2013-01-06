@@ -26,9 +26,12 @@ import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.FieldMatcher;
 import org.nutz.dao.entity.Record;
+import org.nutz.ioc.Ioc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
+import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.By;
 import org.nutz.mvc.annotation.Filters;
@@ -265,6 +268,14 @@ public class ParameterMod extends BaseMod{
 		try {
 			long start = System.currentTimeMillis() ;
 			AccessUtil au = new AccessUtil(this.getAppRealPath(context) + mdbPath) ;
+			Ioc ioc =  Mvcs.getIoc() ;
+			if(null != ioc){
+				PropertiesProxy prop = ioc.get(PropertiesProxy.class, "config") ; 
+				if(StringUtil.checkNotNull(prop.get("accessdriver")) ){
+					au.setDburl(prop.get("accessdriver")) ;
+				}
+			}
+			log.info(au.getDburl()) ;
 			Connection con = au.getConnection() ;
 			
 			Statement stat = con.createStatement(); 

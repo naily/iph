@@ -15,7 +15,7 @@ public class AccessUtil {
 
 	
 	private final String driver = "sun.jdbc.odbc.JdbcOdbcDriver" ;
-	private final String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
+	private String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
 	
 //	private final String driver = "com.hxtt.sql.access.AccessDriver" ;
 //	private final String dburl = "jdbc:Access:///#mdbpath#" ;
@@ -245,5 +245,11 @@ public class AccessUtil {
             e.printStackTrace() ;
         }
 		
+	}
+	public String getDburl() {
+		return dburl;
+	}
+	public void setDburl(String dburl) {
+		this.dburl = dburl;
 	}
 }
