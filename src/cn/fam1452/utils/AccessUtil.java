@@ -153,7 +153,7 @@ public class AccessUtil {
 	/*
 	 * 每页条数100
 	 */
-	public static final int pageSpeed = 100 ;
+	public static final int pageSpeed = 50 ;
 	
 	public static void main(String[] a){
 		//String path = "E:/GHY_____________/xyzWWWWW/数据示例/1946_1956电离层参数.mdb" ;

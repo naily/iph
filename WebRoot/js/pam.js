@@ -185,7 +185,25 @@ $(document).ready(function(){
         $("#saveMdbFile").attr("disabled" , "disabled"); //禁用提交按钮
         
         ajaxpost(save) ;
+        getimportstatus() ;
     });
+    
+    function getimportstatus(){
+        var data = {
+            url : 'ht/getimportstatus.do' ,
+            params : {} ,
+            callback : function(json){
+                if(json.success){
+                    $('#errormsg3').html(json.info) ;
+                }else{
+                    
+                }
+            }
+        }
+        
+        ajaxpost(data) ;
+        setTimeout(getimportstatus , 2) ;
+    }
 	
 });
 

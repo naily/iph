@@ -258,6 +258,19 @@ public class ParameterMod extends BaseMod{
 	}
 	
 	@POST
+	@At("/ht/getimportstatus")
+    @Ok("json")
+	public JSONObject getImportStatus(){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, true) ;
+		json.put(Constant.INFO, courr) ;
+		return json ;
+	}
+	
+	private long courr = 0 ;
+	
+	
+	@POST
 	@At("/ht/savepamdata")
     @Ok("json")
 	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField ,ServletContext context){
@@ -324,7 +337,7 @@ public class ParameterMod extends BaseMod{
 					}
 					//log.info("得到: " + data.size()) ;
 					//把已经存在的对象删除掉
-					//baseService.dao.delete(data) ;
+					//batchDeleteParameter(stationId , data);
 					if(null != data && data.size() > 0){
 						insertdb += data.size() ;
 						for (Parameter pa : data) {
@@ -332,6 +345,7 @@ public class ParameterMod extends BaseMod{
 						}
 						//baseService.dao.insert(data) ;
 						dls.insert("01", tableName, getHTLoginUserName()) ;
+						courr = insertdb ;
 					}
 				}
 			}
@@ -350,6 +364,16 @@ public class ParameterMod extends BaseMod{
 		}
 	}
 	
+	private void batchDeleteParameter(String table , List<Parameter> data){
+		for (Parameter p : data) {
+			int c = baseService.dao.clear(table, Cnd.where("createDate", "=", p.getCreateDate())) ;
+			if(c > 0){
+				System.out.println(DateUtil.convertDateToString(p.getCreateDate(), DateUtil.pattern2) +"\t"+c); 
+			}
+		}
+		/*if(null != data || data.size() > 0){
+		}*/
+	}
 	private Chain cov(Parameter pa , boolean ignoreNull){
 		FieldMatcher fm = FieldMatcher.make(null, "parameterID|ids|station$", ignoreNull) ;
 		Chain ch = Chain.from(pa , fm) ;

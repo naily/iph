@@ -217,6 +217,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</tr>
 	        	<tr>
 		        	<td align="center" colspan="2">
+		        		<span id="errormsg3" ></span>
+		        	</td>
+	        	</tr>
+	        	<tr>
+		        	<td align="center" colspan="2">
 		        		<input id="saveMdbFile"  src="images/baocun.png" type="image" title="保存" /> 
 		        	</td>
 	        	</tr>
