@@ -263,12 +263,25 @@ public class ParameterMod extends BaseMod{
 	public JSONObject getImportStatus(){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, true) ;
+		
 		json.put(Constant.INFO, courr) ;
+		json.put("total", total) ;
+		if(0 != total){
+			json.put("percentage", courr*100 / total) ;
+		}
+		
+		if(courr > 0 && total == courr){
+			json.put(Constant.SUCCESS, false) ;
+			courr = 0 ;
+			total = 0 ;
+		}
+		//System.out.println(json.get("percentage"));
+		
 		return json ;
 	}
 	
 	private long courr = 0 ;
-	
+	private long total = 0 ;
 	
 	@POST
 	@At("/ht/savepamdata")
@@ -292,7 +305,7 @@ public class ParameterMod extends BaseMod{
 			Connection con = au.getConnection() ;
 			
 			Statement stat = con.createStatement(); 
-			long total = au.getTotalRowNumber(stat, mdbTableName) ;
+			total = au.getTotalRowNumber(stat, mdbTableName) ;
 			
 			long pageTotal = au.getTotalPageNumber(total)  ;
 			
