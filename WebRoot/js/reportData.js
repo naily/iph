@@ -227,7 +227,8 @@ $(document).ready(function() {
 	  	$("#monthIndex").val(monthIdx); //月份下标显示
   	}   
   	if(paraIdx!='-1' && paraIdx!=-1){
-	  	$('#para_unit').html(parameter_array_text[paraIdx]+getUnit(parameter_array[paraIdx]));//参数显示
+  		var pn  = $('input[name=parameter]').omCombo('getData')[paraIdx] ; 
+	  	$('#para_unit').html(pn.text +getUnit(pn.value));//参数显示
 	  	$("#parameterIndex").val(paraIdx);//电离参数下标设置
   	}
   }
@@ -391,25 +392,31 @@ $(document).ready(function() {
   function pageBarParamSeting(pageNumber){
     var parameterIndex=-1,monthIndex=-1;
     
+    //下拉列表参数个数
+    var parameterSize =  $('input[name=parameter]').omCombo('getData').length ; 
+    //月份数
+    var monthSize =  $('input[name=month]').omCombo('getData').length ;
+    
     if(isMonthSelectAll() && isParaSelectAll() ){ //全部月份全部参数
-	    var p1 = pageNumber % 12 ;  //月
-	    var p2 = pageNumber / 12 ;  //第几个参数
-	    p2 = Math.floor(p2) ;
-	    //p2 = p2 -1 ;
+    	//计算第几个月
+    	var mi = pageNumber / parameterSize ;
+    	mi = Math.floor(mi) ; //向下取整
+    	//计算第几个参数
+    	var pi = pageNumber % parameterSize ;
 	    
-	    if(p1 == 0){
-	        p1 = 11 ;
+	    if(pi == 0){
+	        pi = 12 ;
+	        mi = mi -1 ;
 	    }else{
-	        p1 = p1 -1 ;
+	        pi = pi -1 ;
 	    }
-	    
-	    monthIndex     = p1 ;
-	    parameterIndex = p2 ;
+	    monthIndex     = mi ;
+	    parameterIndex = pi ;
         
     }else if( !isParaSelectAll()  ){  //仅选择全部月份
         parameterIndex = -1 ;
         
-        var p1 = pageNumber % 12 ;  //月
+        var p1 = pageNumber % monthSize ;  //月
         if(p1 == 0){
             p1 = 11 ;
         }else{
@@ -419,11 +426,10 @@ $(document).ready(function() {
         monthIndex     = p1 ;
     }else if( !isMonthSelectAll() ){  // 仅选择全部参数
         monthIndex = -1;
-        var paramlength = parameter_array_text.length ;
         
-        var p1 = pageNumber % paramlength ;
+        var p1 = pageNumber % parameterSize ;
         if(p1 == 0){
-            p1 = paramlength - 1 ;
+            p1 = parameterSize - 1 ;
         }else{
             p1 = p1 -1 ;
         }
@@ -432,6 +438,7 @@ $(document).ready(function() {
     }
     
     //alert('monthIndex: '+monthIndex + ' <  >  parameterIndex:' + parameterIndex) ; return ;
+    
     setTitleAndParaVaule(monthIndex,parameterIndex);
     showParameterMonth();
   }
@@ -450,7 +457,10 @@ $(document).ready(function() {
 		month=$('#month').val();
 	 }
 	 if(isParaSelectAll()){
-	 	parameter=parameter_array[$("#parameterIndex").val()];	
+	 	//parameter = parameter_array[$("#parameterIndex").val()];	
+	 	var pn  = $('input[name=parameter]').omCombo('getData')[$("#parameterIndex").val()] ; 
+	 	//alert(pn.value)
+	 	parameter = pn.value;
 	 }else{
 		parameter=$('#parameter').val();
 	 }

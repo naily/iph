@@ -165,11 +165,21 @@ public class QuartileUtil<T>{
 	/**
 	 * 返回float数据，保留两位小数
 	 * */
-	public static float getFloatNum2(String s){
-		BigDecimal  bigDec =new   BigDecimal(s); 
-		float   rs   =   bigDec.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();		
-		return rs;
-	   }
+	public static float getFloatNum2(String s) {
+		if (StringUtil.checkNotNull(s)) {
+			s = s.trim();
+		}
+		float f = 0f;
+		try {
+			BigDecimal bigDec = new BigDecimal(s);
+			f = bigDec.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(s);
+		} finally {
+			return f;
+		}
+	}
 	
 	/**
 	 * 获取一个一维数组的中位数
