@@ -161,14 +161,23 @@ public class ParameterService extends Base{
    		CellStyle styleHead =setHeadStyle(wb);
    		CellStyle styleContent =setContentStyle(wb);
    		
-   		//遍历参数
+   	/*	//遍历参数
 	    for(String paraArys:paraAry){
 	    	rowSatrt=0;
 			pdb.setParaType(paraArys);
 			sheet = wb.createSheet(year+"-"+paraArys);
 			//遍历月份
-			for(String months:monthAry){
-				pdb.setMonth(months);
+			for(String months:monthAry){*/
+//   	遍历月份
+		for(String months:monthAry){
+   		
+	    	rowSatrt=0;
+	    	pdb.setMonth(months);
+			
+			sheet = wb.createSheet(year+"-"+months);
+//			遍历参数
+		    for(String paraArys:paraAry){
+		    	pdb.setParaType(paraArys);
 				try{
 				 listData = parameterMonthReport(pdb) ;
 				   /*合并四分位数*/
