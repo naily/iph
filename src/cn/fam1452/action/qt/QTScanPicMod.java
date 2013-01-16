@@ -15,7 +15,9 @@ import net.sf.json.JsonConfig;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
+import org.nutz.dao.Sqls;
 import org.nutz.dao.pager.Pager;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -29,6 +31,7 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.filter.UserFilter;
 import cn.fam1452.dao.pojo.IronoGram;
+import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.ProtectDate;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
@@ -143,7 +146,7 @@ public class QTScanPicMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
-		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		cfg.setExcludes(new String[] { "administrator","email","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		String protectArea=null;//保护期区间
 		if (scp != null && StringUtil.checkNotNull(scp.getIds())) {	
 			List<Scanpic> list =null;
@@ -173,12 +176,54 @@ public class QTScanPicMod extends BaseMod{
 				}
 				String id=null;
 				String zh_en=this.getMsgByKey(req, "lang");
+				/**
+				 * 遍历报表扫描图，判断当前记录条件下是否有“频高图图”与“电离层参数”
+				 * 说明：通过观测站表（station）中的homepage，和addess 两个字段判断是否存在两类数据
+				 * */
 				for(Scanpic iro:list){
 					id=iro.getStationID();
 					Station station =baseService.dao.fetch(Station.class,id );
 					if("en".equals(zh_en)){
 						station.setName(station.getNameEng());
 					}
+					
+					String createDate= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd HH");
+					String startTimePgt =createDate+":00:00";
+				    String endTimePgt =createDate+":59:59";
+					Sql sqlPgt =Sqls.create("select * from T_IRONOGRAM where stationID='"+iro.getStationID()+"' and createDate between '"+startTimePgt+"' and '"+endTimePgt+"'");
+					sqlPgt.setCallback(Sqls.callback.entities());
+					sqlPgt.setEntity(baseService.dao.getEntity(IronoGram.class));
+					baseService.dao.execute(sqlPgt);	
+					List listPgt =sqlPgt.getList(IronoGram.class);
+					if(null!=listPgt && listPgt.size()>0){
+						station.setAddress("1");					
+					}else{
+						station.setAddress("0");
+					}
+					
+					int paraTotal=0;
+					List listPara=null;
+					Parameter parameter = new Parameter();
+					parameter.setIds(id);
+					String createDate1= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd");
+					paraQuery.setStartDate(createDate1);
+					paraQuery.setEndDate(createDate1);
+					if(!parameterService.isProtectDateOpen(id,paraQuery.getStartDate(),paraQuery.getEndDate())){											
+						//if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
+						tableName = id;					
+						listPara=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);						
+					}else{
+						listPara = parameterService.parameterDataList(parameter,page,paraQuery);
+						 //paraTotal =this.baseService.dao.count(id);//电离参数
+					
+					}
+					if(null!=listPara && listPara.size()>0)paraTotal=1;
+					if(paraTotal>0){
+						station.setHomepage("1");
+					}else{
+						station.setHomepage("0");
+					}
+					
 					iro.setStation(station);			
 					showList.add(iro);
 				}
