@@ -41,6 +41,7 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.FileUtil;
 import cn.fam1452.utils.LocalFileUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StationUtil;
@@ -169,7 +170,7 @@ public class PgtMod extends BaseMod{
 	@POST
 	@At("/ht/pgtdel")
     @Ok("json")
-	public JSONObject deletePgt(@Param("..")IronoGram params){
+	public JSONObject deletePgt(@Param("..")IronoGram params , ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
@@ -185,6 +186,7 @@ public class PgtMod extends BaseMod{
 				
 				if(null != ig){
 					igs.add(ig) ;
+					FileUtil.deleteFile(this.getAppRealPath(context) + ig.getGramPath()) ;
 				}
 			}
 			

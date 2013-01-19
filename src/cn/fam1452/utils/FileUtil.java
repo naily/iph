@@ -109,4 +109,33 @@ public class FileUtil {
 			aTargetDir.mkdirs();
 		}
 	}
+	
+	/**
+	 * 删除一个文件或者文件夹
+	 * @Author Derek
+	 * @Date Jan 19, 2013
+	 */
+	public static boolean deleteFile(String filepath){
+		boolean b = false ;
+		if(StringUtil.checkNotNull(filepath)){
+			File f = new File(filepath) ;
+			b = deleteFile(f) ;
+		}
+		
+		return b ;
+	}
+	
+	/**
+	 * 删除一个文件或者文件夹
+	 * @Author Derek
+	 * @Date Jan 19, 2013
+	 */
+	public static boolean deleteFile(File file){
+		boolean b = false ;
+		if(null != file && file.exists()){
+			b = file.delete() ;
+		}
+		
+		return b ;
+	}
 }
