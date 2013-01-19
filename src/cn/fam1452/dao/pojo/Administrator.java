@@ -17,7 +17,7 @@ public class Administrator {
 	private String loginId ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=20)
+    @ColDefine(type=ColType.VARCHAR, width=50)
 	private String password ;
 	
 	@Column

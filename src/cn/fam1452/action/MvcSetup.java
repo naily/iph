@@ -19,6 +19,7 @@ import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.DayList;
 import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Visit;
+import cn.fam1452.utils.MD5Util;
 
 public class MvcSetup implements Setup{
 	private Logger log = Logger.getLogger(this.getClass()) ;
@@ -60,7 +61,7 @@ public class MvcSetup implements Setup{
         		
         		Administrator admin = new Administrator();
         		admin.setLoginId("admin") ;
-        		admin.setPassword("123456") ;
+        		admin.setPassword(MD5Util.tomd5("123456")) ; //初始化用户密码：123456
         		admin.setName("superadmin") ;
         		admin.setSuper(true) ;
         		dao.insert(admin) ;

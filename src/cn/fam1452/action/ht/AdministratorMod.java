@@ -29,6 +29,7 @@ import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.AdministratorService;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.MD5Util;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -71,6 +72,7 @@ public class AdministratorMod extends BaseMod{
 		
 		if(StringUtil.checkNotNull(admin.getLoginId()) && StringUtil.checkNotNull(admin.getPassword())){
 			if(adminService.dao.fetch(admin) == null){
+				admin.setPassword(MD5Util.tomd5(admin.getPassword())) ;
 				adminService.dao.insert(admin) ;
 				map.put(Constant.SUCCESS, true) ;
 			}else{
@@ -97,7 +99,8 @@ public class AdministratorMod extends BaseMod{
 				StringUtil.checkNotNull(user.getLoginId()) && 
 				StringUtil.checkNotNull(admin.getPassword())){
 			
-			user.setPassword(admin.getPassword()) ;
+			//admin.setPassword(MD5Util.tomd5(admin.getPassword())) ;
+			user.setPassword(MD5Util.tomd5(admin.getPassword())) ;
 			adminService.dao.update(user, "password") ;
 			
 			j.put(Constant.SUCCESS, true) ;

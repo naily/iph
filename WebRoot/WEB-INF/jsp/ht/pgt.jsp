@@ -45,6 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href="#tab3">服务器批量导入</a></li>
         </ul>
         <div id="tab3" class="hidediv">
+        	<%@ include file="./info/serverBatchInfo.jsp" %>
         	<p>文件目录:<input type="text" style="width:600px;" id="file_serverdir" /> </p>
         	<p>&nbsp;&nbsp;&nbsp;观测站:<input type="text" style="width:160px;" id="station_serverdir" /> </p>
         	<p>数据年份:<input type="text" style="width:160px;" id="year_serverdir" /> </p>
@@ -62,6 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	</tr>
 	        	<tr>
 	        	<td> 
+	        		<%@ include file="./info/localBatchInfo.jsp" %>
 		        	<div style="height:260px;overflow-y:scroll; border: red solid 0px; ">
 		        		<div style="width:100px; float:left;  margin-top: 10px;">选择频高图:</div>
 		        		<input type="file" name="file_upload_more" id="file_upload_more" /> 
@@ -98,7 +100,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div id="tab1" class="hidediv">
         	<table height="312" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
 			  <tr>
-			    <td height="10" colspan="3" align="center">&nbsp; </td>
+			    <td height="10" colspan="3" align="left">
+			    <%@ include file="./info/singleBatchInfo.jsp" %></td>
 			    </tr>
 			  <tr >
 			    <td width="20" align="left" height="40">&nbsp;</td>

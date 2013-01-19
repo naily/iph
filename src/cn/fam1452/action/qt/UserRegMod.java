@@ -17,6 +17,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.MD5Util;
 import cn.fam1452.utils.SendMail;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.StringUtil;
@@ -40,6 +41,7 @@ public class UserRegMod extends BaseMod{
 		if(StringUtil.checkNotNull(user.getLoginId()) && StringUtil.checkNotNull(user.getPassword())){
 			user.setRegDate(DateUtil.getCurrentDate());
 			if(userservice.dao.fetch(user) == null){
+				user.setPassword(MD5Util.tomd5(user.getPassword())) ;
 				userservice.dao.insert(user) ;
 				json.put(Constant.SUCCESS, true) ;
 			}else{
@@ -70,7 +72,7 @@ public class UserRegMod extends BaseMod{
 				if(null == db ){
 					json.put(Constant.INFO, this.getMsgByKey(req, "ht_login_nameerror")) ;
 				} else{
-					if(db.getPassword().equals(user.getPassword())){
+					if(db.getPassword().equals(MD5Util.tomd5(user.getPassword()) )){
 						json.put(Constant.SUCCESS, true) ;
 						db.setLogin(true) ;
 						session.setAttribute(Constant.QT_USER_SESSION, db) ;
@@ -163,6 +165,8 @@ public class UserRegMod extends BaseMod{
 		if(session.getAttribute(Constant.QT_USER_SESSION)!=null){
 			User userSen =(User)session.getAttribute(Constant.QT_USER_SESSION);
 			user.setRegDate(userSen.getRegDate());
+			
+			user.setPassword(MD5Util.tomd5(user.getPassword())) ;
 			userservice.dao.update(user);		
 			json.put(Constant.SUCCESS, true);
 			user.setLogin(true) ;
