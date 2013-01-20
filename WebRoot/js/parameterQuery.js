@@ -1,13 +1,7 @@
 $(document).ready(function() {
-	//观测站下拉框
-    $('input[name=stationIdParaQuery]').omCombo({       
-    	dataSource:'qt/listAllStation.do' ,
-        valueField : 'value' ,
-        optionField :'text',
-        width : 100	
-    }) ;
-	    var stationId = $('#stationIdParaQuery').val();	
-	    //var stationId = $('#stationIDV').val();	
+	
+	    //var stationId = $('#stationIdParaQuery').val();	
+	    var stationId = $('#stationIDV').val();	
 		var startDateV = $('#startDateV').val();
 		var endDateV = $('#endDateV').val();
 		var selectTypeValue='';
@@ -56,7 +50,14 @@ $(document).ready(function() {
 				height : 300
 
 			});*/
-
+//观测站下拉框
+    $('input[name=stationIdParaQuery]').omCombo({       
+    	dataSource:'qt/listAllStation.do' ,
+        valueField : 'value' ,
+        optionField :'text',
+        value:stationId,
+        width : 100	
+    }) ;
 	// 选择电离参数
 	$('#selectorParaS').omItemSelector({
 				availableTitle : select_parameter,
@@ -247,6 +248,7 @@ $('#paraQueryGrid2').omGrid({
 	});
   /**
    * 根据查询类型，组装查询数据的表头
+   * 
    * */
 	function getColmModel(queryType,paraCol) {
 		var container = new Array();//数据表格的表头数据
@@ -278,7 +280,16 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                        return '<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
+							var optHrefStr='';
+							//alert(rowData.station.address);
+							if(rowData.station.address=='1'){//此处address=1 表示 有对应的扫描图
+							  optHrefStr='<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>';
+							}
+							
+							if(rowData.station.homepage=='1'){//此处homepage=1 表示 有对应的频高图
+								optHrefStr+='&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>';
+							}
+	                        return  optHrefStr ;
 	                         },
 						width : 150
 			 }
@@ -293,7 +304,14 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                        return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>'   ;
+							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>';
+	                       if(rowData.station.address=='1'){//此处address=1 表示 有对应的扫描图
+							  optHrefStr+='&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>';
+							}
+							if(rowData.station.homepage=='1'){//此处homepage=1 表示 有对应的电离参数
+								optHrefStr+='&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>'   ;
+							}
+							return optHrefStr;
 	                         },
 						width : 200
 			 }
@@ -309,7 +327,15 @@ $('#paraQueryGrid2').omGrid({
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         return '<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>'   ;
+							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>';
+	                         if(rowData.station.address=='1'){//此处homepage=1 表示 有对应的频高图
+								optHrefStr+='&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>';
+							}
+							 if(rowData.station.homepage=='1'){//电离参数
+							optHrefStr+='&nbsp;<a href="javascript:showParaData(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_parameter+'</a>'   ;
+	                        
+							 }
+							 return optHrefStr;
 	                         },
 						width : 200
 			 }

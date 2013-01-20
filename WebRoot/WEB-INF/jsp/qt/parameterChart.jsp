@@ -118,11 +118,11 @@
 							      <c:choose>
 									 <c:when test='${msg.lang=="zh"}'> 
 									 	 <a href="javascript:void(0)"  id="pressParaChart"><img src="images/qxtsc.png"  border="0" /></a>
-									 	 <a href="qt/paraDataChartByQujian.do" target="_blank">按区间查询</a>
+									 	 <a href="qt/paraDataChartByQujian.do" target="_blank">按任意时间生成曲线图</a>
 									</c:when>
 									<c:otherwise>
 										 <input type="button" id="pressParaChart" value="${msg['qt_parameters_graph_press']}"/> 
-										 <a href="qt/paraDataChartByQujian.do" target="_blank">According to the interval query</a>
+										 <a href="qt/paraDataChartByQujian.do" target="_blank">Press any time generated curve</a>
 									</c:otherwise>
 								</c:choose>	
 							    

@@ -66,11 +66,12 @@ public class DataBaseUtil extends Sqlserver2005JdbcExpert{
 	public  boolean nutCreateParameterTable(NutDao dao ,  String table){
 		boolean bn = false ;
 		if(StringUtil.checkNotNull(table)){
+			dao.drop(table) ;
 			if(!dao.exists(table)){
-				Entity<?> en = dao.getEntity(Parameter.class) ;
-				bn = this.createEntity(dao, en, table) ;
 				//DataBaseUtil dbu = new DataBaseUtil(exp) ;
 				//dao.create(classOfT, dropIfExists)
+				Entity<?> en = dao.getEntity(Parameter.class) ;
+				bn = this.createEntity(dao, en, table) ;
 			}
 		}
 		

@@ -181,11 +181,33 @@ $(document).ready(function(){
                 $("#saveMdbFile").removeAttr("disabled" );
             }
         }
-        $("#errormsg2").removeClass().html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").show() ;
+        //$("#errormsg2").removeClass().html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").show() ;
         $("#saveMdbFile").attr("disabled" , "disabled"); //禁用提交按钮
-        
+        $("#errormsg2").removeClass().html('') ;
+        $("#procbar").progressBar();
+        $("#mdbpath").val('');
+
         ajaxpost(save) ;
+        setTimeout(getimportstatus , 2000) ;
     });
+    
+    function getimportstatus(){
+    	$("#procbar").fadeIn();
+        var data = {
+            url : 'ht/getimportstatus.do' ,
+            params : {} ,
+            callback : function(json){
+                $('#errormsg3').html(json.info + ' -&gt; ' + json.total) ;
+                $("#procbar").progressBar(json.percentage);
+                if(json.success){
+                    setTimeout(getimportstatus , 2000) ;
+                }else{}
+            }
+        }
+        
+        ajaxpost(data) ;
+        
+    }
 	
 });
 

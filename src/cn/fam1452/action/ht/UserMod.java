@@ -28,6 +28,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.MD5Util;
 import cn.fam1452.utils.RandomImage;
 import cn.fam1452.utils.StringUtil;
 
@@ -101,7 +102,7 @@ public class UserMod  extends BaseMod{
 				if(null == db ){
 					json.put(Constant.INFO, this.getMsgByKey(req, "ht_login_nameerror")) ;
 				} else{
-					if(db.getPassword().equals(admin.getPassword())){
+					if(db.getPassword().equals(MD5Util.tomd5(admin.getPassword())) ){
 						json.put(Constant.SUCCESS, true) ;
 						db.setLogin(true) ;
 						session.setAttribute(Constant.HT_USER_SESSION, db) ;

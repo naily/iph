@@ -42,6 +42,7 @@ import cn.fam1452.dao.pojo.User;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.UserService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.MD5Util;
 import cn.fam1452.utils.StringUtil;
 
 /**
@@ -166,6 +167,7 @@ public class QTUserMgeMod extends BaseMod{
 		json.put(Constant.SUCCESS, false) ;
 		
 		if(StringUtil.checkNotNull(params.getLoginId()) && null != baseService.dao.fetch(params)){
+			params.setPassword(MD5Util.tomd5(params.getPassword())) ;
 			int  i = baseService.dao.updateIgnoreNull(params) ;
 			json.put(Constant.SUCCESS, true ) ;
 		}else{

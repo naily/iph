@@ -58,9 +58,9 @@
 								<div id="selectorStation" ></div>
 								<input id="stationIDs" type="hidden"/> 
 							</td>
-							--%><td height="30" width="50%" align="center" valign="top">
+							--%><td height="30" width="50%" align="left" valign="top">
 						
-								<div id="selectorParaS" ></div>
+								<div id="selectorParaS" style="margin-left:30px;" ></div>
 								<input id="parameter" type="hidden" /> 
 							</td>
 							<td>

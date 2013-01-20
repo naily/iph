@@ -36,6 +36,11 @@ $(document).ready(function(){
         filebrowserImageUploadUrl : './omEditorImageUpload.do'
 
      });
+     $('#comboCateg').omCombo({
+        dataSource:[{text:'动态新闻' , value:1},{text:'相关文档' , value:2}] ,
+        value : 1 ,
+        width :100
+    }) ;
     
     $('#buttonbar').omButtonbar({
             	width : '99.8%',
@@ -103,6 +108,8 @@ $(document).ready(function(){
 						                            	}else{
 						                            		$('#isPicNews').removeAttr('checked') ;
 						                            	}
+                                                        
+                                                        $('#comboCateg').omCombo('value' ,json.category ?json.category : 1 ) ;
 						                            	
 						                            	$( "#tab1").omDialog('open');
 						                            }else{
@@ -113,7 +120,8 @@ $(document).ready(function(){
 								                            json.title = $('#title').val() ;
 							                                json.isPicNews = $('#isPicNews').attr('checked') ? true : false ;
 							                                json.content = $( '#contentId' ).omEditor('getData') ;
-								                            
+								                            json.category = $('#comboCateg').omCombo('value') ;
+                                                            
 												     		var updatepgt = {
 													                        url : 'ht/newsupdate.do',
 													                        params : json  ,

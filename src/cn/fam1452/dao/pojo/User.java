@@ -29,7 +29,7 @@ public class User extends Pages{
 	private String loginId ;
 	
 	@Column
-    @ColDefine(type=ColType.VARCHAR, width=10)
+    @ColDefine(type=ColType.VARCHAR, width=50)
 	private transient String password ;
 	
 	public String getCode() {

@@ -36,12 +36,16 @@ import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.bo.ParameteDataBo;
 import cn.fam1452.action.bo.ParameterMonthDateBo;
 import cn.fam1452.action.filter.UserFilter;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.ProtectDate;
+import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataVisitService;
+import cn.fam1452.service.PGTService;
 import cn.fam1452.service.ParameterService;
+import cn.fam1452.service.ScanPicService;
 import cn.fam1452.utils.DateJsonValueProcessor;
 import cn.fam1452.utils.DateUtil;
 import cn.fam1452.utils.GetIP;
@@ -61,6 +65,11 @@ public class QTParameterMod extends BaseMod {
 	@Inject("refer:dataVisitService")
 	private DataVisitService dataVisitService;
 	
+	@Inject("refer:scanPicService")
+	private ScanPicService scanPicService;
+	
+	@Inject("refer:pgtService")
+	private PGTService pgtService ;
 /*	@Filters(@By(type=UserFilter.class ))   
 	@At("/yousay")   
 	  public String tellMore(){  
@@ -416,6 +425,10 @@ public class QTParameterMod extends BaseMod {
 							map.put("name",station.getName());
 						}
 						map.put("data", paraValueList);
+						map.put("lineWidth:", 0.1);
+						Map<String, Object> m = new HashMap<String, Object>();
+						m.put("radius",0.1);
+						map.put("marker", m);
 						medList.add(map);
 				   }//end for  station	
 				json.put(Constant.SUCCESS, true);				
@@ -809,7 +822,7 @@ public class QTParameterMod extends BaseMod {
 		JsonConfig cfg = new JsonConfig();
 		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:MM:SS"));
-		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		cfg.setExcludes(new String[] {"administrator","email","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list =null;
 			int total =0;
@@ -846,7 +859,32 @@ public class QTParameterMod extends BaseMod {
 			if("en".equals(zh_en)){
 				station.setName(station.getNameEng());
 			}
-			for(Parameter para:list){					
+			/**
+			 * 遍历电离参数，判断当前记录条件下是否有“报表扫描图”与“电离频高图”
+			 * 说明：通过观测站表（station）中的homepage，和addess 两个字段判断是否存在两类数据
+			 * */
+			for(Parameter para:list){	
+
+				String createDate= DateUtil.convertDateToString(para.getCreateDate(),"yyyy-MM-dd HH");
+				String startTimePgt =createDate+":00:00";
+			    String endTimePgt =createDate+":59:59";
+				Sql sqlPgt =Sqls.create("select * from T_IRONOGRAM where stationID='"+para.getStationID()+"' and createDate between '"+startTimePgt+"' and '"+endTimePgt+"'");
+				sqlPgt.setCallback(Sqls.callback.entities());
+				sqlPgt.setEntity(baseService.dao.getEntity(IronoGram.class));
+				baseService.dao.execute(sqlPgt);	
+				List listPgt =sqlPgt.getList(IronoGram.class);
+				if(null!=listPgt && listPgt.size()>0){
+					station.setHomepage("1");					
+				}else{
+					station.setHomepage("0");
+				}
+				Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",para.getStationID()).and("createDate","=",para.getCreateDate()));	
+				if(null!=idd){
+					station.setAddress("1");
+				 }else{
+					station.setAddress("0");
+				 }
+				
 				para.setStation(station);
 				listD.add(para);
 			}
@@ -866,38 +904,53 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.TOTAL, 0);
 				json.put(Constant.PROTECTDATA_AREA, null);
 		}
-		//log.info(json.toString());
+		log.info(json.toString());
 		return json;
 	}
 	
 	@At("/qt/showParaData")
 	@Ok("json")
 	/**
-	 * 找数据模块：电离层参数查询
+	 * 找数据模块：电离层参数查询,通过报表扫描图及频高图关联电离参数
 	 * */
 	public JSONObject showParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletRequest req) {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
 		cfg.setExcludes(new String[] {"address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
-	    //log.info(parameter.getCreateDate());//"station",
-	    //log.info(DateUtil.convertDateToString(parameter.getCreateDate()));
-	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
+	   /* String createDate= DateUtil.convertDateToString(parameter.getCreateDate());
 	    String startTime =createDate+" 00:00:00";
 	    String endTime =createDate+" 23:59:59";
+	    Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
+	    */
 		//Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
-		Sql sql =Sqls.create("select * from T_PARAMETER where stationID='"+parameter.getStationID()+"' and createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
-		//log.info(sql.toString());
+		
+	    String createDate= DateUtil.convertDateToString(parameter.getCreateDate(),"yyyy-MM-dd HH");
+	    String startTime =createDate+":00:00";
+	    String endTime =createDate+":59:59";
+	    
+	    Sql sql =Sqls.create("select * from "+parameter.getStationID()+" where  createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
+		log.info(sql.toString());
 		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		sql.setEntity(baseService.dao.getEntity(Parameter.class));
 		baseService.dao.execute(sql) ;		
 		List<Parameter> list = sql.getList(Parameter.class) ;
-		//log.info("list.size="+list.size());
+		/*if(null!=list && list.size()>0){
+			Scanpic scp  = new  Scanpic();
+			scp.setIds(parameter.getIds());
+			int totalScan =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQuery(scp, paraQuery));
+			IronoGram irg = new IronoGram();
+			irg.setIds(parameter.getIds());
+			int totalPgt =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQuery(irg, paraQuery));
+		}*/
 		List<Parameter> listV = new ArrayList<Parameter>();
 		String zh_en=this.getMsgByKey(req, "lang");
 		for(Parameter para:list){
+			
+			
+			   
 			Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
 			if("en".equals(zh_en)){
 				station.setName(station.getNameEng());

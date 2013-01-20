@@ -15,7 +15,7 @@ public class AccessUtil {
 
 	
 	private final String driver = "sun.jdbc.odbc.JdbcOdbcDriver" ;
-	private final String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
+	private String dburl = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=#mdbpath#;DriverID=22;READONLY=true}" ;
 	
 //	private final String driver = "com.hxtt.sql.access.AccessDriver" ;
 //	private final String dburl = "jdbc:Access:///#mdbpath#" ;
@@ -153,7 +153,7 @@ public class AccessUtil {
 	/*
 	 * 每页条数100
 	 */
-	public static final int pageSpeed = 100 ;
+	public static final int pageSpeed = 50 ;
 	
 	public static void main(String[] a){
 		//String path = "E:/GHY_____________/xyzWWWWW/数据示例/1946_1956电离层参数.mdb" ;
@@ -245,5 +245,11 @@ public class AccessUtil {
             e.printStackTrace() ;
         }
 		
+	}
+	public String getDburl() {
+		return dburl;
+	}
+	public void setDburl(String dburl) {
+		this.dburl = dburl;
 	}
 }

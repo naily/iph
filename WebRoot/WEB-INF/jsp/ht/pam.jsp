@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+	<script type="text/javascript" src="js/library/jquery.progressbar.min.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
@@ -213,6 +214,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	<tr>
 		        	<td align="center" colspan="2">
 		        		<span id="errormsg2" class="errorMessages"></span>
+		        	</td>
+	        	</tr>
+	        	<tr>
+		        	<td align="center" colspan="2">
+		        		<div id="procbar"></div>
+		        		<span id="errormsg3" ></span>
 		        	</td>
 	        	</tr>
 	        	<tr>

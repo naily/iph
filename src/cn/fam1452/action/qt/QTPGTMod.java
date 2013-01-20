@@ -38,6 +38,7 @@ import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.NavDataYear;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.ProtectDate;
+import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataVisitService;
@@ -211,7 +212,7 @@ public class QTPGTMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
 		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
-		cfg.setExcludes(new String[] { "address" , "administrator","email","homepage","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
+		cfg.setExcludes(new String[] { "administrator","email","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		String protectArea=null;//保护期区间
 		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	
 			List<IronoGram> list =null;
@@ -236,9 +237,45 @@ public class QTPGTMod extends BaseMod{
 				List<IronoGram> showList = new ArrayList<IronoGram>();
 				String id=null;
 				String zh_en=this.getMsgByKey(req, "lang");
+				/**
+				 * 遍历电离频高图，判断当前记录条件下是否有“报表扫描图”与“电离层参数”
+				 * 说明：通过观测站表（station）中的homepage，和addess 两个字段判断是否存在两类数据
+				 * */
 				for(IronoGram iro:list){
 					id=iro.getStationID();
 					Station station =baseService.dao.fetch(Station.class,id );
+					int paraTotal=0;
+					List listPara=null;
+					Parameter parameter = new Parameter();
+					parameter.setIds(irg.getIds());
+					String createDate= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd");
+					paraQuery.setStartDate(createDate);
+					paraQuery.setEndDate(createDate);
+					if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
+						//if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
+						tableName = id;					
+						listPara=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);						
+					}else{
+						listPara = parameterService.parameterDataList(parameter,page,paraQuery);
+						 //paraTotal =this.baseService.dao.count(id);//电离参数
+					
+					}
+					if(null!=listPara && listPara.size()>0)paraTotal=1;
+					if(paraTotal>0){
+						station.setHomepage("1");
+					}else{
+						station.setHomepage("0");
+					}
+					Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",id).and("createDate","like",iro.getCreateDate()+"%"));	
+					if(null!=idd){
+						station.setAddress("1");
+					 }else{
+						station.setAddress("0");
+					 }
+					
+					
+					
+					
 					if("en".equals(zh_en)){
 						station.setName(station.getNameEng());
 					}
@@ -264,7 +301,7 @@ public class QTPGTMod extends BaseMod{
 			json.put(Constant.TOTAL, 0);
 		}
 		json.put(Constant.PROTECTDATA_AREA, protectArea);
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json;
 		
 	}
@@ -306,7 +343,6 @@ public class QTPGTMod extends BaseMod{
 	    String endTime =createDate+":59:59";
 		Sql sql =Sqls.create("select * from T_IRONOGRAM where stationID='"+irg.getStationID()+"' and createDate between '"+startTime+"' and '"+endTime+"'");
 		//log.info(sql.toString());
-		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));
 		sql.setEntity(baseService.dao.getEntity(IronoGram.class));

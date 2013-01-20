@@ -96,8 +96,15 @@ public class StationMod extends BaseMod{
 			//obj.setId(String.valueOf(System.currentTimeMillis()).substring(6) ) ;
 			if(StringUtil.checkNotNull(obj.getId())){
 				obj.setId(obj.getId().toUpperCase()) ;
-				if(null == baseService.dao.fetch(obj)){
-					
+				Station tmp = baseService.dao.fetch(obj) ;
+				
+				if(tmp != null && tmp.getStatus() == 0){//彻底删除旧表
+					if(1 == baseService.dao.delete(tmp) ){
+						tmp = null ;
+					}
+				}
+				
+				if(null == tmp){
 					if(null != baseService.dao.insert(obj) ){
 						//根据观测站Id创建表
 						this.createStationParameterTable(obj.getId()) ;
@@ -106,10 +113,8 @@ public class StationMod extends BaseMod{
 						json.put(Constant.INFO, "保存失败") ;
 					}
 				}else{
-					
 					json.put(Constant.INFO, String.format("保存失败,[%1$s]该观测站ID已经存在", obj.getId()) ) ;
 				}
-				
 			}else{
 				json.put(Constant.INFO, "保存失败,观测站编码不能为空") ;
 			}
@@ -169,6 +174,7 @@ public class StationMod extends BaseMod{
 			json.put(Constant.SUCCESS, true) ;
 			
 			dls.deleteNDYByStation(obj.getId()) ;
+			baseService.dao.drop(obj.getId()) ;
 		}else{
 			json.put(Constant.INFO, "参数错误") ;
 		}

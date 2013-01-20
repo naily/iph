@@ -32,6 +32,7 @@ import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.service.DataLogService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.FileUtil;
 import cn.fam1452.utils.LocalFileUtil;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StationUtil;
@@ -188,7 +189,7 @@ public class ScanpicMod extends BaseMod{
 	@POST
 	@At("/ht/sacdel")
     @Ok("json")
-	public JSONObject deleteScanpic(@Param("..")Scanpic params){
+	public JSONObject deleteScanpic(@Param("..")Scanpic params , ServletContext context){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
@@ -204,6 +205,7 @@ public class ScanpicMod extends BaseMod{
 				
 				if(null != sa){
 					igs.add(sa) ;
+					FileUtil.deleteFile(this.getAppRealPath(context) + sa.getGramPath()) ;
 				}
 			}
 			

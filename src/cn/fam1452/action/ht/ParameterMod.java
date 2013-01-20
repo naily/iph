@@ -26,9 +26,12 @@ import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.FieldMatcher;
 import org.nutz.dao.entity.Record;
+import org.nutz.ioc.Ioc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
+import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.By;
 import org.nutz.mvc.annotation.Filters;
@@ -255,6 +258,32 @@ public class ParameterMod extends BaseMod{
 	}
 	
 	@POST
+	@At("/ht/getimportstatus")
+    @Ok("json")
+	public JSONObject getImportStatus(){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, true) ;
+		
+		json.put(Constant.INFO, courr) ;
+		json.put("total", total) ;
+		if(0 != total){
+			json.put("percentage", courr*100 / total) ;
+		}
+		
+		if(courr > 0 && total == courr){
+			json.put(Constant.SUCCESS, false) ;
+			courr = 0 ;
+			total = 0 ;
+		}
+		//System.out.println(json.get("percentage"));
+		
+		return json ;
+	}
+	
+	private long courr = 0 ;
+	private long total = 0 ;
+	
+	@POST
 	@At("/ht/savepamdata")
     @Ok("json")
 	public JSONObject saveParameterDataFromAccess(String mdbPath , String stationId , String mdbTableName , String dateField ,ServletContext context){
@@ -265,10 +294,18 @@ public class ParameterMod extends BaseMod{
 		try {
 			long start = System.currentTimeMillis() ;
 			AccessUtil au = new AccessUtil(this.getAppRealPath(context) + mdbPath) ;
+			Ioc ioc =  Mvcs.getIoc() ;
+			if(null != ioc){
+				PropertiesProxy prop = ioc.get(PropertiesProxy.class, "config") ; 
+				if(StringUtil.checkNotNull(prop.get("accessdriver")) ){
+					au.setDburl(prop.get("accessdriver")) ;
+				}
+			}
+			log.info(au.getDburl()) ;
 			Connection con = au.getConnection() ;
 			
 			Statement stat = con.createStatement(); 
-			long total = au.getTotalRowNumber(stat, mdbTableName) ;
+			total = au.getTotalRowNumber(stat, mdbTableName) ;
 			
 			long pageTotal = au.getTotalPageNumber(total)  ;
 			
@@ -313,7 +350,7 @@ public class ParameterMod extends BaseMod{
 					}
 					//log.info("得到: " + data.size()) ;
 					//把已经存在的对象删除掉
-					//baseService.dao.delete(data) ;
+					//batchDeleteParameter(stationId , data);
 					if(null != data && data.size() > 0){
 						insertdb += data.size() ;
 						for (Parameter pa : data) {
@@ -321,6 +358,7 @@ public class ParameterMod extends BaseMod{
 						}
 						//baseService.dao.insert(data) ;
 						dls.insert("01", tableName, getHTLoginUserName()) ;
+						courr = insertdb ;
 					}
 				}
 			}
@@ -339,6 +377,16 @@ public class ParameterMod extends BaseMod{
 		}
 	}
 	
+	private void batchDeleteParameter(String table , List<Parameter> data){
+		for (Parameter p : data) {
+			int c = baseService.dao.clear(table, Cnd.where("createDate", "=", p.getCreateDate())) ;
+			if(c > 0){
+				System.out.println(DateUtil.convertDateToString(p.getCreateDate(), DateUtil.pattern2) +"\t"+c); 
+			}
+		}
+		/*if(null != data || data.size() > 0){
+		}*/
+	}
 	private Chain cov(Parameter pa , boolean ignoreNull){
 		FieldMatcher fm = FieldMatcher.make(null, "parameterID|ids|station$", ignoreNull) ;
 		Chain ch = Chain.from(pa , fm) ;
