@@ -188,6 +188,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- 导入 -->
         <div id="tab2" class="hidediv">
         	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
+	        	<tr><td align="left" colspan="2"> 
+	        	<fieldset ><legend>温馨提示</legend>
+				<p>重复上传*.mdb数据文件，将删除日期字段已存在的数据。</p>
+				</fieldset>
+	        	</td> </tr>
 	        	<tr><td align="right" colspan="2">&nbsp;</td> </tr>
 	          <tr>
                 <td align="right">&nbsp;观测站:</td>

@@ -310,7 +310,7 @@ public class ParameterMod extends BaseMod{
 			long pageTotal = au.getTotalPageNumber(total)  ;
 			
 			long insertdb  = 0 ;
-			String tmpl = "select top PAGESPEED * from TABLENAME where ID >(select top 1 max(ID) from (select top BEFOREROW ID from TABLENAME order by ID)) " ;
+			String tmpl = "select top PAGESPEED * from TABLENAME where ID >(select top 1 max(ID) from (select top BEFOREROW ID from TABLENAME order by ID asc)) order by ID asc " ;
 			tmpl = tmpl.replaceAll("ID", dateField).replaceAll("PAGESPEED", String.valueOf(au.pageSpeed)).replaceAll("TABLENAME", mdbTableName) ;
 			for(int i = 1 ; i <= pageTotal ; i++){
 				int ii = (i-1)* au.pageSpeed ;
@@ -318,8 +318,8 @@ public class ParameterMod extends BaseMod{
 				
 				if(i == 1){
 					sql = sql.substring(0 , sql.indexOf("where")) ;
+					sql += "order by ID asc".replace("ID", dateField) ;
 				}
-				
 				ResultSet rset = au.execSQL(stat , sql ) ;
 				if(null != rset){
 					//把当前结果集中存在的fieldsName找出来
@@ -331,11 +331,12 @@ public class ParameterMod extends BaseMod{
 						}
 					}
 					
-					List<Parameter> data = new ArrayList<Parameter>() ;
+					List<Parameter> data = new ArrayList() ;
 					while (rset.next()) {
 						Parameter p = new Parameter() ;
 						String time = rset.getString(dateField) ;
-						//p.setParameterID(time) ;
+						
+						p.setSrcTimestr(time) ;
 						p.setCreateDate(DateUtil.convertStringToDate(time, DateUtil.pattern5)) ;
 						p.setStationID(stationId) ;
 						//StringBuilder ss = new StringBuilder(rset.getString("mytime")).append("\t");
@@ -349,9 +350,9 @@ public class ParameterMod extends BaseMod{
 						dls.insertNDY(tableName, p.getStationID(), null, p.getCreateDate()) ;
 					}
 					//log.info("得到: " + data.size()) ;
-					//把已经存在的对象删除掉
-					//batchDeleteParameter(stationId , data);
 					if(null != data && data.size() > 0){
+						//把已经存在的对象删除掉
+						batchDeleteParameter(stationId , data);
 						insertdb += data.size() ;
 						for (Parameter pa : data) {
 							baseService.dao.insert(stationId, cov(pa,true)) ;
@@ -379,10 +380,7 @@ public class ParameterMod extends BaseMod{
 	
 	private void batchDeleteParameter(String table , List<Parameter> data){
 		for (Parameter p : data) {
-			int c = baseService.dao.clear(table, Cnd.where("createDate", "=", p.getCreateDate())) ;
-			if(c > 0){
-				System.out.println(DateUtil.convertDateToString(p.getCreateDate(), DateUtil.pattern2) +"\t"+c); 
-			}
+			int c = baseService.dao.clear(table, Cnd.where("srcTimestr", "=", p.getSrcTimestr())) ;
 		}
 		/*if(null != data || data.size() > 0){
 		}*/

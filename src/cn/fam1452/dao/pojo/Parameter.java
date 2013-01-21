@@ -33,6 +33,10 @@ public class Parameter {
 	private String stationID ; //观测站点编号
 	
 	@Column
+	@ColDefine(type=ColType.VARCHAR, width=50)
+	private String srcTimestr ; 
+	
+	@Column
 	private Date createDate ;
 	
 	@Column
@@ -345,6 +349,14 @@ public class Parameter {
 
 	public void setParameterID(long parameterID) {
 		this.parameterID = parameterID;
+	}
+
+	public String getSrcTimestr() {
+		return srcTimestr;
+	}
+
+	public void setSrcTimestr(String srcTimestr) {
+		this.srcTimestr = srcTimestr;
 	}
 
 	
