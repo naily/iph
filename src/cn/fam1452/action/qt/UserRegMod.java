@@ -44,6 +44,7 @@ public class UserRegMod extends BaseMod{
 				user.setPassword(MD5Util.tomd5(user.getPassword())) ;
 				userservice.dao.insert(user) ;
 				json.put(Constant.SUCCESS, true) ;
+				json.put(Constant.INFO, this.getMsgByKey(req, "index_reg_success")) ;
 			}else{
 				json.put(Constant.INFO, this.getMsgByKey(req, "qt_regist_username_exist")) ;
 			}
@@ -111,7 +112,7 @@ public class UserRegMod extends BaseMod{
 
 				String smtp =config.get("smtp");//邮件服务器
 				String subjectTitle=config.get("subjectTitle");//邮件标题
-				String subjectBody =config.get("subjectBody");//邮件内容
+				String subjectBody =config.get("subjectBody")+db.getPassword();//邮件内容
 				String mailTo =db.getEmail();//收件人
 				String mailForm=config.get("mailAdderss");//发件邮箱
 				String userName=config.get("userName");//发件邮箱用户名

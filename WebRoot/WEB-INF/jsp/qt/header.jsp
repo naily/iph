@@ -49,6 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="userRegDialog"  title="${msg['qt_regist_title']}" style="display: none;">
         <div >
 	    		<form id="userRegForm"  name="userRegForm">
+	    		<input type="hidden" id="updateOpt">
 	    		<table   border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
 				    <td height="30" colspan="3" align="">&nbsp; 
@@ -204,7 +205,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div id="user_login_form">
 	       <c:choose>
 		    	<c:when test="${sessionScope.qt_account.login==true}" ><!-- 已经登录 -->
-		    		${msg['qt_login_welcome']}：${sessionScope.qt_account.loginId} &nbsp;&nbsp;<a href="qt/logout.do" class="a1">${msg['qt_login_out']}</a>
+		    		${msg['qt_login_welcome']}：<a href="javascript:void(0)"  onclick="getRegInfo()" class="a1">${sessionScope.qt_account.loginId}</a> &nbsp;&nbsp;<a href="qt/logout.do" class="a1">${msg['qt_login_out']}</a>
 		    	</c:when>
 		    	<c:otherwise><!-- 未登录 -->
 			        ${msg['qt_login_username']}: <input type="text" id="userLoginId" name="userLoginId" class="boxinput1_1" />
@@ -216,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </td>
     <td width="5">&nbsp;</td>
     <td width="160" height="35" align="left" class="fontstyle1" valign="baseline">
-    	<a href="javascript:void(0)" id="userRegHref" class="a1">[${msg['qt_register']}]</a><a href="javascript:void(0)" id="getUserPasswordHref" class="a1">${msg['qt_login_forget']} ?</a>
+    	<a href="javascript:void(0)"  id="userRegHref" class="a1">[${msg['qt_register']}]</a><a href="javascript:void(0)" id="getUserPasswordHref" class="a1">${msg['qt_login_forget']} ?</a>
     </td>
   </tr>
   <tr>

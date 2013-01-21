@@ -41,6 +41,7 @@ function() {
 	 * 用户注册
 	 */
 	$('#userRegHref').bind('click', function() {
+		       $('#userRegForm')[0].reset();
 				$("#userRegDialog").omDialog('open');
 			});
 
@@ -184,7 +185,10 @@ function validateReg(){
 					region : {
 						required : true
 					}
-
+					,
+					code : {
+						required : true
+					}
 				},
 				messages : {
 					loginId : {
@@ -211,11 +215,15 @@ function validateReg(){
 					region : {
 						required : '请选择区域'
 					}
+					,
+					code : {
+						required : '请填写验证码'
+					}
 				},
 				errorPlacement : errorPlacement,
 				showErrors : showErrors,
 				submitHandler : function(s) {
-				var optType=$('#optTpyeID').val();
+				var optType=$('#updateOpt').val();
 					//alert('optType='+optType);
 				 var postUrl='';
 				   if(optType=='update'){
@@ -297,7 +305,7 @@ function saveRegData(url) {
 		callback : function(json) {
 			if (json.success) {
 				showWaiting();
-				setTimeout("$.omMessageBox.waiting('close');showRegSuccess();",3000);
+				setTimeout("$.omMessageBox.waiting('close');showRegSuccess('"+json.info+"');",3000);
 			} else {
 				showError(json.info);
 
@@ -340,11 +348,12 @@ function showWaiting() {
 				content : '服务器正在处理请求，请稍等...'
 			});
 }
-function showRegSuccess() {
+function showRegSuccess(info) {
 	$.omMessageBox.alert({
 				type : 'success',
 				title : '成功',
-				content : '注册成功！',
+				//content : '注册成功！',
+				content : info,
 				onClose : function(v) {
 					$('#userRegDialog').omDialog('close');
 					$('#userRegForm')[0].reset();
@@ -395,8 +404,10 @@ function getRegInfo() {
 				/**
 				 * 用户注册信息
 				 */
+				
+				$('#updateOpt').attr("value", 'update');//
 				$('#loginId').attr("value", json.user.loginId);//
-				$('#password').attr("value", json.user.password);
+				//$('#password').attr("value", json.user.password);
 				$('#name').attr("value", json.user.name);				
 				$('input[name=gender]').omCombo({ // 初始化Combo
 					dataSource : gender_omCombo_datasource,
