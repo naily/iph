@@ -840,11 +840,11 @@ public class QTParameterMod extends BaseMod {
 				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
 				
 			}else{//无保护期,正常显示数据
-				list = parameterService.parameterDataList(parameter,page,paraQuery);
-				
+				list = parameterService.parameterDataList(parameter,page,paraQuery);				
 				 //total =this.baseService.dao.count(Parameter.class);
 				 //total =this.baseService.dao.count(Parameter.class,parameterService.getParamenterCnd(parameter, paraQuery));
-				 total =this.baseService.dao.count(parameter.getIds());
+				// total =this.baseService.dao.count(parameter.getIds());
+				 total =this.baseService.dao.count(parameter.getIds(),parameterService.getParamenterCnd(parameter, paraQuery));
 			}
 		
 			List<Parameter> listD= new ArrayList<Parameter>();
@@ -854,17 +854,17 @@ public class QTParameterMod extends BaseMod {
 				para.setStation(station);
 				listD.add(para);
 			}*/
-			String zh_en=this.getMsgByKey(req, "lang");
+			/*String zh_en=this.getMsgByKey(req, "lang");
 			Station station = this.baseService.dao.fetch(Station.class,tableName);
 			if("en".equals(zh_en)){
 				station.setName(station.getNameEng());
-			}
+			}*/
 			/**
 			 * 遍历电离参数，判断当前记录条件下是否有“报表扫描图”与“电离频高图”
 			 * 说明：通过观测站表（station）中的homepage，和addess 两个字段判断是否存在两类数据
 			 * */
 			for(Parameter para:list){	
-
+				Station station =  new Station();
 				String createDate= DateUtil.convertDateToString(para.getCreateDate(),"yyyy-MM-dd HH");
 				String startTimePgt =createDate+":00:00";
 			    String endTimePgt =createDate+":59:59";
@@ -898,13 +898,15 @@ public class QTParameterMod extends BaseMod {
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
 				json.put(Constant.PROTECTDATA_AREA, protectArea);
-			}						
+			}	
+			//log.info("total="+total);
 		}else{
 				json.put(Constant.ROWS, "[]");
 				json.put(Constant.TOTAL, 0);
 				json.put(Constant.PROTECTDATA_AREA, null);
 		}
-		log.info(json.toString());
+		
+		//log.info(json.toString());
 		return json;
 	}
 	
@@ -930,7 +932,7 @@ public class QTParameterMod extends BaseMod {
 	    String endTime =createDate+":59:59";
 	    
 	    Sql sql =Sqls.create("select * from "+parameter.getStationID()+" where  createDate >= '"+startTime+"' and createDate<= '"+endTime+"'");
-		log.info(sql.toString());
+		//log.info(sql.toString());
 		
 		sql.setCallback(Sqls.callback.entities());
 		//sql.setEntity(dao.getEntity(ParameteDataBo.class));

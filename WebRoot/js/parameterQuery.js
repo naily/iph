@@ -107,7 +107,7 @@ $(document).ready(function() {
 	// 截止时间
 	$('#endDate').omCalendar();
 	// 排序方式选择
-	$('#orderCol').omCombo({
+/*	$('#orderCol').omCombo({
 				dataSource : [{
 							text : order_by_station,
 							value : 'stationID'
@@ -115,7 +115,7 @@ $(document).ready(function() {
 							text : order_by_date,
 							value : 'createDate'
 						}]
-			});
+			});*/
 	// 页面显示记录
 	$('#showNum').omCombo({
 				dataSource : [{
@@ -174,7 +174,8 @@ $('#paraQueryGrid2').omGrid({
 		if(pageSize){
 		  pageslimit=pageSize;
 		}
-		var orderBy = $('#orderCol').val();
+		//var orderBy = $('#orderCol').val();
+		var orderBy = '';
 		var queryDataType =$('#selectDataType').val();
 
 		//if ((queryDataType!=1 ||  parameter) && stationId  && (startDate && endDate || allDate)) {
@@ -252,13 +253,15 @@ $('#paraQueryGrid2').omGrid({
    * */
 	function getColmModel(queryType,paraCol) {
 		var container = new Array();//数据表格的表头数据
-		container[0] = {
+		/*container[0] = {
 			//header : '所属观测站',
-			header : order_by_station,
+			header : order_by_station+'112',
 			name : 'station.name',
-			width : 80
-		}
-		container[1] = {
+			//width : 80
+			width : 0
+		}*/
+		//container[1] = {
+		container[0] = {
 			//header : '观测日期',
 			header : order_by_date,
 			name : 'createDate',
@@ -270,18 +273,18 @@ $('#paraQueryGrid2').omGrid({
 				//str = selectPara.split(",");			
 				//for (i = 0; i < str.length; i++) {
 				for (i = 0; i < paraCol.length; i++) {
-					container[i + 2] = {
+					container[i + 1] = {
 						header : paraCol[i],
 						name : paraCol[i],
 						width : 40
 					}
 				}
-			container[paraCol.length+2]={
+			container[paraCol.length+1]={
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
 							var optHrefStr='';
-							//alert(rowData.station.address);
+							//alert('address='+rowData.station.address,"homepage="+rowData.station.homepage);
 							if(rowData.station.address=='1'){//此处address=1 表示 有对应的扫描图
 							  optHrefStr='<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>';
 							}
@@ -294,13 +297,13 @@ $('#paraQueryGrid2').omGrid({
 						width : 150
 			 }
 		}else if(queryType==2){//电离频高图
-				container[2] = {
+				container[1] = {
 						//header : '电离层频高图名称',
 						header : select_type_ionogram,
 						name : 'gramTitle',
 						width : 300
 					}
-			  container[3]={
+			  container[2]={
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
@@ -317,13 +320,13 @@ $('#paraQueryGrid2').omGrid({
 			 }
 		}else{//报表扫描图
 		
-		      container[2] = {
+		      container[1] = {
 						//header : '报表扫描图名称',
 						header : select_type_Report_scan,
 						name : 'scanPicTitle',
 						width : 300
 					}
-			container[3]={
+			container[2]={
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
@@ -405,22 +408,22 @@ function previewPgt(stationId,createDate){
     * */
 	function getScanpicColmModel() {
 		var container_ = new Array();//数据表格的表头数据
-		container_[0] = {
+		/*container_[0] = {
 			header : '所属观测站',
 			name : 'station.name',
 			width : 80
-		}
-		container_[1] = {
+		}*/
+		container_[0] = {
 			header : '观测日期',
 			name : 'createDate',
 			width : 160
 		}
-		container_[2] = {
+		container_[1] = {
 						header : '电离层频高图名称',
 						name : 'gramTitle',
 						width : 300
 					}
-			  container_[3]={
+			  container_[2]={
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
@@ -501,12 +504,12 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
     * */
 	function getParaColmModel(queryType,paraCol_) {
 		var container_ = new Array();//数据表格的表头数据
-		container_[0] = {
+		/*container_[0] = {
 			header : '所属观测站',
 			name : 'station.name',
 			width : 80
-		}
-		container_[1] = {
+		}*/
+		container_[0] = {
 			header : '观测日期',
 			name : 'createDate',
 			width : 160
@@ -516,7 +519,7 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 		   	 //alert(paraCol_);
 				var str = new Array();
 				for (i = 0; i < paraCol_.length; i++) {
-					container_[i + 2] = {
+					container_[i + 1] = {
 						header : paraCol_[i],
 						name : paraCol_[i],
 						width : 40
