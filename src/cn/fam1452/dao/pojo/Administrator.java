@@ -10,6 +10,7 @@ import org.nutz.dao.entity.annotation.Table;
 public class Administrator {
 	private String code ; //登录验证码
 	private boolean isLogin ;
+	private String oldPass ;
 	
 	@Column
 	@Name(casesensitive=false)
@@ -74,6 +75,14 @@ public class Administrator {
 
 	public void setLogin(boolean isLogin) {
 		this.isLogin = isLogin;
+	}
+
+	public String getOldPass() {
+		return oldPass;
+	}
+
+	public void setOldPass(String oldPass) {
+		this.oldPass = oldPass;
 	}
 	
 	

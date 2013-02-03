@@ -49,6 +49,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			
     		</div>
     		<div id="modifPassword" class="hidediv">
+    			<p><b style="color: green;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ${sessionScope.ht_account.name} |
+    				<c:choose>
+					   <c:when test="${sessionScope.ht_account.super}">超级管理员(不可删除)</c:when>
+					   <c:otherwise>普通管理员</c:otherwise>
+					</c:choose>
+    			</b></p>
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   原密码 : <input id="oldpass" type="password" empt="密码不能为空"/></p>
     			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   新密码 : <input id="newpass" type="password" empt="新密码不能为空"/> </p>
     			<p>新密码确认 : <input id="newpass2" type="password" empt="确认新密码"/></p>

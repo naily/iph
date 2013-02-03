@@ -27,7 +27,10 @@ $(document).ready(function(){
      $( "#modifPassword").omDialog({
             autoOpen: false,
             resizable: false ,
-            title:'修改密码'
+            title:'修改密码' ,
+            onClose :function(e){
+                modifpass.clear();
+            }
      });
      
      $('#jsId').omCombo({
@@ -128,6 +131,12 @@ function savedata(){
 }
 
 var modifpass = {
+    clear : function(){
+        $('#oldpass').val('') ;
+                    $('#newpass').val('') ;
+                    $('#newpass2').val('') ;
+                    $('#info_modif').html('').hide();
+    },
 	open : function(){
 		$( "#modifPassword").omDialog('open');
 	},
@@ -148,17 +157,19 @@ var modifpass = {
 			$('#info_modif').html($('#newpass2').attr('empt')).show();
 			return  ;
 		}
+		if(np2 != np){
+			$('#info_modif').html("新密码不一致").show();
+			return  ;
+		}
+        
 		
 		var dta = {
 			url:'ht/adminmodifpass.do' ,
-			params :{password : np} ,
+			params :{password : np , oldPass : op} ,
 			callback : function(json){
 				if(json.success){
-                	$('#oldpass').val('') ;
-                	$('#newpass').val('') ;
-                	$('#newpass2').val('') ;
+                	modifpass.clear() ;
                 	$("#modifPassword").omDialog('close');
-                	$('#info_modif').html('');
                 	
                 	$.omMessageTip.show({
 		                type:'success',

@@ -99,12 +99,19 @@ public class AdministratorMod extends BaseMod{
 				StringUtil.checkNotNull(user.getLoginId()) && 
 				StringUtil.checkNotNull(admin.getPassword())){
 			
+			if(StringUtil.checkNotNull(admin.getOldPass()) 
+					&& user.getPassword().equals(MD5Util.tomd5(admin.getOldPass())) ){
+				
+				user.setPassword(MD5Util.tomd5(admin.getPassword())) ;
+				adminService.dao.update(user, "password") ;
+				
+				j.put(Constant.SUCCESS, true) ;
+				j.put(Constant.INFO, "密码修改成功") ;
+			}else{
+				j.put(Constant.INFO, "原密码错误") ;
+				
+			}
 			//admin.setPassword(MD5Util.tomd5(admin.getPassword())) ;
-			user.setPassword(MD5Util.tomd5(admin.getPassword())) ;
-			adminService.dao.update(user, "password") ;
-			
-			j.put(Constant.SUCCESS, true) ;
-			j.put(Constant.INFO, "密码修改成功") ;
 		}else{
 			j.put(Constant.INFO, "请登录") ;
 		}
