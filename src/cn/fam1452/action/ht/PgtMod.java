@@ -3,7 +3,12 @@
  */
 package cn.fam1452.action.ht;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -318,12 +323,19 @@ public class PgtMod extends BaseMod{
 	@POST
 	@At("/ht/pgttestserverpath")
     @Ok("json")
-	public JSONObject testServerFileDirectory(String path){
-		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+	public JSONObject testServerFileDirectory(String path  , String datatype){
+		JSONObject json = new JSONObject() ; 
+		if("1".equals(datatype)){
+			json = LocalFileUtil.testServerFileDirectory(path) ;
+		}
+		if("2".equals(datatype)){
+			json = LocalFileUtil.testServerFileDirectory2(path) ;
+		}
 		
+		/*
 		if(null != json && json.getBoolean(Constant.SUCCESS)){
 			String fn = json.getString(Constant.INFO) ;
-			//log.info(fn) ;
+			//log.info(fn) ;l
 			//去掉扩展名
 			//String fno = fn.substring(0 , fn.lastIndexOf("."))  ; 
 			
@@ -345,30 +357,158 @@ public class PgtMod extends BaseMod{
 			//String da = filepath.substring(i+3 , i+11)  ; 
 			
 			json.put("filename", fn) ;
-			json.put("path", path) ;
 		}
+		*/
+		
+		json.put("path", path) ;
+		json.put("pgttype", datatype);
+		return json ;
+	}
+	/**
+	 * 获取文件处理进度
+	 * @Author Derek
+	 * @Date Feb 17, 2013
+	 * @return
+	 */
+	@POST
+	@At("/ht/getpgtprogress")
+    @Ok("json")
+	public JSONObject getPgtProgress( int total){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, true) ;
+		
+		json.put(Constant.INFO, progress) ;
+		json.put("total", total) ;
+		if(0 != total){
+			json.put("percentage", progress*100 / total) ;
+		}
+		
+		if(progress > 0 && total == progress){
+			json.put(Constant.SUCCESS, false) ;
+			progress = 0 ;
+			total = 0 ;
+		}
+		//System.out.println(json.get("percentage"));
 		
 		return json ;
 	}
 	
+	private int progress  = 0  ; //文件解析进度值
+	
 	@POST
 	@At("/ht/pgtsaveserverpath")
     @Ok("json")
-	public JSONObject saveServerFileDirectory(String path , String stationId , String year,ServletContext context){
+	public JSONObject saveServerFileDirectory(String path , String stationId , String fileway , 
+			String fileprefix , String datatype , ServletContext context){
 		long start  = System.currentTimeMillis() ;
 		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
 		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		
+		progress = 0 ; //重置
+		
 		if(null != json && json.getBoolean(Constant.SUCCESS)){
 			StringBuilder failFile = new StringBuilder() ;
 			List<IronoGram> iglist = new ArrayList() ;
-			File file = new File(path) ;
-			File[] list = file.listFiles() ;
-			if(null != list && list.length >0){
+			File root = new File(path) ;
+			
+			File[] years = root.listFiles() ;
+			if(null != years && years.length >0){
 				int fail = 0 ;
-				for (File sf : list) { //
+				
+				String filter = "Thumbs.db" ;
+				//手动频高图解析
+				if("1".equals(datatype)){
+					for (File y : years) {
+						if(null != y && y.isDirectory()){
+							String year = y.getName() ;
+							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							
+							File[] yearFiles = y.listFiles() ;
+							if(null != yearFiles){
+								for (File f : yearFiles) {
+									//处理文件复制或者是剪切
+									progress++ ;
+									String fn = f.getName() ;
+									fn = fn.replace(fileprefix, "") ;
+									Date date = null ;
+									if(!filter.equals(fn)){
+										date = DateUtil.convertStringToDate(fn , DateUtil.pattern5) ;
+									}
+									if(null != date){
+										boolean ok = false ;
+										if("copy".equals(fileway)){
+											ok = this.copyFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year +"/" ) ;
+										}else if("cut".equals(fileway)){
+											ok = this.cutFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year +"/") ;
+										}
+										
+										if(ok){
+											IronoGram ig = this.createIronoGram(fn, datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + fn) ;
+											iglist.add(ig) ;
+										}
+									}else{
+										fail++ ;
+										failFile.append(fn).append(",") ;
+									}
+								}
+							}
+							
+							dls.insertNDY(tableName, stationId, null, year) ;
+							
+						}
+					}
+				}
+				//胶片频高图解析路径不一样
+				if("2".equals(datatype)){
+					for (File y : years) {
+						String year = y.getName() ;
+						if(null != y && y.isDirectory()){
+							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							
+							File[] months = y.listFiles() ; //得到月份
+							for (File m : months) {
+								String month = m.getName() ;
+								this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month) ;
+								
+								File[] days = m.listFiles() ; //得到天数
+								for (File d : days) {
+									String day = d.getName() ;
+									this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day) ;
+									File[] dayFiles = d.listFiles() ;
+									for (File f : dayFiles) {
+										//处理文件复制或者是剪切
+										progress++ ;
+										String fn = f.getName() ;
+										fn = fn.replace(fileprefix, "") ;
+										Date date = DateUtil.convertStringToDate(fn , DateUtil.pattern4) ;
+										if(null != date){
+											boolean ok = false ;
+											if("copy".equals(fileway)){
+												ok = this.copyFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day +"/" ) ;
+											}else if("cut".equals(fileway)){
+												ok = this.cutFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day +"/") ;
+											}
+											if(ok){
+												IronoGram ig = this.createIronoGram(fn, datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + fn) ;
+												iglist.add(ig) ;
+											}
+										}else{
+											fail++ ;
+											failFile.append(fn).append(",") ;
+										}
+									}
+								}
+							}
+							
+							dls.insertNDY(tableName, stationId, null, year) ;
+						}
+					}
+				}
+				
+				
+				/*for (File sf : years) { //
 					String sfname = sf.getName() ; //文件名
 					if(null != StationUtil.getObserveDate(sfname)){
 						if(fusu.cloneTmpFile2Other(sf, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH )){
@@ -393,9 +533,9 @@ public class PgtMod extends BaseMod{
 						fail++ ; //失败数加1
 						failFile.append(sfname).append(",") ;
 					}
-				}
+				}*/
 				json.put("fail", fail) ;
-				json.put("total", list.length) ;
+				json.put("total", iglist.size() ) ;
 				
 				json.put("failfile", failFile.toString()) ;
 			}
@@ -406,12 +546,114 @@ public class PgtMod extends BaseMod{
 				json.put(Constant.SUCCESS, true) ;
 				
 				dls.insert("01", tableName, getHTLoginUserName()) ;
-					
-				dls.insertNDY(tableName, stationId, null, year) ;
 			}
 		}
 		//log.info("用时毫秒数： " + (System.currentTimeMillis() - start)) ;
 		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
 		return json ;
+	}
+	
+	private boolean copyFile(File src , String otherDir){
+		boolean st = false ;
+        
+        if(null != src && src.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File dest = new File(otherDir + src.getName() ) ;
+				BufferedInputStream inBuff = null;
+				BufferedOutputStream outBuff = null;
+				try {
+					// 新建文件输入流并对它进行缓冲
+					inBuff = new BufferedInputStream(new FileInputStream(src));
+					// 新建文件输出流并对它进行缓冲
+					outBuff = new BufferedOutputStream(new FileOutputStream(dest));
+					
+					// 缓冲数组
+					byte[] b = new byte[1024 * 5];
+					int len;
+					while ((len = inBuff.read(b)) != -1) {
+						outBuff.write(b, 0, len);
+					}
+					// 刷新此缓冲的输出流
+					outBuff.flush();
+					st = true ;
+				}catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					// 关闭流
+					if (inBuff != null)
+						try {
+							inBuff.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					if (outBuff != null)
+						try {
+							outBuff.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				}
+			}
+		}
+		
+		return st ;
+	}
+	private boolean cutFile(File src , String otherDir){
+		boolean st = false ;
+		
+		if(null != src && src.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File dest = new File(otherDir + src.getName() ) ;
+				if(!dest.exists()){
+					st = src.renameTo(dest) ;
+				}else{
+					st = true ; //文件已经存在
+				}
+			}
+		}
+		
+		return st ;
+	}
+	
+	/**
+	 * 
+	 * @Author Derek
+	 * @Date Feb 17, 2013
+	 * @param filename 文件名
+	 * @param pgttype  频高图类型
+	 * @param sid      观测站ID
+	 * @param cdate    创建日期
+	 * @param filepath 文件存储路径
+	 * @return
+	 */
+	private IronoGram createIronoGram(String filename , String pgttype , String sid , Date cdate , String filepath){
+		IronoGram ig = new IronoGram() ;
+		ig.setGramID(StationUtil.removeSuffix(filename)) ;
+		ig.setGramFileName(filename) ;
+		ig.setGramPath(filepath ) ;
+		ig.setGramTitle(filename) ;
+		
+		ig.setCreateDate( cdate) ;
+		ig.setType( pgttype ) ;
+		//ig.setStationID(StationUtil.getStationId(sfname)) ;
+		ig.setStationID(sid) ;
+		return ig ;
+	}
+	
+	private boolean createDirectory(String dir ){
+		boolean st = false ;
+		if(StringUtil.checkNotNull(dir)){
+			File dirf = new File(dir) ;
+			st = dirf.mkdirs() ;
+		}
+		return st ;
 	}
 }

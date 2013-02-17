@@ -29,7 +29,7 @@ public class IronoGram {
 	
 	@Column
     @Name(casesensitive=false)
-    @ColDefine(type=ColType.VARCHAR, width=25)
+    @ColDefine(type=ColType.VARCHAR, width=100)
 	private  String gramID ;
 	
 	@Column
@@ -37,7 +37,7 @@ public class IronoGram {
 	private String gramTitle ;
 	
 	@Column
-	@ColDefine(type=ColType.VARCHAR, width=50)
+	@ColDefine(type=ColType.VARCHAR, width=100)
 	private String gramFileName ;
 	
 	@One(target = Station.class, field = "stationID")
@@ -53,6 +53,7 @@ public class IronoGram {
 	private String type ;
 	
 	@Column
+	@ColDefine(type=ColType.VARCHAR, width=200)
 	private String gramPath ;
 
 	public String getGramID() {

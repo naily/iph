@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 	<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
+	<script type="text/javascript" src="js/library/jquery.progressbar.min.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
@@ -46,12 +47,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </ul>
         <div id="tab3" class="hidediv">
         	<%@ include file="./info/serverBatchInfo.jsp" %>
-        	<p>文件目录:<input type="text" style="width:600px;" id="file_serverdir" /> </p>
-        	<p>&nbsp;&nbsp;&nbsp;观测站:<input type="text" style="width:160px;" id="station_serverdir" /> </p>
-        	<p>数据年份:<input type="text" style="width:160px;" id="year_serverdir" /> </p>
-        	<p><a href="javascript:void(0);" id="testdir">测试目录</a></p>
-        	<p><input id="savebyserverdir"  type="image" src="images/baocun.png" value="保存" style="height: 22px;" /></p>
+        	
+        	<table width="100%" border="0">
+              <tr>
+                <td align="right">&nbsp;<span class="red_asterisk">*</span>文件目录:</td>
+                <td>&nbsp;<input type="text" style="width:600px;" id="file_serverdir" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;<span class="red_asterisk">*</span>观测站:</td>
+                <td>&nbsp;<input type="text" style="width:160px;" id="station_serverdir" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;<span class="red_asterisk">*</span>文件名前缀:</td>
+                <td>&nbsp;<input type="text" style="width:160px;" id="fileprefix" /></td>
+              </tr>
+              
+              <tr>
+                <td align="right">&nbsp;<span class="red_asterisk">*</span>数据类型:</td>
+                <td>&nbsp;<input type="text" style="width:160px;" id="dataTypeCombox" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;<span class="red_asterisk">*</span>文件处理方式:</td>
+                <td>&nbsp;<input type="text" style="width:160px;" id="fileway" /></td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="right">&nbsp;</td>
+                <td>&nbsp;<a href="javascript:void(0);" id="testdir">测试目录</a></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;<input id="savebyserverdir"  type="image" src="images/baocun.png" value="保存" style="height: 22px;" /></td>
+              </tr>
+            </table>
+
+        	
         	<div id="reviewinfo-id"></div>
+        	<span id="errormsg3" ></span>
         </div>
         <div id="tab2" class="hidediv">
         	<table height="350" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="0" style="width:600px;">
