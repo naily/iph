@@ -127,5 +127,53 @@ public class LocalFileUtil {
 		
 		return json ;
 	}
+	
+	/**
+	 * 报表扫描图测试
+	 * @Author Derek
+	 * @Date Feb 18, 2013
+	 * @param path
+	 * @return
+	 */
+	public static JSONObject testServerFileDirectory3(String path){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		if(StringUtil.checkNotNull(path)){
+			File file = new File(path) ;
+			int fileTotal = 0 ;
+			int yearTotal = 0 ;
+			StringBuilder yearstr = new StringBuilder()  ;
+			if(file.exists() && file.isDirectory()){
+				String filter = "Thumbs.db" ;
+				File[] years = file.listFiles() ;
+				if(null != years && years.length >0){
+					
+					for (File y : years) {
+						if(null != y && y.isDirectory()){
+							if(null != y.listFiles())
+								fileTotal += y.listFiles().length ;
+							yearstr.append(y.getName()).append(",") ;
+							yearTotal++ ;
+						}
+					}
+					
+					json.put(Constant.SUCCESS, true) ;
+					json.put(Constant.INFO, yearstr.toString()) ;
+					json.put("fileTotal", fileTotal) ;
+					json.put("yearTotal", yearTotal) ;
+					
+				}else{
+					json.put(Constant.INFO, "目录为空没有文件") ;
+				}
+			}else{
+				json.put(Constant.INFO, "路径不存在或不是一个目录") ;
+			}
+			 
+		}else{
+			json.put(Constant.INFO, "参数为空") ;
+		}
+		
+		return json ;
+	}
 
 }

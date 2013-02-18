@@ -1,6 +1,11 @@
 package cn.fam1452.action.ht;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +32,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.filter.AdminFilter;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
@@ -301,7 +307,36 @@ public class ScanpicMod extends BaseMod{
 		}
 	}
 	
+	/**
+	 * 获取文件处理进度
+	 * @Author Derek
+	 * @Date Feb 17, 2013
+	 * @return
+	 */
+	@POST
+	@At("/ht/getsacprogress")
+    @Ok("json")
+	public JSONObject getSacProgress( int total){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, true) ;
+		
+		json.put(Constant.INFO, progress) ;
+		json.put("total", total) ;
+		if(0 != total){
+			json.put("percentage", progress*100 / total) ;
+		}
+		
+		if(progress > 0 && total == progress){
+			json.put(Constant.SUCCESS, false) ;
+			progress = 0 ;
+			total = 0 ;
+		}
+		//System.out.println(json.get("percentage"));
+		
+		return json ;
+	}
 	
+	private int progress  = 0  ; //文件解析进度值
 	
 	/**
 	 * 测试服务器目录
@@ -311,10 +346,10 @@ public class ScanpicMod extends BaseMod{
 	@POST
 	@At("/ht/sactestserverpath")
     @Ok("json")
-	public JSONObject testServerFileDirectory(String path){
-		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+	public JSONObject testServerFileDirectory(String path ){
+		JSONObject json = LocalFileUtil.testServerFileDirectory3(path) ;
 		
-		if(null != json && json.getBoolean(Constant.SUCCESS)){
+		/*if(null != json && json.getBoolean(Constant.SUCCESS)){
 			String fn = json.getString(Constant.INFO) ;
 			//解析出观测站
 			String st = fn.substring(1 , 3)  ; 
@@ -332,8 +367,8 @@ public class ScanpicMod extends BaseMod{
 			}
 			
 			json.put("filename", fn) ;
-			json.put("path", path) ;
-		}
+		}*/
+		json.put("path", path) ;
 		
 		return json ;
 	}
@@ -341,9 +376,10 @@ public class ScanpicMod extends BaseMod{
 	@POST
 	@At("/ht/sacsaveserverpath")
     @Ok("json")
-	public JSONObject saveServerFileDirectory(String path , String stationId , String year,ServletContext context){
+	public JSONObject saveServerFileDirectory(String path , String stationId , String fileway , 
+			String fileprefix , ServletContext context){
 		long start  = System.currentTimeMillis() ;
-		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		JSONObject json = LocalFileUtil.testServerFileDirectory3(path) ;
 		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
@@ -352,37 +388,53 @@ public class ScanpicMod extends BaseMod{
 			StringBuilder failFile = new StringBuilder() ;
 			List<Scanpic> salist = new ArrayList() ;
 			
-			File file = new File(path) ;
-			File[] list = file.listFiles() ;
-			if(null != list && list.length >0){
+			File root = new File(path) ;
+			File[] years = root.listFiles() ;
+			if(null != years && years.length >0){
 				int fail = 0 ;
-				for (File sf : list) { //
-					String sfname = sf.getName() ; //文件名
-					if(null != StationUtil.getSacDate(sfname)){
-						if(fusu.cloneTmpFile2Other(sf, this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH )){
-							Scanpic sa = new Scanpic() ;
-							sa.setScanPicID(StationUtil.removeSuffix(sfname)) ;
-							sa.setScanPicFileName(sfname) ;
-							sa.setGramPath(fusu.UPLOAD_SAC_PATH + sfname ) ;
-							sa.setScanPicTitle(sfname) ;
-							
-							sa.setCreateDate( StationUtil.getObserveDate(sfname) ) ;
-							//ig.setStationID(StationUtil.getStationId(sfname)) ;
-							sa.setStationID(stationId) ;
-							
-							salist.add(sa) ;
-						}else{
-							fail++ ; //失败数加1
-							failFile.append(sfname).append(",") ;
+				String filter = "Thumbs.db" ;
+				//手动频高图解析
+				for(File y : years) {
+					if(null != y && y.isDirectory()){
+						String year = y.getName() ;
+						this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH + year) ;
+						
+						File[] yearFiles = y.listFiles() ;
+						if(null != yearFiles){
+							for (File f : yearFiles) {
+								//处理文件复制或者是剪切
+								progress++ ;
+								String fn = f.getName() ;
+								fn = fn.replace(fileprefix, "") ;
+								Date date = null ;
+								if(!filter.equals(fn)){
+									date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern3) ;
+								}
+								if(null != date){
+									boolean ok = false ;
+									if("copy".equals(fileway)){
+										ok = this.copyFile(f, this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH + year +"/" ) ;
+									}else if("cut".equals(fileway)){
+										ok = this.cutFile(f, this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH + year +"/") ;
+									}
+									
+									if(ok){
+										Scanpic sac = this.createScanpic(fn, stationId, date, fusu.UPLOAD_SAC_PATH + year + "/" + fn) ;
+										salist.add(sac) ;
+									}
+								}else{
+									fail++ ;
+									failFile.append(fn).append(",") ;
+								}
+							}
 						}
 						
-					}else{
-						fail++ ; //失败数加1
-						failFile.append(sfname).append(",") ;
+						dls.insertNDY(tableName, stationId, null, year) ;
+						
 					}
 				}
 				json.put("fail", fail) ;
-				json.put("total", list.length) ;
+				json.put("total", salist.size() ) ;
 				
 				json.put("failfile", failFile.toString()) ;
 			}
@@ -394,11 +446,113 @@ public class ScanpicMod extends BaseMod{
 				
 				dls.insert("01", tableName, getHTLoginUserName()) ;
 					
-				dls.insertNDY(tableName, stationId, null, year) ;
 			}
 		}
 		//log.info("用时毫秒数： " + (System.currentTimeMillis() - start)) ;
 		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
 		return json ;
+	}
+	
+	private boolean copyFile(File src , String otherDir){
+		boolean st = false ;
+        
+        if(null != src && src.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File dest = new File(otherDir + src.getName() ) ;
+				BufferedInputStream inBuff = null;
+				BufferedOutputStream outBuff = null;
+				try {
+					// 新建文件输入流并对它进行缓冲
+					inBuff = new BufferedInputStream(new FileInputStream(src));
+					// 新建文件输出流并对它进行缓冲
+					outBuff = new BufferedOutputStream(new FileOutputStream(dest));
+					
+					// 缓冲数组
+					byte[] b = new byte[1024 * 5];
+					int len;
+					while ((len = inBuff.read(b)) != -1) {
+						outBuff.write(b, 0, len);
+					}
+					// 刷新此缓冲的输出流
+					outBuff.flush();
+					st = true ;
+				}catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					// 关闭流
+					if (inBuff != null)
+						try {
+							inBuff.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					if (outBuff != null)
+						try {
+							outBuff.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				}
+			}
+		}
+		
+		return st ;
+	}
+	private boolean cutFile(File src , String otherDir){
+		boolean st = false ;
+		
+		if(null != src && src.isFile()){
+			File ot = new File(otherDir) ;
+			if(ot.isDirectory()){
+				File dest = new File(otherDir + src.getName() ) ;
+				if(!dest.exists()){
+					st = src.renameTo(dest) ;
+				}else{
+					st = true ; //文件已经存在
+				}
+			}
+		}
+		
+		return st ;
+	}
+	
+	/**
+	 * 
+	 * @Author Derek
+	 * @Date Feb 17, 2013
+	 * @param filename 文件名
+	 * @param pgttype  频高图类型
+	 * @param sid      观测站ID
+	 * @param cdate    创建日期
+	 * @param filepath 文件存储路径
+	 * @return
+	 */
+	private Scanpic createScanpic(String filename , String sid , Date cdate , String filepath){
+		Scanpic ig = new Scanpic() ;
+		ig.setScanPicID(StationUtil.removeSuffix(filename)) ;
+		ig.setScanPicFileName(filename) ;
+		ig.setGramPath(filepath ) ;
+		ig.setScanPicTitle(filename) ;
+		
+		ig.setCreateDate( cdate) ;
+		//ig.setStationID(StationUtil.getStationId(sfname)) ;
+		ig.setStationID(sid) ;
+		return ig ;
+	}
+	
+	private boolean createDirectory(String dir ){
+		boolean st = false ;
+		if(StringUtil.checkNotNull(dir)){
+			File dirf = new File(dir) ;
+			st = dirf.mkdirs() ;
+		}
+		return st ;
 	}
 }
