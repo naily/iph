@@ -122,7 +122,7 @@ public class ProtectDataMod extends BaseMod{
 				item.put("stationName", "无") ;
 			}
 			
-			item.put("dataTable", this.tableMap.get(g.getDataTable())) ;
+			item.put("dataTableFull", this.tableMap.get(g.getDataTable())) ;
 			array.add(item) ;
 		}
 		json.put(Constant.ROWS, array) ;

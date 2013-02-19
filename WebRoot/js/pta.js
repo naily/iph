@@ -8,7 +8,7 @@ $(document).ready(function(){
          method : 'POST' ,
          limit : pageslimit, //分页显示，每页显示8条
          //singleSelect : false, //出现checkbox列，可以选择同时多行记录
-         colModel : [    {header:'表名', name:'dataTable' ,  width:'autoExpand'},
+         colModel : [    {header:'表名', name:'dataTableFull' ,  width:'autoExpand'},
                          {header:'保护开始',name:'dataSDate',  width:200  },
                          {header:'保护结束',name:'dataEDate', width:200 } ,
                          {header:'观测站',name:'stationName',   width:100 } ,
@@ -168,8 +168,8 @@ $(document).ready(function(){
                 if(itemId){
                     save.params.id = itemId ;
                 }
-	            alert(save.params.dataStation) ;
-	            //ajaxpost(save);
+	            //alert(save.params.dataTable) ;
+	            ajaxpost(save);
      		}
      	}
      ) ;
@@ -177,12 +177,15 @@ $(document).ready(function(){
 
 function setInputValue(data){
     itemId = data.id ;
-    var st = $('#comboStation').omCombo('value' , data.stationName) ;
-    var tn = $('#comboTableName').omCombo("value" , data.dataTable) ;
+    $('#comboStation').omCombo('value' , data.dataStation) ;
+    $('#comboTableName').omCombo("value" , data.dataTable) ; 
     
-    var sd = $('#sDate').val(data.dataSDate)  ;//? $.omCalendar.formatDate($('#sDate').omCalendar('getDate'), 'yy-mm-dd') : '' ;
-    var ed = $('#eDate').val(data.dataEDate) ;//? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
-    var pd = $('#pubDate').val(data.publicDate) ;//? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+     $('#sDate').val(data.dataSDate)  ;//? $.omCalendar.formatDate($('#sDate').omCalendar('getDate'), 'yy-mm-dd') : '' ;
+     $('#eDate').val(data.dataEDate) ;//? $.omCalendar.formatDate($('#eDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+     $('#pubDate').val(data.publicDate) ;//? $.omCalendar.formatDate($('#pubDate').omCalendar('getDate'), 'yy-mm-dd') : ''  ;
+    $('#sDate').omCalendar('setDate' , $.omCalendar.parseDate(data.dataSDate , 'yy-mm-dd'));
+    $('#eDate').omCalendar('setDate' , $.omCalendar.parseDate(data.dataEDate , 'yy-mm-dd'));
+    $('#pubDate').omCalendar('setDate' , $.omCalendar.parseDate(data.publicDate , 'yy-mm-dd'));
 }
 
 function clearInputValue(){
