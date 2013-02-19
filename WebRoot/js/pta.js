@@ -168,8 +168,8 @@ $(document).ready(function(){
                 if(itemId){
                     save.params.id = itemId ;
                 }
-	            //alert(save.params.dataSDate) ;
-	            ajaxpost(save);
+	            alert(save.params.dataStation) ;
+	            //ajaxpost(save);
      		}
      	}
      ) ;

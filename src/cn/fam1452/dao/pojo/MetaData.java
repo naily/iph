@@ -20,6 +20,9 @@ public class MetaData {
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=100)
 	private String title ;  //元数据标题
+	@Column
+	@ColDefine(type=ColType.VARCHAR, width=100)
+	private String titleEng ;  //元数据标题
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=100)
@@ -28,6 +31,9 @@ public class MetaData {
 	@Column
     @ColDefine(type=ColType.TEXT )
 	private String  summary; //元数据摘要原abstract ,s是java关键字 
+	@Column
+	@ColDefine(type=ColType.TEXT )
+	private String  summaryEng; //元数据摘要原abstract ,s是java关键字 
 	
 	@Column
 	@ColDefine(customType="varbinary(MAX)")
@@ -117,6 +123,22 @@ public class MetaData {
 
 	public void setThumbnailFilePath(String thumbnailFilePath) {
 		this.thumbnailFilePath = thumbnailFilePath;
+	}
+
+	public String getTitleEng() {
+		return titleEng;
+	}
+
+	public void setTitleEng(String titleEng) {
+		this.titleEng = titleEng;
+	}
+
+	public String getSummaryEng() {
+		return summaryEng;
+	}
+
+	public void setSummaryEng(String summaryEng) {
+		this.summaryEng = summaryEng;
 	}
 
 	

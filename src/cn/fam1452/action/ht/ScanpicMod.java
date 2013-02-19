@@ -407,9 +407,9 @@ public class ScanpicMod extends BaseMod{
 								//处理文件复制或者是剪切
 								progress++ ;
 								String fn = f.getName() ;
-								fn = fn.replace(fileprefix, "") ;
 								Date date = null ;
 								if(!filter.equals(fn)){
+									fn = fn.replace(fileprefix, "") ;
 									date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern3) ;
 								}
 								if(null != date){
@@ -421,7 +421,7 @@ public class ScanpicMod extends BaseMod{
 									}
 									
 									if(ok){
-										Scanpic sac = this.createScanpic(f.getName(), stationId, date, fusu.UPLOAD_SAC_PATH + year + "/" + fn) ;
+										Scanpic sac = this.createScanpic(f.getName(), stationId, date, fusu.UPLOAD_SAC_PATH + year + "/" + f.getName()) ;
 										salist.add(sac) ;
 										
 										ndyYear.add(DateUtil.getYearstrByDate(sac.getCreateDate())) ;

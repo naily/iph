@@ -151,7 +151,7 @@ public class StationMod extends BaseMod{
 
 		List<Station>  list = baseService.dao.query(Station.class, Cnd.where("status", "=", 1).desc("id"), page.getNutzPager()) ;
 		
-		json.put(Constant.TOTAL, baseService.dao.count(Station.class)) ;
+		json.put(Constant.TOTAL, baseService.dao.count(Station.class , Cnd.where("status", "=", 1))) ;
 		
 		JsonConfig cfg = new JsonConfig();  		
 		cfg.setExcludes(new String[] { "code"}); 

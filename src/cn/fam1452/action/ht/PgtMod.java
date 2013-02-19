@@ -432,9 +432,9 @@ public class PgtMod extends BaseMod{
 									//处理文件复制或者是剪切
 									progress++ ;
 									String fn = f.getName() ;
-									fn = fn.replace(fileprefix, "") ;
 									Date date = null ;
 									if(!filter.equals(fn)){
+										fn = fn.replace(fileprefix, "") ;
 										date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
 									}
 									if(null != date){
@@ -446,7 +446,7 @@ public class PgtMod extends BaseMod{
 										}
 										
 										if(ok){
-											IronoGram ig = this.createIronoGram(f.getName(), datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + fn) ;
+											IronoGram ig = this.createIronoGram(f.getName(), datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + f.getName()) ;
 											iglist.add(ig) ;
 											
 											ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
@@ -500,7 +500,7 @@ public class PgtMod extends BaseMod{
 												ok = this.cutFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day +"/") ;
 											}
 											if(ok){
-												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + fn) ;
+												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + f.getName()) ;
 												iglist.add(ig) ;
 											}
 										}else{
