@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -393,6 +394,7 @@ public class ScanpicMod extends BaseMod{
 			if(null != years && years.length >0){
 				int fail = 0 ;
 				String filter = "Thumbs.db" ;
+				HashSet<String> ndyYear = new HashSet<String>() ;
 				//手动频高图解析
 				for(File y : years) {
 					if(null != y && y.isDirectory()){
@@ -419,8 +421,10 @@ public class ScanpicMod extends BaseMod{
 									}
 									
 									if(ok){
-										Scanpic sac = this.createScanpic(fn, stationId, date, fusu.UPLOAD_SAC_PATH + year + "/" + fn) ;
+										Scanpic sac = this.createScanpic(f.getName(), stationId, date, fusu.UPLOAD_SAC_PATH + year + "/" + fn) ;
 										salist.add(sac) ;
+										
+										ndyYear.add(DateUtil.getYearstrByDate(sac.getCreateDate())) ;
 									}
 								}else{
 									fail++ ;
@@ -428,11 +432,15 @@ public class ScanpicMod extends BaseMod{
 								}
 							}
 						}
-						
-						dls.insertNDY(tableName, stationId, null, year) ;
-						
+						//dls.insertNDY(tableName, stationId, null, year) ;
 					}
 				}
+				
+				//向ndy中插入
+				for (String ye : ndyYear) {
+					dls.insertNDY(tableName, stationId, null, ye) ;
+				}
+				
 				json.put("fail", fail) ;
 				json.put("total", salist.size() ) ;
 				

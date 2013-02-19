@@ -420,6 +420,7 @@ public class PgtMod extends BaseMod{
 				String filter = "Thumbs.db" ;
 				//手动频高图解析
 				if("1".equals(datatype)){
+					HashSet<String> ndyYear = new HashSet<String>() ;
 					for (File y : years) {
 						if(null != y && y.isDirectory()){
 							String year = y.getName() ;
@@ -434,7 +435,7 @@ public class PgtMod extends BaseMod{
 									fn = fn.replace(fileprefix, "") ;
 									Date date = null ;
 									if(!filter.equals(fn)){
-										date = DateUtil.convertStringToDate(fn , DateUtil.pattern5) ;
+										date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
 									}
 									if(null != date){
 										boolean ok = false ;
@@ -445,8 +446,10 @@ public class PgtMod extends BaseMod{
 										}
 										
 										if(ok){
-											IronoGram ig = this.createIronoGram(fn, datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + fn) ;
+											IronoGram ig = this.createIronoGram(f.getName(), datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + fn) ;
 											iglist.add(ig) ;
+											
+											ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
 										}
 									}else{
 										fail++ ;
@@ -455,9 +458,12 @@ public class PgtMod extends BaseMod{
 								}
 							}
 							
-							dls.insertNDY(tableName, stationId, null, year) ;
 							
 						}
+					}
+					//向ndy中插入
+					for (String ye : ndyYear) {
+						dls.insertNDY(tableName, stationId, null, ye) ;
 					}
 				}
 				//胶片频高图解析路径不一样
@@ -482,7 +488,10 @@ public class PgtMod extends BaseMod{
 										progress++ ;
 										String fn = f.getName() ;
 										fn = fn.replace(fileprefix, "") ;
-										Date date = DateUtil.convertStringToDate(fn , DateUtil.pattern4) ;
+										Date date = null ;
+										if(!filter.equals(fn)){
+											date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern4) ;
+										}
 										if(null != date){
 											boolean ok = false ;
 											if("copy".equals(fileway)){
@@ -491,7 +500,7 @@ public class PgtMod extends BaseMod{
 												ok = this.cutFile(f, this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day +"/") ;
 											}
 											if(ok){
-												IronoGram ig = this.createIronoGram(fn, datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + fn) ;
+												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + fn) ;
 												iglist.add(ig) ;
 											}
 										}else{

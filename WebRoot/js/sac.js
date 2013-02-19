@@ -244,10 +244,10 @@ $(document).ready(function(){
 //            alert( '请选择数据类型') ;
 //            return ;
 //        }
-        if(!ff){
-            alert( '请填写文件名前缀') ;
-            return ;
-        }
+//        if(!ff){
+//            alert( '请填写文件名前缀') ;
+//            return ;
+//        }
         
         var data = {
                 url :'ht/sactestserverpath.do' ,

@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <td>&nbsp;<input type="text" style="width:160px;" id="station_serverdir" /></td>
 	              </tr>
 	              <tr>
-	                <td align="right">&nbsp;<span class="red_asterisk">*</span>文件名前缀:</td>
+	                <td align="right">&nbsp;文件名前缀:</td>
 	                <td>&nbsp;<input type="text" style="width:160px;" id="fileprefix" /></td>
 	              </tr>
 	             
