@@ -73,7 +73,7 @@ public class QTMetaDataMod extends BaseMod{
 			json.put("metaList", jsonAry);
 			json.put(Constant.SUCCESS, true);
 		}
-		log.info(json.toString());
+		//log.info(json.toString());
 		return json ;
 	}
 

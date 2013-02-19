@@ -83,8 +83,9 @@ $(document).ready(function(){
 					                                parseXML(json.fullContentFilePath);
                                                     
                                                     $('textarea[name="abstract1"]' ).val(json.summary);
+                                                    $('textarea[name="abstract1Eng"]' ).val(json.summaryEng);
                                                     $('#mdid' ).val(json.mdId);
-                                                    $( "#tab1").omDialog('open');
+                                                    $("#tab1").omDialog('open');
                                                     
 					                                /*$('#actionDate').val( );
 						                            
@@ -223,7 +224,19 @@ function traverseDOM(node){
 	            //array.push(s) ;
                 
                 var nn = node.parentNode.nodeName ;
-                $('input[name="xxx"]'.replace('xxx' , nn)).val(node.nodeValue);
+                if('language' == nn ){
+                    $('#yuzhongCombox').omCombo('value' , node.nodeValue) ;
+                }else if('srcType' == nn ){
+                    $('#srcType').omCombo('value' , node.nodeValue) ;
+                }else if('serviceType' == nn ){
+                    $('#serviceType').omCombo('value' , node.nodeValue) ;
+                }else if('timeInterval' == nn){
+                    $('#timeInterval').omCombo('value' , node.nodeValue) ;
+                }else if('accessClass' == nn){
+                    $('#accessClass').omCombo('value' , node.nodeValue) ;
+                }else{
+	                $('input[name="xxx"]'.replace('xxx' , nn)).val(node.nodeValue);
+                }
             }
 	        //alert(Sarissa.getText(node , false) );
         }

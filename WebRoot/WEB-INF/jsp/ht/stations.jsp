@@ -93,13 +93,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               	<td align="right">&nbsp;简要介绍:</td>
                 <td colspan="3">&nbsp;<textarea id="jsId" rows="3" cols="48"></textarea></td>
               </tr>
-              <tr>
+              <tr >
               	<td align="right">&nbsp;图片:</td>
                 <td colspan="2">&nbsp;
                 	<input id = "uploadpic" />
              		<input id ="picPath" name="picPath" type="hidden" />
                 </td>
-                <td align="left"><img src="/images/s.gif" border="0" id="minuploadpic" width="50"/> </td>
+                <td align="left" >
+                <div id="minuploadpicdiv" style="overflow:hidden;width:50px; height:80px; ">
+                <img src="/images/s.gif" border="0" id="minuploadpic" width="50"/> </div></td>
               </tr>
               <tr>
               	<td align="right">&nbsp;<!-- 错误信息提示 --></td>

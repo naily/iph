@@ -33,6 +33,7 @@ var save ={
             autoOpen: false,
             resizable: false ,
             width : 540 ,
+            height : 500  ,
             closeOnEscape : true ,
             draggable : false ,
             title:'观测站' 
@@ -338,7 +339,8 @@ function initfileupload(){
             var json = eval("("+response+")");
             if(json.success){
                 $("#picPath").val(json.info) ;
-                $("#minuploadpic").attr("src" , basepath +json.info)  ;
+                //$("#minuploadpic").attr("src" , basepath +json.info)  ;
+                $('#minuploadpicdiv').html('<img  width="50" src="'+basepath +json.info+'" border="0" id="minuploadpic" />') ;
             }else{
                 $("#picPath").val("") ;
 	            $("#info").html("文件上传: "+ json.info).show() ;

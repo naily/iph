@@ -140,6 +140,8 @@ public class MetaDataMod extends BaseMod{
 				med.setTitle(mdb.getResTitle()) ;
 				med.setKeyword(mdb.getKeyword()) ;
 				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
+				med.setSummaryEng(mdb.getAbstract1Eng()) ;
+				med.setTitleEng(mdb.getEngTitle()) ;
 				
 				//存储缩略图
 				File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
@@ -212,7 +214,9 @@ public class MetaDataMod extends BaseMod{
 				med.setFullContent(sb) ; 
 				med.setFullContentFilePath(xmldir + fileName) ;
 				med.setMdDate(DateUtil.getCurrentDate()) ;
-				String dateStr = DateUtil.convertDateToString(med.getMdDate(), DateUtil.pattern3) ;
+				//String dateStr = DateUtil.convertDateToString(med.getMdDate(), DateUtil.pattern3) ;
+				med.setSummaryEng(mdb.getAbstract1Eng()) ;
+				med.setTitleEng(mdb.getEngTitle()) ;
 				
 				/*
 				 * //构造ID

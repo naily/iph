@@ -7,30 +7,44 @@ $(document).ready(function(){
                value : 'zh_CN'
      });
      $('#timeInterval').omCombo({
-                dataSource : [ {text : '年', value : '01'}, 
-                               {text : '半年', value :  '02'},
-                               {text : '季度', value :  '03'},
-                               {text : '双月', value :  '04'},
-                               {text : '月', value :  '05'},
-                               {text : '旬', value :  '06'},
-                               {text : '周', value :  '07'},
-                               {text : '日', value :  '08'},
-                               {text : '小时', value :  '09'},
-                               {text : '半小时', value :  '10'},
-                               {text : '分钟', value :  '11'},
-                               {text : '半分钟', value :  '12'},
-                               {text : '秒', value :  '13'},
-                               {text : '其他', value :  '99'}] ,
+//                dataSource : [ {text : '年', value : '01'}, 
+//                               {text : '半年', value :  '02'},
+//                               {text : '季度', value :  '03'},
+//                               {text : '双月', value :  '04'},
+//                               {text : '月', value :  '05'},
+//                               {text : '旬', value :  '06'},
+//                               {text : '周', value :  '07'},
+//                               {text : '日', value :  '08'},
+//                               {text : '小时', value :  '09'},
+//                               {text : '半小时', value :  '10'},
+//                               {text : '分钟', value :  '11'},
+//                               {text : '半分钟', value :  '12'},
+//                               {text : '秒', value :  '13'},
+//                               {text : '其他', value :  '99'}] ,
+                dataSource : [ {text : '年', value : '年'}, 
+                               {text : '半年', value :  '半年'},
+                               {text : '季度', value :  '季度'},
+                               {text : '双月', value :  '双月'},
+                               {text : '月', value :  '月'},
+                               {text : '旬', value :  '旬'},
+                               {text : '周', value :  '周'},
+                               {text : '日', value :  '日'},
+                               {text : '小时', value :  '小时'},
+                               {text : '半小时', value :  '半小时'},
+                               {text : '分钟', value :  '分钟'},
+                               {text : '半分钟', value :  '半分钟'},
+                               {text : '秒', value :  '秒'},
+                               {text : '其他', value :  '其他'}] ,
                editable : false,
                emptyText : '采样间隔' 
      });
     $('#srcType').omCombo({
-                dataSource : [ {text : '仪器监测', value : '01'} ,
-                			   {text : '处理分析', value :  '02'},
-                               {text : '模型模拟', value :  '03'},
-                               {text : '合作交换/镜像', value :  '04'},
-                               {text : '网络收集', value :  '05'},
-                               {text : '其他', value :  '99'}] ,
+                dataSource : [ {text : '仪器监测', value : '仪器监测'} ,
+                			   {text : '处理分析', value :  '处理分析'},
+                               {text : '模型模拟', value :  '模型模拟'},
+                               {text : '合作交换/镜像', value :  '合作交换'},
+                               {text : '网络收集', value :  '网络收集'},
+                               {text : '其他', value :  '其他'}] ,
                editable : false,
                emptyText : '选择数据来源' 
      });
@@ -63,18 +77,23 @@ $(document).ready(function(){
                }
      });
      $('#accessClass').omCombo({
-                dataSource : [ {text : '公开级', value : '001'},
-                {text : '限制级', value : '002'},
-                {text : '秘密级', value : '003'},
-                {text : '机密级', value : '004'},
-                {text : '绝密级', value : '005'}] ,
+//                dataSource : [ {text : '公开级', value : '001'},
+//				                {text : '限制级', value : '002'},
+//				                {text : '秘密级', value : '003'},
+//				                {text : '机密级', value : '004'},
+//				                {text : '绝密级', value : '005'}] ,
+                dataSource : [ {text : '公开级', value : '公开级'},
+				                {text : '限制级', value : '限制级'},
+				                {text : '秘密级', value : '秘密级'},
+				                {text : '机密级', value : '机密级'},
+				                {text : '绝密级', value : '绝密级'}] ,
                editable : false,
                emptyText : '选择安全限制级别' 
      });
     
     //表单验证
      var notempty = "不能为空" ;
-    $("#savemetadata").validate({
+     $("#savemetadata").validate({
         rules : {
           datId : {required : true } ,
           resTitle : {required : true } ,
@@ -97,6 +116,7 @@ $(document).ready(function(){
           dataFormat : {required : true } ,
           srcType : {required : true } ,
           serviceType : {required : true } ,
+          prdContact : {required : true } ,
           dissContact : {required : true } ,
           thumbnailFilePath : {required : true } 
         },
@@ -116,6 +136,7 @@ $(document).ready(function(){
           endDate : {required : notempty } ,
           siteName : {required : notempty } ,
           instName : {required : notempty } ,
+          dataQuant : {required : notempty } ,
           
           dataFormat : {required : notempty } ,
           srcType : {required : notempty } ,
