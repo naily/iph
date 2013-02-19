@@ -86,7 +86,17 @@
 									<li class="li_no_img">
 										<span class="metaTitle">关键词:</span>
 										<xsl:value-of select="metadata/IdInfo/keyword" />
-									</li>									
+									</li>
+									<xsl:if test="metadata/IdInfo/keywordEng">										
+									<li class="li_no_img">
+										<span class="metaTitle">英文关键词:</span>
+										<xsl:value-of select="metadata/IdInfo/keywordEng" />
+									</li>
+									</xsl:if>								
+									<li class="li_no_img">
+										<span class="metaTitle">最新修改日期:</span>
+										<xsl:value-of select="metadata/IdInfo/lastAlterDate" />
+									</li>										
 								</ul>
 							</li>						
 							<li>元数据内容信息
@@ -95,64 +105,79 @@
 										<span class="metaTitle">数据集摘要:</span>
 										<xsl:value-of select="metadata/ContInfo/abstract" />
 									</li>
-									<li>数据集分类
-										<ul>
-											<li class="li_no_img">
-												<span class="metaTitle">类目名称:</span>
-												<xsl:value-of select="metadata/ContInfo/tpCat/cateName" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">类目编码:</span>
-												<xsl:value-of select="metadata/ContInfo/tpCat/cateCode" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">分类标准:</span>
-												<xsl:value-of select="metadata/ContInfo/tpCat/cateStd" />
-											</li>
-										</ul>
+									<xsl:if test="metadata/IdInfo/abstract1Eng">										
+									<li class="li_no_img">
+										<span class="metaTitle">数据集英文摘要:</span>
+										<xsl:value-of select="metadata/IdInfo/abstract1Eng" />
 									</li>
-									<li>空间范围	
-										<ul>
-										<li>平面范围	
-											<ul>
-											<li class="li_no_img">
-												<span class="metaTitle">左下角坐标:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordCov/lftBtmCoord" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">最大经度:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordCov/rightTopCoord" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">栅格分辨率:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/gridSize" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">等效比例尺分母:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/spaRes/equScale" />
-											</li>
-											<li class="li_no_img">
-												<span class="metaTitle">坐标位置:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordPoint" />
-											</li>
-											</ul>
-										</li>
-										<li>垂向范围	
-											<ul>
-												<li class="li_no_img">
-												<span class="metaTitle">垂向最大值:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altCov/topVer" />
-												</li>
-												<li class="li_no_img">
-												<span class="metaTitle">垂向最小值:</span>
-												<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altCov/lowVer" />
-												</li>
-											</ul>											
-										</li>																		
-										</ul>
+									</xsl:if>											
+									<li class="li_no_img">
+										<span class="metaTitle">数据集分类名称:</span>
+										<xsl:value-of select="metadata/ContInfo/tpCat/cateName" />
 									</li>
-									<li>时间范围
-										<ul>
+									<li class="li_no_img">
+										<span class="metaTitle">数据集分类类目编码:</span>
+										<xsl:value-of select="metadata/ContInfo/tpCat/cateCode" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">数据集分类标准:</span>
+										<xsl:value-of select="metadata/ContInfo/tpCat/cateStd" />
+									</li>																	
+									<li class="li_no_img">
+										<span class="metaTitle">左下角坐标:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordCov/lftBtmCoord" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">最大经度:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordCov/rightTopCoord" />
+									</li>									
+									<li class="li_no_img">
+										<span class="metaTitle">坐标系统:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/corSys" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">投影系统:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/proSys" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">等效比例尺分母:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/spaRes/equScale" />
+									</li>									
+									<li class="li_no_img">
+										<span class="metaTitle">栅格分辨率:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/gridSize" />
+									</li>									
+									<li class="li_no_img">
+										<span class="metaTitle">坐标位置:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/planeCov/coordPoint" />
+									</li>																		
+									<li class="li_no_img">
+										<span class="metaTitle">垂向最大值:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altCov/topVer" />
+									</li>
+									<li class="li_no_img">
+										<span class="metaTitle">垂向最小值:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altCov/lowVer" />
+									</li>
+								    <li class="li_no_img">
+										<span class="metaTitle">海拔高度位置:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altPoint" />
+								    </li>
+								    <li class="li_no_img">
+										<span class="metaTitle">海拔高度位置:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/altDesc" />
+								    </li>		
+									 <li class="li_no_img">
+										<span class="metaTitle">高程系统:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/atiSys" />
+								    </li>			
+									<li class="li_no_img">
+										<span class="metaTitle">垂直采样间隔:</span>
+										<xsl:value-of select="metadata/ContInfo/spatialCov/verCov/atiInterval" />
+								    </li>		
+											
+											
+											
 											<li class="li_no_img">
 												<span class="metaTitle">开始时间:</span>
 													<xsl:value-of select="metadata/ContInfo/timeCov/timePeriod/begDate" />
@@ -165,8 +190,7 @@
 												<span class="metaTitle">时间点:</span>
 												<xsl:value-of select="metadata/ContInfo/timeCov/timePoint" />
 											</li>
-										</ul>
-									</li>
+									
 									<li class="li_no_img">
 										<span class="metaTitle">数据量:</span>
 										<xsl:value-of select="metadata/ContInfo/dataQuant" />

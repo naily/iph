@@ -3,6 +3,7 @@
  */
 package cn.fam1452.action.qt;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -47,17 +48,32 @@ public class QTMetaDataMod extends BaseMod{
 	@At("/qt/mataDataIndex")
     @Ok("json")
     /*首页三条元数据*/
-    public JSONObject loadIndexMetaData(){
+    public JSONObject loadIndexMetaData(HttpServletRequest req){
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		List<MetaData>  list = baseService.dao.query(MetaData.class,  Cnd.orderBy().desc("mdId"), baseService.dao.createPager(1, Constant.INDEX_META_NUMS)) ;
 		JsonConfig cfg = new JsonConfig(); 
 		cfg.setExcludes(new String[] { "thumbnail", "fullContent" , "mdDate"  }); 
-		JSONArray jsonAry = JSONArray.fromObject(list , cfg);
+		
 		if(list!=null && list.size()>0){
+			String zh_en=this.getMsgByKey(req, "lang");
+			JSONArray jsonAry =null;
+			if("en".equals(zh_en)){
+			 List<MetaData> listNew =new ArrayList<MetaData>();
+			  for(MetaData md:list){			 
+				md.setTitle(md.getTitleEng());
+				md.setSummary(md.getSummaryEng());
+				listNew.add(md);
+			   }
+			   jsonAry = JSONArray.fromObject(list , cfg);
+			}else{
+			   jsonAry = JSONArray.fromObject(list , cfg);
+			}
+			
 			json.put("metaList", jsonAry);
 			json.put(Constant.SUCCESS, true);
-		}		
+		}
+		log.info(json.toString());
 		return json ;
 	}
 
