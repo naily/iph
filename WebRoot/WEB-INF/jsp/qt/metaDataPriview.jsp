@@ -48,11 +48,11 @@
 	<body>
 
 		<jsp:include page="header.jsp" flush="true" />
-		<div id="right">
+		<div id="right" style="height:1900px;">
 			<div class="title8">
 				数据查询
 			</div>
-			<table width="750" border="0" align="center" cellpadding="0"
+			<table width="750" height="2000" border="0" align="center" cellpadding="0"
 				cellspacing="0" class="">
 				<tr bgcolor="#F2F2F2">
 					<td width="141" height="35"  bgcolor="#F2F2F2">
@@ -84,7 +84,7 @@
 			
 			<tr>
 					<td height="35"  colspan="2">					
-							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="1900" scrolling="no" width="800"></iframe>
+							<iframe src="${obj.fullContentFilePath}" frameborder="0" height="2500" scrolling="no" width="800"></iframe>
 					
 					</td>
 				</tr>

@@ -828,16 +828,19 @@ public class QTParameterMod extends BaseMod {
 			int total =0;
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			//判断电离参数表是否设置了保护期,若保护期存在则进行数据拼装（保护期内的前50条数据+保护期外的数据）
-			//String tableName ="T_PARAMETER";
-			String tableName =parameter.getIds();//
+			String tableName ="T_PARAMETER";
+			String stationID =parameter.getIds();//
 			//boolean existProtect =false;//是否有保护期
 			String protectArea=null;//保护期区间
-			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){
-				list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);
+			if(!parameterService.isProtectDateOpen(stationID,tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//保护期数据暂不显示（2013-02-21）
+				/*list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
-				//existProtect =true;
 				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
-				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
+				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());*/
+				
+				
+				list = parameterService.top50ParameterDataListNew(parameter,page,paraQuery);								
+				total =this.baseService.dao.count(parameter.getIds(),parameterService.getParamenterCndByProtect(parameter, paraQuery));
 				
 			}else{//无保护期,正常显示数据
 				list = parameterService.parameterDataList(parameter,page,paraQuery);				
@@ -982,7 +985,7 @@ public class QTParameterMod extends BaseMod {
 			List<Parameter> list =null;
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			String tableName="T_PARAMETER";
-			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
+			if(!parameterService.isProtectDateOpen(parameter.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
 				list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);				
 			}else{
 				list = parameterService.parameterDataList(parameter,page,paraQuery);

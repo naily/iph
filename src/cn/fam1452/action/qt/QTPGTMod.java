@@ -147,10 +147,13 @@ public class QTPGTMod extends BaseMod{
 		}
 		//List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
 		List<IronoGram> list =  new ArrayList<IronoGram>();
-		if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+		if(!parameterService.isProtectDateOpen(irg.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 			//irg.setIds(irg.getStationID());
-			list=pgtService.top50PGTDataList(irg, tableName, paraQuery);
+			/*list=pgtService.top50PGTDataList(irg, tableName, paraQuery);			
 			pager.setRecordCount(list.size()); 
+			*/
+			list =  baseService.dao.query(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery), pager); 
+			pager.setRecordCount(baseService.dao.count(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery))); 
 		}else{
 			list =  baseService.dao.query(IronoGram.class, getQueryCnd(irg), pager); 
 			pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
@@ -203,6 +206,27 @@ public class QTPGTMod extends BaseMod{
 	    
     	return cnd;
     }
+    public Condition getQueryCndProtect(IronoGram irg){
+    	Cnd cnd=null;
+		if(null!=irg){
+			if(StringUtil.checkNotNull(irg.getQueryYear())){
+				cnd = Cnd.where("createDate","like","%"+irg.getQueryYear()+"%");
+				
+			}else{
+				if(StringUtil.checkNotNull(irg.getIds())){//irg.getStationID()
+					cnd = Cnd.where("stationID", "=", irg.getIds());
+				}
+				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
+					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
+					cnd.and("createDate", ">=",start).and("createDate","<=",end);
+				}
+			}
+			//log.info(cnd.toString());
+		}
+	    
+    	return cnd;
+    }
 	@At("/qt/queryPGT")
 	@Ok("json")
 	/**
@@ -220,12 +244,17 @@ public class QTPGTMod extends BaseMod{
 			//if(parameterService.isProtectDate("T_IRONOGRAM")){//判断频高图表是否设置了保护期
 			String tableName ="T_IRONOGRAM";
 		
-			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
-				list=pgtService.top50PGTDataList(irg, tableName, paraQuery);
+			if(!parameterService.isProtectDateOpen(irg.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+				/*//list=pgtService.top50PGTDataList(irg, tableName, paraQuery);				
 				if(null!=list && list.size()>0)total=list.size();
-				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
+				//ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
+				ProtectDate proD =parameterService.getProtectDate(irg.getIds(),tableName);
 				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
-				
+				*/
+				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
+					 page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
+				list=pgtService.top50PGTDataListNew(irg, page, paraQuery);				
+				 total =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQueryNew(irg, paraQuery));
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 				 page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
@@ -251,7 +280,7 @@ public class QTPGTMod extends BaseMod{
 					String createDate= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd");
 					paraQuery.setStartDate(createDate);
 					paraQuery.setEndDate(createDate);
-					if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
+				/*	if(!parameterService.isProtectDateOpen(irg.getIds(),DataVisitService.T_IRONOGRAM,paraQuery.getStartDate(),paraQuery.getEndDate())){											
 						//if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
 						tableName = id;					
 						listPara=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);						
@@ -259,7 +288,8 @@ public class QTPGTMod extends BaseMod{
 						listPara = parameterService.parameterDataList(parameter,page,paraQuery);
 						 //paraTotal =this.baseService.dao.count(id);//电离参数
 					
-					}
+					}*/
+					listPara = parameterService.parameterDataList(parameter,page,paraQuery);
 					if(null!=listPara && listPara.size()>0)paraTotal=1;
 					if(paraTotal>0){
 						station.setHomepage("1");
@@ -319,7 +349,7 @@ public class QTPGTMod extends BaseMod{
 			}
 			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		//return json;

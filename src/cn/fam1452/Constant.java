@@ -49,6 +49,12 @@ public class Constant {
 	
 	public static int PROTECTDATA_SHOWNUM = 50;//数据保护期内，显示的数据条数
 	public static final String PROTECTDATA_AREA="protectArea";//保护期区间
+	/**
+	 * 保护期查询时电离参数，频高图，扫描图三类数据的类型（表名称）
+	 * */
+	public static final String DATATYPE_PARAMETER="T_PARAMETER";
+	public static final String DATATYPE_IRONOGRAM="T_IRONOGRAM";
+	public static final String DATATYPE_SCANPIC="T_SCANPIC";
 	
 	
 }

@@ -17,7 +17,7 @@ $(document).ready(function() {
 			 $('#paraQueryGrid').omGrid({
 				//title : '电离层参数查询',
 			 	dataSource :datasourceUrl, // limit:0, 
-			 	height : 405, 
+			 	height : 415, 
 			 	limit:pageslimit,
 			 	showIndex : false,
 			 	colModel :tableCols_
@@ -204,7 +204,7 @@ $('#paraQueryGrid2').omGrid({
 				  }
 		         //alert('fetch data success,got '+data.rows+' rows');
 		     },
-			 	height : 325, 
+			 	height : 415, 
 			 	limit:pageslimit,
 			 	showIndex : false,
 			 	colModel :tableCols

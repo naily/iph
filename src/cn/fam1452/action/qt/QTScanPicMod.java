@@ -79,10 +79,12 @@ public class QTScanPicMod extends BaseMod{
 		//List<Scanpic> list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
 		
 		List<Scanpic> list =  new ArrayList<Scanpic>();
-		if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+		if(!parameterService.isProtectDateOpen(scp.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 			//scp.setIds(scp.getStationID());
-			list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
-			pager.setRecordCount(list.size()); 
+			/*list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
+			pager.setRecordCount(list.size()); */
+			list =  baseService.dao.query(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery), pager); 
+			pager.setRecordCount(baseService.dao.count(Scanpic.class, scanPicService.getScanpicQueryNew(scp, paraQuery))); 
 		}else{
 			list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
 			pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
@@ -154,11 +156,16 @@ public class QTScanPicMod extends BaseMod{
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
 			String tableName ="T_SCANPIC";
 			
-			if(!parameterService.isProtectDateOpen(tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
-				list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
+			if(!parameterService.isProtectDateOpen(scp.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
+				/*list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();
-				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
+				ProtectDate proD =parameterService.getProtectDate(scp.getIds(),tableName);
 				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());
+				*/
+				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
+					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
+				 list = scanPicService.top50ScanpicDataListNew(scp,page,paraQuery);
+				 total =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery));
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
@@ -208,7 +215,7 @@ public class QTScanPicMod extends BaseMod{
 					String createDate1= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd");
 					paraQuery.setStartDate(createDate1);
 					paraQuery.setEndDate(createDate1);
-					if(!parameterService.isProtectDateOpen(id,paraQuery.getStartDate(),paraQuery.getEndDate())){											
+					/*if(!parameterService.isProtectDateOpen(id,DataVisitService.T_PARAMETER,paraQuery.getStartDate(),paraQuery.getEndDate())){											
 						//if(!parameterService.isProtectDateOpen(irg.getIds(),paraQuery.getStartDate(),paraQuery.getEndDate())){											
 						tableName = id;					
 						listPara=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);						
@@ -216,7 +223,8 @@ public class QTScanPicMod extends BaseMod{
 						listPara = parameterService.parameterDataList(parameter,page,paraQuery);
 						 //paraTotal =this.baseService.dao.count(id);//电离参数
 					
-					}
+					}*/
+					listPara = parameterService.parameterDataList(parameter,page,paraQuery);
 					if(null!=listPara && listPara.size()>0)paraTotal=1;
 					if(paraTotal>0){
 						station.setHomepage("1");
@@ -263,7 +271,7 @@ public class QTScanPicMod extends BaseMod{
 			}
 			//return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		//return json;
