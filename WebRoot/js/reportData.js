@@ -229,7 +229,9 @@ $(document).ready(function() {
   function setTitleAndParaVaule(monthIdx,paraIdx){
   	//alert('monthIdx='+monthIdx+',paraIdx='+paraIdx);
   	if(monthIdx!='-1' && monthIdx!=-1){
-	  	$('#month_year').html(getMonthEn(month_array[monthIdx])+"&nbsp;"+$('#year').val());//月份显示 	
+	  	//$('#month_year').html(getMonthEn(month_array[monthIdx])+"&nbsp;"+$('#year').val());//月份显示 	
+	  	$('#month_year_m').html(getMonthEn(month_array[monthIdx]));//月份显示 
+	  	$('#month_year_y').html($('#year').val());//月份显示
 	  	$("#monthIndex").val(monthIdx); //月份下标显示
   	}   
   	if(paraIdx!='-1' && paraIdx!=-1){

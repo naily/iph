@@ -482,7 +482,7 @@ function showParaData(stationId,createDate){
 datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
 					if(firstOpt){					 
-					  $("#imagePreview").html('<table id="paraQueryGrid2"></table>');
+					  $("#imagePreview1").html('<table id="paraQueryGrid2"></table>');
 					  $('#paraQueryGrid2').omGrid({
 						//title : '电离层参数查询',
 					 	dataSource :datasourceUrl_,
@@ -496,8 +496,8 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 					  $('#paraQueryGrid2').omGrid('setData', datasourceUrl_);
 					}				
 				 	//$("#imagePreview").omDialog('close');			
-					$( "#imagePreview").omDialog({title:'电离层参数查看',modal: true,height:'auto',width:'auto'});
-					$( "#imagePreview").omDialog('open');
+					$( "#imagePreview1").omDialog({title:'电离层参数查看',modal: true,height:'auto',width:'auto'});
+					$( "#imagePreview1").omDialog('open');
 	}
 }
    /*

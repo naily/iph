@@ -96,7 +96,8 @@
 						</tr>								
 					</table>
 					<br/>
-					<div id="imagePreview" title="图片预览"><table id="paraQueryGrid2"></table></div> 					
+					<div id="imagePreview" title="图片预览"></div> 
+					<div id="imagePreview1" title="电离层参数"><table id="paraQueryGrid2"></table></div>					
 					<div id="imagePreview2" title="图片预览"><table id="paraQueryGrid3"></table> </div> 
 					<table id="paraQueryGrid"></table>					
 				</div>
