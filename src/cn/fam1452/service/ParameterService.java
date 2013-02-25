@@ -612,7 +612,8 @@ public class ParameterService extends Base{
  			     	  dateQ2 = paraQuery.getEndDate()+" 23:59:00";
  	    		 }
  		     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
- 		     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");		     	
+ 		     	 //String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");	
+ 		     	 String dateB2 = DateUtil.convertDateToString(B2)+" 23:59:59";
  	    		 if(getProtectDateType(dataType,paraQuery)>=1){
  	    			 //cnd= Cnd.where("createDate", ">=",dateB1).and("createDate","<=",dateB2).asc(paraQuery.getOrderBy());  	    		    				    			
  	    			 cnd= Cnd.where("createDate", ">",dateB1).and("createDate","<",dateB1).asc(paraQuery.getOrderBy());  	    		    				    			
@@ -906,11 +907,15 @@ public class ParameterService extends Base{
     				 paraQuery= getMinAndMaxDate(dataType);
     			 }  			 
     		 }
-    		 Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate(), "yyyy-MM-dd");
-	     	 Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate(), "yyyy-MM-dd");
-	     	 Date B1  =  prodata.getDataSDate();
-	     	 Date B2  =  prodata.getDataEDate();
-	     	 log.info(DateUtil.convertDateToString(prodata.getDataEDate())+" 23:59:59");
+    		 //Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate(), "yyyy-MM-dd");
+	     	 //Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate(), "yyyy-MM-dd");
+    		 //Date B1  =  prodata.getDataSDate();
+	     	 //Date B2  =  prodata.getDataEDate();
+    		 Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate()+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+    		 Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate()+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+	     	 Date B1  =  DateUtil.convertStringToDate(DateUtil.convertDateToString(prodata.getDataSDate())+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+	     	 Date B2  =  DateUtil.convertStringToDate(DateUtil.convertDateToString(prodata.getDataEDate())+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+	     	// log.info(DateUtil.convertDateToString(prodata.getDataEDate())+" 23:59:59");
     		 if(prodata.getPublicDate().getTime()>today.getTime()){//当前的保护期未开放
   				if(dateCompare(Q1,B1,B2) && dateCompare(Q2,B1,B2)){
   					retValue=1;

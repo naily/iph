@@ -96,7 +96,7 @@ public class QTScanPicMod extends BaseMod{
 			pager.setRecordCount(list.size()); */
 			/*list =  baseService.dao.query(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery), pager); 
 			pager.setRecordCount(baseService.dao.count(Scanpic.class, scanPicService.getScanpicQueryNew(scp, paraQuery))); */
-			Condition cnd= parameterService.getPublicProtectDataCnd(DataVisitService.T_IRONOGRAM, paraQuery);
+			Condition cnd= parameterService.getPublicProtectDataCnd(DataVisitService.T_SCANPIC, paraQuery);
 			list =  baseService.dao.query(Scanpic.class,cnd, pager); 
 			pager.setRecordCount(baseService.dao.count(Scanpic.class, cnd)); 
 		}else{
