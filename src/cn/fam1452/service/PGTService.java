@@ -69,9 +69,9 @@ public class PGTService extends Base{
 	   /**
 		 * 频高图查询
 		 * */
-		   public List<IronoGram> top50PGTDataListNew(IronoGram irg,Pages page,ParameteDataBo paraQuery){
-			   	
-			    Condition cnd=getPGTQueryNew(irg,paraQuery);			
+		   public List<IronoGram> top50PGTDataListNew(IronoGram irg,Pages page,ParameteDataBo paraQuery){				
+			   // Condition cnd=getPGTQueryNew(irg,paraQuery);		
+			    Condition cnd = parameterService.getPublicProtectDataCnd(DataVisitService.T_IRONOGRAM, paraQuery); 
 				List<IronoGram> list =  this.dao.query(IronoGram.class, cnd, page.getNutzPager()); 
 				return list;
 			}

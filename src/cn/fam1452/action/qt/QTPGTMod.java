@@ -161,8 +161,11 @@ public class QTPGTMod extends BaseMod{
 			/*list=pgtService.top50PGTDataList(irg, tableName, paraQuery);			
 			pager.setRecordCount(list.size()); 
 			*/
-			list =  baseService.dao.query(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery), pager); 
-			pager.setRecordCount(baseService.dao.count(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery))); 
+			/*list =  baseService.dao.query(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery), pager); 
+			pager.setRecordCount(baseService.dao.count(IronoGram.class, pgtService.getPGTQueryNew(irg,paraQuery)));*/ 
+			Condition cnd = parameterService.getPublicProtectDataCnd(DataVisitService.T_IRONOGRAM, paraQuery);  	
+			list =  baseService.dao.query(IronoGram.class, cnd, pager); 
+			pager.setRecordCount(baseService.dao.count(IronoGram.class, cnd)); 
 		}else{
 			list =  baseService.dao.query(IronoGram.class, getQueryCnd(irg), pager); 
 			pager.setRecordCount(baseService.dao.count(IronoGram.class, getQueryCnd(irg))); 
@@ -263,7 +266,8 @@ public class QTPGTMod extends BaseMod{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					 page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
 				list=pgtService.top50PGTDataListNew(irg, page, paraQuery);				
-				 total =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQueryNew(irg, paraQuery));
+				 //total =this.baseService.dao.count(IronoGram.class,pgtService.getPGTQueryNew(irg, paraQuery));
+				 total =this.baseService.dao.count(IronoGram.class,parameterService.getPublicProtectDataCnd(DataVisitService.T_IRONOGRAM, paraQuery));
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 				 page.setLimit(Integer.parseInt(paraQuery.getPageSize()));

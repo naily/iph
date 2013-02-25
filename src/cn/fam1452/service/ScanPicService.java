@@ -57,7 +57,8 @@ public class ScanPicService extends Base{
 		 * */
 		   public List<Scanpic> top50ScanpicDataListNew(Scanpic irg,Pages page,ParameteDataBo paraQuery){
 			   	
-			   Condition cnd=getScanpicQueryNew(irg,paraQuery);			
+			  // Condition cnd=getScanpicQueryNew(irg,paraQuery);	
+			   Condition cnd = parameterService.getPublicProtectDataCnd(DataVisitService.T_SCANPIC, paraQuery); 		
 				List<Scanpic> list =  this.dao.query(Scanpic.class, cnd, page.getNutzPager()); 
 				return list;
 			}

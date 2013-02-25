@@ -839,9 +839,9 @@ public class QTParameterMod extends BaseMod {
 				ProtectDate proD =parameterService.getProtectDateByTableName(tableName);
 				protectArea =DateUtil.convertDateToString(proD.getDataSDate())+","+DateUtil.convertDateToString(proD.getDataEDate());*/
 				
-				
 				list = parameterService.top50ParameterDataListNew(parameter,page,paraQuery);								
-				total =this.baseService.dao.count(parameter.getIds(),parameterService.getParamenterCndByProtect(parameter, paraQuery));
+				//total =this.baseService.dao.count(parameter.getIds(),parameterService.getParamenterCndByProtect(parameter, paraQuery));
+				total =this.baseService.dao.count(parameter.getIds(),parameterService.getPublicProtectDataCnd(dataVisitService.T_PARAMETER, paraQuery));
 				
 			}else{//无保护期,正常显示数据
 				list = parameterService.parameterDataList(parameter,page,paraQuery);				

@@ -10,8 +10,8 @@
 <!DOCTYPE HTML >
 <html>
 	<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=8">
-		<base href="<%=basePath%>">
+	<%--<meta http-equiv="X-UA-Compatible" content="IE=8">
+		--%><base href="<%=basePath%>">
 		<title>${msg['site_name']}</title>
 		<!--
 	-->

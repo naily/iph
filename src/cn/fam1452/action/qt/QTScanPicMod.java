@@ -94,8 +94,11 @@ public class QTScanPicMod extends BaseMod{
 			//scp.setIds(scp.getStationID());
 			/*list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
 			pager.setRecordCount(list.size()); */
-			list =  baseService.dao.query(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery), pager); 
-			pager.setRecordCount(baseService.dao.count(Scanpic.class, scanPicService.getScanpicQueryNew(scp, paraQuery))); 
+			/*list =  baseService.dao.query(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery), pager); 
+			pager.setRecordCount(baseService.dao.count(Scanpic.class, scanPicService.getScanpicQueryNew(scp, paraQuery))); */
+			Condition cnd= parameterService.getPublicProtectDataCnd(DataVisitService.T_IRONOGRAM, paraQuery);
+			list =  baseService.dao.query(Scanpic.class,cnd, pager); 
+			pager.setRecordCount(baseService.dao.count(Scanpic.class, cnd)); 
 		}else{
 			list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
 			pager.setRecordCount(baseService.dao.count(Scanpic.class, getQueryCnd(scp))); 
@@ -177,8 +180,9 @@ public class QTScanPicMod extends BaseMod{
 				*/
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
-				 list = scanPicService.top50ScanpicDataListNew(scp,page,paraQuery);
-				 total =this.baseService.dao.count(Scanpic.class,scanPicService.getScanpicQueryNew(scp, paraQuery));
+				Condition cnd= parameterService.getPublicProtectDataCnd(DataVisitService.T_SCANPIC, paraQuery);
+			 list = scanPicService.top50ScanpicDataListNew(scp,page,paraQuery);
+				 total =this.baseService.dao.count(Scanpic.class,cnd);
 			}else{
 				if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getPageSize()))
 					page.setLimit(Integer.parseInt(paraQuery.getPageSize()));
