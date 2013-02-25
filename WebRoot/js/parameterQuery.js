@@ -477,7 +477,8 @@ var firstOpt=true;
 function showParaData(stationId,createDate){
 	if(stationId && createDate){
 			var tableCols_,datasourceUrl_;	
-					tableCols_=getParaColmModel(1,parameter_array_text);				
+					//tableCols_=getParaColmModel(1,parameter_array_text);				
+					tableCols_=getParaColmModel(0,parameter_array_text);	//0:不带出“操作一列”			
 datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
 					if(firstOpt){					 
@@ -525,6 +526,27 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 						width : 40
 					}
 				}
+			//===================add by 2013-02-25======	
+			if(queryType!=0){
+			container_[paraCol_.length+1]={
+		           header : option_button,
+						name : 'operateTYpe',
+						renderer: function(colValue, rowData, rowIndex){
+							var optHrefStr='';
+							//alert('address='+rowData.station.address,"homepage="+rowData.station.homepage);
+							if(rowData.station.address=='1'){//此处address=1 表示 有对应的扫描图
+							  optHrefStr='<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>';
+							}
+							
+							if(rowData.station.homepage=='1'){//此处homepage=1 表示 有对应的频高图
+								optHrefStr+='&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>';
+							}
+	                        return  optHrefStr ;
+	                         },
+						width : 150
+			 }
+			}				
+			 //=========================
 		}
 		return container_;
 }
