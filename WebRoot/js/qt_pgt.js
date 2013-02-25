@@ -58,8 +58,8 @@ function goPages(e,type){
   var endDate = $('#endDate').val();
   var queryYear= $('#queryYear').val();
   if(type=='pgt'){
-    window.location.href=basepath+'qt/listPGT.do?queryYear='+queryYear+'&startDate='+startDate+'&endDate='+endDate+'&ids='+stationId+'&pageNumber='+e.value;
+    window.location.href=basepath+'qt/listPGT.do?year='+queryYear+'&startDate='+startDate+'&endDate='+endDate+'&ids='+stationId+'&pageNumber='+e.value;
   }else{
-   window.location.href=basepath+'qt/listScanPic.do?queryYear='+queryYear+'&startDate='+startDate+'&endDate='+endDate+'&ids='+stationId+'&pageNumber='+e.value;
+   window.location.href=basepath+'qt/listScanPic.do?year='+queryYear+'&startDate='+startDate+'&endDate='+endDate+'&ids='+stationId+'&pageNumber='+e.value;
   }
 }

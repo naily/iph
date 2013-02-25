@@ -142,10 +142,19 @@ public class QTPGTMod extends BaseMod{
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    
 		String  tableName="T_IRONOGRAM";
 		String queryYear ="";
-		if(null!=irg && StringUtil.checkNotNull(irg.getQueryYear())){
-			queryYear =irg.getQueryYear();
+		if(null!=irg && StringUtil.checkNotNull(paraQuery.getYear())){
+			queryYear =paraQuery.getYear();
+			paraQuery.setStartDate(queryYear+"-01-01");
+			paraQuery.setEndDate(queryYear+"-12-31");
 		}
+		/*if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getYear())){
+			paraQuery.setStartDate(paraQuery.getYear()+"-01-01");
+			paraQuery.setEndDate(paraQuery.getYear()+"-12-31");
+			
+		}*/
+		req.setAttribute("para", paraQuery);
 		//List<IronoGram> list =  baseService.dao.query(IronoGram.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
+		paraQuery.setStationID(irg.getIds());
 		List<IronoGram> list =  new ArrayList<IronoGram>();
 		if(!parameterService.isProtectDateOpen(irg.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 			//irg.setIds(irg.getStationID());
@@ -243,7 +252,7 @@ public class QTPGTMod extends BaseMod{
 			int total =0;
 			//if(parameterService.isProtectDate("T_IRONOGRAM")){//判断频高图表是否设置了保护期
 			String tableName ="T_IRONOGRAM";
-		
+			paraQuery.setStationID(irg.getIds());
 			if(!parameterService.isProtectDateOpen(irg.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 				/*//list=pgtService.top50PGTDataList(irg, tableName, paraQuery);				
 				if(null!=list && list.size()>0)total=list.size();

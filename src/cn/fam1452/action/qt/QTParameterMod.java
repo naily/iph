@@ -831,6 +831,7 @@ public class QTParameterMod extends BaseMod {
 			String tableName ="T_PARAMETER";
 			String stationID =parameter.getIds();//
 			//boolean existProtect =false;//是否有保护期
+			paraQuery.setStationID(stationID);
 			String protectArea=null;//保护期区间
 			if(!parameterService.isProtectDateOpen(stationID,tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//保护期数据暂不显示（2013-02-21）
 				/*list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);

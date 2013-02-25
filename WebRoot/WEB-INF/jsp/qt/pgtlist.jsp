@@ -57,7 +57,7 @@
       <input type="hidden" id="queryYear" value="${requestScope.queryYear}"/>
          ${msg['qt_month_report_station']}：<input id="comboStation"   name="ids"  class="boxinput_report"/></td>
       <td width="600">
-        ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.irg.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.irg.endDate}" class="boxinput_report"/></td>
+        ${msg['qt_parameter_start_date']}：<input id="startDate" name="startDate"  value="${requestScope.para.startDate}"  class="boxinput_report"/>&nbsp;&nbsp;${msg['qt_parameter_end_date']}：<input id="endDate" name="endDate" value="${requestScope.para.endDate}" class="boxinput_report"/></td>
       <td width="100">
      <a href="javascript:void(0)"  id="ssss" onclick="checkValue('pgt');"><img src="images/chaxun.png"  border="0" /></a>
       
@@ -98,7 +98,7 @@
 					<a href="qt/listPGT.do" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
 				    	<c:when test="${requestScope.page.pageNumber>1}" >
-				    	  <a href="qt/listPGT.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
+				    	  <a href="qt/listPGT.do?year=${requestScope.queryYear}&ids=${requestScope.irg.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_prepage']}</a>	       
@@ -118,14 +118,14 @@
 					
 					<c:choose>
 				    	<c:when test="${requestScope.page.pageNumber<=requestScope.page.pageCount}" >
-				    	  <a href="qt/listPGT.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
+				    	  <a href="qt/listPGT.do?year=${requestScope.queryYear}&ids=${requestScope.irg.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber+1}" class="a3">${msg['qt_page_nextpage']}</a>
 				    	</c:when>
 				    	<c:otherwise>
 						  <a href="javascript:void(0)" class="a3">${msg['qt_page_nextpage']}</a>	       
 			    		</c:otherwise>
 			    	</c:choose>
 					
-					<a href="qt/listPGT.do?queryYear=${requestScope.queryYear}&stationID=${requestScope.irg.stationID}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
+					<a href="qt/listPGT.do?year=${requestScope.queryYear}&ids=${requestScope.irg.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageCount}" class="a3">${msg['qt_page_last']}</a>
 				</div>
 	  </td>
       </tr>

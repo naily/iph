@@ -607,19 +607,19 @@ public class ParameterService extends Base{
 	    		 }
 		     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
 		     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");		     	
-	    		 if(getProtectDateType(tableName,paraQuery)>=1){
+	    		 if(getProtectDateType(dataType,paraQuery)>=1){
 	    			 //cnd= Cnd.where("createDate", ">=",dateB1).and("createDate","<=",dateB2).asc(paraQuery.getOrderBy());  	    		    				    			
 	    			 cnd= Cnd.where("createDate", ">",dateB1).and("createDate","<",dateB1).asc(paraQuery.getOrderBy());  	    		    				    			
-		     	  if(getProtectDateType(tableName,paraQuery)>=2){
+		     	  if(getProtectDateType(dataType,paraQuery)>=2){
 	    			
-	    			 if(getProtectDateType(tableName,paraQuery)==2){
+	    			 if(getProtectDateType(dataType,paraQuery)==2){
 	    				 cnd= Cnd.where("createDate", ">=",dateQ1).and("createDate","<=",dateB1).and("createDate",">=",dateB2).and("createDate","<=",dateQ2).asc(paraQuery.getOrderBy()); 
 			     	} 
-	    			 if(getProtectDateType(tableName,paraQuery)==3){			    	
+	    			 if(getProtectDateType(dataType,paraQuery)==3){			    	
 	    				 cnd= Cnd.where("createDate", ">=",dateQ1).and("createDate","<=",dateB1).asc(paraQuery.getOrderBy()); 
 	    								    	 
 			     	} 
-	    			 if(getProtectDateType(tableName,paraQuery)==4){	
+	    			 if(getProtectDateType(dataType,paraQuery)==4){	
 	    				 cnd= Cnd.where("createDate", ">=",dateB2).and("createDate","<=",dateQ2).asc(paraQuery.getOrderBy()); 
 			     	} 
 	    		 } 			
@@ -884,18 +884,22 @@ public class ParameterService extends Base{
       *  3(Q1<B1<Q2<B2)
       *  4(B1<Q1<B2<Q2)
       * 
+      * 
       * */
-     public int getProtectDateType(String tableName,ParameteDataBo paraQuery){
+     public int getProtectDateType(String dataType,ParameteDataBo paraQuery){
     	// ProtectDate prodata= getProtectDateByTableName(tableName);//保护期
     	 String stationID= paraQuery.getStationID();
     	// ProtectDate prodata= getProtectDate(tableName,dataVisitService.T_PARAMETER);//保护期
-    	 ProtectDate prodata= getProtectDate(stationID,tableName);//保护期
+    	 ProtectDate prodata= getProtectDate(stationID,dataType);//保护期
     	 int retValue=0;
     	 if(null!=prodata && null!=prodata.getId()){
     		 Date today = (Date) DateUtil.getCurrentDate();//当前日期
     		 if(StringUtil.checkNull(paraQuery.getStartDate()) || StringUtil.checkNull(paraQuery.getEndDate()) ){
-    			 paraQuery= getMinAndMaxDate(tableName);
-    			 
+    			 if(dataType.equals(dataVisitService.T_PARAMETER)){
+    				 paraQuery= getMinAndMaxDate(stationID);
+    			 }else{
+    				 paraQuery= getMinAndMaxDate(dataType);
+    			 }  			 
     		 }
     		 Date Q1  =  (Date) DateUtil.convertStringToDate(paraQuery.getStartDate(), "yyyy-MM-dd");
 	     	 Date Q2  =  (Date) DateUtil.convertStringToDate(paraQuery.getEndDate(), "yyyy-MM-dd");

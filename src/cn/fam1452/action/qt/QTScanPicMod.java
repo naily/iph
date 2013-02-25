@@ -71,13 +71,24 @@ public class QTScanPicMod extends BaseMod{
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());    				
 		String queryYear ="";
 		String tableName="T_SCANPIC";
-		if(null!=scp && StringUtil.checkNotNull(scp.getQueryYear())){
-			queryYear =scp.getQueryYear();
+		if(null!=scp && StringUtil.checkNotNull(paraQuery.getYear())){
+			queryYear =paraQuery.getYear();
+			paraQuery.setStartDate(queryYear+"-01-01");
+			paraQuery.setEndDate(queryYear+"-12-31");
 		}
+		/*if(null!=paraQuery && StringUtil.checkNotNull(paraQuery.getYear())){
+			paraQuery.setStartDate(paraQuery.getYear()+"-01-01");
+			paraQuery.setEndDate(paraQuery.getYear()+"-12-31");
+			
+		}*/
+		
+		/*if(null!=scp && StringUtil.checkNotNull(scp.getQueryYear())){
+			queryYear =scp.getQueryYear();
+		}*/
 		
 		//List<Scanpic> list =  baseService.dao.query(Scanpic.class, Cnd.where("createDate","like","%"+queryYear+"%").desc("createDate"), pager); 
 		//List<Scanpic> list =  baseService.dao.query(Scanpic.class,getQueryCnd(scp), pager); 
-		
+		paraQuery.setStationID(scp.getIds());
 		List<Scanpic> list =  new ArrayList<Scanpic>();
 		if(!parameterService.isProtectDateOpen(scp.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 			//scp.setIds(scp.getStationID());
@@ -115,6 +126,7 @@ public class QTScanPicMod extends BaseMod{
 		req.setAttribute("smtlist", showList);
 		req.setAttribute("scp", scp);
 		req.setAttribute("queryYear", queryYear);
+		req.setAttribute("para", paraQuery);
 		req.setAttribute("page", pager);
 		
 	}
@@ -155,7 +167,8 @@ public class QTScanPicMod extends BaseMod{
 			int total =0;
 			//if(parameterService.isProtectDate("T_SCANPIC")){//判断频高图表是否设置了保护期
 			String tableName ="T_SCANPIC";
-			
+			String stationID =scp.getIds();
+			paraQuery.setStationID(stationID);
 			if(!parameterService.isProtectDateOpen(scp.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断频高图表是否设置了保护期
 				/*list=scanPicService.top50ScanpicDataList(scp, tableName, paraQuery);
 				if(null!=list && list.size()>0)total=list.size();

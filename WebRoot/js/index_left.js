@@ -44,11 +44,12 @@ function loadLeftTree(paraName, domID) {
 							//alert(node.pid+''+node.id);
 							if(node.id){
 								if(paraName=='T_IRONOGRAM'){//频高图
-								  location.href = basepath+'qt/listPGT.do?queryYear='+ node.text+'&ids='+stationid;
+								  //location.href = basepath+'qt/listPGT.do?queryYear='+ node.text+'&ids='+stationid;
+								  location.href = basepath+'qt/listPGT.do?year='+ node.text+'&ids='+stationid;
 								}else if(paraName=='T_PARAMETER'){//电离参数
 									location.href = basepath+'qt/paraDataQuery.do?year='+ node.text+'&stationID='+stationid;
 								}else{//报表扫描图
-									location.href = basepath+'qt/listScanPic.do?queryYear='+ node.text+'&ids='+stationid;
+									location.href = basepath+'qt/listScanPic.do?year='+ node.text+'&ids='+stationid;
 								}
 							}else{
 							  $('#'+domID).omTree('expand',node);

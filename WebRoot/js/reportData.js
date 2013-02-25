@@ -55,7 +55,12 @@ $(document).ready(function() {
 
 	// 年份
 	$('input[name=year]').omCombo({ // 初始化Combo		
-		width : 100
+		width : 100,
+		onValueChange : function(target, newValue, oldValue, event) {
+			$('input[name=year]').focus();
+			//$('#month_year').html(getMonthEn(newValue)+".&nbsp;"+$('#year').val());
+			$('#month_year_y').html($('#year').val());
+		}
 		//value:2012,
 		/*dataSource :'qt/yearList.do',//year_omCombo_datasource,
 		onValueChange : function() {
@@ -70,7 +75,8 @@ $(document).ready(function() {
 		//value:1,
 		onValueChange : function(target, newValue, oldValue, event) {
 			$('input[name=month]').focus();
-			$('#month_year').html(getMonthEn(newValue)+".&nbsp;"+$('#year').val());
+			//$('#month_year').html(getMonthEn(newValue)+".&nbsp;"+$('#year').val());
+			$('#month_year_m').html(getMonthEn(newValue)+".&nbsp;");
 		}
 	});
 
@@ -87,7 +93,7 @@ $(document).ready(function() {
 	
 	
 	$('#reportGrid').omGrid({
-                title : '<table border="0" width="780"><tr><td  width="120" align="center" id="para_unit">&nbsp;</td><td width="120" align="center" id="month_year">&nbsp;</td><td width="270" align="center" id="location">&nbsp;</td><td  width="280" align="center" id="jingweidu">&nbsp;</td></tr></table',
+                title : '<table border="0" width="780"><tr><td  width="120" align="center" id="para_unit">&nbsp;</td><td width="60" align="right" id="month_year_m">&nbsp;</td><td width="60" align="left" id="month_year_y">&nbsp;</td><td width="270" align="center" id="location">&nbsp;</td><td  width="280" align="center" id="jingweidu">&nbsp;</td></tr></table',
                 dataSource : 'qt/loadReport.do',
                 limit:0,
                 height:625,

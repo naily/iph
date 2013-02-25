@@ -71,7 +71,7 @@ public class PGTService extends Base{
 		 * */
 		   public List<IronoGram> top50PGTDataListNew(IronoGram irg,Pages page,ParameteDataBo paraQuery){
 			   	
-			   Condition cnd=getPGTQueryNew(irg,paraQuery);			
+			    Condition cnd=getPGTQueryNew(irg,paraQuery);			
 				List<IronoGram> list =  this.dao.query(IronoGram.class, cnd, page.getNutzPager()); 
 				return list;
 			}
@@ -101,7 +101,7 @@ public class PGTService extends Base{
 				    	 String dateQ1 = null;
 				    	 String dateQ2 = null;
 				    	 if(StringUtil.checkNull(paraQuery.getStartDate()) || StringUtil.checkNull(paraQuery.getEndDate()) ){
-			    			 ParameteDataBo pdb = parameterService.getMinAndMaxDate(tableName);
+			    			 ParameteDataBo pdb = parameterService.getMinAndMaxDate(dataType);
 			    			 //ParameteDataBo pdb = getMinAndMaxDate(stationID);
 			    			 if(null!=pdb){
 			    				  dateQ1 = pdb.getStartDate();
@@ -113,19 +113,19 @@ public class PGTService extends Base{
 			    		 }
 				     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
 				     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");		     	
-			    		 if(parameterService.getProtectDateType(tableName,paraQuery)>=1){
+			    		 if(parameterService.getProtectDateType(dataType,paraQuery)>=1){
 			    			 //cnd= Cnd.where("createDate", ">=",dateB1).and("createDate","<=",dateB2).asc(paraQuery.getOrderBy());  	    		    				    			
-			    			 cnd= Cnd.where("createDate", ">",dateB1).and("createDate","<",dateB1).asc(paraQuery.getOrderBy());  	    		    				    			
-				     	  if(parameterService.getProtectDateType(tableName,paraQuery)>=2){
+			    			// cnd= Cnd.where("createDate", ">",dateB1).and("createDate","<",dateB1).asc(paraQuery.getOrderBy());  	    		    				    			
+				     	  if(parameterService.getProtectDateType(dataType,paraQuery)>=2){
 			    			
-			    			 if(parameterService.getProtectDateType(tableName,paraQuery)==2){
+			    			 if(parameterService.getProtectDateType(dataType,paraQuery)==2){
 			    				 cnd= Cnd.where("createDate", ">=",dateQ1).and("createDate","<=",dateB1).and("createDate",">=",dateB2).and("createDate","<=",dateQ2).asc(paraQuery.getOrderBy()); 
 					     	} 
-			    			 if(parameterService.getProtectDateType(tableName,paraQuery)==3){			    	
+			    			 if(parameterService.getProtectDateType(dataType,paraQuery)==3){			    	
 			    				 cnd= Cnd.where("createDate", ">=",dateQ1).and("createDate","<=",dateB1).asc(paraQuery.getOrderBy()); 
 			    								    	 
 					     	} 
-			    			 if(parameterService.getProtectDateType(tableName,paraQuery)==4){	
+			    			 if(parameterService.getProtectDateType(dataType,paraQuery)==4){	
 			    				 cnd= Cnd.where("createDate", ">=",dateB2).and("createDate","<=",dateQ2).asc(paraQuery.getOrderBy()); 
 					     	} 
 			    		 } 			
