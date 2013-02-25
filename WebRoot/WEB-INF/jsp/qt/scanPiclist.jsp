@@ -94,7 +94,7 @@
     <tr>
       <td height="60" colspan="3" align="center">
       <div class="newspage">
-					<a href="qt/listScanPic.do?year=${requestScope.queryYear}&ids=${requestScope.scp.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${requestScope.page.pageNumber}" class="a3">${msg['qt_page_first']}</a>
+					<a href="qt/listScanPic.do?year=${requestScope.queryYear}&ids=${requestScope.scp.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=1" class="a3">${msg['qt_page_first']}</a>
 					  <c:choose>
 				    	<c:when test="${requestScope.page.pageNumber>1}" >
 				    	  <a href="qt/listScanPic.do?year=${requestScope.queryYear}&ids=${requestScope.scp.ids}&startDate=${requestScope.irg.startDate}&endDate=${requestScope.irg.endDate}&pageNumber=${ requestScope.page.pageNumber-1}" class="a3">${msg['qt_page_prepage']}</a>
