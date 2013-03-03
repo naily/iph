@@ -28,6 +28,7 @@ $(document).ready(function(){
                          //{header:'fbEs',   name:'fbEs' } ,
                          //{header:'Fmin',   name:'Fmin' } 
          ],
+         errorMsg  : '  ' ,
          dataSource : {}
      });
      
