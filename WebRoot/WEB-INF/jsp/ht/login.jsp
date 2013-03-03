@@ -21,11 +21,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		var s = '${sessionScope.ht_account.login}' ;
 	</script>
+	
+	<c:if test="${!sessionScope.ht_account.login}" >
+		<link href="images/1.css" type="text/css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
+	</c:if>
   </head>
   
   <body>
-  	<jsp:include page="header.jsp" flush="true" />
-
+  	<c:if test="${sessionScope.ht_account.login}" >
+		<jsp:include page="header.jsp"></jsp:include>
+	</c:if>
+  	<c:if test="${!sessionScope.ht_account.login}" >
+		<div id="top2">
+			<div class="top_right2"></div>
+			<!--top右侧结束-->
+			<div class="top_language">
+			<!--  
+			<a href="ht/lang/zh_CN.do" class="a1">中文</a>   
+			<a href="ht/lang/en_US.do" class="a1">English</a> 
+			-->
+			</div>
+		  </div><!--top结束-->
+	</c:if>
     <div id="content_login" class="loginbox">
     	<c:choose>
 	    	<c:when test="${sessionScope.ht_account.login}" >
