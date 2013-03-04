@@ -145,7 +145,7 @@ public class QTScanPicMod extends BaseMod{
 					}
 					if(StringUtil.checkNotNull(scp.getStartDate()) && StringUtil.checkNotNull(scp.getStartDate())){
 						Date start = DateUtil.convertStringToSqlDate(scp.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-						Date end = DateUtil.convertStringToSqlDate(scp.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
+						Date end = DateUtil.convertStringToSqlDate(scp.getEndDate()+" 23:59:59","yyyy-MM-dd HH:mm:ss");
 						cnd.and("createDate", ">=",start).and("createDate","<=",end);
 					}
 				}

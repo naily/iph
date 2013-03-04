@@ -457,10 +457,14 @@ public class ParameterService extends Base{
 		}
 		String start = paraQuery.getStartDate();
 		String end = paraQuery.getEndDate();
-		if(StringUtil.checkNotNull(start) && StringUtil.checkNotNull(end)){
+		
+		if(StringUtil.checkNull(paraQuery.getSelectAllDate()) && StringUtil.checkNotNull(start) && StringUtil.checkNotNull(end)){
 			//Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
 			//Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");			
 			//cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc("createDate").asc(paraQuery.getOrderBy());
+			
+			 start = paraQuery.getStartDate()+" 00:00:00";
+			 end = paraQuery.getEndDate()+" 23:59:59";
 			cnd= Cnd.where("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 		}else{//不选择日期区间时，查询所有日期的数据
 		    //cnd = Cnd.where("createDate", "<>",null).asc(paraQuery.getOrderBy());

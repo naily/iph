@@ -56,7 +56,7 @@ public class PGTService extends Base{
 			}
 			if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate()) && StringUtil.checkNull(paraQuery.getSelectAllDate())){
 				Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-				Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+				Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 23:59:59","yyyy-MM-dd HH:mm:ss");
 				cnd= Cnd.where("stationID", "in", stationIDS).and("createDate", ">=",start).and("createDate","<=",end).asc(paraQuery.getOrderBy());
 			}else{//不选择日期区间时，查询所有日期的数据
 			    cnd = Cnd.where("stationID", "in", stationIDS).asc(paraQuery.getOrderBy());
@@ -109,7 +109,7 @@ public class PGTService extends Base{
 			    			 }	    			 
 			    		 }else{
 			    			  dateQ1 = paraQuery.getStartDate()+" 00:00:00";
-					     	  dateQ2 = paraQuery.getEndDate()+" 23:59:00";
+					     	  dateQ2 = paraQuery.getEndDate()+" 23:59:59";
 			    		 }
 				     	 String dateB1 = DateUtil.convertDateToString(B1, "yyyy-MM-dd HH:mm:ss");
 				     	 String dateB2 = DateUtil.convertDateToString(B2, "yyyy-MM-dd HH:mm:ss");		     	
@@ -188,7 +188,7 @@ public class PGTService extends Base{
 	 sb.append(" where stationID in (").append(queryStationArry).append(")");//params.getIds()
 	 if(StringUtil.checkNotNull(paraQuery.getStartDate()) && StringUtil.checkNotNull(paraQuery.getEndDate())){//前台查询日期区间
 			Date start = DateUtil.convertStringToSqlDate(paraQuery.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
+			Date end = DateUtil.convertStringToSqlDate(paraQuery.getEndDate()+" 23:59:59","yyyy-MM-dd HH:mm:ss");
 			 sb.append(" and createDate >='").append(start).append("' and createDate <='").append(end).append("'");
 		 }
 	/* List<ProtectDate> protectDateList = parameterService.getProtectDate("T_IRONOGRAM");

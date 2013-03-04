@@ -209,7 +209,7 @@ public class QTPGTMod extends BaseMod{
 				}
 				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
 					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
+					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:59","yyyy-MM-dd HH:mm:ss");
 					cnd.and("createDate", ">=",start).and("createDate","<=",end);
 				}
 			}
@@ -230,7 +230,7 @@ public class QTPGTMod extends BaseMod{
 				}
 				if(StringUtil.checkNotNull(irg.getStartDate()) && StringUtil.checkNotNull(irg.getStartDate())){
 					Date start = DateUtil.convertStringToSqlDate(irg.getStartDate()+" 00:00:00","yyyy-MM-dd HH:mm:ss");
-					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:00","yyyy-MM-dd HH:mm:ss");
+					Date end = DateUtil.convertStringToSqlDate(irg.getEndDate()+" 23:59:59","yyyy-MM-dd HH:mm:ss");
 					cnd.and("createDate", ">=",start).and("createDate","<=",end);
 				}
 			}

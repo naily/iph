@@ -211,7 +211,12 @@ $('#paraQueryGrid2').omGrid({
 			 	});
 			 
 			//$('#paraQueryGrid').omGrid('setData', dUrl);
-			$("#downloadParaData").show();
+			 if(queryDataType==1){
+			 	$("#downloadParaData").show();
+			 }else{
+			 	$("#downloadParaData").hide();
+			 }
+			  
 	    	} else { // 有查询条件，显示查询数据
 
 			at({
@@ -272,11 +277,12 @@ $('#paraQueryGrid2').omGrid({
 				//var selectPara = $('#parameter').val();
 				//str = selectPara.split(",");			
 				//for (i = 0; i < str.length; i++) {
+				
 				for (i = 0; i < paraCol.length; i++) {
 					container[i + 1] = {
 						header : paraCol[i],
 						name : paraCol[i],
-						width : 40
+						width : 60
 					}
 				}
 			container[paraCol.length+1]={

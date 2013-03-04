@@ -986,11 +986,22 @@ public class QTParameterMod extends BaseMod {
 			List<Parameter> list =null;
 			//if(parameterService.isProtectDate("T_PARAMETER")){//判断电离参数表是否设置了保护期
 			String tableName="T_PARAMETER";
-			if(!parameterService.isProtectDateOpen(parameter.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
+			String stationID =parameter.getIds();//
+			//boolean existProtect =false;//是否有保护期
+			paraQuery.setStationID(stationID);
+			paraQuery.setOrderBy("createDate");//默认排序方式：时间
+			/*if(!parameterService.isProtectDateOpen(parameter.getIds(),tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//判断电离参数表是否设置了保护期
 				list=parameterService.top50ParameterDataList(parameter,tableName,paraQuery);				
 			}else{
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
-			}		
+			}	*/	
+			if(!parameterService.isProtectDateOpen(stationID,tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//保护期数据暂不显示（2013-02-21）							
+				list = parameterService.top50ParameterDataListNew(parameter,page,paraQuery);												
+			}else{//无保护期,正常显示数据
+				list = parameterService.parameterDataList(parameter,page,paraQuery);							
+			}
+		
+			
 			List<Parameter> listD= new ArrayList<Parameter>();
 			String zh_en=this.getMsgByKey(req, "lang");
 			for(Parameter para:list){
