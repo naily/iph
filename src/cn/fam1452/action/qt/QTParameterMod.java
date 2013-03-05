@@ -996,9 +996,11 @@ public class QTParameterMod extends BaseMod {
 				list = parameterService.parameterDataList(parameter,page,paraQuery);
 			}	*/	
 			if(!parameterService.isProtectDateOpen(stationID,tableName,paraQuery.getStartDate(),paraQuery.getEndDate())){//保护期数据暂不显示（2013-02-21）							
-				list = parameterService.top50ParameterDataListNew(parameter,page,paraQuery);												
+				//list = parameterService.top50ParameterDataListNew(parameter,page,paraQuery);												
+				list = parameterService.downTop50ParameterDataListNew(parameter,page,paraQuery);												
 			}else{//无保护期,正常显示数据
-				list = parameterService.parameterDataList(parameter,page,paraQuery);							
+				//list = parameterService.parameterDataList(parameter,page,paraQuery);							
+				list = parameterService.downParameterDataList(parameter,page,paraQuery);							
 			}
 		
 			

@@ -420,6 +420,22 @@ public class ParameterService extends Base{
 		}
 		return list;
 	}
+    /**
+     * 电离参数查询
+     * */
+    public List<Parameter> downParameterDataList(Parameter params,Pages page,ParameteDataBo paraQuery){
+
+    	Condition cnd =getParamenterCnd(params,paraQuery);
+		String tableName =params.getIds();
+		List<Record> lists = dao.query(tableName, cnd); 
+		List<Parameter> list =  new ArrayList<Parameter>();
+		for(Record r:lists){			
+			Parameter paramss =record2Object(r);
+			paramss.setStationID(tableName);
+			list.add(paramss);
+		}
+		return list;
+	}
     private final String[] paField = {"foF2","fxF2","fxl","hlF2","foF1","hlF1","hlF","hpF","hpF2","foE","hlE","foEs","hlEs","fbEs","es"} ;
     private Parameter record2Object(Record rd){
 		Parameter p = new Parameter() ;
@@ -673,6 +689,19 @@ public class ParameterService extends Base{
   		}
   		return list;
   	}
+      public List<Parameter> downTop50ParameterDataListNew(Parameter params,Pages page,ParameteDataBo paraQuery){    	
+     
+        	Condition cnd =getPublicProtectDataCnd(dataVisitService.T_PARAMETER,paraQuery); 		
+    		String tableName =params.getIds();
+    		List<Record> lists = dao.query(tableName, cnd); 
+    		List<Parameter> list =  new ArrayList<Parameter>();
+    		for(Record r:lists){			
+    			Parameter paramss =record2Object(r);
+    			paramss.setStationID(tableName);
+    			list.add(paramss);
+    		}
+    		return list;
+    	}
    	/**
  	 * 有保护期的数据查询
  	 * 1、若保护期区间是查询时间段的子集则只显示50条数据
