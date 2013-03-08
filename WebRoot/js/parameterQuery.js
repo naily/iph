@@ -529,7 +529,7 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 					container_[i + 1] = {
 						header : paraCol_[i],
 						name : paraCol_[i],
-						width : 40
+						width : 60
 					}
 				}
 			//===================add by 2013-02-25======	
