@@ -395,6 +395,18 @@ public class PgtMod extends BaseMod{
 	
 	private int progress  = 0  ; //文件解析进度值
 	
+	/**
+	 * 从服务器扫描文件，保存到应用程序目录内
+	 * @Author Derek
+	 * @Date Mar 14, 2013
+	 * @param path
+	 * @param stationId
+	 * @param fileway
+	 * @param fileprefix
+	 * @param datatype
+	 * @param context
+	 * @return
+	 */
 	@POST
 	@At("/ht/pgtsaveserverpath")
     @Ok("json")
@@ -664,5 +676,150 @@ public class PgtMod extends BaseMod{
 			st = dirf.mkdirs() ;
 		}
 		return st ;
+	}
+	
+	
+	/**
+	 * 从服务器中扫描文件，保存文件路径绝对路径
+	 * @Author Derek
+	 * @Date Mar 14, 2013
+	 * @param path
+	 * @param stationId
+	 * @param fileprefix
+	 * @param datatype
+	 * @param context
+	 * @return
+	 */
+	@POST
+	@At("/ht/pgtsaveserverrealpath")
+    @Ok("json")
+	public JSONObject saveServerFileDirectory(String path , String stationId , 
+			String fileprefix , String datatype , ServletContext context){
+		long start  = System.currentTimeMillis() ;
+		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
+		progress = 0 ; //重置
+		
+		if(null != json && json.getBoolean(Constant.SUCCESS)){
+			StringBuilder failFile = new StringBuilder() ;
+			List<IronoGram> iglist = new ArrayList() ;
+			File root = new File(path) ;
+			
+			File[] years = root.listFiles() ;
+			if(null != years && years.length >0){
+				int fail = 0 ;
+				
+				String filter = "Thumbs.db" ;
+				//手动频高图解析
+				if("1".equals(datatype)){
+					HashSet<String> ndyYear = new HashSet<String>() ;
+					for (File y : years) {
+						if(null != y && y.isDirectory()){
+							String year = y.getName() ;
+							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							
+							File[] yearFiles = y.listFiles() ;
+							if(null != yearFiles){
+								for (File f : yearFiles) {
+									//处理文件复制或者是剪切
+									progress++ ;
+									String fn = f.getName() ;
+									Date date = null ;
+									if(!filter.equals(fn)){
+										fn = fn.replace(fileprefix, "") ;
+										date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
+									}
+									if(null != date){
+										boolean ok = false ;
+										//得到文件路径即可 
+										String rp = f.getAbsolutePath();
+										if(ok){
+											IronoGram ig = this.createIronoGram(f.getName(), datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + f.getName()) ;
+											iglist.add(ig) ;
+											
+											ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
+										}
+									}else{
+										fail++ ;
+										failFile.append(fn).append(",") ;
+									}
+								}
+							}
+							
+							
+						}
+					}
+					//向ndy中插入
+					for (String ye : ndyYear) {
+						dls.insertNDY(tableName, stationId, null, ye) ;
+					}
+				}
+				//胶片频高图解析路径不一样
+				if("2".equals(datatype)){
+					for (File y : years) {
+						String year = y.getName() ;
+						if(null != y && y.isDirectory()){
+							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							
+							File[] months = y.listFiles() ; //得到月份
+							for (File m : months) {
+								String month = m.getName() ;
+								this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month) ;
+								
+								File[] days = m.listFiles() ; //得到天数
+								for (File d : days) {
+									String day = d.getName() ;
+									this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day) ;
+									File[] dayFiles = d.listFiles() ;
+									for (File f : dayFiles) {
+										//处理文件复制或者是剪切
+										progress++ ;
+										String fn = f.getName() ;
+										fn = fn.replace(fileprefix, "") ;
+										Date date = null ;
+										if(!filter.equals(fn)){
+											date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern4) ;
+										}
+										if(null != date){
+											boolean ok = false ;
+											//得到文件路径即可
+											if(ok){
+												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + f.getName()) ;
+												iglist.add(ig) ;
+											}
+										}else{
+											fail++ ;
+											failFile.append(fn).append(",") ;
+										}
+									}
+								}
+							}
+							
+							dls.insertNDY(tableName, stationId, null, year) ;
+						}
+					}
+				}
+				
+				
+				json.put("fail", fail) ;
+				json.put("total", iglist.size() ) ;
+				
+				json.put("failfile", failFile.toString()) ;
+			}
+			
+			if(iglist.size() > 0){
+				baseService.dao.delete(iglist) ;
+				baseService.dao.insert(iglist) ;
+				json.put(Constant.SUCCESS, true) ;
+				
+				dls.insert("01", tableName, getHTLoginUserName()) ;
+			}
+		}
+		//log.info("用时毫秒数： " + (System.currentTimeMillis() - start)) ;
+		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
+		return json ;
 	}
 }
