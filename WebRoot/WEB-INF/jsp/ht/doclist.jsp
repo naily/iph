@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
   <meta http-equiv="X-UA-Compatible" content="IE=8">
     <base href="<%=basePath%>">
-    <title>新闻管理</title>
+    <title>相关文档管理</title>
 	<!--
 	-->
 	<link rel="stylesheet" type="text/css" href="css/default/om-default.css">
@@ -20,32 +20,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="css/ht_base_layout.css">
 	<link rel="stylesheet" type="text/css" href="css/default/toolbar.css">
 	<script type="text/javascript" src="js/library/editor/omeditor.js"></script>
-	<script type="text/javascript" src="js/news.js"></script>
-	
-	<style type="text/css">
-       label.error{
-        background: #fff6bf url(images/errorIcon.png) center no-repeat;
-		background-position: 5px 50%;
-		text-align: left;
-		padding: 2px 20px 2px 25px;
-		border: 1px solid #ffd324;
-		display: none;
-		width: 200px;
-		margin-left: 10px;
-       }
-    </style>
+	<script type="text/javascript" src="js/newslist.js"></script>
 	
   </head>
   
   <body>
     <jsp:include page="header.jsp" flush="true" />
     
-    <div id="pageleft">
+  <div id="pageleft">
     	<!-- 左侧菜单 -->
-    	<div class="left2_1">添加新闻</div>
+    	<div class="left2_1"><a href="ht/news.do" class="a3">添加新闻</a></div>
     	<div class="left2_1"><a href="ht/newslist.do" class="a3">新闻管理</a></div>
     	<div class="left2_1"><a href="ht/docupload.do" class="a3">相关文档上传</a></div>
-    	<div class="left2_1"><a href="ht/doclist.do" class="a3">相关文档管理</a></div>
+    	<div class="left2_1">相关文档管理</div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容
@@ -54,27 +41,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <a id="del"  href="javascript:void(0)">删除</a>
     	</span>
     	 -->
+    	<div id="buttonbar"></div>
+    	
+    	<table id="list0"></table>
         
-        <div id="tab1">
-        <form action="#" id="savenewsfm" method="post">
-        	<table width="100%" border="0" style="border:#bfd0e1 1px solid">
+        <div id="tab1" style="display: none;">
+        	
+        	<table width="790" border="0">
         	<tr>
-                <td colspan="2">&nbsp;&nbsp; 
-                提示：标有 <span class="red_asterisk">*</span>  的项为必填项
-                </td>
+                <td align="left">&nbsp; </td>
+                <td>&nbsp;</td>
               </tr>
               <tr>
-                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>新闻标题:</td>
-                <td>&nbsp;<input id = "title" name="title" class="boxinput3"/></td>
+                <td  class="table_td_fieldlab">&nbsp;新闻标题:</td>
+                <td>&nbsp;<input id = "title" name="title" class="boxinput3"/><span class="red_asterisk">*</span></td>
               </tr>
               <tr>
-                <td height="30"   class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
-                <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" /> 
-                	&nbsp;&nbsp;&nbsp;<input id = "comboCateg" /></td>
+                <td  class="table_td_fieldlab">&nbsp;推荐为图片新闻:</td>
+                <td>&nbsp; <input type="checkbox" id = "isPicNews" name="isPicNews" />
+                &nbsp;&nbsp;&nbsp;<input id = "comboCateg" /> </td>
               </tr>
               <tr>
-                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>新闻内容:</td>
-                <td>&nbsp;<textarea id="contentId" name="content" class="editor"></textarea> </td>
+                <td class="table_td_fieldlab">&nbsp;新闻内容:</td>
+                <td>&nbsp;<textarea id="contentId" name="content" class="editor"></textarea> <span class="red_asterisk">*</span></td>
               </tr>
               
               <tr>
@@ -83,16 +72,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tr>
               <tr>
                 <td colspan="2" align="center">&nbsp;&nbsp; 
-                <input id="savebut"  type="image" src="images/baocun.png" value=" 保  存 " /> 
+                <input id="savebut"  src="images/baocun.png" type="image" title="保存" /> 
                 &nbsp;&nbsp;&nbsp;&nbsp; 
                 <!--  
                 <input id="clearbut"  type="button" name="清空" value="清空" style="height: 22px;" /> 
                 -->
                 </td>
               </tr>
-			   
             </table>
-            </form>
+            
         </div>
         
     </div>

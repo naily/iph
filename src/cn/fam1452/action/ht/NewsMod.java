@@ -330,4 +330,19 @@ public class NewsMod extends BaseMod{
             }
         }
     }
+    
+    
+    /**
+     * 上传相关文档页面
+     * @Author Derek
+     * @Date Mar 17, 2013
+     * @param req
+     */
+    @At("/ht/docupload")
+    @Ok("jsp:jsp.ht.docupload")
+    public void loadDocUploadpage(HttpServletRequest req){}
+    
+    @At("/ht/doclist")
+    @Ok("jsp:jsp.ht.doclist")
+    public void loadDoclist(HttpServletRequest req){}
 }
