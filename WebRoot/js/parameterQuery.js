@@ -157,7 +157,13 @@ $('#paraQueryGrid2').omGrid({
 				align : 'center',
 				width : 80
 			}];*/
-
+$("#allDate").click(function() {
+	  if($("#allDate").attr("checked")){
+	  	$('#startDate').val('');
+		$('#endDate').val('');
+	  }
+		
+		});
 	// 电离参数列表显示
 	$("#paraDataQuery").click(function() {
 		//var stationId = $('#stationIDs').val();
@@ -167,8 +173,10 @@ $('#paraQueryGrid2').omGrid({
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
 		var allDate = '';
-		if ($("#allDate").attr("checked")) {
+		if($("#allDate").attr("checked")) {
 			allDate = 'all';
+			startDate='';
+			endDate='';
 		}
 		var pageSize = $('#showNum').val();
 		if(pageSize){
