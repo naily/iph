@@ -40,7 +40,6 @@ public class FileDownload {
 	 * @author gls
 	 * @date 2011-10-18
 	 * */
-
 	public static boolean download(String strUrl, String path) {
 		// System.out.println("下载地址："+strUrl+",存储地址："+path);
 		// boolean optFlag=true;
@@ -89,7 +88,7 @@ public class FileDownload {
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 
 	public static String fileDownLoad(HttpServletRequest request,
-			HttpServletResponse response, String filepath) throws IOException {
+			HttpServletResponse response, String filepath , String downName) throws IOException {
 		response.setContentType(CONTENT_TYPE);
 		String downloadfile = request.getSession().getServletContext().getRealPath(filepath);
 		if (downloadfile != null && !downloadfile.equals("")) {
@@ -99,6 +98,10 @@ public class FileDownload {
 					String filename = file.getName();
 					response.setContentType("application/x-msdownload");// 设置response的编码方式
 					response.setContentLength((int) file.length());// 写明要下载的文件的大小
+					
+					if(StringUtil.checkNotNull(downName)){
+						filename = downName ;
+					}
 					response.setHeader("Content-Disposition",
 							"attachment;filename=" + filename);// 设置附加文件名
 					FileInputStream fis = new FileInputStream(file);// 读出文件到i/o流

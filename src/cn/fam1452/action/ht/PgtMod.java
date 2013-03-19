@@ -246,7 +246,7 @@ public class PgtMod extends BaseMod{
 		fusu.setServletContext(context) ;
 		
 		try {
-			String filepath = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_PGT_PATH); //存入实际目录
+			String filepath = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_PGT_PATH , false); //存入实际目录
 			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
 				//log.info(filepath) ;
 				int i = filepath.lastIndexOf("/") ;

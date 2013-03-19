@@ -36,6 +36,10 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	 */
 	public static final String UPLOAD_SAC_PATH = "/data/sac_file/";
 	/**
+	 * 相关文档上传图片
+	 */
+	public static final String UPLOAD_NEWSDOC_PATH = "/data/editor/doc/";
+	/**
 	 * 临时文件目录
 	 */
 	public static final String UPLOAD_PIC_PATH_TMP = "/data/tmp/"; 
@@ -181,6 +185,21 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		
 		return fn ;
 	}
+	/**
+	 * 获取文件后缀名（带.）
+	 * @param f
+	 * @return
+	 */
+	public String getFileSuffix(String fn){
+		if(StringUtil.checkNotNull(fn)){
+			int i = fn.lastIndexOf(".") ;
+			if(-1 != i){
+				fn = fn.substring(i) ; //取到带点的扩展名
+			}
+		}
+		
+		return fn ;
+	}
 	
 	/**
 	 * 生成保存上传文件的磁盘路径 
@@ -283,10 +302,11 @@ public class OmFileUploadServletUtil  extends BaseMod{
 	 * request中取出文件并存储到指定目录
 	 * @param request
 	 * @param dir
+	 * @param rename 是否重命名文件
 	 * @return 返回文件真实路径
 	 * @throws IOException
 	 */
-	public String defaultProcessFileUpload(HttpServletRequest request , String  dir) throws IOException {
+	public String defaultProcessFileUpload(HttpServletRequest request , String  dir , boolean rename) throws IOException {
 		ServletFileUpload sfu = new ServletFileUpload();
 		sfu.setHeaderEncoding("UTF-8");
 		
@@ -306,6 +326,9 @@ public class OmFileUploadServletUtil  extends BaseMod{
 					if (!item.isFormField()) {
 						
 						String fileName = item.getName() ;
+						if(rename){
+							fileName = System.currentTimeMillis() + getFileSuffix(fileName) ;
+						}
 						
 						savePath = dir + fileName ;
 						

@@ -44,8 +44,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<!-- 左侧菜单 -->
     	<div class="left2_1">添加新闻</div>
     	<div class="left2_1"><a href="ht/newslist.do" class="a3">新闻管理</a></div>
-    	<div class="left2_1"><a href="ht/docupload.do" class="a3">相关文档上传</a></div>
-    	<div class="left2_1"><a href="ht/doclist.do" class="a3">相关文档管理</a></div>
     </div>
     <div id="center_right">
     	<!-- 右侧内容
@@ -73,10 +71,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	&nbsp;&nbsp;&nbsp;<input id = "comboCateg" /></td>
               </tr>
               <tr>
-                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>新闻内容:</td>
+                <td height="30"  class="table_td_fieldlab">&nbsp;<span class="red_asterisk">*</span>内容:</td>
                 <td>&nbsp;<textarea id="contentId" name="content" class="editor"></textarea> </td>
               </tr>
-              
+              <tr>
+			    <td height="40" class="table_td_fieldlab">选择文件：</td>
+			    <td><label>
+			      <input type="file" name="file_upload" id="file_upload" />
+			    	</label></td>
+			    </tr>
               <tr>
                 <td >&nbsp; </td>
                 <td>&nbsp; <span id="errormsg" class="errorMessages"></span></td>

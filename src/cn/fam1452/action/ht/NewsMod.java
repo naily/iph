@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.sql.Blob;
 import java.text.DecimalFormat;
@@ -51,12 +52,14 @@ import cn.fam1452.action.BaseMod;
 import cn.fam1452.action.bo.MetaDataBo;
 import cn.fam1452.action.bo.Pages;
 import cn.fam1452.action.filter.AdminFilter;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.dao.pojo.MetaData;
 import cn.fam1452.dao.pojo.News;
 import cn.fam1452.dao.pojo.Parameter;
 import cn.fam1452.dao.pojo.Station;
 import cn.fam1452.service.BaseService;
 import cn.fam1452.utils.DateUtil;
+import cn.fam1452.utils.FileDownload;
 import cn.fam1452.utils.OmFileUploadServletUtil;
 import cn.fam1452.utils.StringUtil;
 import freemarker.template.Configuration;
@@ -338,11 +341,60 @@ public class NewsMod extends BaseMod{
      * @Date Mar 17, 2013
      * @param req
      */
-    @At("/ht/docupload")
-    @Ok("jsp:jsp.ht.docupload")
-    public void loadDocUploadpage(HttpServletRequest req){}
+    @Filters
+    @At("/ht/news/docdown")
+    @Ok("raw")
+    public void docDownloadFile(HttpServletRequest req ,HttpServletResponse response, String fn , String dn){
+    	
+    	if(StringUtil.checkNotNull(fn) && StringUtil.checkNotNull(dn)){
+			try {
+				//byte[] l_b_Proc = dn.getBytes("ISO-8859-1");
+				dn = new String(dn.getBytes("ISO-8859-1"), StringUtil.UTF_8);
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		//System.out.println(dn);
+    		
+    		String file = OmFileUploadServletUtil.UPLOAD_NEWSDOC_PATH + fn ;
+    		//String downloadfile = req.getSession().getServletContext().getRealPath(file);
+    		try {
+				FileDownload.fileDownLoad(req, response ,file , dn) ;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
     
-    @At("/ht/doclist")
-    @Ok("jsp:jsp.ht.doclist")
-    public void loadDoclist(HttpServletRequest req){}
+    /**
+	 * 上传一个文件 
+	 */
+	@POST
+	@At("/ht/docfileuploads")
+    @Ok("json")
+	public JSONObject saveNewsDoc (HttpServletRequest request, HttpServletResponse response , ServletContext context){
+		JSONObject json = new JSONObject();
+		json.put(Constant.SUCCESS, false) ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
+		try {
+			String file = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_NEWSDOC_PATH , true) ;
+			if(StringUtil.checkNotNull(file)){
+				file = file.replace(fusu.UPLOAD_NEWSDOC_PATH, "") ;
+			}
+			//log.info(file) ;
+			json.put("path", file) ;
+			json.put(Constant.SUCCESS, true) ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json.put(Constant.INFO, e.getMessage()) ;
+		}finally{
+			return json ;
+		}
+	}
+    
 }

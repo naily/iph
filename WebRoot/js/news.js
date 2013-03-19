@@ -59,4 +59,33 @@ $(document).ready(function(){
         }
 
      });
+     
+    //初始化单文件上传文件组件
+	$('#file_upload').omFileUpload({
+        action : '../ht/docfileuploads.do'+ "?timestamp=" + new Date().getTime() ,
+        swf : 'swf/om-fileupload.swf' + "?timestamp=" + new Date().getTime() ,
+	  	fileExt  : '*.rar;*.pdf;*.doc',
+	  	fileDesc : 'Upload Files(*.rar,*.pdf,*.doc)' ,
+	  	method   : 'POST',
+        onComplete : function(ID,fileObj,response,data,event){
+        	var jsonData = eval("("+response+")");
+        	
+        	//fileName = fileObj.name ;
+        	//alert(jsonData.path) ;
+        	//alert(fileName) ;
+        	var pa = 'fn=' +jsonData.path + '&dn=' + encodeURI(encodeURI(fileObj.name)) ;
+            $('#contentId').omEditor('insertHtml' , '<a target="blank" href="./ht/news/docdown.do?'+pa+'">'+fileObj.name+ '</a>') ;
+        },
+        onError :function(ID, fileObj, errorObj, event){
+        	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
+        },
+        onSelect:function(ID,fileObj,event){
+        	//alert('你选择了文件：'+fileObj.name);
+            //选择文件后立即上传
+        	//$('#preview').attr('disabled' , false) ;
+        	//$('#errormsg').html('') ;
+        },
+        removeCompleted : true ,
+        autoUpload : true  //自动上传
+    });
 });

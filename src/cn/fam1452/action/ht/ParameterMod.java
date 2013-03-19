@@ -242,7 +242,7 @@ public class ParameterMod extends BaseMod{
 		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil(context);
 		try {
-			String mdb = fusu.defaultProcessFileUpload(request, "data/access/") ;
+			String mdb = fusu.defaultProcessFileUpload(request, "data/access/" , false) ;
 			
 			//Connection con = new AccessUtil(mdb).getConnection() ;
 			//log.info(mdb) ;
