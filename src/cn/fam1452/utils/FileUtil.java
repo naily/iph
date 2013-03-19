@@ -1,5 +1,6 @@
 package cn.fam1452.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -9,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
 
 public class FileUtil {
 
@@ -137,5 +140,38 @@ public class FileUtil {
 		}
 		
 		return b ;
+	}
+	
+	/**
+	 * 通过一个图像绝对路径，构建BufferedImage对象
+	 * @Author Derek
+	 * @Date Mar 19, 2013
+	 * @param fnm
+	 * @return
+	 */
+	public static BufferedImage getImg(String fnm) {
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read(new File(fnm));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bi;
+    }
+	
+	/**
+	 * 获取文件后缀名（带.）
+	 * @param f
+	 * @return
+	 */
+	public static String getFileSuffix(String fn){
+		if(StringUtil.checkNotNull(fn)){
+			int i = fn.lastIndexOf(".") ;
+			if(-1 != i){
+				fn = fn.substring(i) ; //取到带点的扩展名
+			}
+		}
+		
+		return fn ;
 	}
 }

@@ -185,21 +185,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 		
 		return fn ;
 	}
-	/**
-	 * 获取文件后缀名（带.）
-	 * @param f
-	 * @return
-	 */
-	public String getFileSuffix(String fn){
-		if(StringUtil.checkNotNull(fn)){
-			int i = fn.lastIndexOf(".") ;
-			if(-1 != i){
-				fn = fn.substring(i) ; //取到带点的扩展名
-			}
-		}
-		
-		return fn ;
-	}
+	
 	
 	/**
 	 * 生成保存上传文件的磁盘路径 
@@ -327,7 +313,7 @@ public class OmFileUploadServletUtil  extends BaseMod{
 						
 						String fileName = item.getName() ;
 						if(rename){
-							fileName = System.currentTimeMillis() + getFileSuffix(fileName) ;
+							fileName = System.currentTimeMillis() + FileUtil.getFileSuffix(fileName) ;
 						}
 						
 						savePath = dir + fileName ;

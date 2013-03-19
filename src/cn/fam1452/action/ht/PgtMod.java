@@ -719,7 +719,7 @@ public class PgtMod extends BaseMod{
 					for (File y : years) {
 						if(null != y && y.isDirectory()){
 							String year = y.getName() ;
-							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
 							
 							File[] yearFiles = y.listFiles() ;
 							if(null != yearFiles){
@@ -762,17 +762,17 @@ public class PgtMod extends BaseMod{
 					for (File y : years) {
 						String year = y.getName() ;
 						if(null != y && y.isDirectory()){
-							this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
+							//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
 							
 							File[] months = y.listFiles() ; //得到月份
 							for (File m : months) {
 								String month = m.getName() ;
-								this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month) ;
+								//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month) ;
 								
 								File[] days = m.listFiles() ; //得到天数
 								for (File d : days) {
 									String day = d.getName() ;
-									this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day) ;
+									//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day) ;
 									File[] dayFiles = d.listFiles() ;
 									for (File f : dayFiles) {
 										//处理文件复制或者是剪切
@@ -822,4 +822,6 @@ public class PgtMod extends BaseMod{
 		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
 		return json ;
 	}
+	
+	
 }

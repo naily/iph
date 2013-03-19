@@ -3,6 +3,8 @@
  */
 package cn.fam1452.action.ht;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -28,6 +30,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.service.UserService;
+import cn.fam1452.utils.FileUtil;
 import cn.fam1452.utils.MD5Util;
 import cn.fam1452.utils.RandomImage;
 import cn.fam1452.utils.StringUtil;
@@ -139,4 +142,20 @@ public class UserMod  extends BaseMod{
         ios.close();
         bos.close();
 	}
+	
+	@At("/qt/getimage")
+    @Ok("raw")
+	public void getImage(HttpServletResponse response,String imageid )throws ServletException, IOException{
+		String image = "E:/cyanway/拓扑编辑.jpg" ;
+		
+		OutputStream bos = response.getOutputStream();
+        response.setHeader("cache-control", "no-store");
+        ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
+        ImageIO.write(FileUtil.getImg(image), "JPEG", ios);
+        
+        ios.close();
+        bos.close();
+	}
+	
+	
 }
