@@ -701,61 +701,30 @@ public class PgtMod extends BaseMod{
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		
-		progress = 0 ; //重置
+		progress = 0 ; //重置进度条值
 		
 		if(null != json && json.getBoolean(Constant.SUCCESS)){
-			StringBuilder failFile = new StringBuilder() ;
-			List<IronoGram> iglist = new ArrayList() ;
-			File root = new File(path) ;
+			List<IronoGram> iglist = new ArrayList() ;           //存储解析成功的对象
+			String filter = "Thumbs.db" ;//排除不解析的文件
+			HashSet<String> ndyYear = new HashSet<String>() ;    //缓存往NDY表插入的年份值
+			StringBuilder failFile = new StringBuilder() ; //存储解析失败的文件名
+			int fail = 0 ;
 			
-			File[] years = root.listFiles() ;
+			File root = new File(path) ;
+			File[] years = root.listFiles() ;              //更目录下得年列表
+			
 			if(null != years && years.length >0){
-				int fail = 0 ;
 				
-				String filter = "Thumbs.db" ;
+				for (File y : years) {
+					this.parserDirectory(y, filter, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail);
+				}
+				//向ndy中插入
+				for (String ye : ndyYear) {
+					dls.insertNDY(tableName, stationId, null, ye) ;
+				}
+				/*
 				//手动频高图解析
 				if("1".equals(datatype)){
-					HashSet<String> ndyYear = new HashSet<String>() ;
-					for (File y : years) {
-						if(null != y && y.isDirectory()){
-							String year = y.getName() ;
-							//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
-							
-							File[] yearFiles = y.listFiles() ;
-							if(null != yearFiles){
-								for (File f : yearFiles) {
-									//处理文件复制或者是剪切
-									progress++ ;
-									String fn = f.getName() ;
-									Date date = null ;
-									if(!filter.equals(fn)){
-										fn = fn.replace(fileprefix, "") ;
-										date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
-									}
-									if(null != date){
-										boolean ok = false ;
-										//得到文件路径即可 
-										String rp = f.getAbsolutePath();
-										if(ok){
-											IronoGram ig = this.createIronoGram(f.getName(), datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" + f.getName()) ;
-											iglist.add(ig) ;
-											
-											ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
-										}
-									}else{
-										fail++ ;
-										failFile.append(fn).append(",") ;
-									}
-								}
-							}
-							
-							
-						}
-					}
-					//向ndy中插入
-					for (String ye : ndyYear) {
-						dls.insertNDY(tableName, stationId, null, ye) ;
-					}
 				}
 				//胶片频高图解析路径不一样
 				if("2".equals(datatype)){
@@ -785,6 +754,8 @@ public class PgtMod extends BaseMod{
 										}
 										if(null != date){
 											boolean ok = false ;
+											String rp = f.getAbsolutePath();
+											log.info(rp) ;
 											//得到文件路径即可
 											if(ok){
 												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + f.getName()) ;
@@ -802,7 +773,7 @@ public class PgtMod extends BaseMod{
 						}
 					}
 				}
-				
+				*/
 				
 				json.put("fail", fail) ;
 				json.put("total", iglist.size() ) ;
@@ -823,5 +794,66 @@ public class PgtMod extends BaseMod{
 		return json ;
 	}
 	
-	
+	private void parserDirectory(File directory , String filters , String fileprefix , String stationId , 
+			String datatype , List<IronoGram> iglist , HashSet<String> ndyYear,StringBuilder failFile ,
+			int fail){
+		if(null != directory && directory.isDirectory()){
+			File[] yearFiles = directory.listFiles() ;
+			for (File f : yearFiles) {
+				String fn = f.getName() ;
+				
+				if(f.isFile() ){ //处理文件
+					progress++ ;
+					IronoGram ig = parserFile(f , filters, fileprefix, stationId, datatype) ;
+					if(null != ig) {
+						iglist.add(ig) ;
+						ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
+						//log.info( ig.getGramPath() ) ;
+					}else{
+						fail++ ;
+						failFile.append(fn).append(",") ;
+					}
+					
+				}else{ //处理目录
+					this.parserDirectory(f, filters, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail) ;
+				}
+			}
+		}
+	}
+	/**
+	 * 解析文件得到IronoGram对象
+	 * @return
+	 */
+	public static IronoGram parserFile(File file , String filters , String fileprefix , String stationId , String datatype){
+		IronoGram ig = null ;
+		Date date = null ;
+		String fn = file.getName() ;
+		if(filters.indexOf(fn) == -1 ){
+			fn = fn.replace(fileprefix, "") ;
+			//手动频高图解析
+			if("1".equals(datatype)){
+				date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
+			}
+			//胶片频高图解析路径不一样
+			else if("2".equals(datatype)){
+				date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern4) ;
+			}
+			
+			if(null != date){
+				String rp = file.getAbsolutePath();
+				ig = new IronoGram() ;
+				ig.setGramID(StationUtil.removeSuffix(fn)) ;
+				ig.setGramFileName(fn) ;
+				ig.setGramPath(rp ) ;
+				ig.setGramTitle(fn) ;
+				
+				ig.setCreateDate( date ) ;
+				ig.setType( datatype ) ;
+				ig.setStationID(stationId) ;
+				//ig = this.createIronoGram(file.getName(), datatype, stationId, date,  rp ) ;
+			}
+		}
+		
+		return ig ;
+	}
 }

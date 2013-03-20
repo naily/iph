@@ -29,6 +29,7 @@ import org.nutz.mvc.annotation.Param;
 import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Administrator;
+import cn.fam1452.dao.pojo.IronoGram;
 import cn.fam1452.service.UserService;
 import cn.fam1452.utils.FileUtil;
 import cn.fam1452.utils.MD5Util;
@@ -146,7 +147,15 @@ public class UserMod  extends BaseMod{
 	@At("/qt/getimage")
     @Ok("raw")
 	public void getImage(HttpServletResponse response,String imageid )throws ServletException, IOException{
-		String image = "E:/cyanway/拓扑编辑.jpg" ;
+		//默认图片
+		String image = "E:/T1eH9sXoFSXXb1upjX.jpg" ;
+		IronoGram ig = null ;
+		if(StringUtil.checkNotNull(imageid)){
+			ig = userservice.dao.fetch(IronoGram.class, imageid) ;
+		}
+		if(null != ig){
+			image = ig.getGramPath() ;
+		}
 		
 		OutputStream bos = response.getOutputStream();
         response.setHeader("cache-control", "no-store");

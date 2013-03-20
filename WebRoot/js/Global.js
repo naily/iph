@@ -35,6 +35,8 @@ function previewImage(gridId , i , fidldName,title_){
 		if( i < store.rows.length){
 			//当前图片
 			var gpath = (store.rows)[i][fidldName] ;
+			var tab = "pgt" ;
+			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab ;
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=300 / >' +
 				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
 			

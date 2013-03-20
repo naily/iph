@@ -317,7 +317,7 @@ $(document).ready(function(){
                         $('#savebyserverdir').click(function(){
                             //$("#reviewinfo-id").html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").addClass('aligncenter');
 					        var data1 = {
-				                url :'ht/pgtsaveserverpath.do' ,
+				                url :'ht/pgtsaveserverrealpath.do' ,
 				                params :{'path' : json.path ,'fileway': fw , 'datatype':dt , 'fileprefix' : ff , stationId: ssd},
 				                callback : function(json4){
                                     $("#savebyserverdir").unbind( "click" ) ;

@@ -192,7 +192,8 @@ public class DateUtil {
 			date = df.parse(s);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println(e.getMessage()) ;
 		}finally{
 			return date ;
 		}
