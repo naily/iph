@@ -3,6 +3,9 @@
  */
 package cn.fam1452.action.ht;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +33,7 @@ import cn.fam1452.Constant;
 import cn.fam1452.action.BaseMod;
 import cn.fam1452.dao.pojo.Administrator;
 import cn.fam1452.dao.pojo.IronoGram;
+import cn.fam1452.dao.pojo.Scanpic;
 import cn.fam1452.service.UserService;
 import cn.fam1452.utils.FileUtil;
 import cn.fam1452.utils.MD5Util;
@@ -146,21 +150,42 @@ public class UserMod  extends BaseMod{
 	
 	@At("/qt/getimage")
     @Ok("raw")
-	public void getImage(HttpServletResponse response,String imageid )throws ServletException, IOException{
+	public void getImage(HttpServletResponse response,String imageid ,String tab)throws ServletException, IOException{
 		//默认图片
-		String image = "E:/T1eH9sXoFSXXb1upjX.jpg" ;
-		IronoGram ig = null ;
+		String image = "" ;
 		if(StringUtil.checkNotNull(imageid)){
-			ig = userservice.dao.fetch(IronoGram.class, imageid) ;
-		}
-		if(null != ig){
-			image = ig.getGramPath() ;
+			if("pgt".equals(tab)){
+				IronoGram ig = userservice.dao.fetch(IronoGram.class, imageid) ;
+				if(null != ig){
+					image = ig.getGramPath() ;
+				}
+			}else if("sac".equals(tab)){
+				Scanpic sac = userservice.dao.fetch(Scanpic.class, imageid) ;
+				if(null != sac){
+					image = sac.getGramPath() ;
+				}
+			}
 		}
 		
 		OutputStream bos = response.getOutputStream();
         response.setHeader("cache-control", "no-store");
         ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
-        ImageIO.write(FileUtil.getImg(image), "JPEG", ios);
+        
+        File imagefile = new File(image) ;
+        if(imagefile.exists() && imagefile.isFile()){
+        	ImageIO.write(FileUtil.getImg(imagefile), "JPEG", ios);//FileUtil.getFileSuffix(imagefile) ;
+        }else{
+        	int width = 600 ;
+        	int height = 400 ;
+        	BufferedImage bfimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);// 在内存中创建图象
+            Graphics2D raphics = (Graphics2D) bfimage.getGraphics();// 获取图形上下文
+            raphics.setColor(new Color(200,200,0));// 设定为白色背景色
+            raphics.fillRect(0, 0, width, height);
+            raphics.setFont(new Font("Times New Roman", Font.ITALIC, 22));// 设定字体
+            raphics.drawString("图片没找到", 30, 30);
+            raphics.dispose(); // 图象生效
+            ImageIO.write(bfimage, "JPEG", ios);
+        }
         
         ios.close();
         bos.close();

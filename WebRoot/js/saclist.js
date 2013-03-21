@@ -17,7 +17,7 @@ $(document).ready(function(){
 	                         renderer: function(colValue, rowData, rowIndex){
 	                         	
 	                         	//return '<a href="javascript:previewSac(\''+rowData.gramPath+'\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
-	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'ID\',\'扫描图查看\',\'sac\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],

@@ -40,7 +40,7 @@ $(document).ready(function(){
                          {header:'<b>操作</b>',name:'operation',width:60 ,align : 'center' ,
 	                         renderer: function(colValue, rowData, rowIndex){
 	                         	//传参：当前grid的ID，rowIndex
-	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramID\',\'频高图查看\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
+	                         	return '<a href="javascript:previewImage(\'#list0\','+rowIndex+',\'gramID\',\'频高图查看\',\'pgt\');" class="a3">预览 </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
                          }
          ],

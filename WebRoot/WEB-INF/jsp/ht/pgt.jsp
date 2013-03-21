@@ -66,10 +66,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td align="right">&nbsp;<span class="red_asterisk">*</span>数据类型:</td>
                 <td>&nbsp;<input type="text" style="width:160px;" id="dataTypeCombox" /></td>
               </tr>
+              <!-- 
               <tr>
                 <td align="right">&nbsp;<span class="red_asterisk">*</span>文件处理方式:</td>
                 <td>&nbsp;<input type="text" style="width:160px;" id="fileway" /></td>
               </tr>
+               -->
               <tr>
                 <td align="right">&nbsp;</td>
                 <td>&nbsp;</td>

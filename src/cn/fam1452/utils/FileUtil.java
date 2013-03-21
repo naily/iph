@@ -158,9 +158,18 @@ public class FileUtil {
         }
         return bi;
     }
+	public static BufferedImage getImg(File image) {
+		BufferedImage bi = null;
+		try {
+			bi = ImageIO.read(image);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bi;
+	}
 	
 	/**
-	 * 获取文件后缀名（带.）
+	 * 获取文件后缀名 
 	 * @param f
 	 * @return
 	 */
@@ -168,7 +177,7 @@ public class FileUtil {
 		if(StringUtil.checkNotNull(fn)){
 			int i = fn.lastIndexOf(".") ;
 			if(-1 != i){
-				fn = fn.substring(i) ; //取到带点的扩展名
+				fn = fn.substring(i + 1) ;  
 			}
 		}
 		

@@ -97,10 +97,19 @@ public class LocalFileUtil {
 							
 							File[] months = y.listFiles() ; //得到月份
 							for (File m : months) {
-								File[] days = m.listFiles() ; //得到天数
-								for (File d : days) {
-									File[] f = d.listFiles() ;
-									fileTotal  += f.length ;
+								if(m.isDirectory()){
+									File[] days = m.listFiles() ; //得到天数
+									for (File d : days) {
+										if(d.isDirectory()){
+											File[] f = d.listFiles() ;
+											fileTotal  += f.length ;
+										}else{
+											fileTotal++ ;
+										}
+									}
+									
+								}else{
+									fileTotal++ ;
 								}
 							}
 							
@@ -124,7 +133,7 @@ public class LocalFileUtil {
 		}else{
 			json.put(Constant.INFO, "参数为空") ;
 		}
-		
+		System.out.println(json.toString());
 		return json ;
 	}
 	

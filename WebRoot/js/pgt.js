@@ -269,7 +269,7 @@ $(document).ready(function(){
         }
         //检测必要输入参数
         var ssd = $('#station_serverdir').omCombo('value') ;//观测站
-        var fw = $('#fileway').omCombo('value') ;//复制还是剪切
+        //var fw = $('#fileway').omCombo('value') ;//复制还是剪切
         var dt = $('#dataTypeCombox').omCombo('value') ;//数据类型决定解析规则
         var ff = $('#fileprefix').val() ;//文件名前缀
         var fsd = $('#file_serverdir').val() ;//路径
@@ -281,10 +281,10 @@ $(document).ready(function(){
             alert( '请选择观测站') ;
             return ;
         }
-        if(!fw){
+        /*if(!fw){
             alert( '请选择处理方式') ;
             return ;
-        }
+        }*/
         if(!dt){
             alert( '请选择数据类型') ;
             return ;
@@ -295,8 +295,8 @@ $(document).ready(function(){
         }
         
         var data = {
-                url :'ht/pgttestserverpath.do' ,
-                params :{'path' : fsd , 'sid': ssd,'fileway': fw , 'datatype':dt , 'fileprefix' : ff},
+                url :'ht/pgttestserverpath.do' , //预解析、测试目录路径
+                params :{'path' : fsd , 'sid': ssd,  'datatype':dt , 'fileprefix' : ff},
                 callback : function(json){
                     if(json.success){
                         //显示测试信息
@@ -311,14 +311,14 @@ $(document).ready(function(){
 	                    //alert(html.join('</p>')) ;
                         
                         //$('#year_serverdir').val(json.year);
-                        
                         //$('#station_serverdir').omCombo('value' , json.stationid) ;
                         $("#savebyserverdir").unbind( "click" ) ;
                         $('#savebyserverdir').click(function(){
-                            //$("#reviewinfo-id").html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").addClass('aligncenter');
+	                        $("#savebyserverdir").unbind( "click" ) ;
+                            $("#reviewinfo-id").html("go ...").addClass('aligncenter');
 					        var data1 = {
 				                url :'ht/pgtsaveserverrealpath.do' ,
-				                params :{'path' : json.path ,'fileway': fw , 'datatype':dt , 'fileprefix' : ff , stationId: ssd},
+				                params :{'path' : json.path ,'fileway': 'c' , 'datatype':dt , 'fileprefix' : ff , stationId: ssd},
 				                callback : function(json4){
                                     $("#savebyserverdir").unbind( "click" ) ;
                                     $('#reviewinfo-id').html('').removeClass() ;
@@ -328,7 +328,7 @@ $(document).ready(function(){
 				                        html.push("<p>处理文件总数： "+json4.total ) ;
 				                        html.push("<p>其中失败： "+json4.fail ) ;
 	                                    if(json4.fail && json4.fail > 0){
-	                                        html.push("<p>失败的文件： "+json4.failfile ) ;
+	                                        html.push("<p syle='width:600px;'>失败的文件： "+json4.failfile ) ;
 	                                    }
                                         html.push("<p>用时(秒)： "+json4.usedtime ) ;
 				                        $('#reviewinfo-id').html(html.join('</p>')) ;
@@ -371,7 +371,7 @@ $(document).ready(function(){
                     
                 }
         }
-        
+        $('#reviewinfo-id').html("正在执行 ,请稍后....") ;
         ajaxpost(data);
     });
     

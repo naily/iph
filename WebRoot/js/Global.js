@@ -28,15 +28,15 @@ function tipOK(){
  * gridId ： gridID
  * i      :  索引序号
  */
-function previewImage(gridId , i , fidldName,title_){
+function previewImage(gridId , i , idField,title_ , tab_){
 	if(gridId && i > -1){
 		var store = $(gridId).omGrid('getData');
 		
 		if( i < store.rows.length){
 			//当前图片
-			var gpath = (store.rows)[i][fidldName] ;
-			var tab = "pgt" ;
-			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab ;
+			var gpath = (store.rows)[i][idField] ;
+			//var tab = "pgt" ;
+			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=300 / >' +
 				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
 			
@@ -47,10 +47,10 @@ function previewImage(gridId , i , fidldName,title_){
 			
 			//绑定事件
 			$("#but1").one("click", function(){
-				previewImage(gridId , i-1,fidldName,title_) ;
+				previewImage(gridId , i-1,idField,title_) ;
 			});
 			$("#but4").one("click", function(){
-				previewImage(gridId , i+1,fidldName,title_) ;
+				previewImage(gridId , i+1,idField,title_) ;
 			});
 			
 			$("#but2").bind("click", function(){
@@ -126,13 +126,15 @@ function previewImageForScanpic(filePath_,title_){
  */
 function previewImageA(dataArys , i ,typeNum){
 	dataArys = dataAry;
-	var title_,tableName_;
+	var title_,tableName_ , tab_;
 	if(typeNum=='1'){
 		title_='频高图查看';
 		tableName_='T_IRONOGRAM';
+		tab_ = 'pgt' ;
 	}else{
 	    title_='扫描图查看';
 	    tableName_='T_SCANPIC';
+	    tab_ = 'sac' ;
 	}
 	insertBrowser(tableName_);
 	//alert(dataAry.length);
@@ -141,6 +143,7 @@ function previewImageA(dataArys , i ,typeNum){
 		if( i < dataArys.length){
 			//当前图片
 			var gpath = dataArys[i] ;
+			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=500 / >' +
 				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
 			

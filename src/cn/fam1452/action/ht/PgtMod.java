@@ -77,6 +77,7 @@ public class PgtMod extends BaseMod{
 	
 	/**
 	 * 上传单个高频图文件 
+	 * 保存文件的绝对路径到数据库中
 	 */
 	@POST
 	@At("/ht/pgtuploads")
@@ -92,7 +93,7 @@ public class PgtMod extends BaseMod{
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(gram.getGramFileName())){
 					if(fusu.cloneTmpFile2Other(gram.getGramFileName(), this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH) ){
-						gram.setGramPath(fusu.UPLOAD_PGT_PATH + gram.getGramFileName()); 
+						gram.setGramPath(getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + gram.getGramFileName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						gram.setGramID(gram.getGramFileName().substring(0, gram.getGramFileName().lastIndexOf(".")))  ;
 						
@@ -246,7 +247,7 @@ public class PgtMod extends BaseMod{
 		fusu.setServletContext(context) ;
 		
 		try {
-			String filepath = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_PGT_PATH , false); //存入实际目录
+			String filepath = getAppRealPath(context) + fusu.defaultProcessFileUpload(request , fusu.UPLOAD_PGT_PATH , false); //存入实际目录
 			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
 				//log.info(filepath) ;
 				int i = filepath.lastIndexOf("/") ;
@@ -401,7 +402,7 @@ public class PgtMod extends BaseMod{
 	 * @Date Mar 14, 2013
 	 * @param path
 	 * @param stationId
-	 * @param fileway
+	 * @param fileway 文件处理方式：复制、剪切 ？
 	 * @param fileprefix
 	 * @param datatype
 	 * @param context
@@ -696,27 +697,39 @@ public class PgtMod extends BaseMod{
 	public JSONObject saveServerFileDirectory(String path , String stationId , 
 			String fileprefix , String datatype , ServletContext context){
 		long start  = System.currentTimeMillis() ;
-		JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		//JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		JSONObject json = new JSONObject() ;
 		
 		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
 		fusu.setServletContext(context) ;
 		
 		progress = 0 ; //重置进度条值
 		
-		if(null != json && json.getBoolean(Constant.SUCCESS)){
+		if(true){
 			List<IronoGram> iglist = new ArrayList() ;           //存储解析成功的对象
 			String filter = "Thumbs.db" ;//排除不解析的文件
 			HashSet<String> ndyYear = new HashSet<String>() ;    //缓存往NDY表插入的年份值
 			StringBuilder failFile = new StringBuilder() ; //存储解析失败的文件名
-			int fail = 0 ;
+			Integer fail = 0 ;
 			
 			File root = new File(path) ;
-			File[] years = root.listFiles() ;              //更目录下得年列表
-			
+			File[] years = root.listFiles() ;              //根目录下得年份目录
+			int successTotal = 0 ;
 			if(null != years && years.length >0){
 				
 				for (File y : years) {
-					this.parserDirectory(y, filter, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail);
+					fail = this.parserDirectory(y, filter, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail);
+					
+					//每年的数据插入一次到数据库中
+					/*if(iglist.size() > 0){
+						successTotal += iglist.size() ;
+						baseService.dao.delete(iglist) ;
+						baseService.dao.insert(iglist) ;
+						iglist.clear() ;
+						log.info("iglist cleared size: " + iglist.size() ) ;
+					}*/
+					successTotal += iglist.size() ;
+					iglist.clear() ;
 				}
 				//向ndy中插入
 				for (String ye : ndyYear) {
@@ -728,64 +741,16 @@ public class PgtMod extends BaseMod{
 				}
 				//胶片频高图解析路径不一样
 				if("2".equals(datatype)){
-					for (File y : years) {
-						String year = y.getName() ;
-						if(null != y && y.isDirectory()){
-							//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year) ;
-							
-							File[] months = y.listFiles() ; //得到月份
-							for (File m : months) {
-								String month = m.getName() ;
-								//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month) ;
-								
-								File[] days = m.listFiles() ; //得到天数
-								for (File d : days) {
-									String day = d.getName() ;
-									//this.createDirectory(this.getAppRealPath(context) + fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day) ;
-									File[] dayFiles = d.listFiles() ;
-									for (File f : dayFiles) {
-										//处理文件复制或者是剪切
-										progress++ ;
-										String fn = f.getName() ;
-										fn = fn.replace(fileprefix, "") ;
-										Date date = null ;
-										if(!filter.equals(fn)){
-											date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern4) ;
-										}
-										if(null != date){
-											boolean ok = false ;
-											String rp = f.getAbsolutePath();
-											log.info(rp) ;
-											//得到文件路径即可
-											if(ok){
-												IronoGram ig = this.createIronoGram(f.getName() , datatype, stationId, date, fusu.UPLOAD_PGT_PATH + year + "/" +month + "/" + day + "/" + f.getName()) ;
-												iglist.add(ig) ;
-											}
-										}else{
-											fail++ ;
-											failFile.append(fn).append(",") ;
-										}
-									}
-								}
-							}
-							
-							dls.insertNDY(tableName, stationId, null, year) ;
-						}
-					}
-				}
 				*/
 				
 				json.put("fail", fail) ;
-				json.put("total", iglist.size() ) ;
-				
 				json.put("failfile", failFile.toString()) ;
 			}
 			
-			if(iglist.size() > 0){
-				baseService.dao.delete(iglist) ;
-				baseService.dao.insert(iglist) ;
+			if(successTotal > 0){
+				json.put("total", successTotal ) ;
 				json.put(Constant.SUCCESS, true) ;
-				
+				//向日志表插入记录
 				dls.insert("01", tableName, getHTLoginUserName()) ;
 			}
 		}
@@ -794,9 +759,9 @@ public class PgtMod extends BaseMod{
 		return json ;
 	}
 	
-	private void parserDirectory(File directory , String filters , String fileprefix , String stationId , 
+	private synchronized Integer parserDirectory(File directory , String filters , String fileprefix , String stationId , 
 			String datatype , List<IronoGram> iglist , HashSet<String> ndyYear,StringBuilder failFile ,
-			int fail){
+			Integer fail){
 		if(null != directory && directory.isDirectory()){
 			File[] yearFiles = directory.listFiles() ;
 			for (File f : yearFiles) {
@@ -809,6 +774,8 @@ public class PgtMod extends BaseMod{
 						iglist.add(ig) ;
 						ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
 						//log.info( ig.getGramPath() ) ;
+						baseService.dao.delete(ig) ;
+						baseService.dao.insert(ig) ;
 					}else{
 						fail++ ;
 						failFile.append(fn).append(",") ;
@@ -819,9 +786,12 @@ public class PgtMod extends BaseMod{
 				}
 			}
 		}
+		
+		return fail ;
 	}
 	/**
 	 * 解析文件得到IronoGram对象
+	 * @param fileprefix 文件名中的前缀
 	 * @return
 	 */
 	public static IronoGram parserFile(File file , String filters , String fileprefix , String stationId , String datatype){
@@ -829,7 +799,7 @@ public class PgtMod extends BaseMod{
 		Date date = null ;
 		String fn = file.getName() ;
 		if(filters.indexOf(fn) == -1 ){
-			fn = fn.replace(fileprefix, "") ;
+			fn = fn.replaceAll(fileprefix, "") ;
 			//手动频高图解析
 			if("1".equals(datatype)){
 				date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern5) ;
