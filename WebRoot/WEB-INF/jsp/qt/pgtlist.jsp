@@ -27,12 +27,11 @@
 	if(null!=request.getAttribute("pgtlist")){	
 	  List<IronoGram>  list  = (List<IronoGram>)request.getAttribute("pgtlist");
 	  IronoGram irg = null;
-	  String imgPath ="";
+	  //String imgPath ="";
 	  for(int i=0;i<list.size();i++){
 		   irg = (IronoGram)list.get(i);
-		   imgPath =irg.getGramPath();
 		  %>
-		  dataAry[<%=i%>] ='<%=imgPath%>';
+		  dataAry[<%=i%>] ='<%=irg.getGramID()%>';
 		  <%
 	  }
 	}

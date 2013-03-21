@@ -179,11 +179,13 @@ public class UserMod  extends BaseMod{
         	int height = 400 ;
         	BufferedImage bfimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);// 在内存中创建图象
             Graphics2D raphics = (Graphics2D) bfimage.getGraphics();// 获取图形上下文
-            raphics.setColor(new Color(200,200,0));// 设定为白色背景色
+            raphics.setColor(new Color(250,250,250));// 设定为白色背景色
             raphics.fillRect(0, 0, width, height);
-            raphics.setFont(new Font("Times New Roman", Font.ITALIC, 22));// 设定字体
-            raphics.drawString("图片没找到", 30, 30);
+            raphics.setFont(new Font("Dialog", Font.ITALIC, 22));// 设定字体
+            raphics.setColor(Color.BLACK);// 设置为黑色字体
+            raphics.drawString("图片没找到", 30, 100);
             raphics.dispose(); // 图象生效
+            
             ImageIO.write(bfimage, "JPEG", ios);
         }
         

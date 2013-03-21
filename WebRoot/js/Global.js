@@ -47,10 +47,10 @@ function previewImage(gridId , i , idField,title_ , tab_){
 			
 			//绑定事件
 			$("#but1").one("click", function(){
-				previewImage(gridId , i-1,idField,title_) ;
+				previewImage(gridId , i-1,idField,title_ , tab_) ;
 			});
 			$("#but4").one("click", function(){
-				previewImage(gridId , i+1,idField,title_) ;
+				previewImage(gridId , i+1,idField,title_ , tab_) ;
 			});
 			
 			$("#but2").bind("click", function(){
@@ -142,7 +142,7 @@ function previewImageA(dataArys , i ,typeNum){
 		
 		if( i < dataArys.length){
 			//当前图片
-			var gpath = dataArys[i] ;
+			var gpath = dataArys[i] ; 
 			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
 			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=500 / >' +
 				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
@@ -154,10 +154,10 @@ function previewImageA(dataArys , i ,typeNum){
 			
 			//绑定事件
 			$("#but1").one("click", function(){
-				previewImageA(dataArys , i-1,title_) ;
+				previewImageA(dataArys , i-1,typeNum) ;
 			});
 			$("#but4").one("click", function(){
-				previewImageA(dataArys , i+1,title_) ;
+				previewImageA(dataArys , i+1,typeNum) ;
 			});
 			
 			$("#but2").bind("click", function(){

@@ -308,6 +308,7 @@ $(document).ready(function(){
                         html.push("<p>文件总数： "+json.fileTotal ) ;
                         html.push("<p><b>核对以上信息，若正确请点击‘保存’按钮继续操作</b>") ;
                         $('#reviewinfo-id').html(html.join('</p>')).removeClass() ;
+                        $('#errormsg3').html('') ;
 	                    //alert(html.join('</p>')) ;
                         
                         //$('#year_serverdir').val(json.year);
@@ -315,7 +316,7 @@ $(document).ready(function(){
                         $("#savebyserverdir").unbind( "click" ) ;
                         $('#savebyserverdir').click(function(){
 	                        $("#savebyserverdir").unbind( "click" ) ;
-                            $("#reviewinfo-id").html("go ...").addClass('aligncenter');
+                            $("#reviewinfo-id").html("go ...");
 					        var data1 = {
 				                url :'ht/pgtsaveserverrealpath.do' ,
 				                params :{'path' : json.path ,'fileway': 'c' , 'datatype':dt , 'fileprefix' : ff , stationId: ssd},

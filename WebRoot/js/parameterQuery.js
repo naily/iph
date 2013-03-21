@@ -321,7 +321,7 @@ $("#allDate").click(function() {
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">'+select_type_ionogram+'</a>';
+							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramID\',\'频高图查看\',\'pgt\');" class="a3">'+select_type_ionogram+'</a>';
 	                       if(rowData.station.address=='1'){//此处address=1 表示 有对应的扫描图
 							  optHrefStr+='&nbsp;<a href="javascript:previewScanpic(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_Report_scan+'</a>';
 							}
@@ -344,7 +344,7 @@ $("#allDate").click(function() {
 		           header : option_button,
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'gramPath\',\'扫描图查看\');" class="a3">'+select_type_Report_scan+'</a>';
+							var optHrefStr='<a href="javascript:previewImage(\'#paraQueryGrid\','+rowIndex+',\'scanPicID\',\'扫描图查看\',\'sac\');" class="a3">'+select_type_Report_scan+'</a>';
 	                         if(rowData.station.address=='1'){//此处homepage=1 表示 有对应的频高图
 								optHrefStr+='&nbsp;<a href="javascript:previewPgt(\''+rowData.stationID+'\',\''+rowData.createDate+'\');" class="a3">'+select_type_ionogram+'</a>';
 							}
@@ -441,7 +441,7 @@ function previewPgt(stationId,createDate){
 		           header : '操作',
 						name : 'operateTYpe',
 						renderer: function(colValue, rowData, rowIndex){
-	                         return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramPath\',\'频高图查看\');" class="a3">查看频高图 </a>';
+	                         return '<a href="javascript:previewImage(\'#paraQueryGrid3\','+rowIndex+',\'gramID\',\'频高图查看\' ,\'pgt\');" class="a3">查看频高图 </a>';
 	                         },
 						width : 200
 			 }
