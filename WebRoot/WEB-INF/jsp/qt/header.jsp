@@ -98,9 +98,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				     <tr>
-				    <td class="userregtd">${msg['qt_regist_country']}：</td>
+				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_country']}：</td>
 				    <td><input name="country" id="country" class="boxinput3" /></td>
-				    <td class="userregtd_img"></td>
+				    <td class="userregtd_img"><span class="errorImg"></span><span class="errorMsg"></span></td>
 				    </tr>
 				  <tr>
 				    <td class="userregtd"><font color="red">*</font>${msg['qt_regist_region']}：</td>

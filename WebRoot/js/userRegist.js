@@ -182,6 +182,9 @@ function validateReg(){
 					vocation : {
 						required : true
 					},
+					country : {
+						required : true
+					},
 					region : {
 						required : true
 					}
@@ -211,6 +214,9 @@ function validateReg(){
 					},
 					vocation : {
 						required : '请选择职业'
+					},
+					country : {
+						required : '请选择所在国家'
 					},
 					region : {
 						required : '请选择区域'
