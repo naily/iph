@@ -87,7 +87,9 @@ function previewImage(gridId , i , idField,title_ , tab_){
  * 图片浏览器（图片地址，弹出窗口标题）
  *  支持缩放，不翻页
  */
-function previewImageForScanpic(filePath_,title_){			
+function previewImageForScanpic(sacId_,title_){			
+	
+	var filePath_ = gpath = "/qt/getimage.do?imageid=" + sacId_ + "&tab=sac" ;
 			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +
 				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');
 			

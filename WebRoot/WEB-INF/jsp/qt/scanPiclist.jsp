@@ -25,13 +25,11 @@
 	<% 
 	if(null!=request.getAttribute("smtlist")){			
 	  List<Scanpic>  list  = (List<Scanpic>)request.getAttribute("smtlist");
-	  String  imgPath ="";
 	  Scanpic spic=null;
 	  for(int i=0;i<list.size();i++){
 		   spic = (Scanpic)list.get(i);
-		   imgPath =spic.getGramPath();		 
 		  %>
-		  dataAry[<%=i%>] ='<%=imgPath%>';
+		  dataAry[<%=i%>] ='<%=spic.getScanPicID()%>';
 		  <%
 	  }
 	}

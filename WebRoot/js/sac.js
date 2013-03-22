@@ -224,7 +224,7 @@ $(document).ready(function(){
         }
         //检测必要输入参数
         var ssd = $('#station_serverdir').omCombo('value') ;//观测站
-        var fw = $('#fileway').omCombo('value') ;//复制还是剪切
+        //var fw = $('#fileway').omCombo('value') ;//复制还是剪切
         //var dt = $('#dataTypeCombox').omCombo('value') ;//数据类型决定解析规则
         var ff = $('#fileprefix').val() ;//文件名前缀
         var fsd = $('#file_serverdir').val() ;//路径
@@ -236,10 +236,10 @@ $(document).ready(function(){
             alert( '请选择观测站') ;
             return ;
         }
-        if(!fw){
+        /*if(!fw){
             alert( '请选择处理方式') ;
             return ;
-        }
+        }*/
 //        if(!dt){
 //            alert( '请选择数据类型') ;
 //            return ;
@@ -251,13 +251,13 @@ $(document).ready(function(){
         
         var data = {
                 url :'ht/sactestserverpath.do' ,
-                params :{'path' : fsd , 'sid': ssd,'fileway': fw ,   'fileprefix' : ff},
+                params :{'path' : fsd , 'sid': ssd,  'fileprefix' : ff},
                 callback : function(json){
                     if(json.success){
                         //显示测试信息
                         var html = new Array();
                         html.push("<p><b>测试结果</b>") ;
-                        html.push("<p>频高图解析方式： "+ ('1' == json.pgttype ? '(手动)' : '(胶片)')) ;
+                        html.push("<p>测试解析方式： 原始观测报表扫描图") ;
                         html.push("<p>年份数： "+json.yearTotal ) ;
                         html.push("<p>年份名称： "+json.info ) ;
                         html.push("<p>文件总数： "+json.fileTotal ) ;
@@ -272,8 +272,8 @@ $(document).ready(function(){
                         $('#savebyserverdir').click(function(){
                             //$("#reviewinfo-id").html("<img src='images/waiting.gif' width=100 border=0><p>正在导入...</p>").addClass('aligncenter');
                             var data1 = {
-                                url :'ht/sacsaveserverpath.do' ,
-                                params :{'path' : json.path ,'fileway': fw ,  'fileprefix' : ff , stationId: ssd},
+                                url :'ht/sapsaveserverrealpath.do' ,
+                                params :{'path' : json.path , 'fileprefix' : ff , stationId: ssd},
                                 callback : function(json4){
                                     $("#savebyserverdir").unbind( "click" ) ;
                                     $('#reviewinfo-id').html('').removeClass() ;
@@ -294,6 +294,9 @@ $(document).ready(function(){
                                     
                                 }
                             }
+                            $('#reviewinfo-id').html('go...') ;
+                            $('#errormsg3').html('');
+                            $("#savebyserverdir").unbind( "click" ) ;
                             ajaxpost(data1);
                             //$("#savebyserverdir").attr("disabled" , "disabled"); //禁用提交按钮
                             $("#reviewinfo-id").progressBar();
@@ -326,7 +329,8 @@ $(document).ready(function(){
                     
                 }
         }
-        
+        $('#reviewinfo-id').html("正在执行 ,请稍后....") ;
+        $('#errormsg3').html('');
         ajaxpost(data);
     });
     

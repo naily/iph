@@ -86,7 +86,7 @@ public class DataLogService extends Base{
 				StringUtil.checkNotNull(stationId) &&
 				StringUtil.checkNotNull(year) ){
 			
-			ndy.setId(String.valueOf(System.currentTimeMillis())) ;
+			ndy.setId(String.valueOf(System.currentTimeMillis()+ year )) ;
 			ndy.setDataTable(dataTable) ;
 			ndy.setStationId(stationId) ;
 			ndy.setStationName(String.valueOf(stationName)) ;

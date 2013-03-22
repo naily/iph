@@ -73,6 +73,7 @@ public class QTScanPicMod extends BaseMod{
 		String tableName="T_SCANPIC";
 		if(null!=scp && StringUtil.checkNotNull(paraQuery.getYear())){
 			queryYear =paraQuery.getYear();
+			scp.setQueryYear(queryYear);
 			paraQuery.setStartDate(queryYear+"-01-01");
 			paraQuery.setEndDate(queryYear+"-12-31");
 		}
@@ -275,7 +276,7 @@ public class QTScanPicMod extends BaseMod{
 	 * 下载报表扫描图
 	 * */
 	@At("/qt/downloadScanpic")
-	@Ok("json")
+	@Ok("raw")
 	public void downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")Scanpic scp){
 		//JSONObject json = new JSONObject();
 		//json.put(Constant.SUCCESS, false);

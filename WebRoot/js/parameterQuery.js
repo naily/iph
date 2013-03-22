@@ -471,7 +471,7 @@ height=500 width=600 / >');
 :'auto'});
 					$( "#imagePreview").omDialog('open');
 				}*/
-				previewImageForScanpic(json.data.gramPath,'扫描图查看');
+				previewImageForScanpic(json.data.scanPicID,'扫描图查看');
 			} else {
 				at({
 						cont : '没有找到对应的报表扫描图！',
@@ -570,7 +570,8 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
  * 图片浏览器
  *  电离层参数列表中，查看报表扫描图，不翻页width=600
  */
-function previewImageForScanpic(filePath_,title_){			
+function previewImageForScanpic(sacId_,title_){		
+	var filePath_ = gpath = "/qt/getimage.do?imageid=" + sacId_ + "&tab=sac" ;
 			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');			
 			$( "#imagePreview").omDialog({title:title_, height: 'auto' , width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){

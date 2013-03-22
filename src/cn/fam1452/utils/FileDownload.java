@@ -137,7 +137,7 @@ public class FileDownload {
 	public static float fileDownLoads(HttpServletRequest request,
 			HttpServletResponse response, String filepath) throws IOException {
 		response.setContentType(CONTENT_TYPE);
-		String downloadfile = request.getSession().getServletContext().getRealPath(filepath);
+		String downloadfile = filepath;
 		long k = 0;// 该值用于计算当前实际下载了多少字节
 		float fizeSize=0.0f;
 		if (downloadfile != null && !downloadfile.equals("")) {

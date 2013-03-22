@@ -86,7 +86,7 @@ public class ScanpicMod extends BaseMod{
 		fusu.setServletContext(context) ;
 		
 		try {
-			String filepath = fusu.defaultProcessFileUpload(request , fusu.UPLOAD_SAC_PATH ,false ); //存入实际目录
+			String filepath = this.getAppRealPath(context) + fusu.defaultProcessFileUpload(request , fusu.UPLOAD_SAC_PATH ,false ); //存入实际目录
 			if( StringUtil.checkNotNull(filepath) && filepath.length() >= 25){
 				//log.info(filepath) ;
 				int i = filepath.lastIndexOf("/") ;
@@ -269,7 +269,7 @@ public class ScanpicMod extends BaseMod{
 				//把临时目录中的对应的文件转存，并在数据库中保存一条记录
 				if(StringUtil.checkNotNull(sac.getScanPicFileName() )){
 					if(fusu.cloneTmpFile2Other(sac.getScanPicFileName(), this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH) ){
-						sac.setGramPath(fusu.UPLOAD_SAC_PATH + fusu.getTargetFile().getName()); 
+						sac.setGramPath(this.getAppRealPath(context) + fusu.UPLOAD_SAC_PATH + fusu.getTargetFile().getName()); 
 						//去掉文件的扩展名，做数据库记录ID
 						sac.setScanPicID(sac.getScanPicFileName().substring(0, sac.getScanPicFileName().lastIndexOf(".")))  ;
 						
@@ -562,5 +562,130 @@ public class ScanpicMod extends BaseMod{
 			st = dirf.mkdirs() ;
 		}
 		return st ;
+	}
+	
+	/**
+	 * 从服务器中扫描文件，保存文件路径绝对路径
+	 * @Author Derek
+	 * @Date Mar 14, 2013
+	 * @param path     		要扫描的目录
+	 * @param stationId 	观测站ID
+	 * @param fileprefix  	图像文件名中的前缀
+	 * @param context
+	 * @return
+	 */
+	@POST
+	@At("/ht/sapsaveserverrealpath")
+    @Ok("json")
+	public JSONObject saveServerFileDirectory(String path , String stationId , 
+			String fileprefix , ServletContext context){
+		long start  = System.currentTimeMillis() ;
+		//JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		JSONObject json = new JSONObject() ;
+		
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
+		
+		progress = 0 ; //重置进度条值
+		
+		if(true){
+			List<Scanpic> iglist = new ArrayList() ;           //存储解析成功的对象
+			String filter = "Thumbs.db" ;//排除不解析的文件
+			HashSet<String> ndyYear = new HashSet<String>() ;    //缓存往NDY表插入的年份值
+			StringBuilder failFile = new StringBuilder() ; //存储解析失败的文件名
+			Integer fail = 0 ;
+			
+			File root = new File(path) ;
+			File[] years = root.listFiles() ;              //根目录下得年份目录
+			int successTotal = 0 ;
+			if(null != years && years.length >0){
+				
+				for (File y : years) {
+					fail = this.parserDirectory(y, filter, fileprefix, stationId, iglist, ndyYear, failFile, fail);
+					
+					//每年的数据插入一次到数据库中
+					/*if(iglist.size() > 0){
+						successTotal += iglist.size() ;
+						baseService.dao.delete(iglist) ;
+						baseService.dao.insert(iglist) ;
+						iglist.clear() ;
+						log.info("iglist cleared size: " + iglist.size() ) ;
+					}*/
+					successTotal += iglist.size() ;
+					iglist.clear() ;
+				}
+				//向ndy中插入
+				for (String ye : ndyYear) {
+					dls.insertNDY(tableName, stationId, null, ye) ;
+				}
+				
+				json.put("fail", fail) ;
+				json.put("failfile", failFile.toString()) ;
+			}
+			
+			if(successTotal > 0){
+				json.put("total", successTotal ) ;
+				json.put(Constant.SUCCESS, true) ;
+				//向日志表插入记录
+				dls.insert("01", tableName, getHTLoginUserName()) ;
+			}
+		}
+		//log.info("用时毫秒数： " + (System.currentTimeMillis() - start)) ;
+		json.put("usedtime", (System.currentTimeMillis() - start)/1000) ;
+		return json ;
+	}
+	
+	private synchronized Integer parserDirectory(File directory , String filters , String fileprefix , String stationId , 
+			List<Scanpic> iglist , HashSet<String> ndyYear,StringBuilder failFile ,
+			Integer fail){
+		if(null != directory && directory.isDirectory()){
+			File[] yearFiles = directory.listFiles() ;
+			for (File f : yearFiles) {
+				String fn = f.getName() ;
+				
+				if(f.isFile() ){ //处理文件
+					progress++ ;
+					Scanpic sap = parserFile(f , filters, fileprefix, stationId) ;
+					if(null != sap) {
+						iglist.add(sap) ;
+						ndyYear.add(DateUtil.getYearstrByDate(sap.getCreateDate())) ;
+						//log.info( ig.getGramPath() ) ;
+						baseService.dao.delete(sap) ;
+						baseService.dao.insert(sap) ;
+					}else{
+						fail++ ;
+						failFile.append(fn).append(",") ;
+					}
+					
+				}else{ //处理目录
+					this.parserDirectory(f, filters, fileprefix, stationId, iglist, ndyYear, failFile, fail) ;
+				}
+			}
+		}
+		
+		return fail ;
+	}
+	
+	public static Scanpic parserFile(File file , String filters , String fileprefix , String stationId ){
+		Scanpic sac = null ;
+		Date date = null ;
+		String fn = file.getName() ;
+		if(filters.indexOf(fn) == -1 ){
+			fn = fn.replaceAll(fileprefix, "") ;
+			date = DateUtil.convertStringToDate(StationUtil.removeSuffix(fn) , DateUtil.pattern3) ;
+			
+			if(null != date){
+				String rp = file.getAbsolutePath();
+				sac = new Scanpic() ;
+				sac.setScanPicID(StationUtil.removeSuffix(fn)) ;
+				sac.setScanPicFileName(fn) ;
+				sac.setGramPath(rp ) ;
+				sac.setScanPicTitle(fn) ;
+				sac.setCreateDate( date ) ;
+				sac.setStationID(stationId) ;
+			}
+		}
+		
+		return sac ;
 	}
 }

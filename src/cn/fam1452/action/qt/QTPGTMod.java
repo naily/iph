@@ -143,7 +143,9 @@ public class QTPGTMod extends BaseMod{
 		String  tableName="T_IRONOGRAM";
 		String queryYear ="";
 		if(null!=irg && StringUtil.checkNotNull(paraQuery.getYear())){
+			
 			queryYear =paraQuery.getYear();
+			irg.setQueryYear(queryYear);
 			paraQuery.setStartDate(queryYear+"-01-01");
 			paraQuery.setEndDate(queryYear+"-12-31");
 		}
@@ -349,8 +351,8 @@ public class QTPGTMod extends BaseMod{
 		
 	}
 	@At("/qt/downloadPGT")
-	@Ok("json")
-	public JSONObject downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
+	@Ok("raw")
+	public void downloadPGT(HttpSession session ,HttpServletRequest req,HttpServletResponse res,@Param("..")IronoGram irg){
 		//JSONObject json = new JSONObject();
 		//json.put(Constant.SUCCESS, false);
 		String gramID = irg.getGramID();
@@ -360,13 +362,13 @@ public class QTPGTMod extends BaseMod{
 			if(!"".equals(getQTLoginUserID())){
 				dvs.insert("T_IRONOGRAM", "03", 1, getQTLoginUserID(), GetIP.getIpAddr(req), fileSize);
 			}
-			return null;
+			//return null;
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
 		//return json;
-		return null;
+		//return null;
 	}
 	/**
 	 * 频高图查看

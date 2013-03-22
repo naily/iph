@@ -373,6 +373,7 @@ $(document).ready(function(){
                 }
         }
         $('#reviewinfo-id').html("正在执行 ,请稍后....") ;
+        $('#errormsg3').html('');
         ajaxpost(data);
     });
     
