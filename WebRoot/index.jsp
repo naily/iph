@@ -81,9 +81,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="rightbox2_5">
 <div class="title6">${msg['index_taizhan_title']}</div>
 <div class="rightbox2_5_img" id="">
-<a href="#a"><img src="images/mapmini.png" alt="" border="0" height="110" align="left"/></a></div>
+<a href="qt/smap.do" target="blank"><img src="images/mapmini.png" alt="" border="0" height="110" align="left"/></a></div>
 		<div class="rightbox2_5_text">
-			<a href="javascript:void(0)" id="" class="a2">
+			<a href="qt/smap.do" id="" class="a2" target="blank">
 				${msg['index_taizhan_jianjie']}
 			</a>
 		</div>	
