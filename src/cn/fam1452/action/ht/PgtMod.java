@@ -697,17 +697,17 @@ public class PgtMod extends BaseMod{
 	public JSONObject saveServerFileDirectory(String path , String stationId , 
 			String fileprefix , String datatype , ServletContext context){
 		long start  = System.currentTimeMillis() ;
-		//JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;
+		//JSONObject json = LocalFileUtil.testServerFileDirectory(path) ;  
 		JSONObject json = new JSONObject() ;
 		
-		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
-		fusu.setServletContext(context) ;
+		//OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		//fusu.setServletContext(context) ;
 		
 		progress = 0 ; //重置进度条值
 		
 		if(true){
 			List<IronoGram> iglist = new ArrayList() ;           //存储解析成功的对象
-			String filter = "Thumbs.db" ;//排除不解析的文件
+			
 			HashSet<String> ndyYear = new HashSet<String>() ;    //缓存往NDY表插入的年份值
 			StringBuilder failFile = new StringBuilder() ; //存储解析失败的文件名
 			Integer fail = 0 ;
@@ -718,7 +718,7 @@ public class PgtMod extends BaseMod{
 			if(null != years && years.length >0){
 				
 				for (File y : years) {
-					fail = this.parserDirectory(y, filter, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail);
+					fail = this.parserDirectory(y, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail);
 					
 					//每年的数据插入一次到数据库中
 					/*if(iglist.size() > 0){
@@ -729,7 +729,7 @@ public class PgtMod extends BaseMod{
 						log.info("iglist cleared size: " + iglist.size() ) ;
 					}*/
 					successTotal += iglist.size() ;
-					iglist.clear() ;
+					iglist = new ArrayList();
 				}
 				//向ndy中插入
 				for (String ye : ndyYear) {
@@ -759,7 +759,7 @@ public class PgtMod extends BaseMod{
 		return json ;
 	}
 	
-	private synchronized Integer parserDirectory(File directory , String filters , String fileprefix , String stationId , 
+	private  Integer parserDirectory(File directory , String fileprefix , String stationId , 
 			String datatype , List<IronoGram> iglist , HashSet<String> ndyYear,StringBuilder failFile ,
 			Integer fail){
 		if(null != directory && directory.isDirectory()){
@@ -769,7 +769,7 @@ public class PgtMod extends BaseMod{
 				
 				if(f.isFile() ){ //处理文件
 					progress++ ;
-					IronoGram ig = parserFile(f , filters, fileprefix, stationId, datatype) ;
+					IronoGram ig = parserFile(f , fileprefix, stationId, datatype) ;
 					if(null != ig) {
 						iglist.add(ig) ;
 						ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
@@ -782,7 +782,7 @@ public class PgtMod extends BaseMod{
 					}
 					
 				}else{ //处理目录
-					this.parserDirectory(f, filters, fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail) ;
+					this.parserDirectory(f,  fileprefix, stationId, datatype, iglist, ndyYear, failFile, fail) ;
 				}
 			}
 		}
@@ -794,11 +794,12 @@ public class PgtMod extends BaseMod{
 	 * @param fileprefix 文件名中的前缀
 	 * @return
 	 */
-	public static IronoGram parserFile(File file , String filters , String fileprefix , String stationId , String datatype){
+	public static IronoGram parserFile(File file ,  String fileprefix , String stationId , String datatype){
 		IronoGram ig = null ;
 		Date date = null ;
 		String fn = file.getName() ;
-		if(filters.indexOf(fn) == -1 ){
+		String filter = "Thumbs.db" ;//排除不解析的文件
+		if(!filter.equals(fn)){
 			fn = fn.replaceAll(fileprefix, "") ;
 			//手动频高图解析
 			if("1".equals(datatype)){
@@ -810,11 +811,11 @@ public class PgtMod extends BaseMod{
 			}
 			
 			if(null != date){
-				String rp = file.getAbsolutePath();
+				//String rp = ;
 				ig = new IronoGram() ;
 				ig.setGramID(StationUtil.removeSuffix(fn)) ;
 				ig.setGramFileName(fn) ;
-				ig.setGramPath(rp ) ;
+				ig.setGramPath( file.getAbsolutePath() ) ;
 				ig.setGramTitle(fn) ;
 				
 				ig.setCreateDate( date ) ;

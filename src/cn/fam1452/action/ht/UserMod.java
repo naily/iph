@@ -132,7 +132,7 @@ public class UserMod  extends BaseMod{
 	 * 登录验证码
 	 */
 	@At("/ht/logincode")
-	@Ok("void")
+	@Ok("raw")
 	public void imageCode(HttpServletRequest req , HttpServletResponse response)throws ServletException, IOException{
 		//生成100px*22px的包含6个字符的验证码
     	HttpSession session = req.getSession();
