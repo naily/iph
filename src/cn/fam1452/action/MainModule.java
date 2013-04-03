@@ -35,7 +35,7 @@ import org.nutz.mvc.ioc.provider.JsonIocProvider;
     "cn.fam1452.service",
     "cn.fam1452.action"})
 @SetupBy(MvcSetup.class)
-@Localization("i18n" )
+@Localization( value="i18n", defaultLocalizationKey="zh_CN")
 @Fail("json")
 public class MainModule {
 }

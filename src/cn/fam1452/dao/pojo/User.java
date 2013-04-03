@@ -30,7 +30,7 @@ public class User extends Pages{
 	
 	@Column
     @ColDefine(type=ColType.VARCHAR, width=50)
-	private transient String password ;
+	private String password ;
 	
 	public String getCode() {
 		return code;

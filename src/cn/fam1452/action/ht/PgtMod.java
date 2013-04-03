@@ -774,8 +774,10 @@ public class PgtMod extends BaseMod{
 						iglist.add(ig) ;
 						ndyYear.add(DateUtil.getYearstrByDate(ig.getCreateDate())) ;
 						//log.info( ig.getGramPath() ) ;
-						baseService.dao.delete(ig) ;
-						baseService.dao.insert(ig) ;
+						if(baseService.dao.count(IronoGram.class, Cnd.where("gramID", "=", ig.getGramID())) > 0){
+							baseService.dao.delete(ig) ;
+						}
+						baseService.dao.fastInsert(ig) ;
 					}else{
 						fail++ ;
 						failFile.append(fn).append(",") ;
