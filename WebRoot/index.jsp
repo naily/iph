@@ -34,7 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="title4">${msg['index_project_description']}</div>
 	<c:choose>
 		 <c:when test='${msg.lang=="zh"}'> 
-			由于地球磁场的特殊位形，极区空间物理的观测研究在日地能量传输过程的研究中占有极其重要的地位。我国南极中山站（69°22′S，76°23′E，不变磁纬74.5°，L=13.9）白天处于磁层极隙区，晚上处于极盖区，可以观测到丰富的日地能量传输过程的电离层征兆和极光现象，是开展高空大气物理观测研究的理想之地。通过与日本、澳大利亚等的国际合作，自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。该系统由电离层、极光、地磁等方面的8台观测仪器组成。自1995年起我国在南极中山站逐步建立了高空大气综合观测系统。
+			<p>电离层专题数据库是国家科技基础性工作专项重点项目“电离层历史资料整编和电子浓度剖面及区域特性图集编研” （项目编号：2008FY120100）的电离层数据整理和编研后形成的数据应用系统，该项目是通过对武汉电离层站60年历史积累的电离层测高仪手动人工观测、胶片频高图和数字频高图资料，
+			按国际新标准统一进行度量、处理和参数提取，获得完整的我国中部（武汉）电离层参数、频高图和电子浓度剖面等数据集。同时收集我国及周边有关台站资料，通过定点定期流动观测，获得我国电离层观测空白区资料，在此基础上研究编制中国电离层地区特性变化图，形成我国历史最久、连续性最好，
+			符合国际标准规范的电离层特性数据集和图集，它们能全面地反映我国电离层时间和空间多尺度变化特性，为我国电离层地区特性等基础科学研究，提供重要的基础性资料，同时也为我国地球空间环境预报和相关空间技术研究，提供多种电离层参量信息保障。</p>
+			<p>项目由中国科学院地质与地球物理研究所承担，负责项目的组织实施和有关资料收集、数字化、录入、分析处理、校正和编研。并委托合作单位中科院地理科学与资源研究所开展元数据标准和数据建库规范等研制，完成项目需要的电离层专题数据库开发和建设。</p>
 		</c:when>
 		<c:otherwise>
 			Special bit-shaped due to the Earth's magnetic field, the observations of the polar region of space physics research in the study of energy transfer processes in the Sun-Earth occupies an extremely important position. China's Antarctic Zhongshan Station (69 ° 22'S, 76 ° 23'E constant magnetic latitude 74.5 °, L = 13.9) during the day and in the magnetospheric cusp, night is polar cap, can be observed rich day of energy sign of ionospheric and auroral phenomena in the transmission process, it is the ideal place to carry out observational studies of upper atmospheric physics. Through international cooperation with Japan, Australia, since 1995 our country in the Antarctic Zhongshan Station to gradually establish the upper atmosphere observation system. The system is composed by eight of the ionosphere, auroras, geomagnetic observation instruments. Zhongshan Station in Antarctica since 1995, China has gradually established upper atmospheric observing systems.							
