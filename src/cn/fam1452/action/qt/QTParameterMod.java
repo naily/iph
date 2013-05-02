@@ -6,6 +6,7 @@ package cn.fam1452.action.qt;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -882,7 +883,10 @@ public class QTParameterMod extends BaseMod {
 				}else{
 					station.setHomepage("0");
 				}
-				Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",para.getStationID()).and("createDate","=",para.getCreateDate()));	
+				
+				String queryDate= DateUtil.convertDateToString(para.getCreateDate(),"yyyy-MM-dd");
+				Date dd = DateUtil.convertStringToDate(queryDate, "yyyy-MM-dd");
+				Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",para.getStationID()).and("createDate","=",dd));	
 				if(null!=idd){
 					station.setAddress("1");
 				 }else{

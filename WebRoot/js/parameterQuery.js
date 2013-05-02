@@ -557,7 +557,7 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 							}
 	                        return  optHrefStr ;
 	                         },
-						width : 150
+						width : 200
 			 }
 			}				
 			 //=========================

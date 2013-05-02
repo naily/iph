@@ -311,7 +311,10 @@ public class QTPGTMod extends BaseMod{
 					}else{
 						station.setHomepage("0");
 					}
-					Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",id).and("createDate","like",iro.getCreateDate()+"%"));	
+					//Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",id).and("createDate","like",iro.getCreateDate()+"%"));	
+					String queryDate= DateUtil.convertDateToString(iro.getCreateDate(),"yyyy-MM-dd");
+					Date dd = DateUtil.convertStringToDate(queryDate, "yyyy-MM-dd");
+					Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",iro.getStationID()).and("createDate","=",dd));	
 					if(null!=idd){
 						station.setAddress("1");
 					 }else{
