@@ -172,18 +172,18 @@ ${msg['qt_data_download_quantity']}：<span id="downloadAmount"></span>
   <!--搜索结束-->
 <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title0"></span></td>
+    <td height="20" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title0"></span></td>
     </tr>
   <tr>
     <td width="135" ><div class="rightbox3_img" id="metaData_img0"></div></td>
-    <td><div class="rightbox3_text" id="metaData_Summary0"></div></td>
+    <td><p class="rightbox3_text" id="metaData_Summary0"></p></td>
   </tr>
     <tr>
-    <td height="30" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title1"></span></td>
+    <td height="20" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title1"></span></td>
     </tr>
   <tr>
     <td width="135" ><div class="rightbox3_img" id="metaData_img1"></div></td>
-    <td><div class="rightbox3_text" id="metaData_Summary1"></div></td>
+    <td><p class="rightbox3_text" id="metaData_Summary1"></p></td>
   </tr>  
   
     <tr>

@@ -117,7 +117,10 @@ font-weight:bold;
 .rightbox3_2{ width:498px; height:312px;overflow:hidden; line-height:24px; font-size:13px;  border:1px solid #e7e7e7; padding-top:10px; position:relative;  }
 .rightbox3_2_m{ margin-bottom:15px;}
 .rightbox3_img{ width:120px; height:90px; margin:5px ;  background:#f5f5f5;  border:1px solid #e7e7e7; }
-.rightbox3_text{ width:330px; height:82px; margin:5px;  background:#f5f5f5; text-indent:2em; padding:5px; overflow: hidden;}
+.rightbox3_text{ width:330px; height:82px; margin:5px;  background:#f5f5f5; text-indent:2em; padding:5px;
+
+overflow:hidden;
+}
 .textarea1{ width:190px; height:70px; margin:5px ;}
 #bottom{ clear:both; width:1003px; height:66px; background:url(d07.jpg) repeat-x; text-align:center; line-height:24px; color:#ffffff; padding-top:30px; }
 
