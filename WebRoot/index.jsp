@@ -70,10 +70,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
       </tr>
     </table>
-
-		
-		
-		
 	</div>
 	<!--rightbox2_1 结束-->
 		
@@ -145,32 +141,29 @@ ${msg['qt_data_download_quantity']}：<span id="downloadAmount"></span>
 </div><!--rightbox2 结束-->
 
 <div class="rightbox3_2" style="height: 310px;overflow: hidden;"> 
-<form id="metaDataQueryForm"  name="metaDataQueryForm" action="qt/metaDataList.do" method="post" onSubmit="return queryMetaData()">
+<form id="metaDataQueryForm"  name="metaDataQueryForm" action="qt/metaDataList.do" method="post" >
  <table width="99%" border="0" cellspacing="0" cellpadding="0" class="rightbox3_2_m">
     <tr>
       <td width="46" height="34" align="right" class="fontstyle2" ><img src="images/d09.jpg" width="41" height="34" /></td>
       <td width="88" align="left" class="fontstyle2" >${msg['qt_metadata_search']}</td>
       <td width="301"><label></label>
-      	
-          <input type="text" name="title" id="metaDataKeyword" class="boxinput2" value="${msg['index_query_key_alert']}"  onfocus="if(this.value=='${msg['index_query_key_alert']}'){this.value=''}"/></td><!--  onblur="if(this.value==''){this.value='请输入你要查找的信息...'}" -->
+          <input type="text" name="title" id="metaDataKeyword" class="boxinput2 inputtext" value="${msg['index_query_key_alert']}"  />
+      </td><!--  onblur="if(this.value==''){this.value='请输入你要查找的信息...'}" -->
+      
       <td width="67"> 
-      
       <input name="metaSubmit"  id="metaSubmit" type="image" value="" 
-      <c:choose>
-		<c:when test='${msg.lang=="zh"}'>  src="images/d08.jpg"</c:when>		
-		<c:otherwise> src="images/d11.jpg"</c:otherwise>
-	  </c:choose>
-     
+	      <c:choose>
+			<c:when test='${msg.lang=="zh"}'>  src="images/d08.jpg"</c:when>		
+			<c:otherwise> src="images/d11.jpg"</c:otherwise>
+		  </c:choose>
+      />
       
-       />
-      
-      <%--<img src="images/d08.jpg" width="67" height="28" border="0" />--%>
       </td>
     </tr>
   </table>
   </form>
   <!--搜索结束-->
-<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table id="index_metadata_table" width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="20" colspan="2" valign="bottom" class="fontstyle2">&nbsp;<span id="metaData_Title0"></span></td>
     </tr>

@@ -110,3 +110,8 @@ input.error,textarea.error {
 	 overflow: hidden; 
 	 text-overflow: ellipsis;
 }
+.inputtext{
+	color: #999;
+	font-style:oblique;
+	font-size: 12px;
+}

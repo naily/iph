@@ -28,18 +28,40 @@ $(document).ready(function() {
 			}
 		}
 	}
-	ajaxpost(indexMetaData1);
-
-});
-/* 查询元数据 */
-function queryMetaData() {
-
-	var queryKey = $('#metaDataKeyword').val();
-	if (queryKey) {
-		
-
-	} else {
-		alertMsg('请输入检索关键字');
-		return false;
+	if($('#index_metadata_table')){
+		ajaxpost(indexMetaData1);
 	}
-}
+	
+	/**
+	 * 处理首页元数据查询按钮
+	 */
+	var defval = $('#metaDataKeyword').val() ;
+	$('#metaDataKeyword').focus(function(){
+		$('#metaDataKeyword').removeClass('inputtext') ;
+		if($(this) && $(this).val() != defval){
+		}else{
+			$('#metaDataKeyword').val('') ;
+		}
+	});
+	$('#metaDataKeyword').blur(function(){
+		
+		if($(this).val() && $(this).val() != defval){
+			
+		}else{
+			$('#metaDataKeyword').addClass('inputtext') ;
+			$('#metaDataKeyword').val(defval) ;
+		}
+	});
+	
+	/* 查询元数据触发查询按钮时 */
+	$('#metaDataQueryForm').submit(function(){
+		var va = $('#metaDataKeyword').val();
+		if(va == defval){
+			$('#metaDataKeyword').val('') ;
+		}
+		
+		return true ;
+	}) ;
+});
+
+

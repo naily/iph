@@ -10,11 +10,10 @@
 <!DOCTYPE HTML >
 <html>
 	<head>
-	<%--<meta http-equiv="X-UA-Compatible" content="IE=8">
-		--%><base href="<%=basePath%>">
+	<%--<meta http-equiv="X-UA-Compatible" content="IE=8"> --%>
+	<base href="<%=basePath%>" />
 		<title>${msg['site_name']}</title>
-		<!--
-	-->
+		<!-- -->
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
@@ -25,6 +24,7 @@
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 		<script type="text/javascript" src="js/Global.js"></script>
 		<script type="text/javascript" src="js/index_global.js"></script>
+		<script type="text/javascript" src="js/indexMetaData.js"></script>
 		<c:choose>
 			 <c:when test='${msg.lang=="zh"}'> 
 			 	<script type="text/javascript" src="js/index_global_zn.js"></script>
@@ -36,27 +36,48 @@
 	</head>
 
 	<body>
-
-		<jsp:include page="header.jsp" flush="true" />
+	<jsp:include page="header.jsp" flush="true" />
 	<div  id="right">
-<div class="title8">${msg['qt_parameter_title']}</div>
-<table width="800" border="0" align="left" cellpadding="0" cellspacing="0">
-<c:forEach items="${metaDataList}" var="metaData" varStatus="varStatusMeta">	
-  <tr>
-    <td height="35" colspan="2" bgcolor="#f5f5f5" class="fontstyle2"> &nbsp;<a href="qt/metaDataPriview.do?mdId=${metaData.mdId}" class="a3">${metaData.title}</a></td>
-    </tr>
-  <tr>
-    <td width="202" height="110" align="center" valign="top"><div class="rightbox2_1_img"><img src='${metaData.thumbnailFilePath}' width='171' height='118'></div></td>
-    <td width="598" align="left" valign="top"><div class="news3text">${metaData.summary}</div></td>
-  </tr>
-  </c:forEach>
-
-  
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
+	<div class="title8">${msg['qt_parameter_title']}</div>
+	<div > 
+	<form id="metaDataQueryForm"  name="metaDataQueryForm" action="qt/metaDataList.do" method="post" >
+	 <table width="80%" border="0" cellspacing="0" cellpadding="0" class="rightbox3_2_m">
+	    <tr>
+	      <td width="46" height="34" align="right" class="fontstyle2" ><img src="images/d09.jpg" width="41" height="34" /></td>
+	      <td width="88" align="left" class="fontstyle2" >${msg['qt_metadata_search']}</td>
+	      <td > 
+	          <input type="text" name="title" id="metaDataKeyword" class="boxinput2 inputtext" value="${msg['index_query_key_alert']}"  />
+	      </td> 
+	      
+	      <td width="160"> 
+	      <input name="metaSubmit"  id="metaSubmit" type="image" value="" 
+		      <c:choose>
+				<c:when test='${msg.lang=="zh"}'>  src="images/d08.jpg"</c:when>		
+				<c:otherwise> src="images/d11.jpg"</c:otherwise>
+			  </c:choose>
+	      />
+	      
+	      </td>
+	    </tr>
+	  </table>
+	  </form>
+  </div>
+	<table width="800" border="0" align="left" cellpadding="0" cellspacing="0">
+	<c:forEach items="${metaDataList}" var="metaData" varStatus="varStatusMeta">	
+	  <tr>
+	    <td height="35" colspan="2" bgcolor="#f5f5f5" class="fontstyle2"> &nbsp;<a href="qt/metaDataPriview.do?mdId=${metaData.mdId}" class="a3">${metaData.title}</a></td>
+	    </tr>
+	  <tr>
+	    <td width="202" height="110" align="center" valign="top"><div class="rightbox2_1_img"><img src='${metaData.thumbnailFilePath}' width='171' height='118'></div></td>
+	    <td width="598" align="left" valign="top"><div class="news3text">${metaData.summary}</div></td>
+	  </tr>
+	  </c:forEach>
+	  
+	  <tr>
+	    <td>&nbsp;</td>
+	    <td>&nbsp;</td>
+	  </tr>
+	</table>
 	<div class="newspage">
 					<a href="qt/metaDataList.do?title=${requestScope.keyword}" onclick="return linkClick(this)" class="a3">首页</a>
 					  <c:choose>

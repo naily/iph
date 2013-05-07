@@ -106,18 +106,27 @@ public class QTMetaDataMod extends BaseMod{
 		return metaData;	
 	}
 	
+	/**
+	 * 元数据查询
+	 * */
 	@At("/qt/metaDataList")
     @Ok("jsp:jsp.qt.metaDataList")
-    /*元数据查询*/
     public void metaDataList(HttpServletRequest req,HttpSession session,@Param("..")Pager page,String title){
 		page.setPageSize(Constant.META_DATA_PAGESIZE);//默认分页记录数
 		Pager pager = baseService.dao.createPager(page.getPageNumber(), page.getPageSize());   
-		List<MetaData>  list = baseService.dao.query(MetaData.class,  Cnd.where("title", "like", "%"+title+"%").or("keyword","like", "%"+title+"%").or("summary","like", "%"+title+"%"),pager) ;
-		pager.setRecordCount(baseService.dao.count(MetaData.class,Cnd.where("title", "like", "%"+title+"%").or("keyword","like", "%"+title+"%").or("summary","like", "%"+title+"%")));
+		
+		Cnd cnd = null ;
+		if(StringUtil.checkNotNull(title)){
+			cnd =  Cnd.where("title", "like", "%"+title+"%").or("keyword","like", "%"+title+"%").or("summary","like", "%"+title+"%") ;
+		}else{
+			
+		}
+		
+		List<MetaData>  list = baseService.dao.query(MetaData.class, cnd , pager ) ;
+		pager.setRecordCount(baseService.dao.count(MetaData.class, cnd ));
 		req.setAttribute("metaDataList", list);
 		req.setAttribute("page", pager);
 		req.setAttribute("keyword", title);
-		
 		
 		int records = list.size();
 		if(!"".equals(getQTLoginUserID())){
