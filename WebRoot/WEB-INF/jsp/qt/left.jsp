@@ -1,4 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%
 String path = request.getContextPath();
@@ -6,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <html>
   <head>   
-  <meta http-equiv="X-UA-Compatible" content="IE=8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=8">
     <title></title>   
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -59,28 +64,49 @@ text-overflow: ellipsis;
 </div> 
 <div class="title3">${msg['qt_links']}</div>
 <table width="170" border="0" align="center" cellpadding="0" cellspacing="0">
-  <%--<tr>
-    <td height="30" class="fontstyle2"><a href="http://www.igsnrr.ac.cn" title="中国科学院地理科学与资源研究所" target="_blank" class="a3">中国科学院地理科学...</a></td>
-  </tr>
-  --%>
-  <tr>
-    <td height="30" ><a href="http://www.igsnrr.ac.cn" title="${msg['index_href_zkydls']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_zkydls']}</span></a></td>
-  </tr>
-  <tr>
-    <td height="30" ><a href="http://www.most.gov.cn/" title="${msg['index_href_kjb']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_kjb']}</span></a></td>
-  </tr>
-  <tr>
-    <td height="30" ><a href="http://www.mlr.gov.cn/" title="${msg['index_href_gtzyb']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_gtzyb']}</span></a></td>
-  </tr>
-  <tr>
-    <td height="30" ><a href="http://www.cas.ac.cn/" title="${msg['index_href_zgkxy']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_zgkxy']}</span></a></td>
-  </tr>
-  <tr>
-    <td height="30" ><a href="http://www.irsa.ac.cn/" title="${msg['index_href_ygyys']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_ygyys']}</span></a></td>
-  </tr>
-  <tr>
-    <td height="30" ><a href="http://www.rcees.ac.cn/" title="${msg['index_href_sthj']}" target="_blank" class="a2"><span class="hrefTiele">${msg['index_href_sthj']}</span></a></td>
-  </tr>
+  <c:choose>
+	 <c:when test='${msg.lang=="zh"}'> 
+	 	<tr>
+		    <td height="30" ><a href="http://www.igg.cas.cn" title="${msg['index_href_zkydzwls']}" target="_blank" class="a2"><span class="hrefTiele">中国科学院地质与地球物理研究所</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.igsnrr.ac.cn/" title="${msg['index_href_zkydls']}" target="_blank" class="a2"><span class="hrefTiele">中国科学院地理科学与资源研究所</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.cas.cn/" title="${msg['index_href_zgkxy']}" target="_blank" class="a2"><span class="hrefTiele">中国科学院</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.most.gov.cn/" title="${msg['index_href_zhkjb']}" target="_blank" class="a2"><span class="hrefTiele">中华人民共和国科学技术部</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://space.iggcas.ac.cn/" title="${msg['index_href_kjgcl']}" target="_blank" class="a2"><span class="hrefTiele">空间观测链</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.geodata.cn/" title="${msg['index_href_dqkxsjgxpt']}" target="_blank" class="a2"><span class="hrefTiele">地球系统科学数据共享平台</span></a></td>
+		  </tr>
+	</c:when>
+	<c:when test='${msg.lang=="en"}'> 
+		<tr>
+		    <td height="30" ><a href="http://madrigal.iggcas.ac.cn/madrigal" target="_blank" class="a2"><span class="hrefTiele">Madrigal Database at IGGCAS</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://wdc.nict.go.jp/IONO/HP2009/ISDJ/index-E.html"  target="_blank" class="a2"><span class="hrefTiele">Ionosonde Data in JAPAN</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://giro.uml.edu/"  target="_blank" class="a2"><span class="hrefTiele">Global Ionospheric Radio Observatory</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://spidr.ngdc.noaa.gov/spidr/"  target="_blank" class="a2"><span class="hrefTiele">Space Physics Interactive Data Resource</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.ips.gov.au/"   target="_blank" class="a2"><span class="hrefTiele">IPS - Radio and Space Services</span></a></td>
+		  </tr>
+		  <tr>
+		    <td height="30" ><a href="http://www.swpc.noaa.gov/today.html"  target="_blank" class="a2"><span class="hrefTiele">Today's Space Weather</span></a></td>
+		  </tr>
+	</c:when>
+  </c:choose>
+  
 </table>
 </div>
   </body>

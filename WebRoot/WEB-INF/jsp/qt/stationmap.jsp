@@ -28,6 +28,7 @@
 			width:720px;}
 		</style>
 	<script type="text/javascript"><!--
+	var lang = ${msg.lang=="zh"} ;
 	$(document).ready(function(){
 		var map = new BMap.Map("container");          // 创建地图实例
 		var point = new BMap.Point(108.235, 37.520);  // 创建点坐标
@@ -36,6 +37,8 @@
 		map.disableScrollWheelZoom();
 		map.disableDoubleClickZoom();
 		map.disableKeyboard();
+		var opts = {type: BMAP_NAVIGATION_CONTROL_SMALL}    
+		map.addControl(new BMap.NavigationControl(opts)); 
 		
 		<c:forEach items="${obj}" var="st" varStatus="i">
 		var marker${st.id} = new BMap.Marker(new BMap.Point(${st.longitude}, ${st.latitude})); 
@@ -44,10 +47,18 @@
 		//var infoWindow1 = ;
 		marker${st.id}.addEventListener("click", function(){
 			var html = new Array() ;
-			html.push('${st.name}');
-			html.push('经度：' + '${st.longitude}');
-			html.push('纬度：' + '${st.latitude}');
-			html.push('地理位置：' + '${st.location}');
+			if(lang){
+				html.push('${st.name}');
+				html.push('经度：' + '${st.longitude}');
+				html.push('纬度：' + '${st.latitude}');
+				html.push('地理位置：' + '${st.location}');
+			}else{
+				html.push('${st.nameEng}');
+				html.push('Longitude：' + '${st.longitude}');
+				html.push('Latitude：' + '${st.latitude}');
+				html.push('Address：' + '${st.location}');
+			}
+			
 			this.openInfoWindow(new BMap.InfoWindow(html.join('<p>')));
 		});
         </c:forEach> 

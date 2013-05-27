@@ -16,7 +16,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 	var fg = '<%=request.getParameter("login")%>' ;
 	if(fg == 'no'){
-		alert("请登录!") ;
+		<c:choose>
+		 <c:when test='${msg.lang=="zh"}'> 
+		 	alert("请登录!") ;
+		</c:when>
+		<c:otherwise>
+			alert("Please login !") ;
+		</c:otherwise>
+		</c:choose>
+		
 	}
 </script>
 
