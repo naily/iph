@@ -37,8 +37,8 @@ function previewImage(gridId , i , idField,title_ , tab_){
 			var gpath = (store.rows)[i][idField] ;
 			//var tab = "pgt" ;
 			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
-			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=300 / >' +
-				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
+			$( "#imagePreview").html('<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+store.rows.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>'
+			+'<img src=".'+ gpath +'" border=0 height=560 / >' );
 			
 			$( "#imagePreview").omDialog({title:title_ ,height: 'auto' ,width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
@@ -90,8 +90,8 @@ function previewImage(gridId , i , idField,title_ , tab_){
 function previewImageForScanpic(sacId_,title_){			
 	
 	var filePath_ = gpath = "/qt/getimage.do?imageid=" + sacId_ + "&tab=sac" ;
-			$( "#imagePreview").html('<img src=".'+ filePath_ +'" border=0 height=500 / >' +
-				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>');
+			$( "#imagePreview").html(
+				'<p><input id="but2" type="button" value="放大" />&nbsp;&nbsp;<input id="but3" type="button" value="缩小" /></p>'+ '<img src=".'+ filePath_ +'" border=0 height=560 / >' );
 			
 			$( "#imagePreview").omDialog({title:title_, height: 'auto' , width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
@@ -146,8 +146,9 @@ function previewImageA(dataArys , i ,typeNum){
 			//当前图片
 			var gpath = dataArys[i] ; 
 			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
-			$( "#imagePreview").html('<img src=".'+ gpath +'" border=0 height=600 / >' +
-				'<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>');
+			$( "#imagePreview").html('<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>'+
+			'<img src=".'+ gpath +'" border=0 height=600 / >' 
+				);
 			
 			$( "#imagePreview").omDialog({title:title_ ,height: 'auto' ,width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){

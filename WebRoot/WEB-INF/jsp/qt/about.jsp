@@ -22,7 +22,12 @@
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
 
-		<style type="text/css"></style>
+		<style type="text/css">
+			.a9:link{ color:black;  font-size:13px; font-weight: bold; text-decoration:none; }
+			.a9:visited{ color:black; font-size:13px; font-weight: bold; text-decoration:none;}
+			.a9:active{color:black; font-size:13px;font-weight: bold; text-decoration:none;}
+			.a9:hover{ color:black; font-size:13px; font-weight: bold; text-decoration:none;}
+		</style>
 
 	</head>
 
@@ -34,7 +39,7 @@
 				
 				<div class="newstext">
 				<p>
-				<strong>中国科学院地质与地球物理研究所</strong>是从事固体地球科学研究与教育的综合性国家学术机构。研究所的地磁与空间物理学科，在包括电离层在内的空间环境观测上具有悠久的观测和研究历史，目前该学科依托北京空间环境国家野外科学观测研究站和<strong>中科院电离层空间环境重点实验室</strong>，建有北起漠河，南到三亚，并延伸到地球南北二极的<strong>空间环境综合观测台链</strong>，拥有电离层、中高层大气和地磁等多种观测手段，能对我国空间环境不同纬度，不同层次和不同特性参量进行综合观测和实时监测的能力，并利用这些观测数据，在电离层、中高层大气和磁层物理等方面取得了一系列研究成果，为本项目的实施和开展我国有关区域进行的定期补点流动观测，提供数据分析研究和观测技术保障。项目合作单位<strong>中科院地理科学与资源研究所</strong>在地球系统资源数据管理和共享方面有很好的工作基础， 目前正负责实施科技部<strong>地球系统科学数据共享网</strong>建设和运行，为本项目的数据共享应用和管理提供了良好的工作基础。
+				<a href="http://www.igg.cas.cn/" class="a9" target="blank">中国科学院地质与地球物理研究所</a>是从事固体地球科学研究与教育的综合性国家学术机构。研究所的地磁与空间物理学科，在包括电离层在内的空间环境观测上具有悠久的观测和研究历史，目前该学科依托北京空间环境国家野外科学观测研究站和<a href="http://space.iggcas.ac.cn/lab/lab_intro.html" class="a9" target="blank">中科院电离层空间环境重点实验室</a>，建有北起漠河，南到三亚，并延伸到地球南北二极的<a href="http://space.iggcas.ac.cn/" class="a9" target="blank">空间环境综合观测台链</a>，拥有电离层、中高层大气和地磁等多种观测手段，能对我国空间环境不同纬度，不同层次和不同特性参量进行综合观测和实时监测的能力，并利用这些观测数据，在电离层、中高层大气和磁层物理等方面取得了一系列研究成果，为本项目的实施和开展我国有关区域进行的定期补点流动观测，提供数据分析研究和观测技术保障。项目合作单位<a href="http://www.igsnrr.ac.cn/" class="a9" target="blank">中科院地理科学与资源研究所</a>在地球系统资源数据管理和共享方面有很好的工作基础， 目前正负责实施科技部<a href="http://www.geodata.cn/" class="a9" target="blank">地球系统科学数据共享网</a>建设和运行，为本项目的数据共享应用和管理提供了良好的工作基础。
 				</p>
 				</div>
 			</div>
