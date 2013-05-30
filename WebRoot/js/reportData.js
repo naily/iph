@@ -189,7 +189,27 @@ $(document).ready(function() {
                 }
 
             });
-            
+            /**
+            $("#downloadParaDataTXT").click(function(){
+               var stationId=$('#stationId').val();
+			   var year=$('#year').val();
+			   var month=$('#month').val();
+			   var parameter=$('#parameter').val();
+			   if($("#allMonth").attr("checked")){
+			   	  month='all';
+			   }
+ 			   if($("#allPara").attr("checked")){
+ 			      parameter='all';
+ 			   }
+                if(stationId && year && month && parameter){
+                      window.open(basepath +'qt/downloadReportDataTXT.do?stationID='+stationId+'&year='+year+'&month='+month+'&paraType='+parameter);
+                }else{ //有查询条件，显示查询数据  
+                	at({cont:'请选择条件！' , type : 'error'});
+                   
+                }
+
+            });
+            */
     /**
      * 翻页输入框绑定回车事件
      */

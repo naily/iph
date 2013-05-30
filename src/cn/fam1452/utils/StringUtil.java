@@ -1473,4 +1473,19 @@ public class StringUtil
 	   }
 	    return  intarray;
   }
+  
+  /**
+   * 判断源字符串是否为空，若为空则返回指定的替换字符
+   * @param src
+   * @param ta
+   * @return
+   */
+  public static String empty2string(String src , String ta){
+	  if(checkNotNull(src)){
+		  return src ;
+	  }else{
+		  return ta ;
+	  }
+  }
+  
 }

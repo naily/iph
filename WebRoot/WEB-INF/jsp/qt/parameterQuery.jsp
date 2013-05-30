@@ -89,7 +89,20 @@
 							     </td></tr>								
 							     <tr><td colspan="2" height="100" align="center">
 							     <!-- <input type="button" style="display:none;" id="downloadParaData" value="${msg['qt_download_para_excel']}"/> -->
-							     <a href="javascript:void(0)" style="display:none;"  id="downloadParaData"><img src="images/daochu.png"  border="0" /></a>
+								     <div id="downloadparadiv" style="display:none; text-align: left;" >
+								     	<c:choose>
+											 <c:when test='${msg.lang=="zh"}'> 
+											 	<!-- <a href="javascript:void(0)"  id="downloadParaData"><img src="images/daochu.png"  border="0" /></a>  -->
+									     		<a href="javascript:void(0)"  id="downloadParaData">导出EXCEL下载</a>
+									     		<a href="javascript:void(0)"  id="downloadParaDataTXT">导出TXT下载</a>
+											</c:when>
+											<c:otherwise>
+									     		<a href="javascript:void(0)"  id="downloadParaData">Export EXCEL Download</a><br/>
+									     		<a href="javascript:void(0)"  id="downloadParaDataTXT">Export TXT Download</a>
+											</c:otherwise>
+										</c:choose>
+									     
+								     </div>
 							     </td></tr>								
 							   </table>	
 							</td>

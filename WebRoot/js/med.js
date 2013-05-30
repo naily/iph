@@ -208,6 +208,8 @@ function initfileupload(){
             var json = eval("("+response+")");
             if(json.success){
             	$("#thumbnailFilePath").val(json.info) ;
+            	$("#imgpath") .attr("src", "./" + json.info ) ;
+            	$("#imgpath") .show() ;
             }else{
             	$("#thumbnailFilePath").val("") ;
             }

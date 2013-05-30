@@ -48,7 +48,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td align="left">&nbsp;提示：标有*的项为必填项</td>
                 <td>&nbsp;</td>
               </tr>
-             
+             <tr>
+                <td  class="table_td_fieldlab">&nbsp;修改缩略图:</td>
+                <td>&nbsp;<input id = "uploadpic" />
+                		  <input id ="thumbnailFilePath" name="thumbnailFilePath" type="hidden" />
+                		  <img id="imgpath" width="70" height="50"/>
+                </td>
+              </tr>
               <tr>
                 <td align="left">&nbsp;标识信息</td>
                 <td>&nbsp; 

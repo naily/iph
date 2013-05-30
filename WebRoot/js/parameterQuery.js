@@ -220,9 +220,9 @@ $("#allDate").click(function() {
 			 
 			//$('#paraQueryGrid').omGrid('setData', dUrl);
 			 if(queryDataType==1){
-			 	$("#downloadParaData").show();
+			 	$("#downloadparadiv").show();
 			 }else{
-			 	$("#downloadParaData").hide();
+			 	$("#downloadparadiv").hide();
 			 }
 			  
 	    	} else { // 有查询条件，显示查询数据
@@ -260,6 +260,33 @@ $("#allDate").click(function() {
     });
 		
 	});
+	$("#downloadParaDataTXT").click(function() {
+		//var stationId = $('#selectorStation').omItemSelector('value');
+		var stationId = $('#stationIdParaQuery').val();
+		var parameter = $('#selectorParaS').omItemSelector('value');
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		var allDate = '';
+		if ($("#allDate").attr("checked")) {
+			allDate = 'all';
+		}
+		var pageSize = $('#showNum').val();
+		var orderBy = $('#orderCol').val();
+		var queryDataType =$('#selectDataType').val();
+		 datasourceUrl='qt/downloadParaDataTXT.do?ids=' + stationId + '&startDate='+ startDate + '&endDate=' + endDate + '&selectAllDate='+ allDate + '&orderBy=' + orderBy + '&pageSize=' + pageSize;
+		window.open(basepath + datasourceUrl)
+		
+		   //图片预览弹出
+    $( "#imagePreview").omDialog({
+        autoOpen: false,
+        height: 'auto' ,
+        width :'auto'
+    });
+		
+	});
+	
+	
+	
   /**
    * 根据查询类型，组装查询数据的表头
    * 

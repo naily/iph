@@ -63,6 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <td  class="table_td_fieldlab">&nbsp;上传缩略图:</td>
                 <td>&nbsp;<input id = "uploadpic" />
                 		  <input id ="thumbnailFilePath" name="thumbnailFilePath" type="hidden" />
+                		  <img style="display: none;" id="imgpath" width="70" height="50"/>
                 </td>
               </tr>
               <tr>

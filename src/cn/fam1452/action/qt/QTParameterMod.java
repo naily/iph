@@ -198,6 +198,59 @@ public class QTParameterMod extends BaseMod {
 		}
 	}
 	/**
+	 * 电离层参数报表下载
+	 * 1、根据传入的观测站、年份、月份、电离参数等条件生成报表导出到excel文件中供用户下载
+	 * 2、支持全选参数、全选月份多报表生成
+	 * */
+	@At("/qt/downloadReportDataTXT")
+	@Ok("raw")
+	public void exportLogAndDownloadTXT(HttpServletRequest req ,  HttpServletResponse response,@Param("..")ParameteDataBo parameter){
+		String id = parameter.getStationID();
+		Station station = baseService.dao.fetch(Station.class, id);
+		parameter.setStation(station);
+		StringBuilder str = parameterService.exportString(parameter) ;
+		
+		try {
+			if(null != str){ 
+				OutputStream out = response.getOutputStream();
+				response.setContentType("application/x-msdownload");
+				
+				StringBuffer fileName = new StringBuffer().append("month_reportData.txt") ;
+				response.setHeader("Content-Disposition", "attachment; filename=" + new String( fileName.toString().getBytes("GBK"), "ISO8859-1" ));
+				
+				//BufferedInputStream bis = new BufferedInputStream(new FileInputStream(tmp));
+				//byte[] buffer = IOUtils.toByteArray(bis);
+				//os.write(buffer);
+				out.write(str.toString().getBytes()) ;
+				out.close();
+				
+				String[] monthAry=null;
+				String[] paraAry=null;
+				if("all".equals(parameter.getMonth())){//全部月份
+					monthAry=Constant.monthAry;
+				}else{
+					monthAry = new String[1];
+					monthAry[0]=parameter.getMonth();
+				}
+				if("all".equals(parameter.getParaType())){//全部参数
+					paraAry=Constant.paraAry;
+				}else{
+					paraAry= new String[1];
+					paraAry[0]=parameter.getParaType();
+				}
+				
+				int total = monthAry.length * paraAry.length ;
+				//单因子文件常量 (M)
+				float fs = 21;
+				dataVisitService.insert(dataVisitService.T_PARAMETER, "03", 1, getQTLoginUserID(), GetIP.getIpAddr(req), (total*fs) );
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error(e, e) ;
+		}
+	}
+	/**
 	 * 电离曲线图图页面跳转--按区间查询*/
 	@At("/qt/paraDataChartByQujian")
 	@Ok("jsp:jsp.qt.parameterChart2")
@@ -984,7 +1037,7 @@ public class QTParameterMod extends BaseMod {
 	/**
 	 * 找数据：电离层参数导出excel
 	 * */
-	public void exportParaData(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response,HttpServletRequest req){
+	public void exportParaDataExcel(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response,HttpServletRequest req){
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			page.setLimit(Constant.PAGE_SIZE);
 			List<Parameter> list =null;
@@ -1041,7 +1094,72 @@ public class QTParameterMod extends BaseMod {
 				log.error(e, e) ;
 			}
 		}
+	}
+	
+	/**
+	 * 找数据：电离层参数导出TXT格式文件并下载
+	 * */
+	@At("/qt/downloadParaDataTXT")
+	@Ok("raw")
+	public void exportParaDataTXT(@Param("..")Parameter parameter,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery,HttpServletResponse response,HttpServletRequest req){
+		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
+			page.setLimit(Constant.PAGE_SIZE);
+			List<Parameter> list = null;
+			String tableName = "T_PARAMETER";
+			String stationID = parameter.getIds();//
+			paraQuery.setStationID(stationID);
+			paraQuery.setOrderBy("createDate");// 默认排序方式：时间
+
+			if (!parameterService.isProtectDateOpen(stationID, tableName, paraQuery.getStartDate(), paraQuery.getEndDate())) {// 保护期数据暂不显示（2013-02-21）
+				list = parameterService.downTop50ParameterDataListNew(parameter, page, paraQuery);
+			} else {// 无保护期,正常显示数据
+				list = parameterService.downParameterDataList(parameter, page, paraQuery);
+			}
+
+			
+			List<Parameter> listD = new ArrayList<Parameter>();
+			String zh_en = this.getMsgByKey(req, "lang");
+			for (Parameter para : list) {
+				Station station = this.baseService.dao.fetch(Station.class, para.getStationID());
+				if ("en".equals(zh_en)) {
+					station.setName(station.getNameEng());
+				}
+				para.setStation(station);
+				listD.add(para);
+				
+			}
+
+			StringBuilder txt = parameterService.exportParaDataToTXT(listD);
+
+			try {
+				if (null != txt) {
+					StringBuffer fn = new StringBuffer();
+					fn.append(stationID).append("-") ;
+					fn.append(paraQuery.getStartDate().replaceAll("-", "")).append("-")
+						.append(paraQuery.getEndDate().replaceAll("-", ""));
+					response.setContentType("application/x-msdownload");
+
+					fn.append(".txt") ;
+					response.setHeader("Content-Disposition", "attachment; filename=" + new String(fn.toString().getBytes("GBK"), "ISO8859-1"));
+					OutputStream out = response.getOutputStream();
+
+					// BufferedInputStream bis = new BufferedInputStream(new
+					// FileInputStream(tmp));
+					// byte[] buffer = IOUtils.toByteArray(bis);
+					// os.write(buffer);
+					out.write(txt.toString().getBytes());
+					out.flush() ;
+					out.close();
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.error(e, e);
+			}
+		}
 		
 		
 	}
+	
+	
 }

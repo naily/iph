@@ -86,7 +86,7 @@ $(document).ready(function(){
                                                     $('textarea[name="abstract1Eng"]' ).val(json.summaryEng);
                                                     $('#mdid' ).val(json.mdId);
                                                     $("#tab1").omDialog('open');
-                                                    
+                                                    $("#imgpath") .attr("src", json.thumbnailFilePath) ;
 					                                /*$('#actionDate').val( );
 						                            
 						                            $('#ip1').val(json.foF2) ;
@@ -155,7 +155,6 @@ $(document).ready(function(){
             width:'auto' ,
             title:'修改元数据信息'
      });
-    
     
     
 });
@@ -253,3 +252,4 @@ function hasChild(obj){
         return false ;
     }
 }
+

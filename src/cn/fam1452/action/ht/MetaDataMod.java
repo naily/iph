@@ -183,8 +183,8 @@ public class MetaDataMod extends BaseMod{
 		JSONObject json = new JSONObject();
 		json.put(Constant.SUCCESS, false) ;
 		
-		//OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
-		//fusu.setServletContext(context) ;
+		OmFileUploadServletUtil fusu = new OmFileUploadServletUtil();
+		fusu.setServletContext(context) ;
 		
 		try {
 			//姑且只有js验证
@@ -236,7 +236,7 @@ public class MetaDataMod extends BaseMod{
 				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
 				
 				//存储缩略图
-				/*File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
+				File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
 				if(null != tf && tf.exists()){
 					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir , true) ){
 						tf = fusu.getTargetFile() ;
@@ -247,7 +247,7 @@ public class MetaDataMod extends BaseMod{
 							log.error("This thumbnail file is null !") ;
 						}
 					}
-				}*/
+				}
 				
 				if(baseService.dao.fetch(med) != null){
 					baseService.dao.update(med) ;
