@@ -20,9 +20,13 @@ $(document).ready(function() {
 			 	height : 415, 
 			 	limit:pageslimit,
 			 	showIndex : false,
-			 	colModel :tableCols_
+			 	colModel :tableCols_ ,
+			 	onSuccess:function(data,testStatus,XMLHttpRequest,event){
+			 		if(data && data.total && data.total > 0){
+			 			$("#downloadparadiv").show();
+			 		}
+			     }
 			 	});
-			//$("#downloadParaData").show();
 		}
 /*	var paraValue;
 	var selectOk=true;
