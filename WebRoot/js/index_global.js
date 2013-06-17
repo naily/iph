@@ -94,14 +94,14 @@ parameter_month_omCombo_datasource= [
 					           { text : 'foF1',  value : 'foF1'}, 					  
 					           { text : 'h\'F',   value : 'hlF'}, 
 					           { text : 'foE',   value : 'foE'}, 
-					           { text : 'h\'E',   value : 'hlE'}, 
-					           { text : 'Fmin',  value : 'fmin'}, 					           
-					           { text : 'foEs',  value : 'foEs'},  
-					           { text : 'fbEs',  value : 'fbEs'}, 
-					           { text : 'h\'Es',  value : 'hlEs'}, 					         
+					           { text : 'h\'E',   value : 'hlE'}, 				           					           
+					           { text : 'foEs',  value : 'foEs'},  					           
+					           { text : 'h\'Es',  value : 'hlEs'},
+					           { text : 'fbEs',  value : 'fbEs'},  					           					         
 					           { text : 'Es-Type',  value : 'es'},
-					           { text : 'M3000F1',  value : 'm3000F1'}, 
-					           { text : 'M3000F2',   value : 'm3000F2'}
+					           { text : 'Fmin',  value : 'fmin'},				           
+					           { text : 'M3000F2',   value : 'm3000F2'},
+					           { text : 'M3000F1',  value : 'm3000F1'}
 					           ]
 /*
  * 曲线图参数选择
@@ -133,8 +133,8 @@ parameter_omCombo_datasource2=[
 			           ]
 			     
 
-  parameter_array=     ['foF2','hlF2','foF1','hlF','foE','hlE','foEs','hlEs','fbEs','fmin','m3000F2','m3000F1','es']
-  parameter_array_text=['foF2','h\'F2','foF1','h\'F','foE','h\'E','foEs','h\'Es','fbEs','Fmin','M3000F2','M3000F1','Es-Type']	
+  parameter_array=     ['foF2','hlF2','foF1','hlF','foE','hlE','foEs','hlEs','fbEs','es','fmin','m3000F2','m3000F1']
+  parameter_array_text=['foF2','h\'F2','foF1','h\'F','foE','h\'E','foEs','h\'Es','fbEs','Es-Type','Fmin','M3000F2','M3000F1']	
  
                        
  
