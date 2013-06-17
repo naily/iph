@@ -12,7 +12,9 @@ $(document).ready(function() {
 			$('#endDate').val(endDateV);
 			selectTypeValue='1';
 			//$('#selectDataType').val('1');
-			tableCols_=getParaColmModel(1,parameter_array_text);	
+			//tableCols_=getParaColmModel(1,parameter_array_text);
+				
+			tableCols_=getParaColmModel(1,parameter_array,parameter_array_text);
 			 datasourceUrl='qt/doParaDataQuery.do?ids=' + stationId + '&startDate='+ startDateV + '&endDate=' + endDateV;
 			 $('#paraQueryGrid').omGrid({
 				//title : '电离层参数查询',
@@ -193,7 +195,7 @@ $("#allDate").click(function() {
 		//if ((queryDataType!=1 ||  parameter) && stationId  && (startDate && endDate || allDate)) {
 		if ((queryDataType!=1 ||  parameter) || stationId  || (startDate && endDate || allDate)) {
 			var tableCols,datasourceUrl;			
-			tableCols=getColmModel(queryDataType,parameter);
+			tableCols=getColmModel(queryDataType,parameter,parameter_array_text);
 			if(queryDataType==1){//电离层参数查询
 				datasourceUrl='qt/doParaDataQuery.do'
 			}else if(queryDataType==2){//电离层频高图查询				
@@ -295,7 +297,7 @@ $("#allDate").click(function() {
    * 根据查询类型，组装查询数据的表头
    * 
    * */
-	function getColmModel(queryType,paraCol) {
+	function getColmModel(queryType,paraCol,parameter_array_text) {
 		var container = new Array();//数据表格的表头数据
 		/*container[0] = {
 			//header : '所属观测站',
@@ -319,7 +321,8 @@ $("#allDate").click(function() {
 				
 				for (i = 0; i < paraCol.length; i++) {
 					container[i + 1] = {
-						header : paraCol[i],
+						//header : paraCol[i],
+						header : parameter_array_text[i],
 						name : paraCol[i],
 						width : 60
 					}
@@ -523,7 +526,7 @@ function showParaData(stationId,createDate){
 	if(stationId && createDate){
 			var tableCols_,datasourceUrl_;	
 					//tableCols_=getParaColmModel(1,parameter_array_text);				
-					tableCols_=getParaColmModel(0,parameter_array_text);	//0:不带出“操作一列”			
+					tableCols_=getParaColmModel(0,parameter_array,parameter_array_text);	//0:不带出“操作一列”			
 datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='+createDate;	
 					//$("#imagePreview").html('<table id="paraQueryGrid2"></table>');
 					if(firstOpt){					 
@@ -548,7 +551,7 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
    /*
     * 电离参数列表表头，在频高图及扫描图关联电离参数时使用
     * */
-	function getParaColmModel(queryType,paraCol_) {
+	function getParaColmModel(queryType,parameter_array,paraCol_) {
 		var container_ = new Array();//数据表格的表头数据
 		/*container_[0] = {
 			header : '所属观测站',
@@ -567,7 +570,7 @@ datasourceUrl_=basepath+'qt/showParaData.do?stationID='+stationId+'&createDate='
 				for (i = 0; i < paraCol_.length; i++) {
 					container_[i + 1] = {
 						header : paraCol_[i],
-						name : paraCol_[i],
+						name : parameter_array[i],
 						width : 60
 					}
 				}
