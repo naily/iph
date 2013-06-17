@@ -131,6 +131,11 @@ public class ParameterMod extends BaseMod{
 			item.put("ID", pm.getParameterID()) ;
 			item.put("createDate" , null != pm.getCreateDate() ? DateUtil.convertDateToString(pm.getCreateDate(), DateUtil.pattern2) : "");
 			
+			item.put("Es", pm.getEs()) ;
+			item.put("Fmin", pm.getFmin()) ;
+			item.put("M3000F1", pm.getM3000F1()) ;
+			item.put("M3000F2", pm.getM3000F2()) ;
+			
 			array.add(item) ;
 		}
 		json.put(Constant.ROWS, array) ;

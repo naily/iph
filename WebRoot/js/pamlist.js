@@ -6,27 +6,26 @@ $(document).ready(function(){
          limit : pageslimit, //分页显示，每页显示8条
          singleSelect : false, //出现checkbox列，可以选择同时多行记录
          colModel : [    {header:'<b>ID</b>',    align : 'center',  name:'ID',width:30 },
-                         {header:'<b>观测站</b>',   name:'stationName' , width:'autoExpand' ,align : 'center' ,
+                         {header:'<b>观测站</b>',   name:'stationName' , width:40 ,align : 'center' ,
                          	renderer: function(colValue, rowData, rowIndex){
 	                         	return '<a href="javascript:previewStation(\''+rowData.stationID+'\');" class="a3">'+rowData.stationName+' </a>&nbsp;&nbsp;&nbsp;&nbsp;'   ;
 	                         }
 	                     } ,
                          {header:'<b>日期</b>',  align : 'center',  name:'createDate',width:120} ,
                          {header:'<b>foF2</b>', align : 'center',  name:'foF2' ,width:30} ,
-                         {header:'<b>fxF2</b>', align : 'center',  name:'fxF2' ,width:30} ,
                          {header:'<b>h\'F2</b>', align : 'center', name:'hlF2' ,width:30} ,
-                         {header:'<b>hpF2</b>', align : 'center', name:'hpF2' ,width:30} ,
-                         
                          {header:'<b>foF1</b>', align : 'center',  name:'foF1' ,width:30} ,
-                         {header:'<b>h\'F1</b>', align : 'center',  name:'hlF1' ,width:30} ,
                          {header:'<b>h\'F</b>',  align : 'center', name:'hlF' ,width:30} ,
-                         {header:'<b>hpF</b>',  align : 'center', name:'hpF' ,width:30} ,
                          {header:'<b>foE</b>',  align : 'center', name:'foE' ,width:30} ,
                          {header:'<b>h\'E</b>',  align : 'center', name:'hlE' ,width:30} ,
                          {header:'<b>foEs</b>', align : 'center',  name:'foEs' ,width:30} ,
-                         {header:'<b>h\'Es</b>', align : 'center',  name:'hlEs' ,width:30} //,
-                         //{header:'fbEs',   name:'fbEs' } ,
-                         //{header:'Fmin',   name:'Fmin' } 
+                         {header:'<b>h\'Es</b>', align : 'center',  name:'hlEs' ,width:30},
+                         
+                         {header:'<b>fbEs</b>', align : 'center',  name:'fbEs' ,width:30} ,
+                         {header:'<b>Es-type</b>', align : 'center', name:'Es' ,width:40} ,
+                         {header:'<b>Fmin</b>', align : 'center',  name:'Fmin' ,width:30} ,
+                          {header:'<b>M3000F2</b>',  align : 'center', name:'M3000F2' ,width:46} ,
+                          {header:'<b>M3000F1</b>',  align : 'center', name:'M3000F1' ,width:46} 
          ],
          errorMsg  : '  ' ,
          dataSource : {}
