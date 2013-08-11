@@ -249,7 +249,7 @@ public class QTPGTMod extends BaseMod{
 	public JSONObject querytList(HttpServletRequest req,@Param("..")IronoGram irg,@Param("..")Pages page,@Param("..")ParameteDataBo paraQuery){
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();  				
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); 
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor(DateUtil.pattern1)); 
 		cfg.setExcludes(new String[] { "administrator","email","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		String protectArea=null;//保护期区间
 		if (irg != null && StringUtil.checkNotNull(irg.getIds())) {	

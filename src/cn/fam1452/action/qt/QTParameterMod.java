@@ -323,7 +323,7 @@ public class QTParameterMod extends BaseMod {
 							map.put("mutiMonth", medListOne);
 							map.put("fusionCharts",quartUtil.getFushionChartData(list, parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName));//生成散点图
 							//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
-							map.put("chartTitle",DateUtil.getMonthEn(m)+"."+ parameter.getYear()+" 120°E.M.T ( G.M.T + 8h ) &nbsp;&nbsp; "+tableName+"("+station.getLongitude()+"°E  "+station.getLatitude()+"°N)");
+							map.put("chartTitle",DateUtil.getMonthEn(m)+"."+ parameter.getYear()+" 120°E.M.T ( G.M.T + 8h )   " + tableName+"("+station.getLongitude()+"°E  "+station.getLatitude()+"°N)");
 							map.put("topTitle", "Monthly median values and its distribution of "+paraName);
 							json.put("showSanDianPic", true);
 							medList.add(map);
@@ -875,7 +875,7 @@ public class QTParameterMod extends BaseMod {
 		JSONObject json = new JSONObject();
 		JsonConfig cfg = new JsonConfig();
 		//cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyyMMddHH")); 
-		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor("yyyy-MM-dd HH:MM:SS"));
+		cfg.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor(DateUtil.pattern1));
 		cfg.setExcludes(new String[] {"administrator","email","introduction","latitude","location","longitude","phone","picPath","timeZone","zipCode"}); 
 		if (parameter != null && StringUtil.checkNotNull(parameter.getIds())) {
 			List<Parameter> list =null;
@@ -937,8 +937,8 @@ public class QTParameterMod extends BaseMod {
 					station.setHomepage("0");
 				}
 				
-				String queryDate= DateUtil.convertDateToString(para.getCreateDate(),"yyyy-MM-dd");
-				Date dd = DateUtil.convertStringToDate(queryDate, "yyyy-MM-dd");
+				String queryDate= DateUtil.convertDateToString(para.getCreateDate(), DateUtil.pattern0);
+				Date dd = DateUtil.convertStringToDate(queryDate, DateUtil.pattern0);
 				Scanpic idd = baseService.dao.fetch(Scanpic.class, Cnd.where("stationID","=",para.getStationID()).and("createDate","=",dd));	
 				if(null!=idd){
 					station.setAddress("1");

@@ -38,7 +38,9 @@ public class Constant {
 	public static int INDEX_META_NUMS=2;//首页元数据条数
 	public static int META_DATA_PAGESIZE=4;//元数据查询分页大小
 	//public static String[] paraAry = {"foF2","hlF2","foF1","hlF1","hlF","hpF","foE","hlE","foes","hlEs","fbEs","Fmin","M3000F2","M1500F2","M3000F1","M3000F"};
-	public static String[] paraAry = {"foF2","h\'F2","foF1","h\'F","foE","h\'E","fmin","foEs","fbEs","h\'Es","Es-Type","M3000F1","M3000F2"};
+	//数据库查询字段名
+	//public static String[] paraAry = {"foF2","h\'F2","foF1","h\'F","foE","h\'E","fmin","foEs","fbEs","h\'Es","Es-Type","M3000F1","M3000F2"};
+	public static String[] paraAry = {"foF2","hlF2","foF1","hlF","foE","hlE","fmin","foEs","fbEs","hlEs","Es","M3000F1","M3000F2"};
 
 	public static String[] monthAry = {"1","2","3","4","5","6","7","8","9","10","11","12"};
 	

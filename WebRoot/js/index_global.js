@@ -133,8 +133,23 @@ parameter_omCombo_datasource2=[
 			           ]
 			     
 
-  parameter_array=     ['foF2','hlF2','foF1','hlF','foE','hlE','foEs','hlEs','fbEs','es','fmin','m3000F2','m3000F1']
-  parameter_array_text=['foF2','h\'F2','foF1','h\'F','foE','h\'E','foEs','h\'Es','fbEs','Es-Type','Fmin','M3000F2','M3000F1']	
+  parameter_array=     ['foF2','hlF2','foF1','hlF','foE','hlE','foEs','hlEs','fbEs','es','fmin','m3000F2','m3000F1'];
+  parameter_array_text=['foF2','h\'F2','foF1','h\'F','foE','h\'E','foEs','h\'Es','fbEs','Es-Type','Fmin','M3000F2','M3000F1'];
+  var parameter_field_map = {
+    foF2 :'foF2',
+    'hlF2':'h\'F2',
+    'foF1':'foF1',
+    'hlF':'h\'F',
+    foE:'foE',
+    hlE:'h\'E',
+    foEs:'foEs',
+    hlEs:'h\'Es',
+    fbEs:'fbEs',
+    es:'Es-Type',
+    fmin:'Fmin',
+    m3000F2: 'M3000F2',
+    'm3000F1':'M3000F1'
+  } ;
  
                        
  

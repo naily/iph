@@ -39,8 +39,7 @@ $(document).ready(function() {
 							});
 
 				},
-                width:350,
-        		height:250
+                width:350
 
             });
      //全选月份    

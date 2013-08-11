@@ -321,11 +321,12 @@ $("#allDate").click(function() {
 				
 				for (i = 0; i < paraCol.length; i++) {
 					container[i + 1] = {
-						//header : paraCol[i],
-						header : parameter_array_text[i],
+						header : parameter_field_map[paraCol[i]] ,
+						//header : parameter_array_text[i],
 						name : paraCol[i],
 						width : 60
 					}
+                    //alert(parameter_array_text[i] + " \t " + paraCol[i]) ;
 				}
 			container[paraCol.length+1]={
 		           header : option_button,

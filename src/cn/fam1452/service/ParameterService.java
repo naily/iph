@@ -183,6 +183,7 @@ public class ParameterService extends Base {
 				pdb.setParaType(paraArys);
 				try {
 					listData = parameterMonthReport(pdb);
+					
 					/*合并四分位数*/
 					QuartileUtil quartUtil = new QuartileUtil();
 					String[] filterFiled = { "days" };//过滤非数据字段
@@ -206,11 +207,12 @@ public class ParameterService extends Base {
 						continue;
 					}
 				} catch (Exception e) {
+					System.out.println(e.getLocalizedMessage()+", Exception : "+pdb.getParaType());
 					continue;
 				}
 
 				if (rowSatrt != 0) {//第一次遍历从0行开始
-					rowSatrt++;//向下移动一行
+					rowSatrt += 3;//向下移动一行
 				}
 
 				//报表名称行（顶行）合并为一列
