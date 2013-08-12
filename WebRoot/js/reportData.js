@@ -31,11 +31,18 @@ $(document).ready(function() {
                         url : 'ht/getstation.do',
                         params : {id: newValue}  ,
                         callback : function(json){                      
-                            if(json.success){  
+                            if(json.success){
+                                var lg = json.data.longitude ; 
+                                var lat = json.data.latitude ; 
+                                lg = Math.round(lg*100)/100 ;
+                                lat = Math.round(lat *100)/100 ;
+                                
+                                var tz = Math.round(lg/15 );
                             	locations=json.data.timeZone;//timeZone//location
-                            	jingweidu=json.data.name+"("+json.data.longitude+"°E&nbsp;"+json.data.latitude+"°N)";
+                                
+                            	jingweidu=json.data.name+"("+lg+"°E&nbsp;"+ lat +"°N)";
                             	//$('#location').html(locations);//
-                            	$('#location').html("120°E.M.T ( G.M.T + 8h )");//
+                            	$('#location').html(lg+"°E.M.T ( G.M.T + "+tz+"h )");//
                                 $('#jingweidu').html(jingweidu);
                             }else{
                                 //at({cont: json.info , type : 'error'});
@@ -86,8 +93,8 @@ $(document).ready(function() {
 		width : 100,
 		//value:'foF2',
 		onValueChange : function(target, newValue, oldValue, event) {
-			 $('input[name=parameter]').focus();
-			$('#para_unit').html(newValue+getUnit(newValue));
+			 $('input[name=parameter]').focus();//alert(parameter_field_map[newValue]) ;
+			$('#para_unit').html( parameter_field_map[newValue] +getUnit(newValue));
 		}
 	});
 	

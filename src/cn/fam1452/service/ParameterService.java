@@ -2,6 +2,7 @@ package cn.fam1452.service;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -242,7 +243,10 @@ public class ParameterService extends Base {
 
 				cell = row.createCell(9);
 				//cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
-				cell.setCellValue("120°E.M.T ( G.M.T + 8h )");//timeZone//.getLocation()
+				//cell.setCellValue("120°E.M.T ( G.M.T + 8h )");//timeZone//.getLocation()
+				//DecimalFormat df = new DecimalFormat("#.00"); 
+				cell.setCellValue( station.getLongitude() + "°E.M.T ( "+station.getTimeZone()+"h )");//timeZone//.getLocation()
+				
 				cell.setCellStyle(styleAlign);
 
 				cell = row.createCell(16);
