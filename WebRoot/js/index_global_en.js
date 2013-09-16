@@ -2,20 +2,20 @@
 gender_omCombo_datasource=[{text : 'Male',value : '男'}, {text : 'Female',value : '女'} ]
 //学历下拉列表
 eduBackground_omCombo_datasource=[
-							{text : '博士',		value : '01'},
-							{text : '硕士',		value : '02'},
-							{text : '本科',		value : '03'}, 
-							{text : '本科以下',	value : '04'}]
+							{text : 'Doctor',		value : '01'},
+							{text : 'Master',		value : '02'},
+							{text : 'undergraduate',		value : '03'}, 
+							{text : 'Below the undergraduate',	value : '04'}]
 //
 vocation_omCombo_datasource=[
-							{text : '科研院所',	value : '01'},
-							{text : '教育院校',	value : '02'},
-							{text : '政府机关',	value : '03'},
-							{text : '企事业单位',	value : '04'},
-							{text : '民间组织',	value : '05'},
-							{text : '其他',		value : '06'}]
+							{text : 'scientific research institutions',	value : '01'},
+							{text : 'Educational institutions',	value : '02'},
+							{text : 'government agency',	value : '03'},
+							{text : 'enterprise and public institution',	value : '04'},
+							{text : 'non-governmental sector',	value : '05'},
+							{text : 'Other',		value : '06'}]
 //国家
-country_omCombo_datasource=[{text : '中国',value : '86'}, {text : '美国',value : '01'}]
+country_omCombo_datasource=[{text : 'China',value : '86'}, {text : 'America(USA)',value : '01'} ,{text : 'Japan',value : '81'}]
 
 /**
  * 通过国家级联地区
@@ -61,14 +61,79 @@ function getCityRecords() {
 				];
 	} else if (country == '01') {// 美国
 		return [{
-					'text' : '夏威夷',
-					'value' : 'hawaii'
+					'text' : 'New York',
+					'value' : '01001'
 				}, {
-					'text' : '佛罗里达',
-					'value' : 'florida'
+					'text' : 'Los Angeles',
+					'value' : '01002'
+				}, {
+					'text' : 'Chicago',
+					'value' : '01003'
+				}, {
+					'text' : 'Houston',
+					'value' : '01004'
+				}, {
+					'text' : 'Phoenix',
+					'value' : '01005'
+				}, {
+					'text' : 'Philadelphia',
+					'value' : '01006'
+				}, {
+					'text' : 'San Antonio',
+					'value' : '01007'
+				}, {
+					'text' : 'Dallas',
+					'value' : '01008'
+				}, {
+					'text' : 'San Diego',
+					'value' : '01009'
+				}, {
+					'text' : 'San Jose',
+					'value' : '01010'
+				}];
+	}else if (country == '81') {// 日本
+		return [{
+					'text' : 'Tokyo',
+					'value' : '810001'
+				}, {
+					'text' : 'Yokohama',
+					'value' : '810002'
+				},{
+					'text' : 'Osaka ',
+					'value' : '810003'
+				},{
+					'text' : 'Nagoya',
+					'value' : '810004'
+				},{
+					'text' : 'Sapporo',
+					'value' : '810005'
+				},{
+					'text' : 'Kobe ',
+					'value' : '810006'
+				},{
+					'text' : 'Kyoto',
+					'value' : '810007'
+				},{
+					'text' : 'Fukuoka',
+					'value' : '810008'
+				},{
+					'text' : 'Kawasaki ',
+					'value' : '810009'
+				},{
+					'text' : 'Saitama ',
+					'value' : '810010'
+				},{
+					'text' : 'Hiroshima',
+					'value' : '810011'
+				},{
+					'text' : 'Sendai',
+					'value' : '810012'
 				}];
 	} else {
-		return [];
+		return [{
+					'text' : 'other',
+					'value' : '0'
+				}];
 	}
 }
     var select_station='Station'

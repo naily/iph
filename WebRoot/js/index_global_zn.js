@@ -5,7 +5,7 @@ eduBackground_omCombo_datasource=[{text : '博士',value : '01'},{text : '硕士
 //
 vocation_omCombo_datasource=[{text : '科研院所',value : '01'},{text : '教育院校',value : '02'},{text : '政府机关',value : '03'},{text : '企事业单位',value : '04'}, {text : '民间组织',value : '05'}, {text : '其他',value : '06'}]
 //国家
-country_omCombo_datasource=[{text : '中国',value : '86'}, {text : '美国',value : '01'}]
+country_omCombo_datasource=[{text : '中国',value : '86'}, {text : '美国',value : '01'} ,{text : '日本',value : '81'}   ]
 /**
  * 通过国家级联地区
  */
@@ -50,14 +50,79 @@ function getCityRecords() {
 				];
 	} else if (country == '01') {// 美国
 		return [{
-					'text' : '夏威夷',
-					'value' : 'hawaii'
+					'text' : '纽约市',
+					'value' : '01001'
 				}, {
-					'text' : '佛罗里达',
-					'value' : 'florida'
+					'text' : '洛杉矶',
+					'value' : '01002'
+				}, {
+					'text' : '芝加哥',
+					'value' : '01003'
+				}, {
+					'text' : '休斯敦',
+					'value' : '01004'
+				}, {
+					'text' : '菲尼克斯',
+					'value' : '01005'
+				}, {
+					'text' : '费城',
+					'value' : '01006'
+				}, {
+					'text' : '圣安东尼奥',
+					'value' : '01007'
+				}, {
+					'text' : '达拉斯',
+					'value' : '01008'
+				}, {
+					'text' : '圣迭戈',
+					'value' : '01009'
+				}, {
+					'text' : '圣何塞',
+					'value' : '01010'
+				}];
+	}else if (country == '81') {// 日本
+		return [{
+					'text' : '东京',
+					'value' : '810001'
+				}, {
+					'text' : '横滨市',
+					'value' : '810002'
+				},{
+					'text' : '大阪市',
+					'value' : '810003'
+				},{
+					'text' : '名古屋市',
+					'value' : '810004'
+				},{
+					'text' : '札幌市',
+					'value' : '810005'
+				},{
+					'text' : '神户市',
+					'value' : '810006'
+				},{
+					'text' : '京都市',
+					'value' : '810007'
+				},{
+					'text' : '福冈市',
+					'value' : '810008'
+				},{
+					'text' : '川崎市',
+					'value' : '810009'
+				},{
+					'text' : '埼玉市',
+					'value' : '810010'
+				},{
+					'text' : '广岛市',
+					'value' : '810011'
+				},{
+					'text' : '仙台市',
+					'value' : '810012'
 				}];
 	} else {
-		return [];
+		return [{
+					'text' : '其它',
+					'value' : '0'
+				}];
 	}
 }
 var select_station='选择观测站'

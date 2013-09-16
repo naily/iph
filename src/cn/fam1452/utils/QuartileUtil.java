@@ -168,6 +168,7 @@ public class QuartileUtil<T>{
 	public static float getFloatNum2(String s) {
 		if (StringUtil.checkNotNull(s)) {
 			s = s.trim();
+			s = s.replace("-", "") ;
 		}
 		float f = 0f;
 		try {
@@ -175,7 +176,7 @@ public class QuartileUtil<T>{
 			f = bigDec.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(s);
+			System.out.println(s + "\t" + e.getLocalizedMessage());
 		} finally {
 			return f;
 		}

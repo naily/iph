@@ -232,7 +232,7 @@ public class ParameterService extends Base {
 				row = sheet.createRow((short) rowSatrt + 1);
 
 				cell = row.createCell(0);
-				cell.setCellValue(paraArys + QuartileUtil.getUnit(paraArys));
+				cell.setCellValue(paraArys.replace("hl", "h'") + QuartileUtil.getUnit(paraArys));
 				//cell.setCellStyle(setAlign(wb));
 				cell.setCellStyle(styleAlign);
 
