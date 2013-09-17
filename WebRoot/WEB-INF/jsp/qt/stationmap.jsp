@@ -51,12 +51,12 @@
 				html.push('${st.name}');
 				html.push('经度：' + '${st.longitude}');
 				html.push('纬度：' + '${st.latitude}');
-				html.push('地理位置：' + '${st.location}');
+				//html.push('地理位置：' + '${st.location}');
 			}else{
 				html.push('${st.nameEng}');
 				html.push('Longitude：' + '${st.longitude}');
 				html.push('Latitude：' + '${st.latitude}');
-				html.push('Address：' + '${st.location}');
+				//html.push('Address：' + '${st.location}');
 			}
 			
 			this.openInfoWindow(new BMap.InfoWindow(html.join('<p>')));
@@ -69,7 +69,7 @@
 		});
 		*/
 		function showInfo(e){
-			$("#info").html(e.point.lng + ", " + e.point.lat) ;
+			//$("#info").html(e.point.lng + ", " + e.point.lat) ;
 		}
 		map.addEventListener("click", showInfo);
 		
