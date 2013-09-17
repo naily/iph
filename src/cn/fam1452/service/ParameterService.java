@@ -1023,7 +1023,7 @@ public class ParameterService extends Base {
 				Parameter parat = list.get(i);
 				rw = sheet.createRow(i + 2); //向后偏移2行
 				rw.createCell(0).setCellValue(parat.getStation().getName());
-				rw.createCell(1).setCellValue(DateUtil.convertDateToString(parat.getCreateDate(), "yyyyMMDDHH"));//DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)
+				rw.createCell(1).setCellValue(DateUtil.convertDateToString(parat.getCreateDate(), DateUtil.pattern5));//DateUtil.convertDateToString(g.getLogDate()  , DateUtil.pattern2)
 				rw.createCell(2).setCellValue(parat.getFoF2());
 				rw.createCell(3).setCellValue(parat.getHlF2());
 				rw.createCell(4).setCellValue(parat.getFoF1());
@@ -1070,7 +1070,7 @@ public class ParameterService extends Base {
 			for (int i = 0; i < list.size() ; i++){
 				Parameter parat = list.get(i);
 				sbtxt.append(parat.getStation().getName()).append(",\t") ;
-				sbtxt.append(DateUtil.convertDateToString(parat.getCreateDate(), "yyyyMMDDHH")).append(":\t") ;
+				sbtxt.append(DateUtil.convertDateToString(parat.getCreateDate(), DateUtil.pattern5)).append(":\t") ;
 				sbtxt.append(StringUtil.empty2string(parat.getFoF2(), "----") ).append(",\t");
 				sbtxt.append(StringUtil.empty2string(parat.getHlF2(), "----")).append(",\t");
 				sbtxt.append(StringUtil.empty2string(parat.getFoF1(), "----")).append(",\t");

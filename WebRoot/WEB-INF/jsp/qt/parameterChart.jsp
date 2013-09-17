@@ -16,11 +16,12 @@
 		<link href="images/1.css" type="text/css" rel="stylesheet" />
 		<link href="css/index.css" type="text/css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
+		
 		<script type="text/javascript" src="js/library/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/library/FusionCharts.js"></script>	
-		<script language="JavaScript"  src="js/library/FusionCharts.js"></script>	
 		<script type="text/javascript" src="js/library/jqueryAjaxBox.js"></script>
 		<script type="text/javascript" src="js/library/operamasks-ui.min.js"></script>
+		
 		<script type="text/javascript" src="js/library/highcharts225/highcharts.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/modules/exporting.js"></script>
 		<script type="text/javascript" src="js/library/highcharts225/themes/grid.js"></script>

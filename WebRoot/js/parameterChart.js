@@ -18,14 +18,23 @@ $(document).ready(function() {
 	var selectOk=true;
 	 var stationId = $('#stationIDV').val();	
  	/*
- 	 * 选择服务站
+ 	 * 初始化服务站
  	 * */
-       var sss=$('#selectorPara').omItemSelector({
+       
+     var stationreq = {
+ 	 	url :'qt/listAllStation.do' ,
+ 	 	params : {} ,
+ 	 	callback :function(data){
+ 	 		if(data){
+ 	 			//$('#selectorPara').omItemSelector({dataSource: data}) ;
+ 	 			var sss=$('#selectorPara').omItemSelector({
                 availableTitle : select_station,
                 selectedTitle : selected_station,
                 //dataSource : parameter_omCombo_datasource2,
                 //value:[stationId],
-                dataSource : 'qt/listAllStation.do',
+                dataSource : data,
+                //height: '160px' ,
+                //width:'350px' ,
                 onItemSelect : function(itemDatas, event) {
 					var stationValue = '';
 					if (itemDatas.length >= 1) {
@@ -37,11 +46,31 @@ $(document).ready(function() {
 					$('#stationIds').attr({
 								value : stationValue
 							});
-
-				},
-                width:350
-
+				}
             });
+ 	 		}else{
+ 	 			//初始化一个空的组件
+ 	 			var sss=$('#selectorPara').omItemSelector({
+                	availableTitle : select_station,
+                	selectedTitle : selected_station,
+                	dataSource : [],
+               	 	onItemSelect : function(itemDatas, event) {
+						var stationValue = '';
+						if (itemDatas.length >= 1) {
+							stationValue = itemDatas[0].value
+						}
+						for (var i = 1; i < itemDatas.length; i++) {
+							stationValue += "," + itemDatas[i].value;
+						}
+						$('#stationIds').attr({
+							value : stationValue
+						});
+					}
+            	});
+ 	 		}
+ 	 	}
+ 	 }
+ 	 ajaxpost(stationreq) ;
      //全选月份    
     $("#select_all").click(function() {
       if($("#select_all").attr("checked")){

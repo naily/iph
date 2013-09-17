@@ -147,8 +147,7 @@ function previewImageA(dataArys , i ,typeNum){
 			var gpath = dataArys[i] ; 
 			gpath = "/qt/getimage.do?imageid=" + gpath + "&tab="+tab_ ;
 			$( "#imagePreview").html('<p><input id="but1" type="button" value="上一张" /><input id="but2" type="button" value="放大" />'+(i+1)+'/'+dataArys.length+'<input id="but3" type="button" value="缩小" /><input id="but4" type="button" value="下一张" /></p>'+
-			'<img src=".'+ gpath +'" border=0 height=640 / >' 
-				);
+			'<img src=".'+ gpath +'" border=0  / >'  ); //height=640  因业主一再提要求，改为默认显示原始大小
 			
 			$( "#imagePreview").omDialog({title:title_ ,height: 'auto' ,width :'auto'});
 			if( !$("#imagePreview").omDialog('isOpen')){
@@ -203,10 +202,9 @@ function insertBrowser(tableName_) {
 			tableNames:tableName_
 		},
 		callback : function(json) {
-			if (json.success) {
+			if (json) {
 				
 			}
-			
 		}
 	}
 	ajaxpost(ajax_data);

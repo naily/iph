@@ -37,12 +37,14 @@ $(document).ready(function() {
                                 lg = Math.round(lg*100)/100 ;
                                 lat = Math.round(lat *100)/100 ;
                                 
-                                var tz = Math.round(lg/15 );
+                                //alert(json.data.timeZone) ;
+                                //var tz = Math.round(lg/15 );
                             	locations=json.data.timeZone;//timeZone//location
                                 
                             	jingweidu=json.data.name+"("+lg+"°E&nbsp;"+ lat +"°N)";
                             	//$('#location').html(locations);//
-                            	$('#location').html(lg+"°E.M.T ( G.M.T + "+tz+"h )");//
+                            	//$('#location').html(lg+"°E.M.T ( G.M.T + "+tz+"h )");//
+                            	$('#location').html(lg+"°E.M.T ( "+locations+" )");//
                                 $('#jingweidu').html(jingweidu);
                             }else{
                                 //at({cont: json.info , type : 'error'});
