@@ -198,6 +198,8 @@ public class MetaDataMod extends BaseMod{
 				t.setEncoding(StringUtil.UTF_8) ;
 				
 				MetaData med = new MetaData() ;
+				med.setMdId( mdb.getId() ) ;
+				med = baseService.dao.fetch(med) ;
 				
 				//创建一个空的xml文件
 				String fileName = System.currentTimeMillis() + ".xml" ;
@@ -230,26 +232,29 @@ public class MetaDataMod extends BaseMod{
 				*/
 				
 				//存值
-				med.setMdId(mdb.getId()) ;
 				med.setTitle(mdb.getResTitle()) ;
 				med.setKeyword(mdb.getKeyword()) ;
 				med.setSummary(mdb.getAbstract1()) ; //元数据摘要
 				
 				//存储缩略图
-				File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
-				if(null != tf && tf.exists()){
-					if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir , true) ){
-						tf = fusu.getTargetFile() ;
-						if(null != tf){
-							med.setThumbnail(new SimpleBlob(tf)) ;
-							med.setThumbnailFilePath(thumbnaildir + fusu.getTargetFile().getName()) ;
-						}else{
-							log.error("This thumbnail file is null !") ;
+				if(StringUtil.checkNotNull(med.getThumbnailFilePath()) && med.getThumbnailFilePath().equals(mdb.getThumbnailFilePath())){
+					
+				}else{
+					File tf = new File(this.getAppRealPath(context) + mdb.getThumbnailFilePath()) ;
+					if(null != tf && tf.exists()){
+						if(fusu.cloneTmpFile2Other(tf, this.getAppRealPath(context) + thumbnaildir , true) ){
+							tf = fusu.getTargetFile() ;
+							if(null != tf){
+								med.setThumbnail(new SimpleBlob(tf)) ;
+								med.setThumbnailFilePath(thumbnaildir + fusu.getTargetFile().getName()) ;
+							}else{
+								log.error("This thumbnail file is null !") ;
+							}
 						}
 					}
 				}
 				
-				if(baseService.dao.fetch(med) != null){
+				if(med != null){
 					baseService.dao.update(med) ;
 					json.put(Constant.SUCCESS, true) ;
 				}else{

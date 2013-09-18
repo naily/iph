@@ -73,9 +73,16 @@ $(document).ready(function(){
 						                        url : 'ht/medget.do',
 						                        params : {id : igid }  ,
 						                        callback : function(json){
-						                            if(json.success){
+						                            if(json){
 						                                //$('#list0').omGrid('reload');
+						                                var ay = $(':input') ;
+						                                //alert(1 + " \t " + ay.length) ;
+						                                ay.each(function(i , n ){
+						                                	//alert(i) ;
+						                                	$(n).val('') ;
+						                                });
 						                            }else{
+						                                alert(2) ;
 						                               	//at({cont: json.info , type : 'error'});
 						                            }
 					                                var cd = json.title ; 
@@ -85,9 +92,11 @@ $(document).ready(function(){
                                                     $('textarea[name="abstract1"]' ).val(json.summary);
                                                     $('textarea[name="abstract1Eng"]' ).val(json.summaryEng);
                                                     $('#mdid' ).val(json.mdId);
+                                                    $("#imgpath").attr("src", json.thumbnailFilePath) ;
+                                                    $("#thumbnailFilePath").val( json.thumbnailFilePath) ;
+                                                    //alert( $("#thumbnailFilePath").val() ) ;
+                                                    
                                                     $("#tab1").omDialog('open');
-                                                    $("#imgpath") .attr("src", json.thumbnailFilePath) ;
-                                                    $("#thumbnailFilePath") .val( json.thumbnailFilePath) ;
                                                     
 					                                /*$('#actionDate').val( );
 						                            

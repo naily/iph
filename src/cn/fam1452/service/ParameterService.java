@@ -245,7 +245,7 @@ public class ParameterService extends Base {
 				//cell.setCellValue(station.getTimeZone());//timeZone//.getLocation()
 				//cell.setCellValue("120°E.M.T ( G.M.T + 8h )");//timeZone//.getLocation()
 				//DecimalFormat df = new DecimalFormat("#.00"); 
-				cell.setCellValue( station.getLongitude() + "°E.M.T ( "+station.getTimeZone()+"h )");//timeZone//.getLocation()
+				cell.setCellValue( station.getLongitude() + "°E.M.T ( "+station.getTimeZone()+" )");//timeZone//.getLocation()
 				
 				cell.setCellStyle(styleAlign);
 

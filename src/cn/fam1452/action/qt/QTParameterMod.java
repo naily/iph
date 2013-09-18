@@ -331,7 +331,7 @@ public class QTParameterMod extends BaseMod {
 							map.put("fusionCharts", quartUtil.getFushionChartData(list, parameter.getStationID() + "  " + parameter.getYear() + "." + parameter.getMonth() + " of " + paraName));//生成散点图
 							//map.put("chartTitle", parameter.getStationID()+"  "+parameter.getYear()+"."+parameter.getMonth()+" of "+paraName);
 							map.put("chartTitle", DateUtil.getMonthEn(m) + "." + parameter.getYear() 
-									+ station.getLongitude() + "°E.M.T ( " + station.getTimeZone() + "h )" 
+									+ station.getLongitude() + "°E.M.T ( " + station.getTimeZone() + " )" 
 									+ tableName + "(" + station.getLongitude() + "°E  " + station.getLatitude() + "°N)");
 							map.put("topTitle", "Monthly median values and its distribution of " + paraName);
 							json.put("showSanDianPic", true);
