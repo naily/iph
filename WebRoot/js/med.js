@@ -148,7 +148,7 @@ $(document).ready(function(){
         submitHandler : function(){
         	//$(this)[0].currentForm.action = "./ht/medSave.do" ;
         	//alert($(this)[0].currentForm.action) ;
-        	$("#savebut").attr("disabled" , "disabled"); //禁用提交按钮
+        	$("#savebut").attr("disabled" , "true"); //禁用提交按钮
             var posturl = './ht/medSave.do' ;
             var mdid = $('#mdid').val()  ;
             if( mdid ){
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		                $( "#tab1").omDialog('close');
 		            }
 		            
-		            $("#savebut").removeAttr("disabled" );
+		           $("#savebut").removeAttr("disabled" );
         		}
         	}) ;
         	return false;

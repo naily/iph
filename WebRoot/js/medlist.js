@@ -87,6 +87,8 @@ $(document).ready(function(){
                                                     $('#mdid' ).val(json.mdId);
                                                     $("#tab1").omDialog('open');
                                                     $("#imgpath") .attr("src", json.thumbnailFilePath) ;
+                                                    $("#thumbnailFilePath") .val( json.thumbnailFilePath) ;
+                                                    
 					                                /*$('#actionDate').val( );
 						                            
 						                            $('#ip1').val(json.foF2) ;
